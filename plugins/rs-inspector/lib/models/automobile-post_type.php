@@ -137,24 +137,24 @@ if ( in_array("yes", $get_automobile_post_id ) && $_POST[ 'txt_automobile_sku' ]
 }
 
 
-add_action( 'init', 'automobile_product' );
-function automobile_product() {
-    register_post_type( 'tlp_automobile',
+add_action( 'init', 'rsin_template_function' );
+function rsin_template_function() {
+    register_post_type( 'rsin_template',
         array(
             'labels' => array(
-                'name' => 'Automobiles',
-                'singular_name' => 'Automobile',
+                'name' => 'Templates',
+                'singular_name' => 'Templates',
                 'add_new' => 'Add New',
-                'add_new_item' => 'Add New Automobile',
+                'add_new_item' => 'Add New Templates',
                 'edit' => 'Edit',
-                'edit_item' => 'Edit Automobile',
-                'new_item' => 'New Automobile',
+                'edit_item' => 'Edit Templates',
+                'new_item' => 'New Templates',
                 'view' => 'View',
-                'view_item' => 'View Automobile',
+                'view_item' => 'View Templates',
                 'search_items' => 'Search Automobiles',
                 'not_found' => 'No Automobiles found',
                 'not_found_in_trash' => 'No Automobiles found in Trash',
-                'parent' => 'Parent Automobile'
+                'parent' => 'Parent Templates'
             ),
 
             'public' => true,
@@ -166,52 +166,52 @@ function automobile_product() {
         )
     );
 	
-	atm_register_order_type(
-			'automobile_order',
-			apply_filters( 'automobile_register_post_type_automobile_order',
-				array(
-					'labels'              => array(
-							'name'               => __( 'Orders', 'automobile' ),
-							'singular_name'      => __( 'Order', 'automobile' ),
-							'add_new'            => __( 'Add Order', 'automobile' ),
-							'add_new_item'       => __( 'Add New Order', 'automobile' ),
-							'edit'               => __( 'Edit', 'automobile' ),
-							'edit_item'          => __( 'Edit Order', 'automobile' ),
-							'new_item'           => __( 'New Order', 'automobile' ),
-							'view'               => __( 'View Order', 'automobile' ),
-							'view_item'          => __( 'View Order', 'automobile' ),
-							'search_items'       => __( 'Search Orders', 'automobile' ),
-							'not_found'          => __( 'No Orders found', 'automobile' ),
-							'not_found_in_trash' => __( 'No Orders found in trash', 'automobile' ),
-							'parent'             => __( 'Parent Orders', 'automobile' ),
-							'menu_name'          => _x( 'Orders', 'Admin menu name', 'automobile' )
-						),
-					'description'         => __( 'This is where store orders are stored.', 'automobile' ),
-					'public'              => false,
-					'show_ui'             => true,	
-					'capability_type'     => 'post',
-					'map_meta_cap'        => true,
-					'publicly_queryable'  => false,
-					'exclude_from_search' => true,
-					'show_in_menu'        => current_user_can( 'edit_theme_options' ) ? 'automobile_options' : true,
-					'hierarchical'        => false,
-					'show_in_nav_menus'   => false,
-					'rewrite'             => false,
-					'query_var'           => false,
-					'supports'            => array( 'title', 'comments', 'custom-fields' ),
-					'has_archive'         => false,
-				)
-			)
-		);
+	// atm_register_order_type(
+	// 		'automobile_order',
+	// 		apply_filters( 'automobile_register_post_type_automobile_order',
+	// 			array(
+	// 				'labels'              => array(
+	// 						'name'               => __( 'Orders', 'automobile' ),
+	// 						'singular_name'      => __( 'Order', 'automobile' ),
+	// 						'add_new'            => __( 'Add Order', 'automobile' ),
+	// 						'add_new_item'       => __( 'Add New Order', 'automobile' ),
+	// 						'edit'               => __( 'Edit', 'automobile' ),
+	// 						'edit_item'          => __( 'Edit Order', 'automobile' ),
+	// 						'new_item'           => __( 'New Order', 'automobile' ),
+	// 						'view'               => __( 'View Order', 'automobile' ),
+	// 						'view_item'          => __( 'View Order', 'automobile' ),
+	// 						'search_items'       => __( 'Search Orders', 'automobile' ),
+	// 						'not_found'          => __( 'No Orders found', 'automobile' ),
+	// 						'not_found_in_trash' => __( 'No Orders found in trash', 'automobile' ),
+	// 						'parent'             => __( 'Parent Orders', 'automobile' ),
+	// 						'menu_name'          => _x( 'Orders', 'Admin menu name', 'automobile' )
+	// 					),
+	// 				'description'         => __( 'This is where store orders are stored.', 'automobile' ),
+	// 				'public'              => false,
+	// 				'show_ui'             => true,	
+	// 				'capability_type'     => 'post',
+	// 				'map_meta_cap'        => true,
+	// 				'publicly_queryable'  => false,
+	// 				'exclude_from_search' => true,
+	// 				'show_in_menu'        => current_user_can( 'edit_theme_options' ) ? 'automobile_options' : true,
+	// 				'hierarchical'        => false,
+	// 				'show_in_nav_menus'   => false,
+	// 				'rewrite'             => false,
+	// 				'query_var'           => false,
+	// 				'supports'            => array( 'title', 'comments', 'custom-fields' ),
+	// 				'has_archive'         => false,
+	// 			)
+	// 		)
+	// 	);
 }
 
-add_filter( 'manage_automobile_order_posts_columns', 'automobile_order_columns'  );
-add_action( 'manage_automobile_order_posts_custom_column', 'render_automobile_order_columns', 2 );	
+// add_filter( 'manage_automobile_order_posts_columns', 'automobile_order_columns'  );
+// add_action( 'manage_automobile_order_posts_custom_column', 'render_automobile_order_columns', 2 );	
 
-add_action( 'admin_menu', 'automobile_submenu', 2 );
-function automobile_submenu() {
+add_action( 'admin_menu', 'rsin_template_submenu', 2 );
+function rsin_template_submenu() {
     add_submenu_page(
-        'edit.php?post_type=tlp_automobile',
+        'edit.php?post_type=rsin_template',
         'Attributes', /*page title*/
         'Attributes', /*menu title*/
         'manage_options', /*roles and capabiliyt needed*/

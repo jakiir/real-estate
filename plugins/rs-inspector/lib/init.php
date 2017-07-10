@@ -4,8 +4,8 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
     exit('Please don\'t access this file directly.');
 }
 
-if (!class_exists( 'autoMobileCore' )){
-    class autoMobileCore {
+if (!class_exists( 'rsInspectorCore' )){
+    class rsInspectorCore {
         public $coreVersion = '1.0';
         public $corePrefix  = 'pc_';
 
@@ -117,9 +117,9 @@ if (!class_exists( 'autoMobileCore' )){
     }
 
 
-    global $autoMobileCore;
-    if( !is_object( $autoMobileCore ) )
-        $autoMobileCore = new autoMobileCore;
+    global $rsInspectorCore;
+    if( !is_object( $rsInspectorCore ) )
+        $rsInspectorCore = new rsInspectorCore;
 
 
 }
