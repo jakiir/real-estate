@@ -1,18 +1,9 @@
 <?php
-/**
- * Flex automobile plugin by bdwebteam.
- *
- * @package   automobile
- * @author    Mahabub Hasan <m.manik01@gmail.com>
- * @license   GPL-2.0+
- * @link      http://www.bdwebteam.com
- * @copyright 2015 Mahabub Hasan
- */
 
 //add_action( 'admin_init', 'automobile_register_admin_scripts' );
 add_action( 'admin_enqueue_scripts', 'automobile_register_admin_scripts' );
 function automobile_register_admin_scripts() {
-	global $autoMobile;
+	global $rsInspector;
     wp_enqueue_style( 'automobile-font-awesome', plugins_url('css/font-awesome/css/font-awesome.min.css', __FILE__ ) );
     wp_enqueue_style( 'automobile_css', plugins_url( 'css/automobile-options.css', __FILE__ ) );
     wp_enqueue_style('thickbox');
@@ -26,7 +17,7 @@ function automobile_register_admin_scripts() {
     wp_localize_script(
         'automobile_theme_options',
         'adminUrl',
-        array( 'ajaxurl' => admin_url('admin-ajax.php'), 'default_image' => esc_url( $autoMobile->auto_mobile_default_image() ) )
+        array( 'ajaxurl' => admin_url('admin-ajax.php'), 'default_image' => esc_url( $rsInspector->auto_mobile_default_image() ) )
     );
     wp_enqueue_script('automobile_meta_latest', plugins_url('js/jquery-latest.js',__FILE__ ) );
 
@@ -68,7 +59,7 @@ add_action( 'admin_init', 'automobile_register_settings' );
  */
 
 function automobile_theme_add_page() {
-    $automobile_options_page =  add_menu_page( 'Automobile Options', 'Automobile Options', 'edit_theme_options', 'automobile_options', '', '', '19' );
+    $automobile_options_page =  add_menu_page( 'Automobile Optionss', 'Automobile Optionss', 'edit_theme_options', 'automobile_options', '', '', '19' );
       //add_dashboard_page( $page_title, $menu_title, $capability, $menu_slug, $function);
     add_action( 'admin_print_styles-' . $automobile_options_page, 'automobile_theme_options_scripts' );
 }
@@ -77,7 +68,7 @@ add_action( 'admin_menu', 'automobile_order_add_page');
 
 
 function automobile_order_add_page() {
- add_submenu_page( 'automobile_options', 'settings', 'Settings', 'edit_theme_options', 'automobile_order', 'automobile_theme_options_page');
+ add_submenu_page( 'automobile_options', 'settingss', 'Settingss', 'edit_theme_options', 'automobile_order', 'automobile_theme_options_page');
  add_submenu_page( 'automobile_options', 'export', 'Export', 'edit_theme_options', 'automobile_export', 'automobile_export_page');
  }
 /**

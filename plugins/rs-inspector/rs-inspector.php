@@ -1,8 +1,8 @@
 <?php
 /**
-*    Plugin Name: Inspector
+*    Plugin Name: Real Estate Inspector
 *    Plugin URI: http://jakirhossain.com
-*    Description: An eCommerce toolkit that helps you sell any product.
+*    Description: Real Estate Inspector Reporting System Detailed Design document.
 *    Author: Jakir Hossain
 *    Version: 1.0
 *    Author URI: http://jakirhossain.com
@@ -14,14 +14,14 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
 require_once ( 'lib/init.php' );
 //require_once ( 'lib/api.php' );
 
-if (!class_exists( 'AutoMobile' )){
-    class AutoMobile extends autoMobileCore {
+if (!class_exists( 'rsInspector' )){
+    class rsInspector extends rsInspectorCore {
 
-        public $title       = 'Inspector';
-        public $name        = 'inspector';
+        public $title       = 'Real Estate Inspector';
+        public $name        = 'rs_inspector';
         public $version     = '1.0';
-        public $prefix      = 'inr_';
-        public $prefixLong  = 'inspector_';
+        public $prefix      = 'rsin_';
+        public $prefixLong  = 'rs_inspector_';
         public $website     = 'http://jakirhossain.com';
 
         function __construct(){
@@ -30,7 +30,7 @@ if (!class_exists( 'AutoMobile' )){
             $this->pluginSlug       = plugin_basename(__FILE__);
             $this->pluginPath       = dirname( __FILE__ );
             $this->modelsPath       = $this->pluginPath . '/lib/models/';
-			     $this->statesPath       = $this->pluginPath . '/inc/states/';
+			      $this->statesPath       = $this->pluginPath . '/inc/states/';
             $this->adminPath       = $this->pluginPath . '/lib/admin/';
             $this->controllersPath  = $this->pluginPath . '/lib/controllers/';
             $this->viewsPath        = $this->pluginPath . '/lib/views/';
@@ -39,27 +39,27 @@ if (!class_exists( 'AutoMobile' )){
             $this->pluginUrl        = plugins_url( '' , __FILE__ );
             $this->assetsUrl        = $this->pluginUrl  . '/lib/assets/';
             $this->helperUrl        = $this->pluginUrl  .'/lib/helpers/';
-            define('inr_PATH',dirname( __FILE__ ));
+            define('rsin_PATH',dirname( __FILE__ ));
 
             $this->loadModels( $this->modelsPath );
             $this->loadAdmins( $this->adminPath );
             $this->loadHelpers( $this->helperPath );
-          //$this->loadModels( $this->modelsPath.'enc/' , true);
+            //$this->loadModels( $this->modelsPath.'enc/' , true);
 
             $this->options=array(
-            'inspector' =>'inr_inspector',
-            'post_types'=>'inr_post_types',
-            'taxonomies'=>'inr_taxonomies',
-            'settings'  =>'inr_settings',
-            'cache'     =>'inr_cache'
+            'rs_inspector' =>'rsin_inspector',
+            'post_types'=>'rsin_post_types',
+            'taxonomies'=>'rsin_taxonomies',
+            'settings'  =>'rsin_settings',
+            'cache'     =>'rsin_cache'
             );
 
-          register_activation_hook(__FILE__, array($this, 'inr_activate'));
-          register_deactivation_hook(__FILE__, array($this, 'inr_deactivate'));
+          register_activation_hook(__FILE__, array($this, 'rsin_activate'));
+          register_deactivation_hook(__FILE__, array($this, 'rsin_deactivate'));
 
             // Setup global database table names
-            $this->inspector_order          = $wpdb->prefix . 'inspector_order';
-            $this->inspector_order_meta     = $wpdb->prefix . 'inspector_order_meta';
+            $this->rs_inspector_order          = $wpdb->prefix . 'rs_inspector_order';
+            $this->rs_inspector_order_meta     = $wpdb->prefix . 'rs_inspector_order_meta';
 
           }
         function init(){
@@ -72,7 +72,7 @@ if (!class_exists( 'AutoMobile' )){
 		
 		
 
-        function inspector_thumbnail($placeholderImage = '') {
+        function rs_inspector_thumbnail($placeholderImage = '') {
             $uploads_dir = wp_upload_dir();
             $upload_url = $uploads_dir['baseurl']."/";
             $upload_dir = $uploads_dir['basedir']."/";
@@ -80,7 +80,7 @@ if (!class_exists( 'AutoMobile' )){
             $check_image_dir = str_replace($upload_url, $upload_dir, $thumb_url);
             if ( has_post_thumbnail() ) {
                 if(@file_exists($check_image_dir)){
-                    //$automobile_image   = automobile_resize( $thumb_url,400,250, true );
+                    //$rsInspector_image   = automobile_resize( $thumb_url,400,250, true );
                     $output = '<img class="group list-group-image" src="'.$thumb_url.'" alt="" />';
                 } else {
                     $output = '<img src="http://placehold.it/'.$placeholderImage.'" />';
@@ -92,7 +92,7 @@ if (!class_exists( 'AutoMobile' )){
             return $output;
         }
 		
-		function inspector_default_image() {            
+		function rs_inspector_default_image() {            
         return $this->assetsUrl.'images/no-preview.png';
     }
 
@@ -104,8 +104,8 @@ if (!class_exists( 'AutoMobile' )){
     static function install_db() {
         global $wpdb;
 
-        $inspector_order     = $wpdb->prefix . 'inspector_order';
-        $inspector_order_meta      = $wpdb->prefix . 'inspector_order_meta';
+        $rs_inspector_order     = $wpdb->prefix . 'rs_inspector_order';
+        $rs_inspector_order_meta      = $wpdb->prefix . 'rs_inspector_order_meta';
 
         //Explicitly set the character set and collation when creating the tables
         $charset = ( defined( 'DB_CHARSET' && '' !== DB_CHARSET ) ) ? DB_CHARSET : 'utf8';
@@ -113,7 +113,7 @@ if (!class_exists( 'AutoMobile' )){
 
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-       $order_sql = "CREATE TABLE $inspector_order (
+       $order_sql = "CREATE TABLE $rs_inspector_order (
               order_item_id bigint(20) NOT NULL AUTO_INCREMENT,
               order_item_name longtext COLLATE utf8mb4_unicode_ci NOT NULL,
               order_item_type varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
@@ -122,7 +122,7 @@ if (!class_exists( 'AutoMobile' )){
               KEY order_id (order_id)
             ) DEFAULT CHARACTER SET $charset COLLATE $collate;";
 
-        $order_meta_sql = "CREATE TABLE $inspector_order_meta (
+        $order_meta_sql = "CREATE TABLE $rs_inspector_order_meta (
                   meta_id bigint(20) NOT NULL AUTO_INCREMENT,
                   order_item_id bigint(20) NOT NULL,
                   meta_key varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -137,9 +137,9 @@ if (!class_exists( 'AutoMobile' )){
         dbDelta( $order_meta_sql );
     }
     }
-    global $autoMobile;
-    $autoMobile = new AutoMobile;
-    $autoMobile->init();
+    global $rsInspector;
+    $rsInspector = new rsInspector;
+    $rsInspector->init();
 }
 
 
