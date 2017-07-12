@@ -12,6 +12,7 @@
 	        $('#pre-status').fadeOut();
 	        $('#st-preloader').delay(350).fadeOut('slow');
 	    });
+
 	}());
 
 
