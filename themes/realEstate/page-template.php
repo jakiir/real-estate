@@ -81,5 +81,22 @@ get_header(); ?>
 		</div>
 	</section>
 	<!-- /BLOG -->
-
+<script type="text/javascript">
+	jQuery(function($){
+		$('.add').on('click', function() {
+		    var options = $('select.multiselect1 option:selected').sort().clone();
+		    $('select.multiselect2').append(options);
+		});
+		$('.addAll').on('click', function() {
+		    var options = $('select.multiselect1 option').sort().clone();
+		    $('select.multiselect2').append(options);
+		});
+		$('.remove').on('click', function() {
+		    $('select.multiselect2 option:selected').remove();
+		});
+		$('.removeAll').on('click', function() {
+		    $('select.multiselect2').empty();
+		});
+	});
+</script>
 <?php get_footer();

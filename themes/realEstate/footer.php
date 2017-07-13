@@ -42,9 +42,7 @@
 	</div>
 
 	
-	<!-- JS -->
-	<script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jquery.min.js"></script><!-- jQuery -->
-	<script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/bootstrap.min.js"></script><!-- Bootstrap -->
+	
 	<script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jquery.parallax.js"></script><!-- Parallax -->
 	<script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/smoothscroll.js"></script><!-- Smooth Scroll -->
 	<script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/masonry.pkgd.min.js"></script><!-- masonry -->
@@ -56,26 +54,15 @@
 	<script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jquery.magnific-popup.min.js"></script><!-- magnific-popup -->
 	<script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/scripts.js"></script><!-- Scripts -->
 
+	<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/vendor.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/form-builder.min.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/form-render.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.1/jquery.rateyo.min.js"></script> 
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/form-builder-script.js"></script>
+
 <?php wp_footer(); ?>
 
-<script type="text/javascript">
-	jQuery(function($){
-		$('.add').on('click', function() {
-		    var options = $('select.multiselect1 option:selected').sort().clone();
-		    $('select.multiselect2').append(options);
-		});
-		$('.addAll').on('click', function() {
-		    var options = $('select.multiselect1 option').sort().clone();
-		    $('select.multiselect2').append(options);
-		});
-		$('.remove').on('click', function() {
-		    $('select.multiselect2 option:selected').remove();
-		});
-		$('.removeAll').on('click', function() {
-		    $('select.multiselect2').empty();
-		});
-	});
-</script>
+
 
 </body>
 </html>
