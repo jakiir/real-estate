@@ -45,6 +45,10 @@
 
 <?php wp_head(); ?>
 
+<!-- JS -->
+<script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jquery.min.js"></script><!-- jQuery -->
+<script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/bootstrap.min.js"></script><!-- Bootstrap -->
+
 </head>
 <body>
 
