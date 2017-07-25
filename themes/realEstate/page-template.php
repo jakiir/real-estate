@@ -49,9 +49,9 @@ get_header(); ?>
 					              <h1 class="panel-title">Shared Templates</h1>
 					            </div>
 					            <select name="sharedTemplates" id="sharedTemplates" class="rounded multiselect1" size="10" style="background:#fff;color:#000;width:100%;">
-									<option value="fazilpass" selected="selected">Item One</option>
-									<option value="fazilprivate">Item Two</option>
-									<option value="fazilhons">Item Three</option>								
+									<option value="template-one" selected="selected">Item One</option>
+									<option value="template-two">Item Two</option>
+									<option value="template-three">Item Three</option>								
 								</select>					            
 					          </div>
 					        </div>
@@ -62,15 +62,15 @@ get_header(); ?>
 					              <h1 class="panel-title">Your Templates</h1>
 					            </div>
 					            <select name="yourTemplates" id="yourTemplates" class="rounded multiselect2" size="10" style="background:#fff;color:#000;width:100%;">
-									<option value="fazilpass" selected="selected">Item One</option>
-									<option value="fazilprivate">Item Two</option>
-									<option value="fazilhons">Item Three</option>								
+									<option value="template-one" selected="selected">Item One</option>
+									<option value="template-two">Item Two</option>
+									<option value="template-three">Item Three</option>								
 								</select>								
 					          </div>
-								<button type="button" class="btn btn-success add">Add</button>
-								<button type="button" class="btn btn-primary addAll">Add all</button>
+								<button type="button" class="btn btn-success add">Copy</button>
+								<!--<button type="button" class="btn btn-primary addAll">Add all</button>
 								<button type="button" class="btn btn-warning remove">Remove</button>
-								<button type="button" class="btn btn-danger removeAll">Remove all</button>
+								<button type="button" class="btn btn-danger removeAll">Remove all</button>-->
 								<button type="button" class="btn btn-primary editSelected">Edit</button>
 					        </div>
 				        </div>
@@ -97,6 +97,14 @@ get_header(); ?>
 		$('.removeAll').on('click', function() {
 		    $('select.multiselect2').empty();
 		});
+		
+		$('.editSelected').on('click', function() {
+		    var yourTemplates = $('#yourTemplates');
+			var selected_template = yourTemplates.find('option:selected'); //Selected Templates
+			var selVal = selected_template.val();
+			window.location.href = "<?php echo home_url('/edit-template/?item='); ?>"+selVal;
+		});
+		
 	});
 </script>
 <?php get_footer();

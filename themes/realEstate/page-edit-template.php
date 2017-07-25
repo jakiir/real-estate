@@ -43,12 +43,60 @@ get_header(); ?>
 			      		<div class="panel-heading">
 			              <h1 class="panel-title">Edit Template</h1>
 			            </div>
-				      	
-				      	<h1>jQuery formBuilder</h1>
+						<div class="container">
+							<div class="row">
+								
+								<div class="col-sm-8 col-md-8">
+									<div class="form-group">
+									  <label for="user_name">Name:</label>
+									  <input type="text" class="form-control" id="user_name" placeholder="Enter name" name="user_name">
+									</div>
+									<div class="share">
+									  <label><input type="checkbox" name="share"> Share</label>
+									</div>
+									<div class="form-group">
+									  <label for="state">State:</label>
+									  <select class="form-control" id="state">
+										<option>Texas</option>
+										<option>Texas</option>
+										<option>Texas</option>
+										<option>Texas</option>
+									  </select>
+									</div>
+									<div class="form-group">
+									  <label for="state_id">State Id:</label>
+									  <input type="text" class="form-control" id="state_id" placeholder="Enter state" name="state_id">
+									</div>
+									<div class="form-group">
+									  <label for="date_sel">Date:</label>
+									  <input type="text" class="form-control" id="date_sel" placeholder="Enter state" name="date_sel">
+									</div>
+									<div class="form-group">
+									  <label for="company">Company:</label>
+									  <input type="text" class="form-control" id="company" placeholder="Enter state" name="company">
+									</div>									
+								</div>
+								<div class="col-sm-2 col-md-2">
+									<img src="http://thetransformedmale.files.wordpress.com/2011/06/bruce-wayne-armani.jpg"
+									alt="" class="img-rounded img-responsive" />
+								</div>
+								
+							</div>
+						</div>
 					    <div id="stage1" class="build-wrap"></div>
+						<div class="container">
+							<div class="row">								
+								<div class="col-sm-10 col-md-10">
+									<div class="form-group">
+									  <label for="footer_section">Footer:</label>
+									  <textarea class="form-control" rows="5" id="footer_section"></textarea>
+									</div>
+								</div>								
+							</div>
+						</div>
 					    <form class="render-wrap"></form>
 					    <button id="edit-form">Edit Form</button>
-					    <div class="action-buttons">
+					    <!--<div class="action-buttons">
 					      <h2>Actions</h2>
 					      <button id="showData" type="button">Show Data</button>
 					      <button id="clearFields" type="button">Clear All Fields</button>
@@ -61,7 +109,7 @@ get_header(); ?>
 					      <button id="removeField" type="button">Remove Field</button>
 					      <button id="testSubmit" type="submit">Test Submit</button>
 					      <button id="resetDemo" type="button">Reset Demo</button>
-					    </div>
+					    </div>-->
 
 					</div>
 				</div>
