@@ -6139,7 +6139,7 @@ var getStyles = function( elem ) {
 	support.clearCloneStyle = div.style.backgroundClip === "content-box";
 
 	container.style.cssText = "border:0;width:8px;height:0;top:0;left:-9999px;" +
-		"padding:0;margin-top:1px;";
+		"padding:0;margin-top:1px;position:absolute";
 	container.appendChild( div );
 
 	jQuery.extend( support, {
