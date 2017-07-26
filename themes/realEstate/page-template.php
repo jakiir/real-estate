@@ -41,7 +41,11 @@ get_header(); ?>
 			      		<div class="panel-heading">
 			              <h1 class="panel-title">Add Template</h1>
 			            </div>
-				      	
+				      	<?php
+							global $wpdb;
+							$table_template = $wpdb->prefix . 'template';
+							$get_templages = $wpdb->get_results( "SELECT * FROM $table_template", OBJECT );						
+						?>
 				      	<div class="row" style="padding: 6px;">			      	
 					        <div class="col-xs-6">
 					          <div class="panel panel-default">
@@ -49,9 +53,12 @@ get_header(); ?>
 					              <h1 class="panel-title">Shared Templates</h1>
 					            </div>
 					            <select name="sharedTemplates" id="sharedTemplates" class="rounded multiselect1" size="10" style="background:#fff;color:#000;width:100%;">
-									<option value="template-one" selected="selected">Item One</option>
-									<option value="template-two">Item Two</option>
-									<option value="template-three">Item Three</option>								
+									<?php
+										if(!empty($get_templages)){
+										foreach($get_templages as $template){
+									?>
+										<option value="<?php echo $template->id; ?>"><?php echo $template->name; ?></option>
+										<?php } } ?>									
 								</select>					            
 					          </div>
 					        </div>
@@ -62,9 +69,12 @@ get_header(); ?>
 					              <h1 class="panel-title">Your Templates</h1>
 					            </div>
 					            <select name="yourTemplates" id="yourTemplates" class="rounded multiselect2" size="10" style="background:#fff;color:#000;width:100%;">
-									<option value="template-one" selected="selected">Item One</option>
-									<option value="template-two">Item Two</option>
-									<option value="template-three">Item Three</option>								
+									<?php
+										if(!empty($get_templages)){
+										foreach($get_templages as $template){
+									?>
+										<option value="<?php echo $template->id; ?>"><?php echo $template->name; ?></option>
+										<?php } } ?>							
 								</select>								
 					          </div>
 								<button type="button" class="btn btn-success add">Copy</button>
