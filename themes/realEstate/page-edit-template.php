@@ -47,6 +47,14 @@ get_header(); ?>
 				<div class="panel-heading">
 				  <h1 class="panel-title">Edit Template</h1>
 				</div>
+				<?php
+					global $wpdb;
+					$table_template = $wpdb->prefix . 'template';					
+					$template_id = !empty($_GET['item']) ? $_GET['item'] : '';
+					if(empty($template_id)) die('You have to select a template first');
+					$get_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE id=$template_id", OBJECT );
+					if(empty($get_templages)) die('You have to select a template first');					
+				?>
 				<div class="panel-body">
 					<div class="container">						
 						<div class="row">
@@ -57,13 +65,13 @@ get_header(); ?>
 								  <div class="form-group">
 									<label class="col-lg-3 control-label" for="template_name">Name:</label>
 									<div class="col-lg-8">
-									  <input class="form-control required" type="text" name="template_name" id="template_name" value="">
+									  <input class="form-control required" type="text" name="template_name" id="template_name" value="<?php echo !empty($get_templages[0]->name) ? $get_templages[0]->name : ''; ?>">
 									</div>
 								  </div>
 								  
 								  <div class="form-group">
 									<div class="col-lg-8 col-lg-offset-3" for="template_share">
-									 <label><input type="checkbox" name="template_share" id="template_share" class="required"> Share</label>
+									 <label><input type="checkbox" name="template_share" id="template_share" <?php echo !empty($get_templages[0]->shared_flag) && $get_templages[0]->shared_flag == 'on' ? 'checked' : ''; ?> class="required"> Share</label>
 									</div>
 								  </div>
 								  
@@ -85,21 +93,21 @@ get_header(); ?>
 								  <div class="form-group">
 									<label class="col-lg-3 control-label" for="template_state_id">State Id:</label>
 									<div class="col-lg-8">
-									  <input class="form-control required" type="text" name="template_state_id" id="template_state_id" value="">
+									  <input class="form-control required" type="text" name="template_state_id" id="template_state_id" value="<?php echo !empty($get_templages[0]->state_form) ? $get_templages[0]->state_form : ''; ?>">
 									</div>
 								  </div>
 								  
 								  <div class="form-group">
 									<label class="col-lg-3 control-label" for="template_date">Date:</label>
 									<div class="col-lg-8">
-									  <input class="form-control datepicker required" type="text" name="template_date" id="template_date" value="">
+									  <input class="form-control datepicker required" type="text" name="template_date" id="template_date" value="<?php echo !empty($get_templages[0]->template_date) ? $get_templages[0]->template_date : ''; ?>">
 									</div>
 								  </div>
 								  
 								  <div class="form-group">
 									<label class="col-lg-3 control-label" for="template_company">Company:</label>
 									<div class="col-lg-8">
-									  <input class="form-control required" type="text" name="template_company" id="template_company" value="">
+									  <input class="form-control required" type="text" name="template_company" id="template_company" value="<?php echo !empty($get_templages[0]->companyId) ? $get_templages[0]->companyId : ''; ?>">
 									</div>
 								  </div>							
 							  </div>
@@ -107,10 +115,10 @@ get_header(); ?>
 							  <!--Right panel-->
 							  <div class="col-md-3">
 								<div class="text-center" id="hsc_std_photo">
-								  <img src="//placehold.it/200" class="avatar img-responsive" id="preview_image" alt="avatar">
+								  <img src="<?php echo !empty($get_templages[0]->logo_url) ? $get_templages[0]->logo_url : '//placehold.it/200'; ?>" class="avatar img-responsive" id="preview_image" alt="avatar">
 								  <h6>Upload a different photo...</h6>
 								  
-								  <input type="file" class="form-control required" name="template_logo" id="template_logo" onchange="instantPhotoUpload(this)">
+								  <input type="file" class="form-control <?php echo !empty($get_templages[0]->logo_url) ? '' : 'required'; ?>" name="template_logo" id="template_logo" onchange="instantPhotoUpload(this)">
 								</div>
 							  </div>
 							  
@@ -118,7 +126,7 @@ get_header(); ?>
 								<div class="form-group">
 									<label for="footer_template" class="col-lg-1 control-label col-lg-offset-1">Footer:</label>
 									<div class="col-lg-9">
-									  <textarea class="form-control required" rows="3" name="footer_template" id="footer_template"></textarea>
+									  <textarea class="form-control required" rows="3" name="footer_template" id="footer_template"><?php echo !empty($get_templages[0]->footer_html) ? $get_templages[0]->footer_html : ''; ?></textarea>
 									</div>
 								  </div>
 								  
@@ -141,6 +149,7 @@ get_header(); ?>
 		</div>
 	</section>
 	<!-- /BLOG -->
+	
 <script type="text/javascript">
 	jQuery(function($){
 		$('.datepicker').datetimepicker({});
