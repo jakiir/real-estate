@@ -500,10 +500,10 @@ function manage_required_tables() {
 	  `template_date` varchar(34) COLLATE utf8_unicode_ci NOT NULL,
 	  PRIMARY KEY (`id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-	INSERT INTO $table_template (`id`, `name`, `shared_flag`, `state`, `state_form`, `companyId`, `logo_url`, `footer_html`, `header_html`) VALUES
-	(1,	'Item One',	'',	'Dhaka',	'BD',	88,	'http://via.placeholder.com/350x150',	'',	''),
-	(2,	'Item Two',	'',	'Dhaka',	'BD',	88,	'http://via.placeholder.com/350x150',	'',	''),
-	(3,	'Item Three',	'',	'Dhaka',	'BD',	88,	'http://via.placeholder.com/350x150',	'',	'');";
+	INSERT INTO $table_template (`id`, `name`, `shared_flag`, `state`, `state_form`, `companyId`, `logo_url`, `footer_html`, `header_html`, `template_date`) VALUES
+	(1,	'Item One',	'',	'Dhaka',	'BD',	88,	'http://via.placeholder.com/350x150', '', '', ''),
+	(2,	'Item Two',	'',	'Dhaka',	'BD',	88,	'http://via.placeholder.com/350x150', '', '', ''),
+	(3,	'Item Three', '',	'Dhaka',	'BD',	88,	'http://via.placeholder.com/350x150', '', '', '');";
 	
 	
 	// Template details table
