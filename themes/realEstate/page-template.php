@@ -110,8 +110,12 @@ get_header(); ?>
 		
 		$('.editSelected').on('click', function() {
 		    var yourTemplates = $('#yourTemplates');
-			var selected_template = yourTemplates.find('option:selected'); //Selected Templates
+			var selected_template = yourTemplates.find('option:selected'); //Selected Templates			
 			var selVal = selected_template.val();
+			if(!selected_template.length){
+				alert('Please select at list one item.');
+				return false;
+			}
 			window.location.href = "<?php echo home_url('/edit-template/?item='); ?>"+selVal;
 		});
 		

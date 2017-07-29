@@ -486,32 +486,110 @@ function manage_required_tables() {
 	global $wpdb;
 	// Template table
 	$table_template = $wpdb->prefix . 'template';	
-	$sql_template = "CREATE TABLE IF NOT EXISTS $table_template (
-	id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, name varchar(64) COLLATE 'utf8_unicode_ci' NOT NULL, 
-	shared_flag varchar(64) COLLATE 'utf8_unicode_ci' NOT NULL, 
-	state varchar(32) COLLATE 'utf8_unicode_ci' NOT NULL, 
-	state_form varchar(64) COLLATE 'utf8_unicode_ci' NOT NULL, 
-	companyId int(11) NOT NULL, logo_url varchar(200) COLLATE 'utf8_unicode_ci' NOT NULL, 
-	footer_html text COLLATE 'utf8_unicode_ci' NOT NULL, 
-	header_html text COLLATE 'utf8_unicode_ci' NOT NULL
-	) 
-	ENGINE='InnoDB' COLLATE 'utf8_unicode_ci';";
+	$sql_template = "DROP TABLE IF EXISTS $table_template;
+	CREATE TABLE $table_template (
+	  `id` int(11) NOT NULL AUTO_INCREMENT,
+	  `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+	  `shared_flag` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+	  `state` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+	  `state_form` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+	  `companyId` int(11) NOT NULL,
+	  `logo_url` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+	  `footer_html` text COLLATE utf8_unicode_ci NOT NULL,
+	  `header_html` text COLLATE utf8_unicode_ci NOT NULL,
+	  `template_date` varchar(34) COLLATE utf8_unicode_ci NOT NULL,
+	  PRIMARY KEY (`id`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+	INSERT INTO $table_template (`id`, `name`, `shared_flag`, `state`, `state_form`, `companyId`, `logo_url`, `footer_html`, `header_html`) VALUES
+	(1,	'Item One',	'',	'Dhaka',	'BD',	88,	'http://via.placeholder.com/350x150',	'',	''),
+	(2,	'Item Two',	'',	'Dhaka',	'BD',	88,	'http://via.placeholder.com/350x150',	'',	''),
+	(3,	'Item Three',	'',	'Dhaka',	'BD',	88,	'http://via.placeholder.com/350x150',	'',	'');";
+	
 	
 	// Template details table
 	$table_template_detail = $wpdb->prefix . 'template_detail';
-	$sql_template_detail = "CREATE TABLE IF NOT EXISTS $table_template_detail (
-	id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, name varchar(64) COLLATE 'utf8_unicode_ci' NOT NULL, 
-	shared_flag varchar(64) COLLATE 'utf8_unicode_ci' NOT NULL, 
-	state varchar(32) COLLATE 'utf8_unicode_ci' NOT NULL, 
-	state_form varchar(64) COLLATE 'utf8_unicode_ci' NOT NULL, 
-	companyId int(11) NOT NULL, logo_url varchar(200) COLLATE 'utf8_unicode_ci' NOT NULL, 
-	footer_html text COLLATE 'utf8_unicode_ci' NOT NULL, 
-	header_html text COLLATE 'utf8_unicode_ci' NOT NULL
-	) 
-	ENGINE='InnoDB' COLLATE 'utf8_unicode_ci';";
+	$sql_template_detail = "DROP TABLE IF EXISTS $table_template_detail;
+	CREATE TABLE $table_template_detail (
+	  `id` int(11) NOT NULL AUTO_INCREMENT,
+	  `template_id` int(11) NOT NULL,
+	  `field_type_id` int(11) NOT NULL,
+	  `field_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+	  `field_text_html` text COLLATE utf8_unicode_ci NOT NULL,
+	  `print_flag` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+	  `x_coord` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+	  `x_coord_relative` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+	  `width` tinytext COLLATE utf8_unicode_ci NOT NULL,
+	  `height` tinytext COLLATE utf8_unicode_ci NOT NULL,
+	  PRIMARY KEY (`id`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 	
 	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 	dbDelta( $sql_template );
 	dbDelta( $sql_template_detail );
-
 }
+
+//order completion form submit
+add_action( 'wp_ajax_nopriv_editTemplateAction', 'editTemplateAction', 85);
+add_action( 'wp_ajax_editTemplateAction', 'editTemplateAction', 85 );
+function editTemplateAction(){
+	$template_id = $_POST['template_id'];
+	
+	 $results = array();
+	 if($template_id){
+		 global $wpdb;
+		 $table_template = $wpdb->prefix . 'template';
+		 $template_name = !empty($_POST['template_name']) ? $_POST['template_name'] : '';
+		 $template_share = !empty($_POST['template_share']) ? $_POST['template_share'] : '';
+		 $template_state = !empty($_POST['template_state']) ? $_POST['template_state'] : '';
+		 $template_state_id = !empty($_POST['template_state_id']) ? $_POST['template_state_id'] : '';
+		 $template_date = !empty($_POST['template_date']) ? $_POST['template_date'] : '';
+		 $template_company = !empty($_POST['template_company']) ? $_POST['template_company'] : '';
+		 $footer_template = !empty($_POST['footer_template']) ? $_POST['footer_template'] : '';
+		
+		$wpdb->query($wpdb->prepare("UPDATE $table_template 
+		 SET name='".$template_name."',
+		 shared_flag='".$template_share."',
+		 state='".$template_state."',
+		 state_form='".$template_state_id."',
+		 companyId=$template_company,
+		 footer_html='".$footer_template."' 
+		 WHERE id=$template_id"
+		 ));
+		 
+		 if (!function_exists('wp_handle_upload')) {
+			   require_once(ABSPATH . 'wp-admin/includes/file.php');
+		   }
+		  // echo $_FILES["upload"]["name"];
+		  $uploadedfile = $_FILES['template_logo'];
+		  $upload_overrides = array('test_form' => false);
+		  $movefile = wp_handle_upload($uploadedfile, $upload_overrides);
+
+		// echo $movefile['url'];
+		  if ($movefile && !isset($movefile['error'])) {
+			  $imageUrl = $movefile['url'];
+			  $wpdb->query($wpdb->prepare("UPDATE $table_template SET logo_url='".$imageUrl."' WHERE id=$template_id"));			 
+			 $results = array(
+				'success' => true,
+				'mess' => 'Data Successfully updated.',
+				'template_id' => $template_id
+			 );		
+		} else {
+			/**
+			 * Error generated by _wp_handle_upload()
+			 * @see _wp_handle_upload() in wp-admin/includes/file.php
+			 */
+			 $results = array(
+				'success' => false,
+				'mess' => $movefile['error']
+			 );			
+		}		 
+		 
+	 } else {
+		 $results = array(
+			'success' => false,
+			'mess' => 'Form not send, there are some error to send email.'
+		 );
+	 }			
+	echo json_encode($results);        
+	die();
+  }
