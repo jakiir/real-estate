@@ -22,6 +22,7 @@
 <!-- Main CSS file -->
 <?php $template_directory_uri = get_template_directory_uri(); ?>
 <link rel="stylesheet" href="<?php echo esc_url( $template_directory_uri . '/css/bootstrap.min.css"' ); ?>" />
+<link rel="stylesheet" href="<?php echo esc_url( $template_directory_uri . '/css/bootstrap-datetimepicker.min.css"' ); ?>" />
 <link rel="stylesheet" href="<?php echo esc_url( $template_directory_uri . '/css/owl.carousel.css"' ); ?>" />
 <link rel="stylesheet" href="<?php echo esc_url( $template_directory_uri . '/css/magnific-popup.css"' ); ?>" />
 <link rel="stylesheet" href="<?php echo esc_url( $template_directory_uri . '/css/font-awesome.css"' ); ?>" />
@@ -48,6 +49,7 @@
 <!-- JS -->
 <script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jquery.min.js"></script><!-- jQuery -->
 <script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/bootstrap.min.js"></script><!-- Bootstrap -->
+<script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jquery.validate.js"></script><!-- Parallax -->
 
 </head>
 <body>
