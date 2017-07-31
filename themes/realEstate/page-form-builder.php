@@ -89,13 +89,141 @@ get_header(); ?>
 ?>
 <script type="text/javascript">
 	//jQuery(function($) {
-	  var fbTemplate = document.getElementById('build-wrap'),
+	  var fbTemplate = document.getElementById('build-wrap');
+	
 		options = {
-		  formData: '<?php echo $get_templages[0]->field_text_html; ?>'
+		  formData: '<?php echo $get_templages[0]->field_text_html; ?>',
+		  controlPosition: 'left',
+		  disableFields: ['autocomplete', 'hidden'],
+		  controlOrder: [
+			'text',
+			'paragraph',
+			'checkbox-group',
+			'file',
+			'textarea',
+			'instruction-text',
+			'group-box',
+			'standard-report-fields',
+			'page-break',
+		  ],
+		   inputSets: [
+			
+				{
+				  label: 'Instruction Text',
+				  name: 'instruction-text',
+				  className: 'icon-textarea',
+				  fields: [
+				  {
+					type: 'header',
+					subtype: 'h2',
+					label: 'Instructions',
+					className: 'header'
+				  },
+				  {
+					type: 'paragraph',
+					label: 'Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition. Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.',
+				  }
+				]
+				},
+				{
+				  label: 'Group Box',
+				  name: 'group-box',				  
+				  fields: [
+						{
+						  type: 'checkbox-group',
+						  label: 'Group Box',						  
+						  values: [{
+							label: 'not selected',
+							value: 'not-selected',
+							selected: false
+						  }, {
+							label: 'selected',
+							value: 'selected',
+							selected: true
+						  }, {
+							label: 'indeterminate',
+							value: 'indeterminate',
+							selected: false
+						  }, {
+							label: 'disabled',
+							value: 'disabled',
+							selected: false
+						  }]
+						}
+					]
+				},
+			  {
+				label: 'Standard Report Fields',
+				name: 'standard-report-fields', // optional - one will be generated from the label if name not supplied
+				showHeader: true, // optional - Use the label as the header for this set of inputs
+				fields: [
+						{
+						  type: 'text',
+						  label: 'Report Name',
+						  className: 'form-control'
+						},
+						{
+						  type: 'text',
+						  label: 'Prepared For',
+						  className: 'form-control'
+						},
+						{
+						  type: 'text',
+						  label: 'Prepared By',
+						  className: 'form-control'
+						},
+						{
+						  type: 'date',
+						  label: 'Date',
+						  className: 'form-control'
+						},
+						{
+						  type: 'text',
+						  label: 'Company',
+						  className: 'form-control'
+						},
+						{
+						  type: 'text',
+						  label: 'Business License',
+						  className: 'form-control'
+						},
+						{
+						  type: 'text',
+						  label: 'City',
+						  className: 'form-control'
+						},
+						{
+						  type: 'text',
+						  label: 'State',
+						  className: 'form-control'
+						},
+						{
+						  type: 'number',
+						  label: 'Zip',
+						  className: 'form-control'
+						}
+					  ]
+				  },
+				 {
+				  label: 'Page Break',
+				  name: 'page-break',
+				  fields: [
+				  {
+					type: 'br',					
+					label: 'Page Break',
+					className: 'page-break'
+				  },
+				  {
+					type: 'paragraph',
+					label: 'Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition. Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.',
+				  }
+				]
+				},
+			  ]
 		};
-	  var formBuilder = $(fbTemplate).formBuilder(options);
-
-	  
+		
+		var formBuilder = $(fbTemplate).formBuilder(options);
+	 
 	document.getElementById('getJSON1').addEventListener('click', function() {
 		var form_data = new FormData();
 		var template_id = jQuery('#template_id').val();
