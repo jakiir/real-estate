@@ -126,6 +126,18 @@ get_header(); ?>
 				]
 				},
 				{
+				  label: 'Section',
+				  name: 'section-area',
+				  fields: [
+				  {
+					type: 'section',
+					subtype: 'section',
+					label: '',
+					className: 'section'
+				  }
+				]
+				},
+				{
 				  label: 'Group Box',
 				  name: 'group-box',				  
 				  fields: [
