@@ -741,9 +741,9 @@ class Visual_Form_Builder_Pro{
 		$page_main = $this->_admin_pages[ 'vfb-pro' ];
 
 		if ( $current_screen->id == $page_main && isset( $_REQUEST['form'] ) ) {
-			add_meta_box( 'vfb_form_switcher', __( 'Quick Switch', 'visual-form-builder-pro' ), array( &$this, 'meta_box_switch_form' ), $page_main, 'side', 'high' );
+			//add_meta_box( 'vfb_form_switcher', __( 'Quick Switch', 'visual-form-builder-pro' ), array( &$this, 'meta_box_switch_form' ), $page_main, 'side', 'high' );
 			add_meta_box( 'vfb_form_items_meta_box', __( 'Form Items', 'visual-form-builder-pro' ), array( &$this, 'meta_box_form_items' ), $page_main, 'side', 'high' );
-			add_meta_box( 'vfb_form_media_button_tip', __( 'Display Forms', 'visual-form-builder-pro' ), array( &$this, 'meta_box_display_forms' ), $page_main, 'side', 'low' );
+			//add_meta_box( 'vfb_form_media_button_tip', __( 'Display Forms', 'visual-form-builder-pro' ), array( &$this, 'meta_box_display_forms' ), $page_main, 'side', 'low' );
 		}
 	}
 
