@@ -52,7 +52,7 @@
 <script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jquery.validate.js"></script><!-- Parallax -->
 
 </head>
-<body>
+<body ng-app="formBuilder">
 
 <!-- PRELOADER -->
 <div id="st-preloader">

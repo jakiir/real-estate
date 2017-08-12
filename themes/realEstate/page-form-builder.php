@@ -15,81 +15,333 @@
  */
 
 get_header(); ?>
-<style>
-	.form-builder .btn-group{display:none;}
-	label.error{color:red;}
-</style>
-<link rel="stylesheet" type="text/css" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/form-builder-style.css">
-<link rel="stylesheet" type="text/css" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.1/jquery.rateyo.min.css">
-<!-- PAGE HEADER -->
-<section id="page-header">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				<div class="section-title">
-					<h1><?php the_title(); ?></h1>
-					<span class="st-border"></span>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-<!-- /PAGE HEADER -->
+	<link rel="stylesheet" href="https://cdn.rawgit.com/odra/ng-json-explorer/master/dist/angular-json-explorer.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/bootswatch@3.3.7/yeti/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/dist/ngFormBuilder-full.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+  
+  <style>
+  .browsehappy {
+    display:block;
+    width:100%;
+    height:100px;
+    background-color:#f2dede;
+    margin: 0 0 10px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 22px;
+    line-height: 1.4;
+    color: #333;
+    padding-top: 15px;
+    vertical-align:middle;
+  }
+  .browsehappy span {
+    vertical-align:middle;
+    margin:20px 20px 20px 20px;
+    background:url("https://cdn.rawgit.com/alrra/browser-logos/master/internet-explorer/internet-explorer_64x64.png") no-repeat;
+    height:64px;
+    width:64px;
+    display:inline-block;
+  }
 
-<!-- BLOG -->
-	<section id="blog">
+  .formbuilder {
+    height: 600px;
+  }
+
+  .formcomponents {
+    width: 30%;
+  }
+
+  .formarea {
+    width: 70%;
+  }
+
+  .component-settings .nav-link {
+    font-size: 0.6em;
+  }
+
+  .jsonviewer {
+    max-height: 600px;
+    overflow: scroll;
+  }
+
+  .form-type-select {
+    display: inline-block;
+    width: 100px;
+    height: 28px;
+    vertical-align: top;
+  }
+</style>
+  
+  <!-- PAGE HEADER -->
+	<section id="page-header">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
-					<div class="panel panel-primary">
-						
-			      		<div class="panel-heading">
-			              <h1 class="panel-title">Create Form</h1>
-			            </div>
-						<div class="panel-body">
-							<div class="form-group">
-								<div id="build-wrap" class="build-wrap1"></div>							
-								<form class="render-wrap">
-									<input type="hidden" name="template_id" id="template_id" value="<?php echo (isset($_GET['item']) ? $_GET['item'] : ''); ?>">
-								</form>
-								<button id="edit-form">Edit Form</button>	
-							</div>							
-							<div class="action-buttons form-group">
-								<button id="getJSON1" type="button" class="btn btn-primary">Save</button>
-								<button id="clearFields" type="button" class="btn btn-danger">Clear All Fields</button>
-								
-							  <!--<button id="showData" type="button">Show Data</button>
-							  <button id="clearFields" type="button">Clear All Fields</button>
-							  <button id="getData" type="button">Get Data</button>
-							  <button id="getXML" type="button">Get XML Data</button>
-							  <button id="getJSON2" type="button">Get JSON Data</button>
-							  <button id="getJS" type="button">Get JS Data</button>
-							  <button id="setData" type="button">Set Data</button>
-							  <button id="addField" type="button">Add Field</button>
-							  <button id="removeField" type="button">Remove Field</button>
-							  <button id="testSubmit" type="submit">Test Submit</button>
-							  <button id="resetDemo" type="button">Reset Demo</button>-->
-							</div>
-						</div>
+					<div class="section-title">
+						<h1><?php the_title(); ?></h1>
+						<span class="st-border"></span>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
-	<!-- /BLOG -->
+	<!-- /PAGE HEADER -->
 
+<div class="page-content" ng-app="formioApp">
+  <div class="container-fluid">
+    <div>
+      <div class="row">
+        <div class="col-sm-8">
+          <!--<h3 class="text-center text-muted">The <a href="https://github.com/formio/ngFormBuilder" target="_blank">Form Builder</a> allows you to build a <select class="form-control form-type-select" ng-model="form.display" ng-options="display.name as display.title for display in displays"></select></h3>-->
+          <pre class="text-center bg-info"><h4><code>&lt;form-builder form="form"&gt;&lt;/form-builder&gt;</code></h4></pre>
+          <div class="well" style="background-color: #fdfdfd;">
+            <form-builder form="form"></form-builder>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <!--<h3 class="text-center text-muted">as JSON Schema</h3>-->
+          <pre class="bg-info"><h4><code>$rootScope.form = </code></h4></pre>
+          <div class="well jsonviewer">
+            <json-explorer data="form" collapsed="jsonCollapsed"></json-explorer>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+          <div class="well">
+            <formio form="form" ng-if="renderForm"></formio>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 <?php get_footer(); ?>
+<script src="https://cdn.ckeditor.com/4.5.11/standard/ckeditor.js"></script>
+<script src="https://unpkg.com/signature_pad@1.5.3/signature_pad.min.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/dist/ngFormBuilder-full.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+<script src="https://cdn.rawgit.com/odra/ng-json-explorer/master/dist/angular-json-explorer.min.js"></script>
 <?php 
  global $wpdb;
  $template_detail = $wpdb->prefix . 'template_detail';
  $template_id = !empty($_GET['item']) ? $_GET['item'] : '';
  $get_templages = $wpdb->get_results( "SELECT * FROM $template_detail WHERE template_id=$template_id", OBJECT );
 ?>
+
+<script type="text/javascript">
+  angular
+    .module("formBuilder", ["ui.bootstrap", "ui.select", "formio", "ngFormBuilder", "ngJsonExplorer"])
+    .run([
+      "$rootScope",
+      'formioComponents',
+      '$timeout',
+      function(
+        $rootScope,
+        formioComponents,
+        $timeout
+      ) {
+        $rootScope.displays = [{
+          name: 'form',
+          title: 'Form'
+        }, {
+          name: 'wizard',
+          title: 'Wizard'
+        }];
+        $rootScope.form = {
+          components: [{
+            input: true,
+            tableView: true,
+            inputType: 'text',
+            inputMask: '',
+            label: 'First Name',
+            key: 'firstName',
+            placeholder: 'Enter your first name',
+            prefix: '',
+            suffix: '',
+            multiple: false,
+            defaultValue: '',
+            protected: false,
+            unique: false,
+            persistent: true,
+            validate: {
+              required: false,
+              minLength: '',
+              maxLength: '',
+              pattern: '',
+              custom: '',
+              customPrivate: false
+            },
+            conditional: {
+              show: false,
+              when: null,
+              eq: ''
+            },
+            type: 'textfield'
+          }, {
+            input: true,
+            tableView: true,
+            inputType: 'text',
+            inputMask: '',
+            label: 'Last Name',
+            key: 'lastName',
+            placeholder: 'Enter your last name',
+            prefix: '',
+            suffix: '',
+            multiple: false,
+            defaultValue: '',
+            protected: false,
+            unique: false,
+            persistent: true,
+            validate: {
+              required: false,
+              minLength: '',
+              maxLength: '',
+              pattern: '',
+              custom: '',
+              customPrivate: false
+            },
+            conditional: {
+              show: false,
+              when: null,
+              eq: ''
+            },
+            type: 'textfield'
+          }, {
+            type: 'select',
+            validate: {
+              required: false
+            },
+            clearOnHide: true,
+            persistent: true,
+            unique: false,
+            protected: false,
+            multiple: true,
+            template: '<span>{{ item.label }}</span>',
+            authenticate: false,
+            filter: '',
+            refreshOn: '',
+            defaultValue: '',
+            valueProperty: '',
+            dataSrc: 'values',
+            data: {
+              custom: '',
+              resource: '',
+              url: '',
+              json: '',
+              values: [
+                {
+                  label: 'Raindrops on roses',
+                  value: 'raindropsOnRoses'
+                },
+                {
+                  label: 'Whiskers on Kittens',
+                  value: 'whiskersOnKittens'
+                },
+                {
+                  label: 'Bright copper kettles',
+                  value: 'brightCopperKettles'
+                },
+                {
+                  label: 'Warm woolen Mittens',
+                  value: 'warmWoolenMittens'
+                },
+                [
+
+                ]
+              ]
+            },
+            placeholder: 'Select a few',
+            key: 'favoriteThings',
+            label: 'Favorite Things',
+            tableView: true,
+            input: true
+          }, {
+            input: true,
+            tableView: true,
+            label: 'Message',
+            key: 'message',
+            placeholder: 'What do you think?',
+            prefix: '',
+            suffix: '',
+            rows: 3,
+            multiple: false,
+            defaultValue: '',
+            protected: false,
+            persistent: true,
+            validate: {
+              required: false,
+              minLength: '',
+              maxLength: '',
+              pattern: '',
+              custom: ''
+            },
+            type: 'textarea',
+            conditional: {
+              show: false,
+              when: null,
+              eq: ''
+            }
+          }, {
+            type: 'button',
+            theme: 'primary',
+            disableOnInvalid: true,
+            action: 'submit',
+            block: false,
+            rightIcon: '',
+            leftIcon: '',
+            size: 'md',
+            key: 'submit',
+            tableView: false,
+            label: 'Submit',
+            input: true
+          }],
+          display: 'form'
+        };
+
+        $rootScope.renderForm = true;
+        $rootScope.$on('formUpdate', function(event, form) {
+          angular.merge($rootScope.form, form);
+          $rootScope.renderForm = false;
+          setTimeout(function() {
+            $rootScope.renderForm = true;
+          }, 10);
+        });
+
+        var originalComps = _.cloneDeep($rootScope.form.components);
+        originalComps.push(angular.copy(formioComponents.components.button.settings));
+        $rootScope.jsonCollapsed = true;
+        $timeout(function() {
+          $rootScope.jsonCollapsed = false;
+        }, 200);
+        var currentDisplay = 'form';
+        $rootScope.$watch('form.display', function(display) {
+          if (display && (display !== currentDisplay)) {
+            currentDisplay = display;
+            if (display === 'form') {
+              $rootScope.form.components = originalComps;
+            } else {
+              $rootScope.form.components = [{
+                type: 'panel',
+                input: false,
+                title: 'Page 1',
+                theme: 'default',
+                components: originalComps
+              }];
+            }
+          }
+        });
+      }
+    ]);
+</script>
+
 <script type="text/javascript">
 	//jQuery(function($) {
-	  var fbTemplate = document.getElementById('build-wrap');
+	  /*var fbTemplate = document.getElementById('build-wrap');
 	
 		options = {
 		  formData: '<?php echo $get_templages[0]->field_text_html; ?>',

@@ -57,11 +57,11 @@
 	<script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/moment.min.js"></script><!-- Parallax -->
 	<script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/bootstrap-datetimepicker.min.js"></script><!-- Parallax -->	
 	
-	<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/vendor.js"></script>
+	<?php /* ?><script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/vendor.js"></script>
 	<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/form-builder.min.js"></script>
 	<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/form-render.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.1/jquery.rateyo.min.js"></script> 
-	<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/form-builder-script.js"></script>
+	<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/form-builder-script.js"></script><?php */ ?>
 
 <?php wp_footer(); ?>
 
