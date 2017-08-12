@@ -15,6 +15,11 @@
  */
 
 get_header(); ?>
+<script type="text/javascript">
+	jQuery(function($) {
+		$('body').attr('ng-app', 'formBuilder');
+	});
+</script>
 	<link rel="stylesheet" href="https://cdn.rawgit.com/odra/ng-json-explorer/master/dist/angular-json-explorer.min.css">
   <link rel="stylesheet" href="https://unpkg.com/bootswatch@3.3.7/yeti/bootstrap.min.css" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -93,33 +98,31 @@ get_header(); ?>
     <div>
       <div class="row">
         <div class="col-sm-8">
-          <!--<h3 class="text-center text-muted">The <a href="https://github.com/formio/ngFormBuilder" target="_blank">Form Builder</a> allows you to build a <select class="form-control form-type-select" ng-model="form.display" ng-options="display.name as display.title for display in displays"></select></h3>-->
-          <pre class="text-center bg-info"><h4><code>&lt;form-builder form="form"&gt;&lt;/form-builder&gt;</code></h4></pre>
+          <!--<h3 class="text-center text-muted">The <a href="https://github.com/formio/ngFormBuilder" target="_blank">Form Builder</a> allows you to build a <select class="form-control form-type-select" ng-model="form.display" ng-options="display.name as display.title for display in displays"></select></h3>
+          <pre class="text-center bg-info"><h4><code>&lt;form-builder form="form"&gt;&lt;/form-builder&gt;</code></h4></pre>-->
           <div class="well" style="background-color: #fdfdfd;">
             <form-builder form="form"></form-builder>
           </div>
         </div>
         <div class="col-sm-4">
-          <!--<h3 class="text-center text-muted">as JSON Schema</h3>-->
-          <pre class="bg-info"><h4><code>$rootScope.form = </code></h4></pre>
+          <!--<h3 class="text-center text-muted">as JSON Schema</h3>
+          <pre class="bg-info"><h4><code>$rootScope.form = </code></h4></pre>-->
           <div class="well jsonviewer">
             <json-explorer data="form" collapsed="jsonCollapsed"></json-explorer>
           </div>
         </div>
       </div>
-      <div class="row">
+      <!--<div class="row">
         <div class="col-sm-8 col-sm-offset-2">
           <div class="well">
             <formio form="form" ng-if="renderForm"></formio>
           </div>
         </div>
         <div class="clearfix"></div>
-      </div>
+      </div>-->
     </div>
   </div>
 </div>
-
-
 <?php get_footer(); ?>
 <script src="https://cdn.ckeditor.com/4.5.11/standard/ckeditor.js"></script>
 <script src="https://unpkg.com/signature_pad@1.5.3/signature_pad.min.js"></script>
@@ -287,6 +290,28 @@ get_header(); ?>
               eq: ''
             }
           }, {
+			input: true,
+			tableView: false,
+			inputType: "password",
+			label: "",
+			key: "undefinedPasswordField",
+			placeholder: "",
+			prefix: "",
+			suffix: "",
+			protected: true,
+			persistent: true,
+			hidden: false,
+			clearOnHide: true,
+			type: "password",
+			$$hashKey: "object:247",
+			tags: [
+			],
+			conditional: {
+			show: "",
+			when: null,
+			eq: ""
+		  }
+		  },{
             type: 'button',
             theme: 'primary',
             disableOnInvalid: true,
