@@ -1,0 +1,76 @@
+.formcontrol{
+  padding:8px;
+  position: relative;
+}
+.formcontrol p{
+  margin:0px 0px 15px 0px;
+}
+.inputpretend{
+  border:2px solid #aaa;
+  border-radius:2px;
+  height:1em;
+  padding:0.5em;
+  background:white;
+  color:#ccc;
+  box-shadow:inset 1px 1px 2px 0px #ccc;
+}
+.inputpretend.paragraph{
+  height:6em;
+}
+.formcontrol img{
+  display:block;
+  width:100%;
+  color:rgba(0,0,0,0);
+}
+.formcontrol img[alt]::before{
+  content:"\f03e";
+  width:100%;
+  height:200px;
+  display:block;
+  color:white;
+  background-color:#ddd;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  font-size:3em;
+}
+.wysiwygpretend{
+  width:100%;
+  background:#ddd;
+}
+.imgw{
+  display:block;
+  width:100%;
+  opacity:0.6;
+  pointer-events: none;
+}
+.instruction{
+  padding:10px 15px;
+  background:#eee;
+}
+.instruction.cond{
+  background:rgba(231, 76, 60,0.2);
+}
+.pagebreak{
+  width:100%;
+  height:1px;
+  border-bottom:4px dashed #999;
+}
+.breaktext{
+  width:100%;
+  height:1em;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  margin:auto;
+  top:0px;right:0px;bottom:0px;left:0px;
+}
+.breaktext span{
+  display:inline-block;
+  padding:3px 5px;
+  background:white;
+}
+.condtop{
+  margin-bottom:10px;
+}

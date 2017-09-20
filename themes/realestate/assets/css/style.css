@@ -1,0 +1,207 @@
+html,body{
+  height:100%;
+  padding: 0;
+  margin: 0;
+  font-family:sans-serif;
+}
+p{
+  margin:0;
+}
+.container{
+  height:100%;
+}
+.toolbar{
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:150px;
+  height:100%;
+  background:#eee;
+  box-sizing: border-box;
+  padding:10px;
+}
+.tool.dragelement{
+  padding:5px;
+  border:1px solid #aaa;
+  margin:9px 0px;
+  border-radius:3px;
+}
+.tool.dragelement .fa{
+  margin-right:5px;
+}
+.toptools{
+  position:fixed;
+  top:20px;
+  right:45px;
+  z-index:4000;
+  padding:8px 10px;
+  font-size:1.4em;
+  background: #eee;
+  box-sizing: border-box;
+  border-radius:4px;
+  box-shadow:1px 1px 3px 0px #222;
+}
+.toptools .fa{
+  cursor: pointer;
+  margin:auto 8px;
+}
+.toptools .fa:hover{
+  opacity:0.9;
+  transform:scale(1.05);
+}
+.canvas{
+  width:100%;
+  box-sizing:border-box;
+  padding-left:150px;
+  padding-bottom:150px;
+  padding-top:40px;
+  height:100%;
+  overflow-y:scroll;
+}
+.area{
+  padding:30px;
+}
+.row{
+  display:flex;
+  margin:10px auto;
+}
+.col.droparea{
+  min-height:100px;
+}
+.col{
+  flex:1;
+}
+.droparea.sides{
+  width:40px;
+}
+.droparea.bottom{
+  height:40px;
+}
+.droparea{
+  border:1px dashed #333;
+  margin:5px 15px;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  background:#eee;
+}
+.droparea::after{
+  content:"\+";
+  display:inline-block;
+  padding:0px 0px 0px 0px;
+  background:#aaa;
+  border-radius:50%;
+  /*box-sizing: border-box;*/
+  font-size:20px;
+  width:20px;
+  height:20px;
+  font-family: monospace;
+  text-align: center;
+  line-height:20px;
+  color:white;
+}
+.droparea.hassomething{
+  border:1px solid rgba(0,0,0,0);
+  outline:4px dashed #aaa;
+}
+.controlholder{
+  position:relative;
+  margin:15px;
+  padding:10px;
+  box-sizing: border-box;
+  border:0.5px solid #eee;
+}
+.controlholder.currentcontrol{
+  outline:2px dotted #aaa;
+  border:1px solid egba(0,0,0,0);
+}
+.removebtn{
+  position:absolute;
+  width:20px;
+  height:20px;
+  border-radius:50%;
+  font-size:0.8em;
+  background:#c0392b;
+  color:white;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  right:-10px;
+  top:-10px;
+  z-index: 3000;
+  cursor: pointer;
+}
+/*Properties box*/
+.properties{
+  position:fixed;
+  bottom:30px;
+  right:30px;
+  width:40%;
+  width:40ch;
+  background:rgba(255,255,255,0.95);
+  box-shadow:2px 2px 4px 1px #aaa;
+  padding:20px 20px 40px 20px;
+  border-radius:10px;
+  z-index:4000;
+}
+.property{
+  margin:15px 0px;
+}
+.property p{
+  margin:5px auto;
+}
+.property input{
+  display:block;
+  width:100%;
+  box-sizing: border-box;
+  padding:7px;
+  border-radius:3px;
+  border:2px solid #ddd;
+  box-shadow:none;
+}
+.deselectcurrent{
+  position:absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  right:-10px;
+  top:-10px;
+  width:25px;
+  height:25px;
+  background:#c0392b;
+  color:white;
+  border-radius:50%;
+  cursor: pointer;
+}
+.deselectcurrent i{
+  position:relative;
+  top:-1px;
+}
+.fileinput{
+  width:40px;
+  margin:0px 3px;
+  position:relative;
+  overflow: hidden;
+  border-radius:3px;
+}
+.fileinput input{
+  opacity:0;
+  position:absolute;
+  display:block;
+  height:100%;
+  width:100%;
+}
+.flex{
+  display:flex;
+}
+.flexcenter{
+  align-items: center;
+  justify-content: center;
+}
+.flexone{
+  flex:1;
+}
+.hovereffect:hover{
+  background:rgba(0,0,0,0.05);
+  cursor:pointer;
+}
