@@ -18,48 +18,6 @@
 
 
     // ---------------------------------------------- 
-    //  magnific-popup
-    // ----------------------------------------------
-	(function () {
-
-		$('.portfolio-items').magnificPopup({ 
-			delegate: 'a',
-			type: 'image',
-			// other options
-			closeOnContentClick: false,
-			closeBtnInside: false,
-			mainClass: 'mfp-with-zoom mfp-img-mobile',
-
-			gallery: {
-				enabled: false
-			},
-			zoom: {
-				enabled: true,
-				duration: 300, // don't foget to change the duration also in CSS
-				opener: function(element) {
-					return element.find('i');
-				}
-			}
-
-		});
-
-	}()); 
-
-
-
-    // ---------------------------------------------- 
-    // Fun facts
-    // ---------------------------------------------- 
-	(function () {
-		$('.st-counter').counterUp({
-		    delay: 10,
-		    time: 1500
-		});
-	}()); 
-
-
-
-    // ---------------------------------------------- 
     //  Isotope Filter 
     // ---------------------------------------------- 
 	(function () {
@@ -130,19 +88,6 @@
 	}()); 
 
 
-	// -------------------------------------------------------------
-    // masonry
-    // -------------------------------------------------------------
-
-    (function () {
-		var $container = $('.portfolio-items');
-		// initialize
-		$container.masonry({
-		  itemSelector: '.work-grid'
-		});
-    }());
-
-
   	// -------------------------------------------------------------
     // Animated scrolling / Scroll Up
     // -------------------------------------------------------------
@@ -158,22 +103,6 @@
     }());
 
 
-    // ----------------------------------------------
-    // Owl Carousel
-    // ----------------------------------------------
-	(function () {
-
-		$(".st-testimonials").owlCarousel({
-		singleItem:true,
-		lazyLoad : true,
-		pagination:false,
-		navigation : false,
-		autoPlay: true,
-		});
-
-	}());
-
-
     // -------------------------------------------------------------
     // Back To Top
     // -------------------------------------------------------------
@@ -186,34 +115,6 @@
                 $('.scroll-up').fadeOut();
             }
         });
-    }());
-	
-
-    // ----------------------------------------------
-    // Parallax Scrolling
-    // ----------------------------------------------
-	(function () {
-		$(window).bind('load', function () {
-			parallaxInit();						  
-		});
-		function parallaxInit() {		
-			$("#testimonial").parallax("50%", 0.3);
-		}	
-		parallaxInit();
-	}());
-
-	
-
-    // ----------------------------------------------
-    // fitvids js
-    // ----------------------------------------------
-    (function () {
-
-        $(".post-video").fitVids();
-
-    }()); 
-
-
-	
+    }());		
 
 });
