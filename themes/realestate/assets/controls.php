@@ -1,4 +1,4 @@
-<!-- text -->
+<?php 	/**	 * Template Name: Form Controls Template	 */?><!-- text -->
 <div class="formcontrol text" ng-if="control.type=='text'">
   <p>{{control.label}}</p>
   <div class="inputpretend">
