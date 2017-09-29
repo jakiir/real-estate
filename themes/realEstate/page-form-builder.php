@@ -28,9 +28,12 @@ get_header('form-builder'); ?>
     </div>
     <div class="toolbar side">
       <!-- toolbar -->
-      <div class="dragelement tool" ng-repeat="tool in tools" draggable="true" ng-dragstart="startDrag($event,tool)">
+      <div class="dragelement tool" ng-repeat="tool in tools" draggable="true"
+      ng-dragstart="startDrag($event,tool)"
+      ng-dragend="dragCleanup()">
         <i class="fa {{tool.icon}}"></i>  {{tool.title}}
       </div>
+	  <i class="fa fa-arrow-circle-o-left"></i>  <a href="<?php echo home_url('/template/'); ?>">Go to template</a>
       <!-- toolbar -->
     </div>
     <div class="canvas">
@@ -38,29 +41,50 @@ get_header('form-builder'); ?>
         <div class="row" ng-repeat="row in data.tree">
             <div class="droparea left sides"
             ng-hide="row[0][0].single"
+            ng-class="{'available':externalDrag}"
+            ng-style="{'pointer-events':(internalDrag?'none':'auto')}"
             ng-drop="unShiftToChild($event,$index)"></div> <!--left side drop-->
             <div class="col controls" ng-repeat="item in row">
-              <div class="controlholder" ng-repeat="control in item track by $index"
-              ng-click="selectControl($parent.$parent.$index,$parent.$index,$index)"
-              ng-class="{'currentcontrol':(currentControl && currentControl.hash===control.hash)}">
-                <div class="removebtn" ng-click="removeControl($parent.$parent.$index,$parent.$index,$index,$event)">
+              <div class="controlholder controldraggable" ng-repeat="control in item track by $index"
+              ng-class="{'sing':control.single}">
+                <div class="removebtn"
+                ng-class="{'singv':control.single}"
+                 ng-click="removeControl($parent.$parent.$index,$parent.$index,$index,$event)">
                   <i class="fa fa-trash"></i>
                 </div>
+                <!-- rearrange dragdrop -->
+                <div class="droparea rearr"
+                ng-class="{'idrg':internalDrag}"
+                ng-drop="rearrange($event,$parent.$parent.$index,$parent.$index,$index)">
+                </div>
                 <!-- loop through the controls -->
-                <div ng-include="'<?php echo esc_url( home_url('/form-controls/') ); ?>'"></div>
+                <div class="controlh"
+                ng-class="{'currentcontrol':(currentControl && currentControl.hash===control.hash)}"
+                ng-click="selectControl($parent.$parent.$index,$parent.$index,$index)"
+                draggable="true"
+                ng-dragstart="internalDragStart($event,[$parent.$parent.$index,$parent.$index,$index])"
+                ng-dragend="internalDragEnd()">                  
+				  <div ng-include="'<?php echo esc_url( home_url('/form-controls/') ); ?>'"></div>
+                </div>
               </div>
               <div class="droparea bottom" ng-show="row.length>1"
               ng-hide="row[0][0].single"
+              ng-style="{'pointer-events':(internalDrag?'none':'auto')}"
+              ng-class="{'available':externalDrag}"
               ng-drop="addBottom($event,$parent.$index,$index)">
                 <!-- add new into the group -->
               </div>
             </div>
             <div class="droparea right sides"
+            ng-style="{'pointer-events':(internalDrag?'none':'auto')}"
+            ng-class="{'available':externalDrag}"
             ng-hide="row[0][0].single"
             ng-drop="pushToChild($event,$index)"></div> <!--right side drop -->
         </div>
         <div class="row">
           <div class="col droparea"
+            ng-style="{'pointer-events':(internalDrag?'none':'auto')}"
+            ng-class="{'available':externalDrag}"
             ng-drop="addNewRow($event)"
           ></div>
         </div>
