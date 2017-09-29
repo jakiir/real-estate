@@ -47,7 +47,7 @@ get_header('form-builder'); ?>
                   <i class="fa fa-trash"></i>
                 </div>
                 <!-- loop through the controls -->
-                <div ng-include="'<?php echo esc_url( get_template_directory_uri() ); ?>/assets/controls.php'"></div>
+                <div ng-include="'<?php echo esc_url( home_url('/form-controls/') ); ?>'"></div>
               </div>
               <div class="droparea bottom" ng-show="row.length>1"
               ng-hide="row[0][0].single"
