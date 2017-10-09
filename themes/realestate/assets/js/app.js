@@ -10,15 +10,20 @@ angular.module('formbuilder',['ngDrag'])
       tree:[]
     }
     //Auto Save feature
+	var setAccessSession = '';
     function autoSave(){
       localStorage.setItem('formbuilder_cache_data',JSON.stringify($scope.data));
+	  setAccessSession = setTimeout(autoSave, 10000);
       console.log("Auto Save Performed");
     }
+	setAccessSession = setTimeout(autoSave, 10000);
+	
     $scope.dragCleanup=function(){
       $scope.externalDrag=false;
       $('.droparea').removeClass('hassomething');
       autoSave();
     }
+	
     function freshen(dt){
       var output = JSON.parse(dt);
       delete output.icon;
@@ -110,9 +115,15 @@ angular.module('formbuilder',['ngDrag'])
       autoSave();
       $scope.currentControl=$scope.data.tree[superidx][parent][index];
     }
-    if(localStorage.getItem('formbuilder_cache_data')){
+    
+	if(field_text_html){
+      $scope.data = JSON.parse(field_text_html);
+    } else if(localStorage.getItem('formbuilder_cache_data')){
       $scope.data = JSON.parse(localStorage.getItem('formbuilder_cache_data'));
-    }
+    } else {
+		$scope.data = '';
+	}
+	
     //Internal Rearrangement
     $scope.internalDragStart = function(e,path){
       e.dataTransfer.setData('path',path.join(","));
