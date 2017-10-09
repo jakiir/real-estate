@@ -73,6 +73,7 @@ p{
 }
 .droparea.sides{
   width:40px;
+  margin-top:40px;
 }
 .droparea.bottom{
   height:40px;
@@ -84,6 +85,13 @@ p{
   align-items: center;
   justify-content: center;
   background:#eee;
+  transition: all 0.2s;
+}
+.droparea:not(.col){
+  opacity:0;
+}
+.droparea.col{
+  margin:0px 87px;
 }
 .droparea::after{
   content:"\+";
@@ -100,18 +108,41 @@ p{
   line-height:20px;
   color:white;
 }
+.droparea.rearr{
+  margin:5px 0px;
+  opacity: 0;
+  pointer-events: none;
+}
+.droparea.available{
+  opacity:1;
+  background: rgba(110,216,154,0.2);
+}
+.droparea.hassomething:not(.sides){
+  height:150px;
+}
+.droparea.rearr.idrg{
+  opacity: 1;
+  pointer-events: all;
+  background: rgba(110,216,154,0.2);
+}
 .droparea.hassomething{
   border:1px solid rgba(0,0,0,0);
   outline:4px dashed #aaa;
 }
 .controlholder{
   position:relative;
-  margin:15px;
+  margin:5px 15px;
+}
+.controlholder.sing{
+  padding:0px 70px;
+}
+.controlh{
+  background:white;
   padding:10px;
   box-sizing: border-box;
   border:0.5px solid #eee;
 }
-.controlholder.currentcontrol{
+.controlh.currentcontrol{
   outline:2px dotted #aaa;
   border:1px solid egba(0,0,0,0);
 }
@@ -127,9 +158,12 @@ p{
   align-items: center;
   justify-content: center;
   right:-10px;
-  top:-10px;
+  top:18px;
   z-index: 3000;
   cursor: pointer;
+}
+.removebtn.singv{
+  right:60px;
 }
 /*Properties box*/
 .properties{

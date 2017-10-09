@@ -17,7 +17,7 @@
 get_header('form-builder'); ?>
 <form id="featured_upload" method="post" action="#" enctype="multipart/form-data">
 	<input type="file" name="my_image_upload" id="my_image_upload"  multiple="false" />
-	<input type="hidden" name="post_id" id="post_id" value="23" />
+	<input type="hidden" name="post_id" id="post_id" value="21" />
 	<?php wp_nonce_field( 'my_image_upload', 'my_image_upload_nonce' ); ?>
 	<input id="submit_my_image_upload" name="submit_my_image_upload" type="submit" value="Upload" />
 </form>

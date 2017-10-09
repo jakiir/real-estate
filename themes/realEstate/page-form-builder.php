@@ -19,10 +19,23 @@ get_header('form-builder'); ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/style.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/controls.css">
 
+<?php 
+	global $wpdb;
+	$table_template = $wpdb->prefix . 'template';					
+	$template_id = !empty($_GET['item']) ? $_GET['item'] : '';
+	$get_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE id=$template_id", OBJECT );
+	$get_template_data = json_encode($get_templages);
+	$get_template_name = (!empty($get_templages[0]->name) ? $get_templages[0]->name : '');
+	$table_template_detail = $wpdb->prefix . 'template_detail';
+	$get_template_detail = $wpdb->get_results( "SELECT * FROM $table_template_detail WHERE template_id=$template_id", OBJECT );
+	$field_text_html = (!empty($get_template_detail[0]->field_text_html) ? $get_template_detail[0]->field_text_html : '');
+	
+?>
+
 <div class="container" ng-controller="mainCtrl">
     <div class="toptools">
       <i class="fa fa-floppy-o" id="save_to_database" title="save"></i>
-      <i class="fa fa-eye" title="Preview"></i>
+      <a href="<?php echo home_url('/form-viewer/?item='.$template_id); ?>" target="_blank" title="Preview"><i class="fa fa-eye" title="Preview"></i></a>
       <i class="fa fa-upload" title="Export"></i>
       <i class="fa fa-ban" title="Discard"></i>
     </div>
@@ -134,6 +147,14 @@ get_header('form-builder'); ?>
   </div>
 
 <?php //get_footer(); ?>
+
+<script type="text/javascript">
+	var field_text_html = '<?php echo $field_text_html; ?>';
+	var get_template_data = '<?php echo $get_template_data; ?>';
+	var get_template_name = '<?php echo $get_template_name; ?>';
+	//console.log(get_template_name);
+</script>
+
   <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/controls.js"></script>
   <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/angular.min.js"></script>
   <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/ng-drag.js"></script>
@@ -141,12 +162,6 @@ get_header('form-builder'); ?>
   <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/imagefunctions.js"></script>
   <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/app.js"></script>
   <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/dragdrop.js"></script>
-<?php 
- global $wpdb;
- $template_detail = $wpdb->prefix . 'template_detail';
- $template_id = !empty($_GET['item']) ? $_GET['item'] : '';
- $get_templages = $wpdb->get_results( "SELECT * FROM $template_detail WHERE template_id=$template_id", OBJECT );
-?>
 
 <script type="text/javascript">
   document.getElementById('save_to_database').addEventListener('click', function() {
