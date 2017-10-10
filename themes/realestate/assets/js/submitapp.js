@@ -9,9 +9,30 @@ angular.module('submitForm',['ui.tinymce'])
     $scope.formBlueprint = JSON.parse(localStorage.getItem('formbuilder_cache_data'));
   }
   $scope.submitData = function(){
-    console.log("Data Submisson");
+    console.log("Data Submisson");	
     var fd = new FormData(document.forms.mainform);
-	console.log(fd);
+	fd.append('action', 'save_form_data');
+	fd.append('template_id', template_id);
+	$.ajax({          
+      url: ajax_url,
+      type: 'post',
+      contentType: false,
+      processData: false,
+      data: fd,          
+      success: function (data) {
+        var parsedJson = $.parseJSON(data);
+        console.log(parsedJson);
+        if(parsedJson.success == true){
+          alert(parsedJson.mess);
+          //window.location.href = "<?php echo home_url('/form-builder/?item='); ?>"+template_id;
+        } else {
+        alert(parsedJson.mess);
+        }
+      },
+      error: function (errorThrown) {
+        alert(errorThrown);
+      }
+    });	
     //ToDo: Run AJAX submit for fd
   }
 });

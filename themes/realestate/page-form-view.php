@@ -67,6 +67,8 @@ get_header('form-viewer'); ?>
     formInfo = <?php echo json_encode($form_data)?>;
     formBlueprint = <?php echo $form_info; ?>;
 	document.title = formBlueprint.name;
+	var ajax_url = '<?php echo admin_url('admin-ajax.php'); ?>';
+	var template_id = <?php echo $template_id; ?>;
 </script>
   
   <script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/bower_components/tinymce/tinymce.js"></script>
