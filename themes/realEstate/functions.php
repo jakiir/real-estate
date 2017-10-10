@@ -156,6 +156,63 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 	require get_template_directory() . '/inc/jetpack.php';
 }
 
+add_action('after_switch_theme', 'manage_required_tables');
+function manage_required_tables() {
+	
+	global $wpdb;
+	// Template table
+	$table_template = $wpdb->prefix . 'template';	
+	$sql_template = "CREATE TABLE $table_template (
+	  `id` int(11) NOT NULL AUTO_INCREMENT,
+	  `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+	  `shared_flag` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+	  `state` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+	  `state_form` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+	  `companyId` int(11) NOT NULL,
+	  `logo_url` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+	  `footer_html` text COLLATE utf8_unicode_ci NOT NULL,
+	  `header_html` text COLLATE utf8_unicode_ci NOT NULL,
+	  `template_date` varchar(34) COLLATE utf8_unicode_ci NOT NULL,
+	  PRIMARY KEY (`id`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+	INSERT INTO $table_template (`id`, `name`, `shared_flag`, `state`, `state_form`, `companyId`, `logo_url`, `footer_html`, `header_html`, `template_date`) VALUES
+	(1,	'Item One',	'',	'Dhaka',	'BD',	88,	'http://via.placeholder.com/350x150', '', '', ''),
+	(2,	'Item Two',	'',	'Dhaka',	'BD',	88,	'http://via.placeholder.com/350x150', '', '', ''),
+	(3,	'Item Three', '',	'Dhaka',	'BD',	88,	'http://via.placeholder.com/350x150', '', '', '');";
+	
+	
+	// Template details table
+	$table_template_detail = $wpdb->prefix . 'template_detail';
+	$sql_template_detail = "CREATE TABLE $table_template_detail (
+	  `id` int(11) NOT NULL AUTO_INCREMENT,
+	  `template_id` int(11) NOT NULL,
+	  `field_type_id` int(11) NOT NULL,
+	  `field_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+	  `field_text_html` text COLLATE utf8_unicode_ci NOT NULL,
+	  `print_flag` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+	  `x_coord` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+	  `x_coord_relative` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+	  `width` tinytext COLLATE utf8_unicode_ci NOT NULL,
+	  `height` tinytext COLLATE utf8_unicode_ci NOT NULL,
+	  PRIMARY KEY (`id`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+	
+	// Template details table
+	$form_data = $wpdb->prefix . 'form_data';
+	$sql_form_data = "CREATE TABLE $form_data (
+	  `id` int(11) NOT NULL AUTO_INCREMENT,
+	  `template_id` int(11) NOT NULL,
+	  `field_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+	  `field_value` text COLLATE utf8_unicode_ci NOT NULL,
+	  PRIMARY KEY (`id`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+	
+	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+	//dbDelta( $sql_template );
+	//dbDelta( $sql_template_detail );
+	dbDelta( $sql_form_data );
+}
+
 //order completion form submit
 add_action( 'wp_ajax_nopriv_editTemplateAction', 'editTemplateAction', 85);
 add_action( 'wp_ajax_editTemplateAction', 'editTemplateAction', 85 );
@@ -265,6 +322,49 @@ function saveDynamicForm(){
 			'mess' => 'Form data not save, there are some error to save.'
 		 );
 	 }
+	echo json_encode($results);        
+	die();
+}
+
+add_action( 'wp_ajax_nopriv_save_form_data', 'save_form_data', 85);
+add_action( 'wp_ajax_save_form_data', 'save_form_data', 85 );
+function save_form_data(){
+	$template_id = $_POST['template_id'];	
+	 $results = array();
+	 if($template_id){
+		if(!empty($_POST)){
+			unset($_POST['action']);
+			unset($_POST['template_id']);
+			global $wpdb;
+			$form_data = $wpdb->prefix . 'form_data';
+			foreach ($_POST as $param_name => $param_val) {			
+				
+				$get_form_data = $wpdb->get_results( "SELECT * FROM $form_data WHERE template_id=$template_id AND field_name='".$param_name."'", OBJECT );
+				if(!empty($get_form_data)){	
+					$wpdb->query($wpdb->prepare("UPDATE $form_data 
+					 SET field_value='".$param_val."'
+					 WHERE template_id=$template_id AND field_name='".$param_name."'"));
+				} else {			
+					$wpdb->insert($form_data, array('template_id' => $template_id,'field_name' => $param_name));
+					$wpdb->query($wpdb->prepare("UPDATE $form_data 
+					 SET field_value='".$param_val."'
+					 WHERE template_id=$template_id AND field_name='".$param_name."'"));
+				}
+			
+			}
+			$results = array(
+				'success' => true,
+				'mess' => 'Data Successfully updated.',
+				'template_id' => $template_id,
+				'allData' => $_POST
+				);
+		}
+	 } else {
+		 $results = array(
+			'success' => false,
+			'mess' => 'Form data not save, there are some error to save.',
+		 );
+	 }	 
 	echo json_encode($results);        
 	die();
 }
