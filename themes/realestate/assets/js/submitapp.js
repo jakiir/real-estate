@@ -13,6 +13,7 @@ angular.module('submitForm',['ui.tinymce'])
     var fd = new FormData(document.forms.mainform);
 	fd.append('action', 'save_form_data');
 	fd.append('template_id', template_id);
+	fd.append('this_form_name', this_form_name);	
 	$.ajax({          
       url: ajax_url,
       type: 'post',

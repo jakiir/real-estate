@@ -66,7 +66,8 @@ get_header('form-viewer'); ?>
     var formInfo = null;
     formInfo = <?php echo json_encode($form_data)?>;
     formBlueprint = <?php echo $form_info; ?>;
-	document.title = formBlueprint.name;
+	var this_form_name = formBlueprint.name;
+	document.title = this_form_name;
 	var ajax_url = '<?php echo admin_url('admin-ajax.php'); ?>';
 	var template_id = <?php echo $template_id; ?>;
 </script>
