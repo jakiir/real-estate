@@ -156,6 +156,7 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 	require get_template_directory() . '/inc/jetpack.php';
 }
 
+/**/
 add_action('after_switch_theme', 'manage_required_tables');
 function manage_required_tables() {
 	
@@ -197,20 +198,36 @@ function manage_required_tables() {
 	  PRIMARY KEY (`id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 	
-	// Template details table
+	// form_data table
 	$form_data = $wpdb->prefix . 'form_data';
-	$sql_form_data = "CREATE TABLE $form_data (
+	$sql_form_data = "DROP TABLE IF EXISTS $form_data;
+		CREATE TABLE $form_data (
+		  `id` int(11) NOT NULL AUTO_INCREMENT,
+		  `form_id` int(11) NOT NULL,
+		  `field_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+		  `field_value` text COLLATE utf8_unicode_ci NOT NULL,
+		  PRIMARY KEY (`id`)
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+		
+	// form_info table
+	$form_info = $wpdb->prefix . 'form_info';
+	$sql_form_info = "DROP TABLE IF EXISTS $form_info;
+	CREATE TABLE $form_info (
 	  `id` int(11) NOT NULL AUTO_INCREMENT,
 	  `template_id` int(11) NOT NULL,
-	  `field_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-	  `field_value` text COLLATE utf8_unicode_ci NOT NULL,
+	  `form_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+	  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	  `created_by` int(11) DEFAULT NULL,
+	  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	  `updated_by` int(11) DEFAULT NULL,
 	  PRIMARY KEY (`id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 	
 	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 	//dbDelta( $sql_template );
 	//dbDelta( $sql_template_detail );
-	dbDelta( $sql_form_data );
+	//dbDelta( $sql_form_data );
+	//dbDelta( $sql_form_info );
 }
 
 //order completion form submit
@@ -336,27 +353,21 @@ function save_form_data(){
 			unset($_POST['action']);
 			unset($_POST['template_id']);
 			global $wpdb;
-			$form_data = $wpdb->prefix . 'form_data';
-			foreach ($_POST as $param_name => $param_val) {			
-				
-				$get_form_data = $wpdb->get_results( "SELECT * FROM $form_data WHERE template_id=$template_id AND field_name='".$param_name."'", OBJECT );
-				if(!empty($get_form_data)){	
-					$wpdb->query($wpdb->prepare("UPDATE $form_data 
-					 SET field_value='".$param_val."'
-					 WHERE template_id=$template_id AND field_name='".$param_name."'"));
-				} else {			
-					$wpdb->insert($form_data, array('template_id' => $template_id,'field_name' => $param_name));
-					$wpdb->query($wpdb->prepare("UPDATE $form_data 
-					 SET field_value='".$param_val."'
-					 WHERE template_id=$template_id AND field_name='".$param_name."'"));
-				}
+			$user_ID = get_current_user_id();
+			$form_name = $_POST['this_form_name'];	
 			
+			$form_data = $wpdb->prefix . 'form_data';
+			$form_info = $wpdb->prefix . 'form_info';
+			$wpdb->insert($form_info, array('template_id' => $template_id,'form_name' => $form_name,'created_by' => $user_ID,'updated_by' => $user_ID));
+			$form_id = $wpdb->insert_id;			
+			foreach ($_POST as $param_name => $param_val) {						
+				$wpdb->insert($form_data, array('form_id' => $form_id,'field_name' => $param_name,'field_value' => $param_val));
 			}
 			$results = array(
 				'success' => true,
 				'mess' => 'Data Successfully updated.',
 				'template_id' => $template_id,
-				'allData' => $_POST
+				'allData' => $user_ID
 				);
 		}
 	 } else {
@@ -367,5 +378,90 @@ function save_form_data(){
 	 }	 
 	echo json_encode($results);        
 	die();
+}
+
+add_action('admin_menu', 'realestate_menu_pages');
+function realestate_menu_pages(){
+    $form_data_page = add_menu_page('Form data', 'Form data', 'manage_options', 'form-data', 'form_data_output' );
+	add_action( 'admin_print_styles-' . $form_data_page, 'form_data_options_scripts' );
+}
+function form_data_output(){
+	global $wpdb;
+	$user_ID = get_current_user_id();
+	$template = $wpdb->prefix . 'template';
+	$form_info = $wpdb->prefix . 'form_info';
+	$form_data = $wpdb->prefix . 'form_data';
+	?>
+	<div class="wrap">
+	<h1 class="wp-heading-inline">Form data</h1>
+		<fieldset style="position: relative;">			
+			<table id="form-data" class="display order-completion-table" cellspacing="0" border="0" style="border:1px solid #444;" width="100%">
+			<?php if(isset($_GET['fid']) && $_GET['fid'] !=''){ 
+				$fid = $_GET['fid'];
+				$form_data_sql = "SELECT fd.id,fd.form_id,fd.field_name,fd.field_value,fi.form_name,fi.created_at,fi.created_by,ti.name as template_name 
+				FROM $form_data as fd
+				left join $form_info as fi on fi.id = fd.form_id
+				left join $template as ti on ti.id = fi.template_id
+				WHERE form_id=$fid";
+				$get_form_data = $wpdb->get_results($form_data_sql , OBJECT );
+			?>
+				<thead>
+					<tr style="background-color:#444;color:#fff;">
+						<th>Template Name</th>
+						<th>Form Name</th>
+						<th>Form Field</th>
+						<th>Form Value</th>
+						<th>Created by</th>
+						<th>Created at</th>	
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach($get_form_data as $each_form_data): ?>
+						<tr>
+							<td><?php echo $each_form_data->template_name; ?></td>
+							<td><?php echo $each_form_data->form_name; ?></td>
+							<td><?php echo $each_form_data->field_name; ?></td>
+							<td><?php echo $each_form_data->field_value; ?></td>
+							<td><?php echo $each_form_data->created_by; ?></td>
+							<td><?php echo $each_form_data->created_at; ?></td>
+						</tr>
+					<?php endforeach; ?>
+				</tbody>
+			<?php } else { ?>
+				<thead>
+					<tr style="background-color:#444;color:#fff;">
+						<th>Template Name</th>
+						<th>Form Name</th>
+						<th>Created by</th>
+						<th>Created at</th>						
+						<th>Form data</th>
+						<th>Form Url</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php 
+					$get_form_info = $wpdb->get_results( "SELECT fi.id,fi.template_id,fi.form_name,fi.created_at,fi.created_by,ti.name as template_name FROM $form_info as fi left join $template as ti on ti.id = fi.template_id", OBJECT );
+					foreach($get_form_info as $each_form_info):
+					?>
+						<tr>
+							<td><?php echo $each_form_info->template_name; ?></td>
+							<td><a style="text-decoration: none;" href="<?php echo admin_url( 'admin.php?page=form-data&action=view&fid='.$each_form_info->id ); ?>" alt="Order Completion Form" target="_self"><?php echo $each_form_info->form_name; ?></a></td>
+							<td><?php echo $each_form_info->created_by; ?></td>
+							<td><?php echo $each_form_info->created_at; ?></td>
+							<td><a style="text-decoration: none;" href="<?php echo admin_url( 'admin.php?page=form-data&action=view&fid='.$each_form_info->id ); ?>" alt="Order Completion Form" target="_self">Click here</a></td>
+							<td><a style="text-decoration: none;" href="<?php echo home_url('/realestate/form-builder/?item='.$each_form_info->template_id); ?>" alt="Order Completion Form" target="_blank"><span class="dashicons dashicons-external"></span></a></td>
+						</tr>
+					<?php endforeach; ?>
+				</tbody>
+			<?php } ?>
+			</table>
+		</fieldset>
+	</div>	
+	<?php
+}
+function form_data_options_scripts(){
+	wp_enqueue_script( 'jquery-dataTables-script', get_template_directory_uri() . '/js/jquery.dataTables.min.js', array ( 'jquery' ), 1.1, true );
+	wp_enqueue_script( 'custom-script', get_template_directory_uri() . '/js/custom_scripts.js', array ( 'jquery' ), 1.1, true );
+	wp_enqueue_style( 'jquery-dataTables-style', get_template_directory_uri() . '/css/jquery.dataTables.min.css', true );
 }
 
