@@ -319,7 +319,8 @@ function copyTemplate(){
 		$get_your_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE id=$template_id AND user_id=$user_id AND your_template=0", OBJECT );
 		if(!empty($get_your_templages)){	
 			$wpdb->query($wpdb->prepare("UPDATE $table_template 
-			 SET your_template=1
+			 SET your_template=1,
+			 user_id=$user_id
 			 WHERE id=$template_id AND user_id=$user_id AND your_template=0"));
 			 
 			 $results = array(
@@ -356,7 +357,8 @@ function removeTemplate(){
 		$get_your_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE id=$template_id AND user_id=$user_id AND your_template=1", OBJECT );
 		if(!empty($get_your_templages)){	
 			$wpdb->query($wpdb->prepare("UPDATE $table_template 
-			 SET your_template=0
+			 SET your_template=0,
+			 user_id=$user_id
 			 WHERE id=$template_id AND user_id=$user_id AND your_template=1"));
 			 
 			 $results = array(
