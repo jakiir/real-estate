@@ -210,8 +210,7 @@ get_header(); ?>
 				return false;
 			}
 			var form_data = new FormData();    
-			var template_id = selected_item.val();
-			console.log(template_id);
+			var template_id = selected_item.val();			
 			form_data.append('action', 'removeTemplate');
 			form_data.append('template_id', template_id);			
 			
