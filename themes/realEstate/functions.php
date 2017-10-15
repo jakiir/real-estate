@@ -305,6 +305,115 @@ function editTemplateAction(){
 	die();
   }
 
+  
+add_action( 'wp_ajax_nopriv_copyTemplate', 'copyTemplate', 85);
+add_action( 'wp_ajax_copyTemplate', 'copyTemplate', 85 );
+function copyTemplate(){
+	
+	$template_id = $_POST['template_id'];	
+	 $results = array();
+	 if($template_id){
+		 global $wpdb;
+		$user_id = get_current_user_id();							
+		$table_template = $wpdb->prefix . 'template';
+		$get_your_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE id=$template_id AND user_id=$user_id AND your_template=0", OBJECT );
+		if(!empty($get_your_templages)){	
+			$wpdb->query($wpdb->prepare("UPDATE $table_template 
+			 SET your_template=1
+			 WHERE id=$template_id AND user_id=$user_id AND your_template=0"));
+			 
+			 $results = array(
+				'success' => true,
+				'mess' => 'Template successfully copy.'				
+			 );
+			 
+		} else {			
+			$results = array(
+				'success' => false,
+				'mess' => 'This template is already copied!'				
+			 );
+		} 
+	 } else {
+		 $results = array(
+			'success' => false,
+			'mess' => 'Template is not valid, please, select valid template!'
+		 );
+	 }
+	echo json_encode($results);        
+	die();
+}
+
+add_action( 'wp_ajax_nopriv_removeTemplate', 'removeTemplate', 85);
+add_action( 'wp_ajax_removeTemplate', 'removeTemplate', 85 );
+function removeTemplate(){
+	
+	$template_id = $_POST['template_id'];	
+	 $results = array();
+	 if($template_id){
+		 global $wpdb;
+		$user_id = get_current_user_id();							
+		$table_template = $wpdb->prefix . 'template';
+		$get_your_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE id=$template_id AND user_id=$user_id AND your_template=1", OBJECT );
+		if(!empty($get_your_templages)){	
+			$wpdb->query($wpdb->prepare("UPDATE $table_template 
+			 SET your_template=0
+			 WHERE id=$template_id AND user_id=$user_id AND your_template=1"));
+			 
+			 $results = array(
+				'success' => true,
+				'mess' => 'Template successfully removed.'				
+			 );
+			 
+		} else {			
+			$results = array(
+				'success' => false,
+				'mess' => 'This template is already removed!'				
+			 );
+		} 
+	 } else {
+		 $results = array(
+			'success' => false,
+			'mess' => 'Template is not valid, please, select valid template!'
+		 );
+	 }
+	echo json_encode($results);        
+	die();
+}
+
+add_action( 'wp_ajax_nopriv_addTemplateItem', 'addTemplateItem', 85);
+add_action( 'wp_ajax_addTemplateItem', 'addTemplateItem', 85 );
+function addTemplateItem(){
+	
+	$template_name = $_POST['template_name'];	
+	 $results = array();
+	 if($template_name){
+		 global $wpdb;
+		$user_id = get_current_user_id();							
+		$table_template = $wpdb->prefix . 'template';
+		$wpdb->insert($table_template, array('name' => $template_name,'user_id' => $user_id,'logo_url' => 'http://via.placeholder.com/350x150'));
+		$template_id = $wpdb->insert_id;
+		if($template_id){
+			$results = array(
+				'success' => true,
+				'mess' => 'Template successfully added.',
+				'template_id'=> $template_id
+			 );
+		} else {
+			$results = array(
+				'success' => false,
+				'mess' => 'Template adding problem detected!'
+			 );
+		}
+	 } else {
+		 $results = array(
+			'success' => false,
+			'mess' => 'Template adding problem detected!'
+		 );
+	 }
+	echo json_encode($results);        
+	die();
+}
+  
   add_action( 'wp_ajax_nopriv_saveDynamicForm', 'saveDynamicForm', 85);
 add_action( 'wp_ajax_saveDynamicForm', 'saveDynamicForm', 85 );
 function saveDynamicForm(){
