@@ -15,7 +15,7 @@
  */
 
 get_header(); ?>
-
+<link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/fa/css/font-awesome.min.css">
 <style>
 	#profilePicRemover{
 		position: absolute;
@@ -134,7 +134,7 @@ get_header(); ?>
 									<label class="col-md-9 col-lg-offset-1 control-label msg_show"></label>
 									<div class="col-md-2">
 										<button type="submit" name="order_type" class="btn-order-fill save_btn btn btn-primary" value="customize">
-										 <i class="fa fa-refresh fa-spin" aria-hidden="true" style="display: none;"></i>
+										<i class="fa fa-building" aria-hidden="true"></i>										 
 										Customize
 										</button>									  							  
 									</div>
@@ -155,10 +155,9 @@ get_header(); ?>
 		$('.datepicker').datetimepicker({});
 		$("#edit_template").validate();
 		$(document).on("click", ":submit", function(e) {
-			$('.msg_show').html('');
+			$('.msg_show').html('<i class="fa fa-refresh fa-spin" aria-hidden="true"></i>');
 			var formValid = $("#edit_template").valid();
-			var thisForm = $(this);
-			thisForm.find(".fa-refresh").css("display", "inline-block");
+			var thisForm = $(this);		
 			
 			/*var allFormField = $("#edit_template").find('input, textarea, select');			
 			var values = {};
@@ -168,8 +167,7 @@ get_header(); ?>
 			
 			
 			if (formValid === false) {				
-				$('.msg_show').html('<span style="color:red">required field must be fill up!</span>');
-				thisForm.find(".fa-refresh").css("display", "none");
+				$('.msg_show').html('<span style="color:red">required field must be fill up!</span>');				
 			} else {
 				var template_id = jQuery('#template_id').val();
 				var template_name = jQuery('#template_name').val();
@@ -201,8 +199,7 @@ get_header(); ?>
 					data: form_data,					
 					success: function (data) {
 					  var parsedJson = $.parseJSON(data);					  
-					  if(parsedJson.success == true){
-						  //alert(parsedJson.mess);
+					  if(parsedJson.success == true){						  
 						  $('.msg_show').html('');
 						  $('.msg_show').html('<span style="color:green">'+parsedJson.mess+'</span>');
 						  window.location.href = "<?php echo home_url('/form-builder/?item='); ?>"+template_id;

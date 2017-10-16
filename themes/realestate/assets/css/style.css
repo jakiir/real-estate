@@ -11,12 +11,12 @@ p{
   height:100%;
 }
 .toolbar{
-  position:absolute;
+  position:fixed;
   left:0px;
   top:0px;
   width:150px;
   height:100%;
-  background:#eee;
+  background-color: #414100;
   box-sizing: border-box;
   padding:10px;
 }
@@ -25,7 +25,10 @@ p{
   border:1px solid #aaa;
   margin:9px 0px;
   border-radius:3px;
+  color: #fff;
 }
+.gotoTem{color: #fff;margin-top:20px;}
+.gotoTem a,.gotoTem a:hover{color: #fff;text-decoration: none;}
 .tool.dragelement .fa{
   margin-right:5px;
 }

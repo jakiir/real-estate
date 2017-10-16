@@ -15,6 +15,7 @@
  */
 
 get_header(); ?>
+<link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/fa/css/font-awesome.min.css">
 <!-- PAGE HEADER -->
 <section id="page-header">
 	<div class="container">
@@ -64,7 +65,7 @@ get_header(); ?>
 					          </div>
 							  
 							  <a data-toggle="modal" data-target="#addTempleteModal" href="javascript:void(0)" class="btn btn-success" style="color:#fff;">
-									<i class="fa fa-btn fa-paper-plane"></i>Add
+									<i class="fa fa-btn fa-plus-square"></i> Add
 							   </a>													
 								<div class="modal fade" id="addTempleteModal" tabindex="-1" role="dialog" aria-labelledby="addTempleteModalLabel">
 									<div class="modal-dialog" role="document">
@@ -84,7 +85,7 @@ get_header(); ?>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 												<a href="javascript:void(0)" class="btn btn-success add_templete" style="color:#fff;">
-													<i class="fa fa-btn fa-paper-plane"></i>Add Template
+													<i class="fa fa-btn fa-plus-square"></i> Add Template
 												</a>
 											</div>
 										</div>
@@ -109,11 +110,12 @@ get_header(); ?>
 										<?php } } ?>							
 								</select>								
 					          </div>								
-								<button type="button" class="btn btn-success copy">Copy</button>
-								<button type="button" class="btn btn-warning remove">Remove</button>
+								<button type="button" class="btn btn-success copy"><i class="fa fa-files-o" aria-hidden="true"></i> Copy</button>
+								<button type="button" class="btn btn-warning remove"><i class="fa fa-trash" aria-hidden="true"></i> Remove</button>
 								<!--<button type="button" class="btn btn-primary addAll">Add all</button>								
 								<button type="button" class="btn btn-danger removeAll">Remove all</button>-->
-								<button type="button" class="btn btn-primary editSelected">Edit</button>
+								<button type="button" class="btn btn-primary editSelected"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button>
+								<span class="msg_show"></span>
 					        </div>
 				        </div>
 
@@ -165,10 +167,11 @@ get_header(); ?>
 			});
 			
 		});
-		$('.copy').on('click', function() {			
+		$('.copy').on('click', function() {
+			$('.msg_show').html('<i class="fa fa-refresh fa-spin" aria-hidden="true"></i>');
 			var selected_item = $('select.multiselect1 option:selected');
 			if(!selected_item.length){
-				alert('Please select share template item.');
+				$('.msg_show').html('<font style="color:red;">Please select at list one item</span>');
 				return false;
 			}
 			var form_data = new FormData();    
@@ -187,12 +190,13 @@ get_header(); ?>
 				if(parsedJson.success == true){
 					var options = selected_item.sort().clone();
 					$('select.multiselect2').append(options);
+					$('.msg_show').html('<font style="color:green;">'+parsedJson.mess+'</span>');
 				} else {
-					alert(parsedJson.mess);
+					$('.msg_show').html('<font style="color:red;">'+parsedJson.mess+'</span>');
 				}
 			  },
 			  error: function (errorThrown) {
-				alert(errorThrown);
+				$('.msg_show').html('<font style="color:red;">'+errorThrown+'</span>');
 			  }
 			});
 			
@@ -203,10 +207,10 @@ get_header(); ?>
 		    $('select.multiselect2').append(options);
 		});
 		$('.remove').on('click', function() {
-			
+			$('.msg_show').html('<i class="fa fa-refresh fa-spin" aria-hidden="true"></i>');
 			var selected_item = $('select.multiselect2 option:selected');
 			if(!selected_item.length){
-				alert('Please select your template item.');
+				$('.msg_show').html('<font style="color:red;">Please select at list one item</span>');
 				return false;
 			}
 			var form_data = new FormData();    
@@ -224,12 +228,14 @@ get_header(); ?>
 				var parsedJson = $.parseJSON(data);				
 				if(parsedJson.success == true){
 					selected_item.remove();
+					$('.msg_show').html('<font style="color:green;">'+parsedJson.mess+'</span>');
 				} else {
-					alert(parsedJson.mess);
+					$('.msg_show').html('<font style="color:red;">'+parsedJson.mess+'</span>');					
 				}
 			  },
 			  error: function (errorThrown) {
-				alert(errorThrown);
+				$('.msg_show').html('<font style="color:red;">'+errorThrown+'</span>');
+				
 			  }
 			});
 			
@@ -240,11 +246,12 @@ get_header(); ?>
 		});
 		
 		$('.editSelected').on('click', function() {
+			$('.msg_show').html('<i class="fa fa-refresh fa-spin" aria-hidden="true"></i>');
 		    var yourTemplates = $('#yourTemplates');
 			var selected_template = yourTemplates.find('option:selected'); //Selected Templates			
 			var selVal = selected_template.val();
 			if(!selected_template.length){
-				alert('Please select at list one item.');
+				$('.msg_show').html('<font style="color:red;">Please select at list one item</span>');
 				return false;
 			}
 			window.location.href = "<?php echo home_url('/edit-template/?item='); ?>"+selVal;

@@ -33,7 +33,8 @@ get_header('form-builder'); ?>
 ?>
 
 <div class="container" ng-controller="mainCtrl">
-    <div class="toptools">
+<span class="msg_show" style="position: absolute;right:241px;top:34px;"></span>
+    <div class="toptools">		
       <i class="fa fa-floppy-o" id="save_to_database" title="save"></i>
       <a href="<?php echo home_url('/form-viewer/?item='.$template_id); ?>" target="_blank" title="Preview"><i class="fa fa-eye" title="Preview"></i></a>
       <i class="fa fa-upload" title="Export"></i>
@@ -46,7 +47,7 @@ get_header('form-builder'); ?>
       ng-dragend="dragCleanup()">
         <i class="fa {{tool.icon}}"></i>  {{tool.title}}
       </div>
-	  <i class="fa fa-arrow-circle-o-left"></i>  <a href="<?php echo home_url('/template/'); ?>">Go to template</a>
+	  <div class="gotoTem"><i class="fa fa-arrow-circle-o-left"></i>  <a href="<?php echo home_url('/template/'); ?>">Go to template</a></div>
       <!-- toolbar -->
     </div>
     <div class="canvas">
@@ -166,6 +167,7 @@ get_header('form-builder'); ?>
 
 <script type="text/javascript">
   document.getElementById('save_to_database').addEventListener('click', function() {
+	$('.msg_show').html('<i class="fa fa-refresh fa-spin" aria-hidden="true"></i>');
     var form_data = new FormData();    
     var template_id = '<?php echo $template_id; ?>';
     var formJsonData = JSON.stringify(JSON.parse(localStorage.formbuilder_cache_data));
@@ -183,14 +185,14 @@ get_header('form-builder'); ?>
         var parsedJson = $.parseJSON(data);
         console.log(parsedJson);
         if(parsedJson.success == true){
-          alert(parsedJson.mess);
+			$('.msg_show').html('<font style="color:green">'+parsedJson.mess+'</span>');
           //window.location.href = "<?php echo home_url('/form-builder/?item='); ?>"+template_id;
         } else {
-        alert(parsedJson.mess);
+        $('.msg_show').html('<font style="color:red">'+parsedJson.mess+'</span>');
         }
       },
       error: function (errorThrown) {
-        alert(errorThrown);
+		$('.msg_show').html('<font style="color:red">'+errorThrown+'</span>');
       }
     });
     

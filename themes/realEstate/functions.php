@@ -241,7 +241,7 @@ function editTemplateAction(){
 		 global $wpdb;
 		 $table_template = $wpdb->prefix . 'template';
 		 $template_name = !empty($_POST['template_name']) ? $_POST['template_name'] : '';
-		 $template_share = !empty($_POST['template_share']) ? $_POST['template_share'] : '';
+		 $template_share = !empty($_POST['template_share']) ? $_POST['template_share'] : 'off';
 		 $template_state = !empty($_POST['template_state']) ? $_POST['template_state'] : '';
 		 $template_state_id = !empty($_POST['template_state_id']) ? $_POST['template_state_id'] : '';
 		 $template_date = !empty($_POST['template_date']) ? $_POST['template_date'] : '';
@@ -253,7 +253,7 @@ function editTemplateAction(){
 		 shared_flag='".$template_share."',
 		 state='".$template_state."',
 		 state_form='".$template_state_id."',
-		 companyId=$template_company,
+		 companyId='".$template_company."',
 		 footer_html='".$footer_template."',
 		 template_date='".$template_date."'
 		 WHERE id=$template_id"
