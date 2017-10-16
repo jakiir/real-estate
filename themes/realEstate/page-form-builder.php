@@ -150,6 +150,7 @@ get_header('form-builder'); ?>
 
 <script type="text/javascript">
 	var field_text_html = '<?php echo $field_text_html; ?>';
+	if(field_text_html == ''){ field_text_html = '{"name":"Untitled Form 1","logo":null,"tree":[]}'; }
 	var get_template_data = '<?php echo $get_template_data; ?>';
 	var get_template_name = '<?php echo $get_template_name; ?>';
 	//console.log(get_template_name);
