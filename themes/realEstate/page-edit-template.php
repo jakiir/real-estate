@@ -71,7 +71,7 @@ get_header(); ?>
 								  
 								  <div class="form-group">
 									<div class="col-lg-8 col-lg-offset-3" for="template_share">
-									 <label><input type="checkbox" name="template_share" id="template_share" <?php echo !empty($get_templages[0]->shared_flag) && $get_templages[0]->shared_flag == 'on' ? 'checked' : ''; ?> class="required"> Share</label>
+									 <label><input type="checkbox" name="template_share" id="template_share" <?php echo !empty($get_templages[0]->shared_flag) && $get_templages[0]->shared_flag == 'on' ? 'checked' : ''; ?>> Share</label>
 									</div>
 								  </div>
 								  
@@ -131,7 +131,7 @@ get_header(); ?>
 								  </div>
 								  
 								  <div class="form-group">
-									<label class="col-md-2 col-lg-offset-8 control-label"></label>
+									<label class="col-md-9 col-lg-offset-1 control-label msg_show"></label>
 									<div class="col-md-2">
 										<button type="submit" name="order_type" class="btn-order-fill save_btn btn btn-primary" value="customize">
 										 <i class="fa fa-refresh fa-spin" aria-hidden="true" style="display: none;"></i>
@@ -155,6 +155,7 @@ get_header(); ?>
 		$('.datepicker').datetimepicker({});
 		$("#edit_template").validate();
 		$(document).on("click", ":submit", function(e) {
+			$('.msg_show').html('');
 			var formValid = $("#edit_template").valid();
 			var thisForm = $(this);
 			thisForm.find(".fa-refresh").css("display", "inline-block");
@@ -166,8 +167,8 @@ get_header(); ?>
 			});*/
 			
 			
-			if (formValid === false) {
-				alert('required field must be fill up!');
+			if (formValid === false) {				
+				$('.msg_show').html('<span style="color:red">required field must be fill up!</span>');
 				thisForm.find(".fa-refresh").css("display", "none");
 			} else {
 				var template_id = jQuery('#template_id').val();
@@ -201,14 +202,18 @@ get_header(); ?>
 					success: function (data) {
 					  var parsedJson = $.parseJSON(data);					  
 					  if(parsedJson.success == true){
-						  alert(parsedJson.mess);
+						  //alert(parsedJson.mess);
+						  $('.msg_show').html('');
+						  $('.msg_show').html('<span style="color:green">'+parsedJson.mess+'</span>');
 						  window.location.href = "<?php echo home_url('/form-builder/?item='); ?>"+template_id;
 					  } else {
-						alert(parsedJson.mess);
+						  $('.msg_show').html('');
+						$('.msg_show').html('<span style="color:red">'+parsedJson.mess+'</span>');
 					  }
 					},
 					error: function (errorThrown) {
-						alert(errorThrown);
+						$('.msg_show').html('');
+						$('.msg_show').html('<span style="color:red">'+errorThrown+'</span>');						
 					}
 				});
 			}			
