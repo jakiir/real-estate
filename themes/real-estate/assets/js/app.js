@@ -1,9 +1,18 @@
-angular.module('formbuilder',['ngDrag'])
-  .controller('mainCtrl',function($scope){
+angular.module('formbuilder',['ngDrag','ui.tinymce'])
+  .config(function($sceProvider){
+    $sceProvider.enabled(false);
+  })
+  .controller('mainCtrl',function($scope,$sce){
     $scope.tools = formControls;
     $scope.currentControl=null;
     $scope.internalDrag=false;
     $scope.externalDrag=false;
+    $scope.tinymceOptions = {
+    inline: false,
+    plugins : 'advlist autolink link image lists charmap print preview',
+    skin: 'lightgray',
+    theme : 'modern'
+  };
     $scope.data={
       name:"Untitled Form 1",
       logo:null,
@@ -13,17 +22,16 @@ angular.module('formbuilder',['ngDrag'])
 	var setAccessSession = '';
     function autoSave(){
       localStorage.setItem('formbuilder_cache_data',JSON.stringify($scope.data));
-	  setAccessSession = setTimeout(autoSave, 10000);
-      console.log("Auto Save Performed");
+	  setAccessSession = setTimeout(autoSave, 2000);
+	  //console.log(localStorage.formbuilder_cache_data);
+      //console.log("Auto Save Performed");
     }
-	setAccessSession = setTimeout(autoSave, 10000);
-	
+	setAccessSession = setTimeout(autoSave, 2000);
     $scope.dragCleanup=function(){
       $scope.externalDrag=false;
       $('.droparea').removeClass('hassomething');
       autoSave();
     }
-	
     function freshen(dt){
       var output = JSON.parse(dt);
       delete output.icon;
@@ -39,6 +47,34 @@ angular.module('formbuilder',['ngDrag'])
       $scope.externalDrag=true;
       e.dataTransfer.setData('control',ct);
     }
+    function flatten(tree){
+      var data = [];
+      for(i1=0;i1<tree.length;i1++){
+        for(i2=0;i2<tree[i1].length;i2++){
+          for(i3=0;i3<tree[i1][i2].length;i3++){
+            data.push(tree[i1][i2][i3]);
+          }
+        }
+      }
+      return data;
+    }
+    $scope.conditionalEval = function(){
+      var els = flatten($scope.data.tree);
+      var reasons = {};
+      els.forEach(function(e){
+        if(e.type=="reason"){
+          reasons[e.htmlName]=e;
+          reasons[e.htmlName].reason="";
+        }
+      });
+      els.forEach(function(e){
+        if(e.type=="conditional" && e.checked){
+          //console.log(e);
+          reasons[e.target].reason += e.message;
+        }
+      });
+    }
+
     $scope.unShiftToChild=function(e,index){
       var dt = e.dataTransfer.getData('control');
       var sData = freshen(dt);
@@ -115,7 +151,7 @@ angular.module('formbuilder',['ngDrag'])
       autoSave();
       $scope.currentControl=$scope.data.tree[superidx][parent][index];
     }
-    
+	
 	if(field_text_html){
       $scope.data = JSON.parse(field_text_html);
     } else if(localStorage.getItem('formbuilder_cache_data')){

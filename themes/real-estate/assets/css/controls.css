@@ -1,5 +1,5 @@
 .formcontrol{
-  padding:8px;
+  /*padding:8px;*/
   position: relative;
 }
 .formcontrol p{
@@ -16,6 +16,9 @@
 }
 .inputpretend.paragraph{
   height:6em;
+}
+div.labelfield{
+  padding:9px 0px;
 }
 .formcontrol img{
   display:block;
@@ -36,7 +39,7 @@
 }
 .wysiwygpretend{
   width:100%;
-  background:#ddd;
+  /*background:#ddd;*/
 }
 .imgw{
   display:block;
@@ -73,4 +76,20 @@
 }
 .condtop{
   margin-bottom:10px;
+}
+.editbutton i{
+  width:40px;
+  height:40px;
+  background-color:#eee;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  border-radius:3px;
+  transition: all 0.1s;
+  cursor: pointer;
+  /*float:left;*/
+  z-index:10000;
+}
+.editbutton i:hover{
+  box-shadow:1px 1px 6px 0px #bbb;
 }
