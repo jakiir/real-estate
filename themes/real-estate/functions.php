@@ -457,7 +457,9 @@ function saveDynamicForm(){
 add_action( 'wp_ajax_nopriv_save_form_data', 'save_form_data', 85);
 add_action( 'wp_ajax_save_form_data', 'save_form_data', 85 );
 function save_form_data(){
-	$template_id = $_POST['template_id'];	
+	$template_id = $_POST['template_id'];
+	print_r($_POST);
+	die();
 	 $results = array();
 	 if($template_id){
 		if(!empty($_POST)){

@@ -109,3 +109,45 @@ textarea.fcontrol.longtext{
 .button.negative{
   background:#e74c3c;
 }
+.col{
+  padding:10px !important;
+}
+.sectionhead{
+  padding:20px;
+  background:#eee;
+  position:relative;
+  cursor: pointer;
+  margin-top:10px;
+}
+.sectionhead .icon{
+  font-size:1.5em;
+  position:absolute;
+  right:1em;
+  top:1em;
+}
+.sectionbody{
+  border:2px solid #eee;
+}
+.formcontrol.editor{
+  position:relative;
+}
+.editor .editbutton{
+  position:absolute;
+  right:0px;
+  top:0px;
+  background:#2ecc71;
+  width:40px;
+  height:40px;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  opacity:0.8;
+  border-radius:50%;
+  cursor: pointer;
+}
+.editor .editbutton:hover{
+  opacity:1;
+}
+.theform{
+  margin-bottom:150px;
+}

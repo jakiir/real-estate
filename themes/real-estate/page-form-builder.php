@@ -18,6 +18,7 @@ get_header('form-builder'); ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/fa/css/font-awesome.min.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/style.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/controls.css">
+<link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/custom.css">
 
 <?php 
 	global $wpdb;
@@ -33,8 +34,8 @@ get_header('form-builder'); ?>
 ?>
 
 <div class="container" ng-controller="mainCtrl">
-<span class="msg_show" style="position: absolute;right:241px;top:34px;"></span>
-    <div class="toptools">		
+	<span class="msg_show" style="position: absolute;right:241px;top:34px;"></span>
+	<div class="toptools">		
       <i class="fa fa-floppy-o" id="save_to_database" title="save"></i>
       <a href="<?php echo home_url('/form-viewer/?item='.$template_id); ?>" target="_blank" title="Preview"><i class="fa fa-eye" title="Preview"></i></a>
       <i class="fa fa-upload" title="Export"></i>
@@ -80,6 +81,10 @@ get_header('form-builder'); ?>
                 ng-dragend="internalDragEnd()">                  
 				  <div ng-include="'<?php echo esc_url( home_url('/form-controls/') ); ?>'"></div>
                 </div>
+                <!-- <div class="droparea rearr"
+                ng-class="{'idrg':internalDrag}"
+                ng-drop="rearrange($event,$parent.$parent.$index,$parent.$index,$index+1)">
+                </div> -->
               </div>
               <div class="droparea bottom" ng-show="row.length>1"
               ng-hide="row[0][0].single"
@@ -104,14 +109,19 @@ get_header('form-builder'); ?>
         </div>
       </div>
     </div>
-    <div class="properties" ng-show="currentControl">
+    <div class="properties" ng-show="currentControl && !currentControl.noProperty">
       <div class="deselectcurrent" ng-click="deselectControl()">
         <i class="fa fa-close"></i>
       </div>
       <!-- label -->
       <div class="property" ng-if="currentControl.label!=undefined">
-        <p>Element Label</p>
+        <p>Title</p>
         <input type="text" ng-model="currentControl.label">
+      </div>
+      <!-- Description -->
+      <div class="property" ng-if="currentControl.description!=undefined">
+        <p>Description</p>
+        <input type="text" ng-model="currentControl.description">
       </div>
       <!-- placeholder -->
       <div class="property" ng-if="currentControl.placeholder!=undefined">
@@ -140,13 +150,16 @@ get_header('form-builder'); ?>
         </div>
       </div>
       <!-- Conditional Message -->
+      <div class="property" ng-if="currentControl.target!=undefined">
+        <p>Message target</p>
+        <input type="text" ng-model="currentControl.target">
+      </div>
       <div class="property" ng-if="currentControl.message!=undefined">
-        <p>Conditional Message</p>
+        <p>Reason message</p>
         <input type="text" ng-model="currentControl.message">
       </div>
     </div>
   </div>
-
 <?php //get_footer(); ?>
 
 <script type="text/javascript">
@@ -158,7 +171,9 @@ get_header('form-builder'); ?>
 </script>
 
   <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/controls.js"></script>
+  <script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/bower_components/tinymce/tinymce.js"></script>
   <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/angular.min.js"></script>
+  <script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/bower_components/angular-ui-tinymce/src/tinymce.js"></script>
   <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/ng-drag.js"></script>
   <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/jq.js"></script>
   <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/imagefunctions.js"></script>
@@ -170,20 +185,20 @@ get_header('form-builder'); ?>
 	$('.msg_show').html('<i class="fa fa-refresh fa-spin" aria-hidden="true"></i>');
     var form_data = new FormData();    
     var template_id = '<?php echo $template_id; ?>';
-    var formJsonData = JSON.stringify(JSON.parse(localStorage.formbuilder_cache_data));
+    var formJsonData = localStorage.formbuilder_cache_data;
     form_data.append('action', 'saveDynamicForm');
     form_data.append('template_id', template_id);
     form_data.append('formJsonData', formJsonData);
     
-    $.ajax({          
+    $.ajax({
+	  dataType : "json",
       url: '<?php echo admin_url('admin-ajax.php'); ?>',
       type: 'post',
       contentType: false,
       processData: false,
       data: form_data,          
       success: function (data) {
-        var parsedJson = $.parseJSON(data);
-        console.log(parsedJson);
+        var parsedJson = data;        
         if(parsedJson.success == true){
 			$('.msg_show').html('<font style="color:green">'+parsedJson.mess+'</span>');
           //window.location.href = "<?php echo home_url('/form-builder/?item='); ?>"+template_id;

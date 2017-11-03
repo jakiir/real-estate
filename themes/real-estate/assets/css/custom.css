@@ -1,0 +1,17 @@
+.toolbar{
+  position:fixed;
+  left:0px;
+  top:0px;
+  width:150px;
+  height:100%;
+  background-color: #414100;
+  box-sizing: border-box;
+  padding:10px;
+}
+.tool.dragelement{
+  padding:5px;
+  border:1px solid #aaa;
+  margin:9px 0px;
+  border-radius:3px;
+  color: #fff;
+}
