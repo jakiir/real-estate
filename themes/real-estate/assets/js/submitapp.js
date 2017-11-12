@@ -5,7 +5,7 @@ angular.module('submitForm',['ui.tinymce'])
 .controller('submissonForm',function($scope,$sce){
   $scope.tinymceOptions = {
     inline: false,
-    plugins : 'advlist autolink link image lists charmap print preview',
+    plugins : 'advlist autolink link image lists charmap print preview code',
     skin: 'lightgray',
     theme : 'modern'
   };
@@ -43,7 +43,8 @@ angular.module('submitForm',['ui.tinymce'])
   }
   $scope.submitData = function(){
     console.log("Data Submisson");
-    var fd = new FormData(document.forms.mainform);
+    //var fd = new FormData(document.forms.mainform);
+	var data = $scope.formBlueprint;
 	fd.append('action', 'save_form_data');
 	fd.append('template_id', template_id);
 	fd.append('this_form_name', this_form_name);	
@@ -52,7 +53,7 @@ angular.module('submitForm',['ui.tinymce'])
       type: 'post',
       contentType: false,
       processData: false,
-      data: fd,          
+      data: data,          
       success: function (data) {
         var parsedJson = $.parseJSON(data);
         console.log(parsedJson);

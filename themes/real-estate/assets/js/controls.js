@@ -13,6 +13,7 @@ formControls.subsection={
   type:"subsection",
   icon:"fa-cubes",
   status:"i",
+  data:"",
   single:true,
 }
 formControls.text={
@@ -20,7 +21,8 @@ formControls.text={
   type:'text',
   placeholder:"Enter Value",
   icon:"fa-font",
-  htmlName:"txt"
+  htmlName:"txt",
+  data:""
 }
 formControls.label={
   title:"Label",
@@ -36,6 +38,7 @@ formControls.wysiwyg={
   htmlName:"cmt",
   noProperty:true,
   editMode:false,
+  isInstruction:false,
   data:"<h3>Edit me</h4><p>this is a rich text, click the edit button to edit the content. you can add as many lines you want</p>"
 }
 formControls.checkbox={

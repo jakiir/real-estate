@@ -53,6 +53,7 @@
     <textarea ui-tinymce="tinymceOptions" ng-model="control.data"></textarea>
     <div class="button tbmargin get-right" ng-click="control.editMode=false">Save</div>
   </div>
+  <input type="checkbox" ng-model="control.isInstruction"> Instruction field
 </div>
 <!-- wysiwyg -->
 <div class="formcontrol editor" ng-if="control.type=='comment'">
