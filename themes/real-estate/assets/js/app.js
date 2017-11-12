@@ -9,7 +9,7 @@ angular.module('formbuilder',['ngDrag','ui.tinymce'])
     $scope.externalDrag=false;
     $scope.tinymceOptions = {
     inline: false,
-    plugins : 'advlist autolink link image lists charmap print preview',
+    plugins : 'advlist autolink link image lists charmap print preview code',
     skin: 'lightgray',
     theme : 'modern'
   };

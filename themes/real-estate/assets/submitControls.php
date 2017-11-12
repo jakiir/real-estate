@@ -7,9 +7,7 @@
 </div>
 <!-- text -->
 <div class="formcontrol text" ng-if="control.type=='text'">
-  <div class="inputpretend">
-    {{control.placeholder}}
-  </div>
+  <textarea class="textinput" placeholder="{{control.placeholder}}"></textarea>
 </div>
 <!-- Section -->
 <div class="formcontrol number" ng-if="control.type=='section'">
@@ -42,12 +40,12 @@
   <img class="imggap fa" ng-src="{{control.url}}" alt="Image Placeholder">
 </div>
 <!-- wysiwyg -->
-<div class="formcontrol editor" ng-if="control.type=='wysiwyg'">
+<div class="formcontrol editor" ng-if="control.type=='wysiwyg'" ng-style="{'border':control.isInstruction?'1px solid black':'none'}">
   <div ng-bind-html="control.data"></div>
 </div>
 <!-- wysiwyg -->
 <div class="formcontrol editor" ng-if="control.type=='comment'">
-  <h4>Comments</h4>
+  <h4>Comments (<input type="checkbox"> Deficnency Exists)</h4>
   <div class="editbutton" ng-click="control.editMode=true" ng-hide="control.editMode">
     <i ng-click="" class="fa fa-pencil"></i>
   </div>
