@@ -15,6 +15,7 @@ angular.module('submitForm',['ui.tinymce'])
   $scope.formInfo = formInfo[0];
   $scope.formInfo.header_html=$sce.trustAsHtml($scope.formInfo.header_html);
   function transform(formBlueprint){
+	if(!formBlueprint) return [];
     var tree = formBlueprint.tree;
     console.log(tree);
     var form = [];
