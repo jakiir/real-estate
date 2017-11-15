@@ -45,7 +45,7 @@ get_header('form-viewer'); ?>
         </div>
       </div>
     </form>
-    <div class="actions">
+    <!--<div class="actions">
       <div class="button primary" ng-click="submitData()">
         Submit Form
       </div>
@@ -55,7 +55,7 @@ get_header('form-viewer'); ?>
       <div class="button negative">
         Discard
       </div>
-    </div>
+    </div>-->
   </div>
 <?php //get_footer(); ?>
 
@@ -64,19 +64,18 @@ get_header('form-viewer'); ?>
 	$table_template = $wpdb->prefix . 'template';					
 	$template_id = !empty($_GET['item']) ? $_GET['item'] : '';
 	$form_data = $wpdb->get_results( "SELECT * FROM $table_template WHERE id=$template_id", OBJECT );
-	 
 	$table_template_detail = $wpdb->prefix . 'template_detail';
 	$get_template_detail = $wpdb->get_results( "SELECT * FROM $table_template_detail WHERE template_id=$template_id", OBJECT );
-	$form_info = (!empty($get_template_detail[0]->field_text_html) ? $get_template_detail[0]->field_text_html : '');
-	
+	$form_info = (!empty($get_template_detail[0]->field_text_html) ? $get_template_detail[0]->field_text_html : '{"name":"Untitled Form 1","logo":null,"tree":[]}');
+	$get_template_name = (!empty($form_data[0]->name) ? $form_data[0]->name : '');
 ?>
 <script type="text/javascript">
 	var formBlueprint = null;
     var formInfo = null;
     formInfo = <?php echo json_encode($form_data)?>;
     formBlueprint = <?php echo $form_info; ?>;	
-	var this_form_name = formBlueprint.name;
-	document.title = this_form_name;
+	//var this_form_name = formBlueprint.name;
+	document.title = '<?php echo $get_template_name; ?>';
 	var ajax_url = '<?php echo admin_url('admin-ajax.php'); ?>';
 	var template_id = <?php echo $template_id; ?>;
 </script>  

@@ -33,9 +33,9 @@ get_header('form-builder'); ?>
 	
 ?>
 
-<div class="container" ng-controller="mainCtrl">
-	<span class="msg_show" style="position: absolute;right:241px;top:34px;"></span>
-	<div class="toptools">		
+<div class="container" ng-controller="mainCtrl">	
+	<div class="toptools">
+	  <div class="msg_show" style="position: absolute;right:0px;top:-21px;font-size:14px;background: #fff;padding: 2px 6px;"></div>
       <i class="fa fa-floppy-o" id="save_to_database" title="save"></i>
       <a href="<?php echo home_url('/form-viewer/?item='.$template_id); ?>" target="_blank" title="Preview"><i class="fa fa-eye" title="Preview"></i></a>
       <i class="fa fa-upload" title="Export"></i>
@@ -181,6 +181,7 @@ get_header('form-builder'); ?>
   <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/dragdrop.js"></script>
 
 <script type="text/javascript">
+  document.title = '<?php echo $get_template_name; ?>';
   document.getElementById('save_to_database').addEventListener('click', function() {
 	$('.msg_show').html('<i class="fa fa-refresh fa-spin" aria-hidden="true"></i>');
     var form_data = new FormData();    
