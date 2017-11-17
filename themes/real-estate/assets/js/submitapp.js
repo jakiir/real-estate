@@ -27,18 +27,19 @@ angular.module('submitForm',['ui.tinymce'])
         form.push({
           section:tree[i][0][0],
           children:[],
-          expanded:false
+          expanded:false,
+		  display:''
         });
         continue;
       }
       else{		  
 		  if(sectionEle == 0){
-			  form.push({
-				  section:[],
-				  children:[],
-				  expanded:true,
-				  display:'display-none'
-				});	
+			form.push({
+			  section:[],
+			  children:[],
+			  expanded:true,
+			  display:'display-none'
+			});	
 		  }
         form[form.length-1].children.push(tree[i]);
       }
