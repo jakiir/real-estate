@@ -29,7 +29,7 @@ get_header('form-builder'); ?>
 	$get_template_name = (!empty($get_templages[0]->name) ? $get_templages[0]->name : '');
 	$table_template_detail = $wpdb->prefix . 'template_detail';
 	$get_template_detail = $wpdb->get_results( "SELECT * FROM $table_template_detail WHERE template_id=$template_id", OBJECT );
-	$field_text_html = (!empty($get_template_detail[0]->field_text_html) ? $get_template_detail[0]->field_text_html : '');
+	$field_text_html = (!empty($get_template_detail[0]->field_text_html) ? $get_template_detail[0]->field_text_html : '{"name":"Untitled Form 1","logo":null,"tree":[]}');
 	
 ?>
 
@@ -163,8 +163,8 @@ get_header('form-builder'); ?>
 <?php //get_footer(); ?>
 
 <script type="text/javascript">
-	var field_text_html = '<?php echo $field_text_html; ?>';
-	if(field_text_html == ''){ field_text_html = '{"name":"Untitled Form 1","logo":null,"tree":[]}'; }
+	var field_text_html = <?php echo $field_text_html; ?>;
+	if(field_text_html == ''){ field_text_html = {"name":"Untitled Form 1","logo":null,"tree":[]}; }
 	var get_template_data = '<?php echo $get_template_data; ?>';
 	var get_template_name = '<?php echo $get_template_name; ?>';
 	//console.log(get_template_name);

@@ -125,6 +125,7 @@ textarea.fcontrol.longtext{
   right:1em;
   top:1em;
 }
+.sectionhead.display-none{display:none;}
 .sectionbody{
   border:2px solid #eee;
 }

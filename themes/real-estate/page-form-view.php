@@ -28,7 +28,7 @@ get_header('form-viewer'); ?>
     <form class="theform">
       <div ng-repeat="section in form">
         <div class="section">
-          <div class="sectionhead section-{{$index}}" ng-click="section.expanded=!section.expanded">
+          <div class="sectionhead section-{{$index}} {{section.display}}" ng-click="section.expanded=!section.expanded">
             <h2>{{section.section.label}}</h2>
             <h5>{{section.section.description}}</h5>
             <i class="icon fa" ng-class="{'fa-plus':!section.expanded,'fa-minus':section.expanded}"></i>

@@ -153,7 +153,7 @@ angular.module('formbuilder',['ngDrag','ui.tinymce'])
     }
 	
 	if(field_text_html){
-      $scope.data = JSON.parse(field_text_html);
+      $scope.data = JSON.parse(JSON.stringify(field_text_html));
     } else if(localStorage.getItem('formbuilder_cache_data')){
       $scope.data = JSON.parse(localStorage.getItem('formbuilder_cache_data'));
     } else {
