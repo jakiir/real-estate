@@ -17,11 +17,13 @@ angular.module('submitForm',['ui.tinymce'])
   function transform(formBlueprint){
 	if(!formBlueprint) return [];
     var tree = formBlueprint.tree;
-    console.log(tree);
+    //console.log(tree);
     var form = [];
+	var sectionEle = 0;
     for(i=0;i<tree.length;i++){
       //console.log(i);
       if(tree[i][0][0].type=='section'){
+		var sectionEle = 1;
         form.push({
           section:tree[i][0][0],
           children:[],
@@ -29,7 +31,15 @@ angular.module('submitForm',['ui.tinymce'])
         });
         continue;
       }
-      else{
+      else{		  
+		  if(sectionEle == 0){
+			  form.push({
+				  section:[],
+				  children:[],
+				  expanded:true,
+				  display:'display-none'
+				});	
+		  }
         form[form.length-1].children.push(tree[i]);
       }
     }
