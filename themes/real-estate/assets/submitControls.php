@@ -49,11 +49,11 @@
 </div>
 <!-- wysiwyg -->
 <div class="formcontrol editor" ng-if="control.type=='comment'">
-  <h4><input type="checkbox"></h4>
-  <div class="editbutton" ng-click="control.editMode=true" ng-hide="control.editMode">
+  <h4><input type="checkbox" id="{{control.htmlName}}" ng-click="commentListIsVisible=!commentListIsVisible"> <label for="{{control.htmlName}}">{{control.label}}</label></h4>
+  <div class="editbutton" ng-click="control.editMode=true" ng-hide="commentListIsVisible">
     <i ng-click="" class="fa fa-pencil"></i>
   </div>
-  <div ng-bind-html="control.data" ng-hide="control.editMode"></div>
+  <div ng-bind-html="control.data" ng-hide="commentListIsVisible"></div>
   <div class="wysiwygpretend" ng-show="control.editMode">
     <textarea ui-tinymce="tinymceOptions" ng-model="control.data"></textarea>
     <div class="button tbmargin get-right" ng-click="control.editMode=false">Save</div>
