@@ -37,3 +37,31 @@ header{
   margin:10px 0px;
   border:0.5px solid #eee;
 }
+.flex{
+  display:flex;
+}
+.flexcenter{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/*file input*/
+.fileinput{
+  position:absolute;
+  width:60px;
+  height:60px;
+  background:#54D185;
+  border-radius:50%;
+  right:30px;
+  top:30px;
+}
+.fileinput input{
+  opacity:0;
+  display:block;
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:100%;
+  height:100%;
+}

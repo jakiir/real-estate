@@ -82,6 +82,16 @@ angular.module('submitForm',['ui.tinymce'])
     });	
     //ToDo: Run AJAX submit for fd
   }
+  $scope.fileBrowse = function(control){
+    var fi = document.querySelector('.fileinp');
+    console.log(fi.files);
+    readFile(fi.files[0],function(res){
+      if(res){
+        control.url=res;
+        $scope.$apply();
+      }
+    })
+  }
   function flatten(tree){
     var data = [];
     for(i0=0;i0<tree.length;i0++){
@@ -112,4 +122,18 @@ angular.module('submitForm',['ui.tinymce'])
       }
     });
   }
+}).directive('cOnChange', function() {
+  'use strict';
+
+  return {
+      restrict: "A",
+      scope : {
+          cOnChange: '&'
+      },
+      link: function (scope, element) {
+          element.on('change', function () {
+            scope.cOnChange();
+      });
+      }
+  };
 });

@@ -12,7 +12,10 @@ formControls.subsection={
   label:"Sub Section Title",
   type:"subsection",
   icon:"fa-cubes",
-  status:"i",
+  status1:false,
+  status2:false,
+  status3:false,
+  status4:false,
   data:"",
   single:true,
 }

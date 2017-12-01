@@ -1,5 +1,4 @@
-<?php 	/**	 * Template Name: Form Controls Template	 */?><!-- text -->
-
+<?php 	/**	 * Template Name: Form Controls Template	 */?>
 <!-- text -->
 <div class="formcontrol text" ng-if="control.type=='label'">
   <div class="labelfield">
@@ -21,10 +20,10 @@
 <div class="formcontrol number" ng-if="control.type=='subsection'">
   <h2>{{control.label}}</h2>
   <div>
-    <input type="radio" ng-model="contro.status" value="i"> Inspected
-    <input type="radio" ng-model="contro.status" value="ni"> Not Inspected
-    <input type="radio" ng-model="contro.status" value="np"> Not Present
-    <input type="radio" ng-model="contro.status" value="r"> Not Functioning
+    <input type="checkbox" ng-model="contro.status1"> Inspected
+    <input type="checkbox" ng-model="contro.status2"> Not Inspected
+    <input type="checkbox" ng-model="contro.status3"> Not Present
+    <input type="checkbox" ng-model="contro.status4"> Deficient
   </div>
 </div>
 <!-- Paragraph -->
