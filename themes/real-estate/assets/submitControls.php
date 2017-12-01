@@ -18,10 +18,10 @@
 <div class="formcontrol number" ng-if="control.type=='subsection'">
   <h2>{{control.label}}</h2>
   <div>
-    <input type="radio" ng-model="contro.status" value="i"> Inspected
-    <input type="radio" ng-model="contro.status" value="ni"> Not Inspected
-    <input type="radio" ng-model="contro.status" value="np"> Not Present
-    <input type="radio" ng-model="contro.status" value="r"> Not Functioning
+    <input type="checkbox" ng-model="contro.status1"> Inspected
+    <input type="checkbox" ng-model="contro.status2"> Not Inspected
+    <input type="checkbox" ng-model="contro.status3"> Not Present
+    <input type="checkbox" ng-model="contro.status4"> Not Functioning
   </div>
 </div>
 <!-- Paragraph -->
@@ -38,6 +38,10 @@
 <!-- Image -->
 <div class="formcontrol image imgdrop" ng-if="control.type=='image'" ng-drop="imageDrop($event,$parent.$parent.$index,$parent.$index,$index)">
   <img class="imggap fa" ng-src="{{control.url}}" alt="Image Placeholder">
+  <div class="fileinput flex flexcenter hovereffect">
+    <input type="file" class="invisible fileinp" c-on-change="fileBrowse(control)">
+    <i class="fa fa-folder-open"></i>
+  </div>
 </div>
 <!-- wysiwyg -->
 <div class="formcontrol editor" ng-if="control.type=='wysiwyg'" ng-style="{'border':control.isInstruction?'1px solid black':'none'}">
@@ -45,7 +49,7 @@
 </div>
 <!-- wysiwyg -->
 <div class="formcontrol editor" ng-if="control.type=='comment'">
-  <h4>Comments (<input type="checkbox"> Deficnency Exists)</h4>
+  <h4><input type="checkbox"></h4>
   <div class="editbutton" ng-click="control.editMode=true" ng-hide="control.editMode">
     <i ng-click="" class="fa fa-pencil"></i>
   </div>
