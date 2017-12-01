@@ -56,7 +56,7 @@
 </div>
 <!-- wysiwyg -->
 <div class="formcontrol editor" ng-if="control.type=='comment'">
-  <h4>Comments</h4>
+  <h4>{{control.label}}</h4>
   <div class="editbutton" ng-click="control.editMode=true" ng-hide="control.editMode">
     <i ng-click="" class="fa fa-pencil"></i>
   </div>

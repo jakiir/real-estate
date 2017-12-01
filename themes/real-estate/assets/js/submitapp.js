@@ -105,6 +105,29 @@ angular.module('submitForm',['ui.tinymce'])
     }
     return data;
   }
+  
+  $scope.commentListIsVisible = true;
+  $scope.editbuttonIsVisible = true;
+  $scope.commentListShowHide = function (event,htmlN) {
+	  console.log(htmlN);
+	  if(event.target.checked){
+		  $scope.commentListIsVisible = false;
+		  $scope.editbuttonIsVisible = false;
+		  $scope.commentEditIsVisible = false;
+	  } else {
+		  $scope.commentListIsVisible = true;
+		  $scope.editbuttonIsVisible = true;
+		  $scope.commentEditIsVisible = false;
+	  }
+  }
+  
+  $scope.commentEditIsVisible = false;
+  $scope.commentEditShowHide = function () {
+	  $scope.commentEditIsVisible = $scope.commentEditIsVisible ? false : true;
+	  $scope.editbuttonIsVisible = $scope.editbuttonIsVisible ? false : true;
+	  $scope.commentListIsVisible = $scope.commentListIsVisible ? false : true;;
+  }
+  
   $scope.conditionalEval = function(){
     console.log("Conditional Evaluation");
     var els = flatten($scope.form);

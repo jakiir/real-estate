@@ -64,7 +64,7 @@ formControls.comment={
   type:'comment',
   icon:"fa-edit",
   htmlName:"cmt",
-  noProperty:true,
+  //noProperty:true,
   editMode:true,
   data:"<h5>Comment Field</h5><p>This is a comment field, It will appear as this rich text editor, you can edit it to add example</p>"
 }
