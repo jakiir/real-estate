@@ -53,6 +53,8 @@ angular.module('submitForm',['ui.tinymce'])
     $scope.form = transform($scope.formBlueprint);
     //console.log($scope.form);
   }
+  var temp_dt = new Date();
+  $scope.formBlueprint.prepared_date = temp_dt.toString();
   $scope.submitData = function(){
     console.log("Data Submisson");
     //var fd = new FormData(document.forms.mainform);

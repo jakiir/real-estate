@@ -56,7 +56,9 @@ formControls.image={
   type:'image',
   icon:"fa-image",
   url:"#",
-  isExample:false
+  isExample:false,
+  withComment:false,
+  data:"<h5>Sample Image Comment</h5><p>This is a sample image comment, you can modify or delete it</p>"
 }
 formControls.comment={
   title:"Comment",

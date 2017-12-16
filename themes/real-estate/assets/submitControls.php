@@ -33,7 +33,7 @@
 </div>
 <!--Check box-->
 <div class="formcontrol checkbox" ng-if="control.type=='checkbox'">
-  <input type="checkbox"> {{control.label}}
+  <input type="checkbox" ng-model="control.value"> {{control.label}}
 </div>
 <!-- Image -->
 <div class="formcontrol image imgdrop" ng-if="control.type=='image'" ng-drop="imageDrop($event,$parent.$parent.$index,$parent.$index,$index)">
@@ -41,6 +41,10 @@
   <div class="fileinput flex flexcenter hovereffect">
     <input type="file" class="invisible fileinp" c-on-change="fileBrowse(control)">
     <i class="fa fa-folder-open"></i>
+  </div>
+  <div class="commentprompt"><input type="checkbox" ng-model="control.withComment"> Add Comment</div>
+  <div class="imgcomment" ng-show="control.withComment">
+    <textarea ui-tinymce="tinymceOptions" ng-model="control.data"></textarea>
   </div>
 </div>
 <!-- wysiwyg -->

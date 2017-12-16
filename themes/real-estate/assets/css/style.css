@@ -261,3 +261,53 @@ p{
 .button:hover{
   box-shadow:2px 2px 7px 0px #bbb;
 }
+/*Standard report fields*/
+div.stdreportf{
+
+}
+div.stdreportf .controlholder .row{
+  border:0.5px solid #eee;
+}
+div.stdreportf .controlholder .row .col{
+  padding:20px 10px;
+}
+div.stdreportf p{
+  margin-bottom:10px;
+}
+
+div.stdreportf input{
+  display:block;
+  width: 100%;
+  box-sizing: border-box;
+  padding:4px;
+}
+.clogoholder{
+  position: relative;
+  min-height:110px;
+}
+.fiimg{
+  position: absolute;
+  display: block;
+  width:100%;
+  height:100%;
+  top:0px;
+  left:0px;
+  opacity: 0;
+  z-index:1000;
+}
+.companylogo{
+  max-width: 100%;
+  height:auto;
+}
+.companylogo[alt]::before{
+  width:100%;
+  height:100px;
+  background:#CCC;
+  color:#fff;
+  content:"CLICK TO CHANGE";
+  font-size:2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+}

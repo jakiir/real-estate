@@ -160,3 +160,9 @@ textarea.fcontrol.longtext{
   font-size:16px;
   height:2em;
 }
+.commentprompt{
+  margin-top:10px;
+}
+.imgcomment{
+  margin-top:10px;
+}

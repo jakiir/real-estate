@@ -7,6 +7,7 @@ angular.module('formbuilder',['ngDrag','ui.tinymce'])
     $scope.currentControl=null;
     $scope.internalDrag=false;
     $scope.externalDrag=false;
+	$scope.reasonList=[];
     $scope.tinymceOptions = {
     inline: false,
     plugins : 'advlist autolink link image lists charmap print preview code',
@@ -15,6 +16,11 @@ angular.module('formbuilder',['ngDrag','ui.tinymce'])
   };
     $scope.data={
       name:"Untitled Form 1",
+      report_title:"",
+      company_address:"",
+      prepared_by:"",
+      prepared_for:"",
+      prepared_date:"",
       logo:null,
       tree:[]
     }
@@ -150,6 +156,18 @@ angular.module('formbuilder',['ngDrag','ui.tinymce'])
     $scope.selectControl = function(superidx,parent,index){
       autoSave();
       $scope.currentControl=$scope.data.tree[superidx][parent][index];
+      if($scope.currentControl.type=='conditional'){
+        $scope.reasonList = flatten($scope.data.tree)
+        .filter(function(el){
+          return el.type=='reason';
+        })
+        .map(function(el){
+          return {
+            title:el.title,
+            htmlName:el.htmlName
+          }
+        })
+      }
     }
 	
 	if(field_text_html){
@@ -185,6 +203,18 @@ angular.module('formbuilder',['ngDrag','ui.tinymce'])
       if(!$scope.data.tree[path[0]].length){
         $scope.data.tree.splice(path[0],1);
       }
+    }
+	$scope.changeCompanyLogo = function(){
+      var fi = document.querySelector('.fiimg');
+      console.log(fi.files);
+      if(!fi.files.length) return false;
+      readFile(fi.files[0],function(res){
+        if(res){
+          $scope.data.logo = res;
+          $scope.$apply();
+          autoSave();
+        }
+      })
     }
   })
   .directive('cOnChange', function() {

@@ -33,8 +33,8 @@ get_header('form-builder'); ?>
 	
 ?>
 
-<div class="container" ng-controller="mainCtrl">	
-	<div class="toptools">
+<div class="container" ng-controller="mainCtrl">
+    <div class="toptools">
 	  <div class="msg_show" style="position: absolute;right:0px;top:-21px;font-size:14px;background: #fff;padding: 2px 6px;"></div>
       <i class="fa fa-floppy-o" id="save_to_database" title="save"></i>
       <a href="<?php echo home_url('/form-viewer/?item='.$template_id); ?>" target="_blank" title="Preview"><i class="fa fa-eye" title="Preview"></i></a>
@@ -48,11 +48,34 @@ get_header('form-builder'); ?>
       ng-dragend="dragCleanup()">
         <i class="fa {{tool.icon}}"></i>  {{tool.title}}
       </div>
-	  <div class="gotoTem"><i class="fa fa-arrow-circle-o-left"></i>  <a href="<?php echo home_url('/template/'); ?>">Go to template</a></div>
       <!-- toolbar -->
     </div>
     <div class="canvas">
       <div class="area">
+        <div class="stdreportf">
+            <div class="controlholder sing">
+              <div class="row">
+                <div class="col">
+                  <p>Company Logo</p>
+                  <div class="clogoholder">
+                    <img class="companylogo" ng-src="{{data.logo}}" alt="Company Logo">
+                    <input class="fiimg" c-on-change="changeCompanyLogo()" type="file" accept="image/*">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <p>Report Title</p>
+                  <input type="text" ng-model="data.report_title" placeholder="Report Title">
+                </div>
+                <div class="col">
+                  <p>Company Address</p>
+                  <input type="text" ng-model="data.company_address" placeholder="Enter The address here">
+                </div>
+              </div>
+
+            </div>
+        </div>
         <div class="row" ng-repeat="row in data.tree">
             <div class="droparea left sides"
             ng-hide="row[0][0].single"
@@ -78,8 +101,8 @@ get_header('form-builder'); ?>
                 ng-click="selectControl($parent.$parent.$index,$parent.$index,$index)"
                 draggable="true"
                 ng-dragstart="internalDragStart($event,[$parent.$parent.$index,$parent.$index,$index])"
-                ng-dragend="internalDragEnd()">                  
-				  <div ng-include="'<?php echo esc_url( home_url('/form-controls/') ); ?>'"></div>
+                ng-dragend="internalDragEnd()">
+                  <div ng-include="'<?php echo esc_url( home_url('/form-controls/') ); ?>'"></div>
                 </div>
                 <!-- <div class="droparea rearr"
                 ng-class="{'idrg':internalDrag}"
@@ -152,7 +175,11 @@ get_header('form-builder'); ?>
       <!-- Conditional Message -->
       <div class="property" ng-if="currentControl.target!=undefined">
         <p>Message target</p>
-        <input type="text" ng-model="currentControl.target">
+        <select style="width:100%" ng-model="currentControl.target">
+          <option ng-repeat="rfield in reasonList" value="{{rfield.htmlName}}">
+            {{rfield.htmlName}}
+          </option>
+        </select>
       </div>
       <div class="property" ng-if="currentControl.message!=undefined">
         <p>Reason message</p>
