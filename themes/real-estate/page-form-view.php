@@ -22,8 +22,44 @@ get_header('form-viewer'); ?>
 
 <div class="container" ng-controller="submissonForm">
     <header>
-      <img class="logo" ng-src="{{formInfo.logo_url}}" alt="{{formInfo.name}}">
-      <div class="headercontent" ng-bind-html="formInfo.header_html"></div>
+      <div class="stdfields">
+        <div class="fieldrow">
+          <div class="fieldcol">
+            <div class="clogoholder">
+            <img ng-src="{{formBlueprint.logo}}" alt="Logo" class="companylogo">
+          </div>
+          </div>
+        </div>
+        <div class="fleldrow">
+          <div class="fieldcol">
+            <h1 class="text-center reporttitle">{{formBlueprint.report_title}}</h1>
+          </div>
+        </div>
+        <div class="fieldrow">
+          <div class="fieldcol">
+            <p class="text-center">
+              {{formBlueprint.company_address}}
+            </p>
+          </div>
+        </div>
+        <div class="fieldrow bordered">
+          <div class="fieldcol">
+            <p>Prepared By:</p>
+            <input type="text" ng-model="formBlueprint.prepared_by">
+          </div>
+          <div class="fieldcol">
+            <p>Prepared For:</p>
+            <input type="text" ng-model="formBlueprint.prepared_for">
+          </div>
+        </div>
+        <div class="fieldrow">
+          <div class="fieldcol">
+            <p class="text-center prepareddate">
+              <b>Date:</b> {{formBlueprint.prepared_date}}
+            </p>
+          </div>
+        </div>
+      </div>
     </header>
     <form class="theform">
       <div ng-repeat="section in form">

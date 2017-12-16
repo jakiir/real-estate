@@ -65,3 +65,59 @@ header{
   width:100%;
   height:100%;
 }
+/*Standard form fields*/
+.stdfields{
+  width:100%;
+}
+.fieldrow{
+  display:flex;
+  width:100%;
+}
+.fieldcol{
+  flex:1;
+}
+.fieldrow.bordered{
+  margin-top:30px;
+}
+.fieldrow.bordered .fieldcol{
+  padding:20px;
+}
+.fieldcol input{
+  display:block;
+  padding:5px;
+  width: 100%;
+  margin:20px 0px;
+}
+.clogoholder{
+  position: relative;
+  min-height:110px;
+  width:100%;
+}
+.companylogo{
+  max-width: 100%;
+  height:auto;
+}
+.companylogo[alt]::before{
+  width:100%;
+  height:100px;
+  background:#CCC;
+  color:#fff;
+  content:"CLICK TO CHANGE";
+  font-size:2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+}
+.prepareddate{
+  margin-top:40px;
+}
+.text-center{
+  text-align: center;
+}
+.reporttitle{
+  margin:30px 0px;
+}
+.bordered{
+  border:0.5px solid #ddd;
+}
