@@ -15,6 +15,7 @@
  */
 
 get_header(); ?>
+
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/fa/css/font-awesome.min.css">
 <!-- PAGE HEADER -->
 <section id="page-header">
@@ -30,7 +31,11 @@ get_header(); ?>
 	</div>
 </section>
 <!-- /PAGE HEADER -->
-
+<?php if (is_user_logged_in()) { ?>
+    <a class="login_button" href="<?php echo wp_logout_url( home_url() ); ?>">Logout</a>
+<?php } else { ?>
+    <a class="login_button" id="show_login" href="">Login</a>
+<?php } ?>
 
 <!-- BLOG -->
 	<section id="blog">
