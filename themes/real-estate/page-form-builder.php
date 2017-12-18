@@ -15,6 +15,16 @@
  */
 
 get_header('form-builder'); ?>
+<?php 
+	if (is_user_logged_in()) {
+		$user = wp_get_current_user();
+		if($user->roles[0] != 'administrator'){
+			die('You have no access right! Please contact system administration for more information.!');
+		}
+	} else {
+		die('You have no access right! Please contact system administration for more information.!');
+	}
+?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/fa/css/font-awesome.min.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/style.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/controls.css">

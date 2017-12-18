@@ -493,6 +493,16 @@ function save_form_data(){
 	die();
 }
 
+add_role(
+    'inspector',
+    __( 'Inspector' ),
+    array(
+        'read'         => true,  // true allows this capability
+        'edit_posts'   => false,
+		'delete_posts' => false, // Use false to explicitly deny
+    )
+);
+
 add_action('admin_menu', 'realestate_menu_pages');
 function realestate_menu_pages(){
     $form_data_page = add_menu_page('Form data', 'Form data', 'manage_options', 'form-data', 'form_data_output' );
@@ -585,7 +595,9 @@ function ajax_login_init(){
 
     wp_localize_script( 'ajax-login-script', 'ajax_login_object', array( 
         'ajaxurl' => admin_url( 'admin-ajax.php' ),
-        'redirecturl' => home_url(),
+        'templateurl' => home_url('/template/'),
+		'inspectorurl' => home_url('/form-viewer/?item=6'),
+		'homeurl' => home_url(),
         'loadingmessage' => __('Sending user info, please wait...')
     ));
 
@@ -599,10 +611,9 @@ if (!is_user_logged_in()) {
 }
 
 function ajax_login(){
-
+	
     // First check the nonce, if it fails the function will break
     check_ajax_referer( 'ajax-login-nonce', 'security' );
-
     // Nonce is checked, get the POST data and sign user on
     $info = array();
     $info['user_login'] = $_POST['username'];
@@ -611,9 +622,9 @@ function ajax_login(){
 
     $user_signon = wp_signon( $info, false );
     if ( is_wp_error($user_signon) ){
-        echo json_encode(array('loggedin'=>false, 'message'=>__('Wrong username or password.')));
+        echo json_encode(array('loggedin'=>false, 'user_roles'=>'', 'message'=>__('Wrong username or password.')));
     } else {
-        echo json_encode(array('loggedin'=>true, 'message'=>__('Login successful, redirecting...')));
+        echo json_encode(array('loggedin'=>true, 'user_roles'=>$user_signon->roles[0], 'message'=>__('Login successful, redirecting...')));
     }
 
     die();
