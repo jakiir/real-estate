@@ -72,6 +72,32 @@
     <i class="fa fa-info-circle"></i> {{control.label}}
   </div>
 </div>
+<!-- report Text -->
+<div class="formcontrol- report" ng-if="control.type=='report'">
+	<div class="stdreportf">
+		<div class="controlholder">
+		  <div class="row">
+			<div class="col">
+			  <p>Company Logo</p>
+			  <div class="clogoholder">
+				<img class="companylogo" ng-src="{{data.logo}}" alt="Company Logo">
+				<input class="fiimg" c-on-change="changeCompanyLogo()" type="file" accept="image/*">
+			  </div>
+			</div>
+		  </div>
+		  <div class="row">
+			<div class="col">
+			  <p>Report Title</p>
+			  <input type="text" ng-model="data.report_title" placeholder="Report Title">
+			</div>
+			<div class="col">
+			  <p>Company Address</p>
+			  <input type="text" ng-model="data.company_address" placeholder="Enter The address here">
+			</div>
+		  </div>
+		</div>
+	</div>
+</div>
 <!-- Page Break -->
 <div class="formcontrol break" ng-if="control.type=='break'">
   <div class="pagebreak"></div>

@@ -311,3 +311,6 @@ div.stdreportf input{
   justify-content: center;
   position: absolute;
 }
+div.stdreportf .row .col {
+    padding: 20px 10px;
+}

@@ -27,6 +27,15 @@ formControls.text={
   htmlName:"txt",
   data:""
 }
+
+formControls.text={
+  title:"Report",
+  type:'report',
+  label:"",
+  icon:"fa-font",
+  htmlName:"txt"
+}
+
 formControls.label={
   title:"Label",
   type:'label',
