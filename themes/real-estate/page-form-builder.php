@@ -19,9 +19,11 @@ get_header('form-builder'); ?>
 	if (is_user_logged_in()) {
 		$user = wp_get_current_user();
 		if($user->roles[0] != 'administrator'){
+			echo '<script>window.location.replace("'.home_url().'");</script>';
 			die('You have no access right! Please contact system administration for more information.!');
 		}
 	} else {
+		echo '<script>window.location.replace("'.home_url().'");</script>';
 		die('You have no access right! Please contact system administration for more information.!');
 	}
 ?>
@@ -62,7 +64,7 @@ get_header('form-builder'); ?>
     </div>
     <div class="canvas">
       <div class="area">
-        <div class="stdreportf">
+        <!--<div class="stdreportf">
             <div class="controlholder sing">
               <div class="row">
                 <div class="col">
@@ -85,7 +87,7 @@ get_header('form-builder'); ?>
               </div>
 
             </div>
-        </div>
+        </div>-->
         <div class="row" ng-repeat="row in data.tree">
             <div class="droparea left sides"
             ng-hide="row[0][0].single"

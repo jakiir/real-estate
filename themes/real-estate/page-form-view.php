@@ -54,11 +54,11 @@ get_header('form-viewer'); ?>
         </div>
         <div class="fieldrow bordered">
           <div class="fieldcol">
-            <p>Prepared By:</p>
+            <p>Report Title:</p>
             <input type="text" ng-model="formBlueprint.prepared_by">
           </div>
           <div class="fieldcol">
-            <p>Prepared For:</p>
+            <p>Company Address:</p>
             <input type="text" ng-model="formBlueprint.prepared_for">
           </div>
         </div>

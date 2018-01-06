@@ -20,28 +20,16 @@ get_header(); ?>
 	if (is_user_logged_in()) {
 		$user = wp_get_current_user();
 		if($user->roles[0] != 'administrator'){
+			echo '<script>window.location.replace("'.home_url().'");</script>';
 			die('You have no access right! Please contact system administration for more information.!');
 		}
 	} else {
+		echo '<script>window.location.replace("'.home_url().'");</script>';
 		die('You have no access right! Please contact system administration for more information.!');
 	}
 ?>
 
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/fa/css/font-awesome.min.css">
-<!-- PAGE HEADER -->
-<section id="page-header">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				<div class="section-title">
-					<h1><?php the_title(); ?></h1>
-					<span class="st-border"><a class="login_button" href="<?php echo wp_logout_url( home_url() ); ?>">Logout</a></span>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-<!-- /PAGE HEADER -->
 <!-- BLOG -->
 	<section id="blog">
 		<div class="container">
@@ -50,7 +38,7 @@ get_header(); ?>
 					<div class="panel panel-primary">
 						
 			      		<div class="panel-heading">
-			              <h1 class="panel-title">Add Template</h1>
+			              <h1 class="panel-title"><?php the_title(); ?></h1>
 			            </div>
 				      	<?php
 							global $wpdb;
