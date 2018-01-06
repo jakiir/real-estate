@@ -16,30 +16,14 @@
 
 get_header(); ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/fa/css/font-awesome.min.css">
-<!-- PAGE HEADER -->
-<section id="page-header">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				<div class="section-title">
-					<h1><?php the_title(); ?></h1>
-					<span class="st-border"></span>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-<!-- /PAGE HEADER -->
 
 <!-- BLOG -->
 	<section id="blog">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
-					<div class="panel panel-primary">
-						<?php if (is_user_logged_in()) { ?>
-							<a class="login_button" href="<?php echo wp_logout_url( home_url() ); ?>">Logout</a>
-						<?php } else { ?>
+				<?php if (!is_user_logged_in()) { ?>
+					<div class="panel panel-primary">						
 			      		<div class="panel-heading">
 			              <h1 class="panel-title">Site Login</h1>
 			            </div>	
@@ -59,9 +43,9 @@ get_header(); ?>
 								<?php wp_nonce_field( 'ajax-login-nonce', 'security' ); ?>
 							</form><!-- /form -->
 							<a class="forgot-password" href="<?php echo wp_lostpassword_url(); ?>">Forgot the password?</a>
-						</div><!-- /card-container -->
-						<?php } ?>
+						</div><!-- /card-container -->						
 					</div>
+					<?php } ?>
 				</div>
 			</div>
 		</div>

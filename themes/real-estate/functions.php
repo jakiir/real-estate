@@ -41,6 +41,7 @@ if ( ! function_exists( 'realestate_setup' ) ) :
 		 * @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
 		 */
 		add_theme_support( 'post-thumbnails' );
+		show_admin_bar( false );
 
 		// This theme uses wp_nav_menu() in one location.
 		register_nav_menus( array(
@@ -295,6 +296,77 @@ function editTemplateAction(){
 			 );
 		  }		
 		 
+	 } else {
+		 $results = array(
+			'success' => false,
+			'mess' => 'Form data not save, there are some error to save.'
+		 );
+	 }			
+	echo json_encode($results);        
+	die();
+  }
+  
+  
+add_action( 'wp_ajax_nopriv_perform_inspections', 'perform_inspections', 85);
+add_action( 'wp_ajax_perform_inspections', 'perform_inspections', 85 );
+function perform_inspections(){
+	$template_id = $_POST['template_id'];
+	
+	 $results = array();
+	 if($template_id){
+		 global $wpdb;
+		 $table_inspection = $wpdb->prefix . 'inspection';
+		 $company = !empty($_POST['company']) ? $_POST['company'] : '';
+		 $inpection_date = !empty($_POST['inpection_date']) ? $_POST['inpection_date'] : '';
+		 $report_identification = !empty($_POST['report_identification']) ? $_POST['report_identification'] : '';
+		 $template_id = !empty($_POST['template_id']) ? $_POST['template_id'] : '';
+		 $prepared_for = !empty($_POST['prepared_for']) ? $_POST['prepared_for'] : '';
+		 $prepared_by = !empty($_POST['prepared_by']) ? $_POST['prepared_by'] : '';
+		 $time_in = !empty($_POST['time_in']) ? $_POST['time_in'] : '';
+		 $time_out = !empty($_POST['time_out']) ? $_POST['time_out'] : '';
+		 $inspection_status = !empty($_POST['inspection_status']) ? $_POST['inspection_status'] : '';
+		 $user_id = get_current_user_id();
+		 $get_inspection = $wpdb->get_results( "SELECT * FROM $table_inspection WHERE user_id=$user_id AND template_id=$template_id", OBJECT );
+		if(!empty($get_inspection)){
+			$wpdb->query($wpdb->prepare("UPDATE $table_template 
+			 SET company='".$company."',
+			 inpection_date='".$inpection_date."',
+			 report_identification='".$report_identification."',
+			 prepared_for='".$prepared_for."',
+			 prepared_by='".$prepared_by."',
+			 time_in='".$time_in."',
+			 time_out='".$time_out."',
+			 inspection_status='".$inspection_status."'
+			 WHERE template_id=$template_id AND user_id=$user_id"
+			 ));
+			 
+			 $results = array(
+				'success' => true,
+				'mess' => 'Data Successfully Updated.',
+				'template_id' => $template_id
+			 );	
+		} else {
+			 $wpdb->insert($table_inspection, 
+				 array(
+					 'company' => $company,
+					 'inpection_date' => $inpection_date,
+					 'report_identification' => $report_identification,
+					 'template_id' => $template_id,
+					 'prepared_for' => $prepared_for,
+					 'prepared_by' => $prepared_by,
+					 'time_in' => $time_in,
+					 'time_out' => $time_out,
+					 'inspection_status' => $inspection_status,
+					 'user_id' => $user_id,
+				 )
+			 );
+			 
+			 $results = array(
+				'success' => true,
+				'mess' => 'Data Successfully Inserted.',
+				'template_id' => $template_id
+			 );	
+		}
 	 } else {
 		 $results = array(
 			'success' => false,
@@ -596,7 +668,7 @@ function ajax_login_init(){
     wp_localize_script( 'ajax-login-script', 'ajax_login_object', array( 
         'ajaxurl' => admin_url( 'admin-ajax.php' ),
         'templateurl' => home_url('/template/'),
-		'inspectorurl' => home_url('/form-viewer/?item=6'),
+		'inspectorurl' => home_url('/perform-inspection/'),
 		'homeurl' => home_url(),
         'loadingmessage' => __('Sending user info, please wait...')
     ));

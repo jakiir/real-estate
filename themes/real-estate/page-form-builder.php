@@ -19,9 +19,11 @@ get_header('form-builder'); ?>
 	if (is_user_logged_in()) {
 		$user = wp_get_current_user();
 		if($user->roles[0] != 'administrator'){
+			echo '<script>window.location.replace("'.home_url().'");</script>';
 			die('You have no access right! Please contact system administration for more information.!');
 		}
 	} else {
+		echo '<script>window.location.replace("'.home_url().'");</script>';
 		die('You have no access right! Please contact system administration for more information.!');
 	}
 ?>
