@@ -328,21 +328,24 @@ function perform_inspections(){
 		 $user_id = get_current_user_id();
 		 $get_inspection = $wpdb->get_results( "SELECT * FROM $table_inspection WHERE user_id=$user_id AND template_id=$template_id", OBJECT );
 		if(!empty($get_inspection)){
-			$wpdb->query($wpdb->prepare("UPDATE $table_template 
-			 SET company='".$company."',
-			 inpection_date='".$inpection_date."',
-			 report_identification='".$report_identification."',
-			 prepared_for='".$prepared_for."',
-			 prepared_by='".$prepared_by."',
-			 time_in='".$time_in."',
-			 time_out='".$time_out."',
-			 inspection_status='".$inspection_status."'
-			 WHERE template_id=$template_id AND user_id=$user_id"
-			 ));
+			 $wpdb->update(
+				$table_inspection, 
+				array( 
+					'company' => $company,
+					 'inpection_date' => $inpection_date,
+					 'report_identification' => $report_identification,					 
+					 'prepared_for' => $prepared_for,
+					 'prepared_by' => $prepared_by,
+					 'time_in' => $time_in,
+					 'time_out' => $time_out,
+					 'inspection_status' => $inspection_status					 
+				), 
+				array( 'user_id' => $user_id,'template_id' => $template_id )
+			);
 			 
 			 $results = array(
 				'success' => true,
-				'mess' => 'Data Successfully Updated.',
+				'mess' => 'Data Successfully Updated.1',
 				'template_id' => $template_id
 			 );	
 		} else {
@@ -357,7 +360,7 @@ function perform_inspections(){
 					 'time_in' => $time_in,
 					 'time_out' => $time_out,
 					 'inspection_status' => $inspection_status,
-					 'user_id' => $user_id,
+					 'user_id' => $user_id
 				 )
 			 );
 			 
