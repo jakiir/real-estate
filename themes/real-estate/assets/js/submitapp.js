@@ -122,6 +122,39 @@ angular.module('submitForm',['ui.tinymce'])
         //$scope.$apply();
       }
   }
+  
+  $scope.mediaUploderClb = function(control){
+	  
+	var file_frame; // variable for the wp.media file_frame
+	event.preventDefault();
+	// if the file_frame has already been created, just reuse it
+	if ( file_frame ) {
+		file_frame.open();
+		return;
+	}
+
+	file_frame = wp.media.frames.file_frame = wp.media({
+		title: $( this ).data( 'uploader_title' ),
+		button: {
+			text: $( this ).data( 'uploader_button_text' ),
+		},
+		multiple: false // set this to true for multiple file selection
+	});
+
+	file_frame.on( 'select', function() {
+		attachment = file_frame.state().get('selection').first().toJSON();
+		// do something with the file here
+		//$( '.frontend-button' ).hide();
+		//$( '.imggap' ).attr('src', attachment.url);
+		var ress = attachment.url;
+		if(ress){
+			control.url=ress;
+			$scope.$apply();
+		}
+	});
+	file_frame.open();
+  }
+  
   function flatten(tree){
     var data = [];
     for(i0=0;i0<tree.length;i0++){

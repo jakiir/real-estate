@@ -51,9 +51,10 @@ $hash_id = !empty($_GET['hash']) ? $_GET['hash'] : '';
   <img class="imggap fa" data-ng-init="uplodFile(control,'<?php echo $hash_id; ?>','<?php echo $get_att_url; ?>')" ng-src="{{control.hash=='<?php echo $hash_id; ?>'?'<?php echo $get_att_url; ?>':control.url}}" alt="Image Placeholder">  
   <div class="fileinput flex flexcenter hovereffect" ng-click="imageFileMess=false">
     <!--<input type="file" class="invisible fileinp" c-on-change="fileBrowse(control)">-->	
-	<div style="position:absolute;top:-55px;border:1px solid #000;background:#fff;padding:3px;width: 200px;" ng-hide="imageFileMess">
-		<a class="goToDrawing" target="_blank" href="<?php echo home_url('/canvas-drawing/?item='.$template_id.'&hash={{control.hash}}'.'#target={{control.url}}'); ?>"><i class="fa fa-picture-o" aria-hidden="true"></i> Go to canvas drawing <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
-		<a class="goToDrawing" target="_blank" href="<?php echo home_url('/design-draw/?item='.$template_id.'&hash={{control.hash}}'); ?>"><i class="fa fa-picture-o" aria-hidden="true"></i> Go to design draw <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
+	<div style="position:absolute;top:-77px;border:1px solid #000;background:#fff;padding:3px;width: 150px;" ng-hide="imageFileMess">
+		<a class="goToDrawing frontend-button" href="#" ng-click="mediaUploderClb(control)"><i class="fa fa-picture-o" aria-hidden="true"></i> Open media <i class="fa fa-expand" aria-hidden="true"></i></a>
+		<a class="goToDrawing" target="_blank" href="<?php echo home_url('/canvas-drawing/?item='.$template_id.'&hash={{control.hash}}'.'#target={{control.url}}'); ?>"><i class="fa fa-picture-o" aria-hidden="true"></i> Go to drawing <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
+		<a class="goToDrawing" target="_blank" href="<?php echo home_url('/design-draw/?item='.$template_id.'&hash={{control.hash}}'); ?>"><i class="fa fa-picture-o" aria-hidden="true"></i> Go to design <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
 	</div>
 	<span class="invisible fileinp"></span>
     <i class="fa fa-folder-open"></i>

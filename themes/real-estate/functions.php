@@ -578,6 +578,15 @@ add_role(
     )
 );
 
+if ( current_user_can('inspector') && !current_user_can('upload_files') )
+add_action('admin_init', 'allow_new_role_uploads');
+
+
+function allow_new_role_uploads() {
+    $new_role = get_role('inspector');
+    $new_role->add_cap('upload_files');
+}
+
 add_action('admin_menu', 'realestate_menu_pages');
 function realestate_menu_pages(){
     $form_data_page = add_menu_page('Form data', 'Form data', 'manage_options', 'form-data', 'form_data_output' );
@@ -761,4 +770,17 @@ if($attach_id){
 }
 echo json_encode($results_data);        
 die();
+}
+
+add_action( 'wp_enqueue_scripts', 'enqueue_scripts');
+function enqueue_scripts() {
+    wp_enqueue_media();
+    /*wp_enqueue_script(
+        'some-script',
+        get_template_directory_uri() . '/js/media-uploader.js',
+        // if you are building a plugin
+        // plugins_url( '/', __FILE__ ) . '/js/media-uploader.js',
+        array( 'jquery' ),
+        null
+    );*/
 }
