@@ -97,17 +97,18 @@ get_header('form-viewer'); ?>
         </div>
       </div>
     </form>
-    <!--<div class="actions">
-      <div class="button primary" ng-click="submitData()">
-        Submit Form
+    <div class="actions">
+	  <div class="msg_show" style="position: absolute;left:135px;top:19px;font-size:14px;background: #fff;padding: 2px 6px;"></div>
+      <div class="button primary saveChanges" ng-click="submitData()">
+        <i class="fa fa-floppy-o" aria-hidden="true"></i> Save Changes
       </div>
-      <div class="button secondary">
+      <!--<div class="button secondary">
         Draft
       </div>
       <div class="button negative">
         Discard
-      </div>
-    </div>-->
+      </div>-->
+    </div>
   </div>
 <?php //get_footer(); ?>
 

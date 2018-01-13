@@ -46,46 +46,65 @@ angular.module('submitForm',['ui.tinymce'])
     }
     return form;
   }
+  
+  var setAccessSession = '';
+    function autoSave(){
+      localStorage.setItem('formbuilder_cache_data',JSON.stringify($scope.formBlueprint));
+	  setAccessSession = setTimeout(autoSave, 500);
+	  //console.log(localStorage.formbuilder_cache_data);
+      //console.log("Auto Save Performed");
+    }
+	setAccessSession = setTimeout(autoSave, 500);
+  autoSave();
   // -- disabled for development
   // //check if the file is called from preview (will have cache data)
   if(localStorage.getItem('formbuilder_cache_data') && !$scope.form.length){
     $scope.formBlueprint = JSON.parse(localStorage.getItem('formbuilder_cache_data'));
     $scope.form = transform($scope.formBlueprint);
-    //console.log($scope.form);
+    console.log($scope.form);
   }
   var temp_dt = new Date();
   $scope.formBlueprint.prepared_date = temp_dt.toString();
   $scope.submitData = function(){
-    console.log("Data Submisson");
+    
     //var fd = new FormData(document.forms.mainform);
-	var data = $scope.formBlueprint;
-	fd.append('action', 'save_form_data');
-	fd.append('template_id', template_id);
-	fd.append('this_form_name', this_form_name);	
-	$.ajax({          
+	//var data = $scope.formBlueprint;
+	//fd.append('action', 'save_form_data');
+	//fd.append('template_id', template_id);
+	//fd.append('this_form_name', this_form_name);
+	$('.saveChanges').find('.fa').removeClass('fa-floppy-o');
+	$('.saveChanges').find('.fa').addClass('fa-refresh fa-spin');
+	var form_data = new FormData();    
+    var formJsonData = localStorage.formbuilder_cache_data;
+    form_data.append('action', 'saveDynamicForm');
+    form_data.append('template_id', template_id);
+    form_data.append('formJsonData', formJsonData);
+	
+	$.ajax({
+	  dataType : "json",
       url: ajax_url,
       type: 'post',
       contentType: false,
       processData: false,
-      data: data,          
+      data: form_data,          
       success: function (data) {
-        var parsedJson = $.parseJSON(data);
-        console.log(parsedJson);
+        var parsedJson = data;        
         if(parsedJson.success == true){
-          alert(parsedJson.mess);
-          //window.location.href = "<?php echo home_url('/form-builder/?item='); ?>"+template_id;
+			$('.msg_show').html('<font style="color:green">'+parsedJson.mess+'</span>');
         } else {
-        alert(parsedJson.mess);
+        $('.msg_show').html('<font style="color:red">'+parsedJson.mess+'</span>');
         }
+		$('.saveChanges').find('.fa').removeClass('fa-refresh fa-spin');
+		$('.saveChanges').find('.fa').addClass('fa-floppy-o');
       },
       error: function (errorThrown) {
-        alert(errorThrown);
+		$('.msg_show').html('<font style="color:red">'+errorThrown+'</span>');
       }
     });	
     //ToDo: Run AJAX submit for fd
   }
   $scope.fileBrowse = function(control){
-    var fi = document.querySelector('.fileinp');
+    var fi = document.querySelector('.fileinp-new');
     console.log(fi.files);
     readFile(fi.files[0],function(res){
       if(res){
@@ -93,6 +112,15 @@ angular.module('submitForm',['ui.tinymce'])
         $scope.$apply();
       }
     })
+  }
+  $scope.uplodFile = function(control,hash_id,att_url){
+	  //var updatedUrl = document.querySelector('.updatedUrl');
+	  //console.log(att_url);
+	  var ress = att_url;
+      if(ress && control.hash==hash_id){
+        control.url=ress;
+        //$scope.$apply();
+      }
   }
   function flatten(tree){
     var data = [];
