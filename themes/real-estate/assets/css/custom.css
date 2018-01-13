@@ -15,3 +15,8 @@
   border-radius:3px;
   color: #fff;
 }
+.goToDrawing{
+	display: block;
+    text-decoration: none;
+    line-height: 23px;
+}

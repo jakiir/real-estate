@@ -107,11 +107,13 @@ angular.module('submitForm',['ui.tinymce'])
     }
     return data;
   }
-  
+  $scope.imageFileMess = true;
+  $scope.showImageFileMess = function (event) {
+	  $scope.imageFileMess = false;
+  }
   $scope.commentListIsVisible = true;
   $scope.editbuttonIsVisible = true;
-  $scope.commentListShowHide = function (event,htmlN) {
-	  console.log(htmlN);
+  $scope.commentListShowHide = function (event) {
 	  if(event.target.checked){
 		  $scope.commentListIsVisible = false;
 		  $scope.editbuttonIsVisible = false;
@@ -127,7 +129,7 @@ angular.module('submitForm',['ui.tinymce'])
   $scope.commentEditShowHide = function () {
 	  $scope.commentEditIsVisible = $scope.commentEditIsVisible ? false : true;
 	  $scope.editbuttonIsVisible = $scope.editbuttonIsVisible ? false : true;
-	  $scope.commentListIsVisible = $scope.commentListIsVisible ? false : true;;
+	  $scope.commentListIsVisible = $scope.commentListIsVisible ? false : true;
   }
   
   $scope.conditionalEval = function(){

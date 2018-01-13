@@ -704,3 +704,61 @@ function ajax_login(){
 
     die();
 }
+
+add_action( 'wp_ajax_nopriv_savedrawingimages', 'savedrawingimages', 85);
+add_action( 'wp_ajax_savedrawingimages', 'savedrawingimages', 85 );
+function savedrawingimages(){
+	
+$data = $_POST['file'];
+if(empty($data)){ 
+	$results_data = array(
+		'success' => false,
+		'mess' => 'Form data not save, there are some error to save.',
+		'allPost'=>is_wp_error( $temp_file )
+	 );
+	 echo json_encode($results_data);        
+	die();
+}
+
+$uploads = wp_upload_dir();
+$file_name = time().'.png';
+$uploadfile = $uploads['path'] .'/'.$file_name;
+list($type, $data) = explode(';', $data);
+list(, $data)      = explode(',', $data);
+$data = base64_decode($data);
+
+file_put_contents($uploadfile, $data);
+
+$attachment = array(
+    'post_mime_type' => 'image/png',
+    'post_title' => $filename,
+    'post_content' => '',
+    'post_status' => 'inherit'
+);
+
+$attach_id = wp_insert_attachment( $attachment, $uploadfile );
+
+$imagenew = get_post( $attach_id );
+$fullsizepath = get_attached_file( $imagenew->ID );
+$attach_data = wp_generate_attachment_metadata( $attach_id, $fullsizepath );
+wp_update_attachment_metadata( $attach_id, $attach_data );
+
+if($attach_id){
+	$template_id = $_POST['template_id'];
+	$hash_id = $_POST['hash_id'];
+	$results_data = array(
+		'success' => true,
+		'mess' => 'Data Successfully updated.',
+		'template_id' => $template_id,
+		'attach_id' => $attach_id,
+		'redirect_url'=> home_url('/form-viewer/?item='.$template_id.'&att='.$attach_id.'&hash='.$hash_id)
+	);  
+} else {
+	$results_data = array(
+		'success' => false,
+		'mess' => 'Form data not save, there are some error to save.',
+	 );
+}
+echo json_encode($results_data);        
+die();
+}
