@@ -155,12 +155,44 @@ function eventListeners(){
     }
     document.querySelector('.downloadel')
       .addEventListener('click',function(){
+		  $(this).find('.fa').removeClass('fa-floppy-o');
+		  $(this).find('.fa').addClass('fa-refresh fa-spin');
         var tempa = document.querySelector('.downloadholder');
         tempa.href= drawingFab.toDataURL({
           format:'png'
         });
-        tempa.download=appName+".png";
-        tempa.click();
+		var template_id = tempa.getAttribute("data-template");
+		var hash_id = tempa.getAttribute("data-hash");
+		var form_data = new FormData();
+		form_data.append('action', 'savedrawingimages');
+		form_data.append('template_id', template_id);
+		form_data.append('hash_id', hash_id);
+		form_data.append('file', tempa.href);
+		$.ajax({
+		  dataType : "json",
+		  url: ajax_url,
+		  type: 'post',
+		  contentType: false,
+		  processData: false,
+		  data: form_data,          
+		  success: function (data) {
+			var parsedJson = data;        
+			if(parsedJson.success == true){
+				//$('.msg_show').html('<font style="color:green">'+parsedJson.mess+'</span>');
+			  window.location.href = parsedJson.redirect_url;
+			} else {
+				alert(parsedJson.mess);
+			//$('.msg_show').html('<font style="color:red">'+parsedJson.mess+'</span>');
+			}
+		  },
+		  error: function (errorThrown) {
+			//$('.msg_show').html('<font style="color:red">'+errorThrown+'</span>');
+		  }
+		});
+		
+		//console.log(tempa.href);
+        //tempa.download=appName+".png";
+        //tempa.click();
       })
     //Attaching event listeners
     var hdrs= document.querySelector('.holders');

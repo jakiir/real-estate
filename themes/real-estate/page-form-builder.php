@@ -24,7 +24,7 @@ get_header('form-builder'); ?>
 		}
 	} else {
 		echo '<script>window.location.replace("'.home_url().'");</script>';
-		die('You have no access right! Please contact system administration for more information.!');
+		die('You have no access right! Please contact system administration for more information.!2');
 	}
 ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/fa/css/font-awesome.min.css">

@@ -19,17 +19,23 @@ get_header('form-viewer'); ?>
 	if (is_user_logged_in()) {
 		$user = wp_get_current_user();
 		if($user->roles[0] != 'administrator' && $user->roles[0] != 'inspector'){
+			echo '<script>window.location.replace("'.home_url().'");</script>';
 			die('You have no access right! Please contact system administration for more information.!');
 		}
 	} else {
+		echo '<script>window.location.replace("'.home_url().'");</script>';
 		die('You have no access right! Please contact system administration for more information.!');
 	}
+	
+	$template_id = !empty($_GET['item']) ? $_GET['item'] : '';
+	$att = !empty($_GET['att']) ? $_GET['att'] : '';
+	$hash_id = !empty($_GET['hash']) ? $_GET['hash'] : '';
 ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/fa/css/font-awesome.min.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/form.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/submitform_controls.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/custom.css">
-
+<script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jquery.min.js"></script>
 <div class="container" ng-controller="submissonForm">
     <header>
       <div class="stdfields">
@@ -83,7 +89,7 @@ get_header('form-viewer'); ?>
             <div class="row" ng-repeat="child in section.children">
               <div class="col" ng-repeat="controls in child">
                 <div ng-repeat="control in controls">                  
-				  <div ng-include="'<?php echo esc_url( home_url('/submition-controls/') ); ?>'"></div>
+				  <div ng-include="'<?php echo esc_url( home_url('/submition-controls/?item='.$template_id.'&att='.$att.'&hash='.$hash_id) ); ?>'"></div>
                 </div>
               </div>
             </div>
@@ -91,24 +97,23 @@ get_header('form-viewer'); ?>
         </div>
       </div>
     </form>
-    <!--<div class="actions">
-      <div class="button primary" ng-click="submitData()">
-        Submit Form
+    <div class="actions">
+	  <div class="msg_show" style="position: absolute;left:135px;top:19px;font-size:14px;background: #fff;padding: 2px 6px;"></div>
+      <div class="button primary saveChanges" ng-click="submitData()">
+        <i class="fa fa-floppy-o" aria-hidden="true"></i> Save Changes
       </div>
-      <div class="button secondary">
+      <!--<div class="button secondary">
         Draft
       </div>
       <div class="button negative">
         Discard
-      </div>
-    </div>-->
+      </div>-->
+    </div>
   </div>
-<?php //get_footer(); ?>
-
+<?php get_footer(); ?>
 <?php 
 	global $wpdb;
-	$table_template = $wpdb->prefix . 'template';					
-	$template_id = !empty($_GET['item']) ? $_GET['item'] : '';
+	$table_template = $wpdb->prefix . 'template';	
 	$form_data = $wpdb->get_results( "SELECT * FROM $table_template WHERE id=$template_id", OBJECT );
 	$table_template_detail = $wpdb->prefix . 'template_detail';
 	$get_template_detail = $wpdb->get_results( "SELECT * FROM $table_template_detail WHERE template_id=$template_id", OBJECT );

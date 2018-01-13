@@ -328,21 +328,24 @@ function perform_inspections(){
 		 $user_id = get_current_user_id();
 		 $get_inspection = $wpdb->get_results( "SELECT * FROM $table_inspection WHERE user_id=$user_id AND template_id=$template_id", OBJECT );
 		if(!empty($get_inspection)){
-			$wpdb->query($wpdb->prepare("UPDATE $table_template 
-			 SET company='".$company."',
-			 inpection_date='".$inpection_date."',
-			 report_identification='".$report_identification."',
-			 prepared_for='".$prepared_for."',
-			 prepared_by='".$prepared_by."',
-			 time_in='".$time_in."',
-			 time_out='".$time_out."',
-			 inspection_status='".$inspection_status."'
-			 WHERE template_id=$template_id AND user_id=$user_id"
-			 ));
+			 $wpdb->update(
+				$table_inspection, 
+				array( 
+					'company' => $company,
+					 'inpection_date' => $inpection_date,
+					 'report_identification' => $report_identification,					 
+					 'prepared_for' => $prepared_for,
+					 'prepared_by' => $prepared_by,
+					 'time_in' => $time_in,
+					 'time_out' => $time_out,
+					 'inspection_status' => $inspection_status					 
+				), 
+				array( 'user_id' => $user_id,'template_id' => $template_id )
+			);
 			 
 			 $results = array(
 				'success' => true,
-				'mess' => 'Data Successfully Updated.',
+				'mess' => 'Data Successfully Updated.1',
 				'template_id' => $template_id
 			 );	
 		} else {
@@ -357,7 +360,7 @@ function perform_inspections(){
 					 'time_in' => $time_in,
 					 'time_out' => $time_out,
 					 'inspection_status' => $inspection_status,
-					 'user_id' => $user_id,
+					 'user_id' => $user_id
 				 )
 			 );
 			 
@@ -575,6 +578,15 @@ add_role(
     )
 );
 
+if ( current_user_can('inspector') && !current_user_can('upload_files') )
+add_action('admin_init', 'allow_new_role_uploads');
+
+
+function allow_new_role_uploads() {
+    $new_role = get_role('inspector');
+    $new_role->add_cap('upload_files');
+}
+
 add_action('admin_menu', 'realestate_menu_pages');
 function realestate_menu_pages(){
     $form_data_page = add_menu_page('Form data', 'Form data', 'manage_options', 'form-data', 'form_data_output' );
@@ -700,4 +712,75 @@ function ajax_login(){
     }
 
     die();
+}
+
+add_action( 'wp_ajax_nopriv_savedrawingimages', 'savedrawingimages', 85);
+add_action( 'wp_ajax_savedrawingimages', 'savedrawingimages', 85 );
+function savedrawingimages(){
+	
+$data = $_POST['file'];
+if(empty($data)){ 
+	$results_data = array(
+		'success' => false,
+		'mess' => 'Form data not save, there are some error to save.',
+		'allPost'=>is_wp_error( $temp_file )
+	 );
+	 echo json_encode($results_data);        
+	die();
+}
+
+$uploads = wp_upload_dir();
+$file_name = time().'.png';
+$uploadfile = $uploads['path'] .'/'.$file_name;
+list($type, $data) = explode(';', $data);
+list(, $data)      = explode(',', $data);
+$data = base64_decode($data);
+
+file_put_contents($uploadfile, $data);
+
+$attachment = array(
+    'post_mime_type' => 'image/png',
+    'post_title' => $filename,
+    'post_content' => '',
+    'post_status' => 'inherit'
+);
+
+$attach_id = wp_insert_attachment( $attachment, $uploadfile );
+
+$imagenew = get_post( $attach_id );
+$fullsizepath = get_attached_file( $imagenew->ID );
+$attach_data = wp_generate_attachment_metadata( $attach_id, $fullsizepath );
+wp_update_attachment_metadata( $attach_id, $attach_data );
+
+if($attach_id){
+	$template_id = $_POST['template_id'];
+	$hash_id = $_POST['hash_id'];
+	$results_data = array(
+		'success' => true,
+		'mess' => 'Data Successfully updated.',
+		'template_id' => $template_id,
+		'attach_id' => $attach_id,
+		'redirect_url'=> home_url('/form-viewer/?item='.$template_id.'&att='.$attach_id.'&hash='.$hash_id)
+	);  
+} else {
+	$results_data = array(
+		'success' => false,
+		'mess' => 'Form data not save, there are some error to save.',
+	 );
+}
+echo json_encode($results_data);        
+die();
+}
+
+add_action( 'wp_enqueue_scripts', 'enqueue_scripts');
+function enqueue_scripts() {
+    wp_enqueue_media();
+    /*wp_enqueue_script(
+        'some-script',
+        get_template_directory_uri() . '/js/media-uploader.js',
+        // if you are building a plugin
+        // plugins_url( '/', __FILE__ ) . '/js/media-uploader.js',
+        array( 'jquery' ),
+        null
+    );*/
 }

@@ -1,10 +1,32 @@
+<?php
+/**
+ * Template Name: Design draw
+ * This is the template that displays all pages by default.
+ * Please note that this is the WordPress construct of pages
+ * and that other 'pages' on your WordPress site may use a
+ * different template.
+ *
+ * @link https://codex.wordpress.org/Template_Hierarchy
+ *
+ * @package WordPress
+ * @subpackage Twenty_Seventeen
+ * @since 1.0
+ * @version 1.0
+ */
+ $template_id = !empty($_GET['item']) ? $_GET['item'] : '';
+ $hash = !empty($_GET['hash']) ? $_GET['hash'] : '';
+ 
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Canvas Client</title>
-  <link rel="stylesheet" href="fa/css/font-awesome.min.css">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/fa/css/font-awesome.min.css">
+  <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/style.css">
+	<script>
+		var ajax_url = '<?php echo admin_url('admin-ajax.php'); ?>';
+	</script>
 </head>
 <body ng-app="drawing">
 <div class="toolbarholder" ng-controller="toolsController">
@@ -106,25 +128,26 @@
     </div>
   </div>
 </div>
-<a class="downloadholder" href="#" style="display:none"> </a>
+<a class="downloadholder" data-template="<?php echo $template_id; ?>" data-hash="<?php echo $hash; ?>" href="#" style="display:none"> </a>
+<script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jquery.min.js"></script>
 <!-- Libs -->
-<script src="fabric.js"></script>
-<script src="angular.min.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/fabric.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/angular.min.js"></script>
 <!-- Draw Stuff -->
-<script src="events.js"></script>
-<script src="init.js"></script>
-<script src="utils.js"></script>
-<script src="drawing.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/events.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/init.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/utils.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/drawing.js"></script>
 <!-- tools -->
-<script src="pointer.js"></script>
-<script src="line.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/pointer.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/line.js"></script>
 <!-- <script src="arrow.js"></script> -->
-<script src="rect.js"></script>
-<script src="circle.js"></script>
-<script src="text.js"></script>
-<script src="pencil.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/rect.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/circle.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/text.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/pencil.js"></script>
 <!-- events -->
 <!-- Angular APP -->
-<script src="app.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/app.js"></script>
 </body>
 </html>
