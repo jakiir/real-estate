@@ -13,21 +13,10 @@
  * @since 1.0
  * @version 1.0
  */
+ get_header('canvas-drawing');
  $template_id = !empty($_GET['item']) ? $_GET['item'] : '';
  $hash = !empty($_GET['hash']) ? $_GET['hash'] : '';
  ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Canvas Client</title>
-  <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/fa/css/font-awesome.min.css">
-  <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/style.css">
-	<script>
-		var ajax_url = '<?php echo admin_url('admin-ajax.php'); ?>';
-	</script>
-</head>
-<body ng-app="drawing">
 <div class="toolbarholder" ng-controller="toolsController">
   <div class="toolbar left">
     <div class="drtool" ng-class="{'current':currentTool==tname}" ng-click="toolAlter(tname)" ng-repeat="(tname,tool) in tools">
@@ -51,6 +40,9 @@
   <div class="toolbar top">
     <div class="toptoolrest">
 
+    </div>
+	<div class="toptool uploadMedia" href="#">
+      <i class="fa fa-upload" aria-hidden="true"></i> <span>Upload Media</span>
     </div>
     <div class="toptool downloadel" href="#" download="drawing.png" target="_blank">
       <i class="fa fa-floppy-o" aria-hidden="true"></i> <span>Save</span>
@@ -146,5 +138,4 @@
     }
   }
 </script>
-</body>
-</html>
+<?php get_footer('canvas-drawing'); ?>
