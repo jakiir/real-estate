@@ -41,7 +41,7 @@
     <div class="toptoolrest">
 
     </div>
-	<div class="toptool uploadMedia" href="#">
+	<div class="toptool uploadMedia" onClick="uploadMedia()" href="#">
       <i class="fa fa-upload" aria-hidden="true"></i> <span>Upload Media</span>
     </div>
     <div class="toptool downloadel" href="#" download="drawing.png" target="_blank">
