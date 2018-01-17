@@ -2,7 +2,7 @@ tools.line = {
   name:"Line",
   icon:"fa-expand",
   execute:function(ctx,attrs,fab){
-    console.log(attrs);
+    //console.log(attrs);
     var rectWidth = attrs.endX-attrs.startX;
     var rectHeight = attrs.endY-attrs.startY;
     var dt = (attrs.data)?attrs.data:{};

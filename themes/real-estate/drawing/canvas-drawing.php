@@ -16,7 +16,18 @@
  get_header('canvas-drawing');
  $template_id = !empty($_GET['item']) ? $_GET['item'] : '';
  $hash = !empty($_GET['hash']) ? $_GET['hash'] : '';
- ?>
+
+	if (!is_user_logged_in()) {
+		echo '<script>window.location.replace("'.home_url().'");</script>';
+		die('You have no access right! Please contact system administration for more information.!');
+	}
+	$user_id = get_current_user_id();
+?>
+<script>
+	var ajax_url = '<?php echo admin_url('admin-ajax.php'); ?>';
+	var template_id = '<?php echo $template_id; ?>';
+	var user_id = '<?php echo $user_id; ?>';
+</script>
 <div class="toolbarholder" ng-controller="toolsController">
   <div class="toolbar left">
     <div class="drtool" ng-class="{'current':currentTool==tname}" ng-click="toolAlter(tname)" ng-repeat="(tname,tool) in tools">
@@ -41,7 +52,7 @@
     <div class="toptoolrest">
 
     </div>
-	<div class="toptool uploadMedia" href="#">
+	<div class="toptool uploadMedia" onClick="uploadMedia()" href="#">
       <i class="fa fa-upload" aria-hidden="true"></i> <span>Upload Media</span>
     </div>
     <div class="toptool downloadel" href="#" download="drawing.png" target="_blank">

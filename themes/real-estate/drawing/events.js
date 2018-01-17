@@ -76,7 +76,7 @@ function eventListeners(){
     drawingFab.on('object:modified',function(){
       var activeObj = drawingFab.getActiveObject();
       if(!activeObj) return false;
-      console.log(activeObj);
+      //console.log(activeObj);
       var theEl = layers.filter(function(el){
         return el.uuid==activeObj.uuid;
       })[0];
@@ -108,7 +108,7 @@ function eventListeners(){
       if(!theEl){
         return false;
       }
-      console.log(theEl);
+      //console.log(theEl);
       if(theEl.tool=='text'){
         document.querySelector('.prefeditor').style.display='block';
       }
@@ -143,7 +143,7 @@ function eventListeners(){
         document.querySelector('.prefeditor').style.display='none';
         return false;
       }
-      console.log(activeObj);
+      //console.log(activeObj);
       var theEl = layers.filter(function(el,i){
         return el.uuid==activeObj.uuid;
       })[0];
@@ -195,38 +195,6 @@ function eventListeners(){
         //tempa.click();
       })
 	  
-	  document.querySelector('.uploadMedia')
-      .addEventListener('click',function(){
-		  var file_frame; // variable for the wp.media file_frame
-			event.preventDefault();
-			// if the file_frame has already been created, just reuse it
-			if ( file_frame ) {
-				file_frame.open();
-				return;
-			}
-
-			file_frame = wp.media.frames.file_frame = wp.media({
-				title: $( this ).data( 'uploader_title' ),
-				button: {
-					text: $( this ).data( 'uploader_button_text' ),
-				},
-				multiple: false // set this to true for multiple file selection
-			});
-
-			file_frame.on( 'select', function() {
-				attachment = file_frame.state().get('selection').first().toJSON();
-				// do something with the file here
-				//$( '.frontend-button' ).hide();
-				//$( '.imggap' ).attr('src', attachment.url);
-				var ress = attachment.url;
-				if(ress){
-					var get_url = window.location.href;
-					var get_url_first = get_url.split('#');
-					window.location.href = get_url_first+'#target='+ress;
-				}
-			});
-			file_frame.open();
-      })
 	  
     //Attaching event listeners
     var hdrs= document.querySelector('.holders');
@@ -237,7 +205,7 @@ function eventListeners(){
     document.querySelector('.deletel').addEventListener('click',checkDelete);
   }
   function loadDoc(){
-    console.log("Document load");
+    //console.log("Document load");
     var imageEl = document.querySelector('#theimage');
     var iWidth = imageEl.width;
     var iHeight = imageEl.height;
@@ -245,6 +213,39 @@ function eventListeners(){
       iHeight = (iHeight/iWidth)*1000;
       iWidth = 1000;
     }
-    console.log(iWidth,iHeight);
+    //console.log(iWidth,iHeight);
     setup(iWidth,iHeight,imageEl);
+  }
+  
+  function uploadMedia(){
+	  var file_frame; // variable for the wp.media file_frame
+		event.preventDefault();
+		// if the file_frame has already been created, just reuse it
+		if ( file_frame ) {
+			file_frame.open();
+			return;
+		}
+
+		file_frame = wp.media.frames.file_frame = wp.media({
+			title: $( this ).data( 'uploader_title' ),
+			button: {
+				text: $( this ).data( 'uploader_button_text' ),
+			},
+			multiple: false // set this to true for multiple file selection
+		});
+
+		file_frame.on( 'select', function() {
+			attachment = file_frame.state().get('selection').first().toJSON();
+			// do something with the file here
+			//$( '.frontend-button' ).hide();
+			//$( '.imggap' ).attr('src', attachment.url);
+			var ress = attachment.url;
+			if(ress){
+				var get_url = window.location.href;
+				var get_url_first = get_url.split('#');
+				window.location.href = get_url_first[0]+'#target='+ress;
+				location.reload();
+			}
+		});
+		file_frame.open();
   }
