@@ -17,9 +17,6 @@
   <title>Canvas Client</title>
   <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/fa/css/font-awesome.min.css">
   <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/style.css">
-	<script>
-		var ajax_url = '<?php echo admin_url('admin-ajax.php'); ?>';
-	</script>
 	<?php wp_head(); ?>
 </head>
 <body ng-app="drawing">

@@ -306,6 +306,40 @@ function editTemplateAction(){
 	die();
   }
   
+add_action( 'wp_ajax_nopriv_cache_drwing_save', 'cache_drwing_save', 85);
+add_action( 'wp_ajax_cache_drwing_save', 'cache_drwing_save', 85 );
+function cache_drwing_save(){
+	$template_id = $_POST['template_id'];
+	$results = array();
+	if($template_id){
+		 $user_id = $_POST['user_id'];
+		 $template_html = $_POST['template_html'];
+		 //$template_html = json_encode($dataObject);
+		 global $wpdb;
+		 $table_inspection = $wpdb->prefix . 'inspection';
+		 $wpdb->update(
+				$table_inspection, 
+				array( 
+					'template_html' => $template_html					 
+				), 
+				array( 'user_id' => $user_id,'template_id' => $template_id )
+			);
+			 
+			 $results = array(
+				'success' => true,
+				'mess' => 'Data Successfully Updated.1',
+				'template_id' => $template_html,
+				'user_id' => $user_id
+			 );
+	} else {
+		$results = array(
+			'success' => false,
+			'mess' => 'Form data not save, there are some error to save.'
+		 );
+	 }
+	echo json_encode($results);        
+	die();
+}
   
 add_action( 'wp_ajax_nopriv_perform_inspections', 'perform_inspections', 85);
 add_action( 'wp_ajax_perform_inspections', 'perform_inspections', 85 );

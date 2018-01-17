@@ -41,7 +41,33 @@ angular.module('drawing',[])
         $scope.backupList.push(item);
       }
     }
-    //console.log($scope.backupList);
+	/*var form_data = new FormData();
+	form_data.append('action', 'cache_drwing_save');
+	form_data.append('template_id', template_id);
+	form_data.append('user_id', user_id);
+	var jsonString = JSON.stringify(localStorage);
+	form_data.append('template_html', jsonString);	
+	$.ajax({
+		  dataType : "json",
+		  url: ajax_url,
+		  type: 'post',
+		  contentType: false,
+		  processData: false,
+		  data: form_data,          
+		  success: function (data) {
+			var parsedJson = data;        
+			if(parsedJson.success == true){
+				console.log(parsedJson.mess);
+			} else {
+				console.log(parsedJson.mess);
+			}
+		  },
+		  error: function (errorThrown) {
+			//$('.msg_show').html('<font style="color:red">'+errorThrown+'</span>');
+		  }
+		});*/
+	
+    //console.log(localStorage);
   }
   function canvasResolve(){
     if(tools[currentTool].noAction){
