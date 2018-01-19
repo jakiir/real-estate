@@ -26,6 +26,7 @@
 <script>
 	var ajax_url = '<?php echo admin_url('admin-ajax.php'); ?>';
 	var template_id = '<?php echo $template_id; ?>';
+	var hash = '<?php echo $hash; ?>';
 	var user_id = '<?php echo $user_id; ?>';
 </script>
 <div class="toolbarholder" ng-controller="toolsController">
@@ -52,14 +53,15 @@
     <div class="toptoolrest">
 
     </div>
+	<div style="color:green;margin-top:17px;" class="ajax_mess"></div>
 	<div class="toptool uploadMedia" onClick="uploadMedia()" href="#">
       <i class="fa fa-upload" aria-hidden="true"></i> <span>Upload Media</span>
     </div>
-    <div class="toptool downloadel" href="#" download="drawing.png" target="_blank">
-      <i class="fa fa-floppy-o" aria-hidden="true"></i> <span>Save</span>
+    <div class="toptool downloadel- saveasdrave" ng-click="saveToServer()" href="#" download="drawing.png" target="_blank">
+      <i class="fa fa-floppy-o" aria-hidden="true"></i> <span>Save as draft</span>
     </div>
     <div class="toptool downloadel" href="#" download="drawing.png" target="_blank">
-      <i class="fa fa-download" aria-hidden="true"></i> <span>Download</span>
+      <i class="fa fa-floppy-o" aria-hidden="true"></i> <span>Save</span>
     </div>
     <div class="toptool deletel">
       <i class="fa fa-ban" aria-hidden="true"></i> <span>Delete</span>

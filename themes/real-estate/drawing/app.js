@@ -38,15 +38,21 @@ angular.module('drawing',[])
   function listBackups(){
     for(item in localStorage){
       if(item.match(/^dbc_/)){
-        $scope.backupList.push(item);
+        //$scope.backupList.push(item);
+		//console.log($scope.backupList);
       }
     }
-	/*var form_data = new FormData();
-	form_data.append('action', 'cache_drwing_save');
+	if(!window.location.hash){
+		var drawing_type = 'survey';
+	} else {
+		var drawing_type = 'annotate';
+	}
+	var form_data = new FormData();
+	form_data.append('action', 'get_save_as_draft');
 	form_data.append('template_id', template_id);
+	form_data.append('hash', hash);
 	form_data.append('user_id', user_id);
-	var jsonString = JSON.stringify(localStorage);
-	form_data.append('template_html', jsonString);	
+	form_data.append('drawing_type', drawing_type);
 	$.ajax({
 		  dataType : "json",
 		  url: ajax_url,
@@ -57,15 +63,20 @@ angular.module('drawing',[])
 		  success: function (data) {
 			var parsedJson = data;        
 			if(parsedJson.success == true){
-				console.log(parsedJson.mess);
-			} else {
-				console.log(parsedJson.mess);
+				var itemDraw = 'dbc_'+parsedJson.drawingName;
+				if(itemDraw.match(/^dbc_/)){					
+					$scope.backupList.push(itemDraw);
+					$('.unfinished-title').removeClass('ng-hide').addClass('ng-show');
+					var htmlEle = '<p class="backupname" onClick=loadBackupCus("'+itemDraw+'")>'+itemDraw+'</p>';
+					$('.unfinished').prepend(htmlEle);
+				}
+				//console.log($scope.backupList);
 			}
 		  },
 		  error: function (errorThrown) {
 			//$('.msg_show').html('<font style="color:red">'+errorThrown+'</span>');
 		  }
-		});*/
+		});
 	
     //console.log(localStorage);
   }
@@ -76,7 +87,7 @@ angular.module('drawing',[])
     else{
       document.querySelector('canvas#effect').style.zIndex='400';
     }
-  }
+  }  
   $scope.loadBackup=function(bname){
     autoRestore(bname);
   }
@@ -88,11 +99,16 @@ angular.module('drawing',[])
       setup(dWidth,dHeight);
     }
   }
-  $scope.saveToServer=function(){
+  var setAccessSession = '';
+  function saveToServer(){
+	  setAccessSession = setTimeout(saveToServer, 5000);
+	  $('.saveasdrave').find('.fa').removeClass('fa-floppy-o');
+	  $('.saveasdrave').find('.fa').addClass('fa-refresh fa-spin');
+	  $('.ajax_mess').html('');
     /*
     ToDo: For Jakir Bhai
     */
-    var rawImage = drawingFab.toDataURL({
+    /*var rawImage = drawingFab.toDataURL({
       format:'png'
     });
     var editingData = layers;
@@ -100,17 +116,64 @@ angular.module('drawing',[])
       drawingName:appName,
       drawingData:editingData,
       rawImage:rawImage
-    }
-    $http.send('<path to Wordpress Server to save to media library and store the editing data>',dataToSend)
+    }*/
+	
+	var storeData = {
+		data:layers,
+		width:globalWidth,
+		height:globalHeight
+	  }
+	
+	if(!window.location.hash){
+		var drawing_type = 'survey';
+	} else {
+		var drawing_type = 'annotate';
+	}
+	var form_data = new FormData();
+	form_data.append('action', 'save_as_draft');
+	form_data.append('template_id', template_id);
+	form_data.append('hash', hash);
+	form_data.append('user_id', user_id);	
+	form_data.append('drawingName', appName);
+	var jsonString = JSON.stringify(storeData);
+	form_data.append('drawingData', jsonString);
+	form_data.append('drawing_type', drawing_type);
+	$.ajax({
+		  dataType : "json",
+		  url: ajax_url,
+		  type: 'post',
+		  contentType: false,
+		  processData: false,
+		  data: form_data,          
+		  success: function (data) {
+			var parsedJson = data;        
+			if(parsedJson.success == true){
+				$('.saveasdrave').find('.fa').removeClass('fa-refresh fa-spin');
+				$('.saveasdrave').find('.fa').addClass('fa-floppy-o');
+				$('.ajax_mess').html(parsedJson.mess);
+			} else {
+				alert(parsedJson.mess);
+			}
+		  },
+		  error: function (errorThrown) {
+			//$('.msg_show').html('<font style="color:red">'+errorThrown+'</span>');
+		  }
+		});
+    /*$http.send(ajax_url+'?action=cache_drwing_save',dataToSend)
     .then(function(success){
       Alert("Data Saved");
     },function(error){
       alert("Data Save Error");
-    })
+    })*/
   }
+  setAccessSession = setTimeout(saveToServer, 5000);
   $scope.undo = undo;
   $scope.cancelUndo = cancelUndo;
   $scope.clear = clear;
   //Initializations
   listBackups();
 });
+
+function loadBackupCus(bname){
+	autoRestore(bname);
+}
