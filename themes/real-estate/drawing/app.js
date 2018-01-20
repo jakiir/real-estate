@@ -14,6 +14,7 @@ angular.module('drawing',[])
     "#c0392b",
     "#27ae60"
   ];
+  var setAccessSession = '';
   $scope.drawingCreds = {
     dname:"Drawing_"+Date.now(),
     dw:1000,
@@ -61,7 +62,7 @@ angular.module('drawing',[])
 		  processData: false,
 		  data: form_data,          
 		  success: function (data) {
-			var parsedJson = data;        
+			var parsedJson = data;			
 			if(parsedJson.success == true){
 				var itemDraw = 'dbc_'+parsedJson.drawingName;
 				if(itemDraw.match(/^dbc_/)){					
@@ -71,6 +72,11 @@ angular.module('drawing',[])
 					$('.unfinished').prepend(htmlEle);
 				}
 				//console.log($scope.backupList);
+			} else {
+				if(drawing_type == 'annotate'){
+					setAccessSession = setTimeout(saveToServer, 5000);
+					loadDoc();
+				}				
 			}
 		  },
 		  error: function (errorThrown) {
@@ -92,15 +98,41 @@ angular.module('drawing',[])
     autoRestore(bname);
   }
   $scope.createNew = function(){
+	setAccessSession = setTimeout(saveToServer, 5000);
     var dWidth = parseInt($scope.drawingCreds.dw);
     var dHeight = parseInt($scope.drawingCreds.dh);
     if(dWidth && dHeight && $scope.drawingCreds.dname){
       appName = $scope.drawingCreds.dname;
       setup(dWidth,dHeight);
     }
+  }  
+  $scope.undo = undo;
+  $scope.cancelUndo = cancelUndo;
+  $scope.clear = clear;
+  //Initializations
+  listBackups();
+});
+
+function loadBackupCus(bname){
+	setAccessSession = setTimeout(saveToServer, 5000);
+	autoRestore(bname);
+}
+
+function loadDocCus(){
+	setAccessSession = setTimeout(saveToServer, 5000);
+    //console.log("Document load");
+    var imageEl = document.querySelector('#theimage');
+    var iWidth = imageEl.width;
+    var iHeight = imageEl.height;
+    if(iWidth>1000){
+      iHeight = (iHeight/iWidth)*1000;
+      iWidth = 1000;
+    }
+    //console.log(iWidth,iHeight);
+    setup(iWidth,iHeight,imageEl);
   }
-  var setAccessSession = '';
-  function saveToServer(){
+
+function saveToServer(){
 	  setAccessSession = setTimeout(saveToServer, 5000);
 	  $('.saveasdrave').find('.fa').removeClass('fa-floppy-o');
 	  $('.saveasdrave').find('.fa').addClass('fa-refresh fa-spin');
@@ -166,14 +198,3 @@ angular.module('drawing',[])
       alert("Data Save Error");
     })*/
   }
-  setAccessSession = setTimeout(saveToServer, 5000);
-  $scope.undo = undo;
-  $scope.cancelUndo = cancelUndo;
-  $scope.clear = clear;
-  //Initializations
-  listBackups();
-});
-
-function loadBackupCus(bname){
-	autoRestore(bname);
-}

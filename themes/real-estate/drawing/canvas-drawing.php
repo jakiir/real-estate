@@ -78,11 +78,18 @@
     </div>
   </div>
   <!-- startup backdrop -->
+  <!-- startup backdrop -->
   <div class="backdrop">
     <div class="startup">
-      <div class="section text-center">
-        Loading...
+	   <div class="section text-center">
+        <div class="button createbtn" onclick="loadDocCus()">
+          Create Document
+        </div>
       </div>
+      <div class="section text-center unfinished-title" ng-show="backupList.length">
+        <p>Or Load An Unfinished one :</p>
+      </div>
+      <div class="unfinished"></div>
     </div>
   </div>
 </div>
@@ -105,7 +112,7 @@
   </div>
 </div>
 <a class="downloadholder" data-template="<?php echo $template_id; ?>" data-hash="<?php echo $hash; ?>" href="#" style="display:none"> </a>
-<img src="" alt="mainimg" crossorigin id="theimage" style="position:absolute;z-index:-2000;opacity:0" onload="loadDoc()">
+<img src="" alt="mainimg" crossorigin id="theimage" style="position:absolute;z-index:-2000;opacity:0">
 <script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jquery.min.js"></script>
 <!-- Libs -->
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/fabric.js"></script>
