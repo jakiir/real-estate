@@ -2,35 +2,26 @@ tools.line = {
   name:"Line",
   icon:"fa-expand",
   execute:function(ctx,attrs,fab){
-    var fCoords = xySort(attrs.startX,attrs.startY,attrs.endX,attrs.endY);
-    attrs.nstartX=fCoords.x1;
-    attrs.nstartY=fCoords.y1;
-    attrs.nendX=fCoords.x2;
-    attrs.nendY=fCoords.y2;
-    var rectWidth = attrs.nendX-attrs.nstartX;
-    var rectHeight = attrs.nendY-attrs.nstartY;
+    //console.log(attrs);
+    var rectWidth = attrs.endX-attrs.startX;
+    var rectHeight = attrs.endY-attrs.startY;
     var dt = (attrs.data)?attrs.data:{};
     var dLine = new fabric.Line([attrs.startX,attrs.startY,attrs.endX,attrs.endY],{
-      originX:'left',
-      originY:'left',
       stroke:(dt.stroke)?dt.stroke:strokeColor,
-      strokeWidth:dt.strokeWidth||globalStrokeWidth
-    });
-    //Distance calculation
-    var dist = Math.round(Math.sqrt(Math.pow(attrs.nstartX-attrs.nendX,2)+Math.pow(attrs.nstartY-attrs.nendY,2))/globalGridSize);
-    var lText = new fabric.Text(dist.toString(),{
-      originX:'left',
-      originY:'left',
+      strokeWidth:7,
       left:0,
-      top:0,
-      fill:(dt.stroke)?dt.stroke:strokeColor,
-      fontSize:12,
-      textAlign:'center',
-      textBackgroundColor:'#fff'
+      top:0
     });
-    var sqGrp = new fabric.Group([dLine,lText],{
-      left:attrs.nstartX,
-      top:attrs.nstartY,
+    var dRect = new fabric.Rect({
+      width:rectWidth,
+      height:rectHeight,
+      originX:0,
+      originY:0,
+      fill:null
+    });
+    var sqGrp = new fabric.Group([dRect,dLine],{
+      left:attrs.startX,
+      top:attrs.startY,
       width:rectWidth,
       height:rectHeight,
       angle:attrs.angle

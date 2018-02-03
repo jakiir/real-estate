@@ -32,6 +32,7 @@
 	<script>
 		var ajax_url = '<?php echo admin_url('admin-ajax.php'); ?>';
 		var template_id = '<?php echo $template_id; ?>';
+		var hash = '<?php echo $hash; ?>';
 		var user_id = '<?php echo $user_id; ?>';
 	</script>
 </head>
@@ -45,15 +46,6 @@
       <div class="color" ng-repeat="color in colors" ng-class="{'current':currentStrokeColor==color}" style="background-color:{{color}}" ng-click="changeColor(color)">
       </div>
     </div>
-	<div class="customcolor">
-        <p>Custom Color</p>
-        <input type="color" class="customcolor" ng-model="currentStrokeColor" ng-change="changeColor(currentStrokeColor)">
-      </div>
-      <div class="strokewidthholder">
-        <p>Stroke Width</p>
-        <input class="strokewidth" type="range" min="1" max="15" value="1" ng-model="strokeWidth" ng-change="changeStrokeWidth()">
-        <div class="strokesample" ng-style="{'height':heightInPx(strokeWidth)}"></div>
-      </div>
     <div class="gridsize">
       <p>Grid Size</p>
       <select ng-model="grid" class="gsize" ng-change="changeGridSize()">
@@ -69,11 +61,12 @@
     <div class="toptoolrest">
 
     </div>
-    <div class="toptool downloadel" href="#" download="drawing.png" target="_blank">
-      <i class="fa fa-floppy-o" aria-hidden="true"></i> <span>Save</span>
+	<div style="color:green;margin-top:17px;" class="ajax_mess"></div>
+    <div class="toptool downloadel- saveasdrave" ng-click="saveToServer()" href="#" download="drawing.png" target="_blank">
+      <i class="fa fa-floppy-o" aria-hidden="true"></i> <span>Save as draft</span>
     </div>
     <div class="toptool downloadel" href="#" download="drawing.png" target="_blank">
-      <i class="fa fa-download" aria-hidden="true"></i> <span>Download</span>
+      <i class="fa fa-floppy-o" aria-hidden="true"></i> <span>Save</span>
     </div>
     <div class="toptool deletel">
       <i class="fa fa-ban" aria-hidden="true"></i> <span>Delete</span>
@@ -115,7 +108,7 @@
           Create Document
         </div>
       </div>
-      <div class="section text-center" ng-show="backupList.length">
+      <div class="section text-center unfinished-title" ng-show="backupList.length">
         <p>Or Load An Unfinished one :</p>
       </div>
       <div class="unfinished">
@@ -157,7 +150,6 @@
 <!-- tools -->
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/pointer.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/line.js"></script>
-<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/curve.js"></script>
 <!-- <script src="arrow.js"></script> -->
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/rect.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/circle.js"></script>

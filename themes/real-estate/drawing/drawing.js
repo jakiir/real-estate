@@ -9,6 +9,14 @@ function reDraw(final){ //use final before export
   //reset Drawing Layer
   if(!final) resetDrawing();
   //redraw from layers
+  var bgi = new fabric.Image(background,{
+    width:globalWidth,
+    height:globalHeight,
+    left:0,
+    top:0,
+    selectable:false
+  });
+  drawingFab.add(bgi);
   layers.forEach(function(l){
     ctx.fillStyle=(l.data.fillColor || fillColor);
     ctx.strokeStyle = (l.data.strokeColor || strokeColor);

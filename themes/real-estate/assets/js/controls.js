@@ -31,7 +31,7 @@ formControls.text={
 formControls.text={
   title:"Report",
   type:'report',
-  label:"",
+  label:"Instruction Text",
   icon:"fa-font",
   htmlName:"txt"
 }
