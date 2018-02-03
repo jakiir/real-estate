@@ -32,7 +32,6 @@ function saveInstruction(toolName,startX,startY,endX,endY,uuid,data){
   //save current fill and stroke colors
   //data.fill=fillColor;
   data.stroke=strokeColor;
-  data.strokeWidth=globalStrokeWidth;
   layers.push({
     tool:toolName,
     startX:startX,
@@ -76,35 +75,60 @@ function autoRestore(bckname){
   if(!localStorage.getItem('dbc_'+appName)){
     return false;
   }
-  var sData = JSON.parse(localStorage.getItem('dbc_'+appName));
-  setup(sData.width,sData.height);
+  //var sData = JSON.parse(localStorage.getItem('dbc_'+appName));
+  //console.log(sData);
+  //setup(sData.width,sData.height);
   // fillColor=sData.fill;
   // strokeColor=sData.stroke;
   // currentTool=sData.tool;
-  layers=sData.data;
-  reDraw();
+  //layers=sData.data;
+  //reDraw();
+  
+	if(!window.location.hash){
+		var drawing_type = 'survey';
+	} else {
+		var drawing_type = 'annotate';
+	}
+	var form_data = new FormData();
+	form_data.append('action', 'get_save_as_draft');
+	form_data.append('template_id', template_id);
+	form_data.append('hash', hash);
+	form_data.append('user_id', user_id);
+	form_data.append('drawing_type', drawing_type);
+	$.ajax({
+	  dataType : "json",
+	  url: ajax_url,
+	  type: 'post',
+	  contentType: false,
+	  processData: false,
+	  data: form_data,          
+	  success: function (data) {
+		var parsedJson = data;        
+		if(parsedJson.success == true){
+			var itemDraw = parsedJson.drawingData;
+			var res = itemDraw.replace(/\\/g,"");
+			// preserve newlines, etc - use valid JSON
+			//var b = JSON.parse(JSON.stringify(itemDraw));
+			//var obj = JSON.parse(itemDraw);			
+			var sData = JSON.parse(res);
+			  //console.log(sData);
+			  setup(sData.width,sData.height);
+			  // fillColor=sData.fill;
+			  // strokeColor=sData.stroke;
+			  // currentTool=sData.tool;
+			  layers=sData.data;
+			  reDraw();
+			
+		} else {
+			alert(parsedJson.mess);
+		}
+	  },
+	  error: function (errorThrown) {
+		//$('.msg_show').html('<font style="color:red">'+errorThrown+'</span>');
+	  }
+	});
+  
 }
 function gen_uuid(){
   return 'ob_'+Date.now().toString();
-}
-function xySort(x1,y1,x2,y2){
-  var result={}
-  if(x1>x2){
-    result.x1=x2;
-    result.x2=x1;
-  }
-  else{
-    result.x1=x1;
-    result.x2=x2;
-  }
-  if(y1>y2){
-    result.y1=y2;
-    result.y2=y1;
-  }
-  else{
-    result.y1=y1;
-    result.y2=y2;
-  }
-  //console.log(result);
-  return result;
 }

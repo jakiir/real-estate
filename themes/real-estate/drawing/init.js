@@ -1,5 +1,7 @@
 //Global variables
 var appName = "document1";
+var bgi = "";
+var background = null;
 var originCvs = document.querySelector('canvas#origin');
 var originCtx = originCvs.getContext('2d');
 var gridCvs = document.querySelector('canvas#grid');
@@ -14,12 +16,11 @@ var effectFab = null;
 var globalWidth=0;
 var globalHeight=0;
 var globalGridSize = 10;
-var globalStrokeWidth=1;
 var isDrawing=false;
 var initX = 0;
 var initY = 0;
 var fillColor="#FFFFFF";
-var strokeColor="#000000";
+var strokeColor="#FF0000";
 //tools
 var tools = {};
 var currentTool='line';

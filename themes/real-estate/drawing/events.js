@@ -214,7 +214,7 @@ function eventListeners(){
       iWidth = 1000;
     }
     //console.log(iWidth,iHeight);
-    setup(iWidth,iHeight,imageEl);
+    //setup(iWidth,iHeight,imageEl);
   }
   
   function uploadMedia(){
