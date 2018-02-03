@@ -305,88 +305,32 @@ function editTemplateAction(){
 	echo json_encode($results);        
 	die();
   }
-
-add_action( 'wp_ajax_nopriv_get_save_as_draft', 'get_save_as_draft', 85);
-add_action( 'wp_ajax_get_save_as_draft', 'get_save_as_draft', 85 );
-function get_save_as_draft(){
+  
+add_action( 'wp_ajax_nopriv_cache_drwing_save', 'cache_drwing_save', 85);
+add_action( 'wp_ajax_cache_drwing_save', 'cache_drwing_save', 85 );
+function cache_drwing_save(){
 	$template_id = $_POST['template_id'];
 	$results = array();
 	if($template_id){
-		 $hash = $_POST['hash'];
 		 $user_id = $_POST['user_id'];
-		 $drawing_type = $_POST['drawing_type'];
-		 
+		 $template_html = $_POST['template_html'];
+		 //$template_html = json_encode($dataObject);
 		 global $wpdb;
-		 $saveAsDraft = $wpdb->prefix . 'ins_save_as_draft';
-		 $get_saveDraft = $wpdb->get_results( "SELECT * FROM $saveAsDraft WHERE user_id=$user_id AND template_id=$template_id AND hash=$hash AND drawing_type='$drawing_type'", OBJECT );
-		 if(!empty($get_saveDraft)){
-			$results = array(
+		 $table_inspection = $wpdb->prefix . 'inspection';
+		 $wpdb->update(
+				$table_inspection, 
+				array( 
+					'template_html' => $template_html					 
+				), 
+				array( 'user_id' => $user_id,'template_id' => $template_id )
+			);
+			 
+			 $results = array(
 				'success' => true,
 				'mess' => 'Data Successfully Updated.1',
-				'template_id' => $template_id,
-				'hash' => $hash,
-				'user_id' => $user_id,
-				'drawingName'=> $get_saveDraft[0]->drawingName,
-				'drawingData'=> $get_saveDraft[0]->drawingData
+				'template_id' => $template_html,
+				'user_id' => $user_id
 			 );
-		 } else {
-			 $results = array(
-				'success' => false,
-				'mess' => 'Form data not save, there are some error to save.1'
-			 );
-		 }
-	} else {
-		$results = array(
-			'success' => false,
-			'mess' => 'Form data not save, there are some error to save.2'
-		 );
-	 }
-	echo json_encode($results);        
-	die();
-}
-  
-add_action( 'wp_ajax_nopriv_save_as_draft', 'save_as_draft', 85);
-add_action( 'wp_ajax_save_as_draft', 'save_as_draft', 85 );
-function save_as_draft(){
-	$template_id = $_POST['template_id'];
-	$results = array();
-	if($template_id){
-		 $hash = $_POST['hash'];		 
-		 $drawingName = $_POST['drawingName'];
-		 $drawingData = $_POST['drawingData'];
-		 $user_id = $_POST['user_id'];
-		 $drawing_type = $_POST['drawing_type'];
-		 global $wpdb;
-		 $saveAsDraft = $wpdb->prefix . 'ins_save_as_draft';
-		 $get_saveDraft = $wpdb->get_results( "SELECT * FROM $saveAsDraft WHERE user_id=$user_id AND template_id=$template_id AND hash=$hash AND drawing_type='$drawing_type'", OBJECT );
-		 if(!empty($get_saveDraft)){
-		 $wpdb->update(
-				$saveAsDraft, 
-				array( 
-					'drawingName' => $drawingName,
-					'drawingData' => $drawingData
-				), 
-				array( 'user_id' => $user_id,'template_id' => $template_id,'hash' => $hash,'drawing_type' => $drawing_type )
-			);
-		 } else {
-			  $wpdb->insert($saveAsDraft, 
-				 array(
-					 'template_id' => $template_id,
-					 'hash' => $hash,
-					 'drawingName' => $drawingName,
-					 'drawingData' => $drawingData,
-					 'user_id' => $user_id,
-					 'drawing_type' => $drawing_type
-				 )
-			 );
-		 }			 
-		 $results = array(
-			'success' => true,
-			'mess' => 'All changes saved!',
-			'template_id' => $template_id,
-			'hash' => $hash,
-			'user_id' => $user_id
-		 );
 	} else {
 		$results = array(
 			'success' => false,

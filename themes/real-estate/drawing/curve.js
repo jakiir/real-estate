@@ -1,5 +1,5 @@
-tools.line = {
-  name:"Line",
+tools.curve = {
+  name:"Curve",
   icon:"fa-expand",
   execute:function(ctx,attrs,fab){
     var fCoords = xySort(attrs.startX,attrs.startY,attrs.endX,attrs.endY);
@@ -10,9 +10,19 @@ tools.line = {
     var rectWidth = attrs.nendX-attrs.nstartX;
     var rectHeight = attrs.nendY-attrs.nstartY;
     var dt = (attrs.data)?attrs.data:{};
-    var dLine = new fabric.Line([attrs.startX,attrs.startY,attrs.endX,attrs.endY],{
+    // var dLine = new fabric.Line([attrs.startX,attrs.startY,attrs.endX,attrs.endY],{
+    //   originX:'left',
+    //   originY:'left',
+    //   stroke:(dt.stroke)?dt.stroke:strokeColor,
+    //   strokeWidth:dt.strokeWidth||globalStrokeWidth
+    // });
+    var pathPoints = "M"+[attrs.startX,attrs.startY].join(" ");
+    pathPoints+=" Q "+[attrs.startX,attrs.endY].join(" ");
+    pathPoints+=" "+[attrs.endX,attrs.endY].join(" ");
+    var dLine = new fabric.Path(pathPoints,{
       originX:'left',
       originY:'left',
+      fill:null,
       stroke:(dt.stroke)?dt.stroke:strokeColor,
       strokeWidth:dt.strokeWidth||globalStrokeWidth
     });
