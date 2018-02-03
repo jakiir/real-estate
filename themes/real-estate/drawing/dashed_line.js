@@ -1,5 +1,5 @@
-tools.line = {
-  name:"Line",
+tools.dashed = {
+  name:"Dashed",
   icon:"fa-expand",
   execute:function(ctx,attrs,fab){
     var fCoords = xySort(attrs.startX,attrs.startY,attrs.endX,attrs.endY);
@@ -14,7 +14,8 @@ tools.line = {
       originX:'left',
       originY:'left',
       stroke:(dt.stroke)?dt.stroke:strokeColor,
-      strokeWidth:dt.strokeWidth||globalStrokeWidth
+      strokeWidth:dt.strokeWidth||globalStrokeWidth,
+      strokeDashArray: [10, 7],
     });
     //Distance calculation
     var dist = Math.round(Math.sqrt(Math.pow(attrs.nstartX-attrs.nendX,2)+Math.pow(attrs.nstartY-attrs.nendY,2))/globalGridSize);

@@ -1,17 +1,43 @@
 tools.arrow = {
   name:"Arrow",
   icon:"fa-arrow-right",
-  execute:function(ctx,attrs){
-    //draw line as sample
-    ctx.beginPath();
-    var headlen = 10;   // length of head in pixels
-    var angle = Math.atan2(attrs.endY-attrs.startY,attrs.endX-attrs.startX);
-    ctx.moveTo(attrs.startX, attrs.startY);
-    ctx.lineTo(attrs.endX, attrs.endY);
-    ctx.lineTo(attrs.endX-headlen*Math.cos(angle-Math.PI/6),attrs.endY-headlen*Math.sin(angle-Math.PI/6));
-    ctx.moveTo(attrs.endX, attrs.endY);
-    ctx.lineTo(attrs.endX-headlen*Math.cos(angle+Math.PI/6),attrs.endY-headlen*Math.sin(angle+Math.PI/6));
-    ctx.closePath();
-    ctx.stroke();
+  execute:function(ctx,attrs,fab){
+    var fCoords = xySort(attrs.startX,attrs.startY,attrs.endX,attrs.endY);
+    attrs.nstartX=fCoords.x1;
+    attrs.nstartY=fCoords.y1;
+    attrs.nendX=fCoords.x2;
+    attrs.nendY=fCoords.y2;
+    var rectWidth = attrs.nendX-attrs.nstartX;
+    var rectHeight = attrs.nendY-attrs.nstartY;
+    var dt = (attrs.data)?attrs.data:{};
+    var dLine = new fabric.Arrow([attrs.startX,attrs.startY,attrs.endX,attrs.endY],{
+      originX:'left',
+      originY:'left',
+      stroke:(dt.stroke)?dt.stroke:strokeColor,
+      strokeWidth:dt.strokeWidth||globalStrokeWidth
+    });
+    //Distance calculation
+    //var dist = Math.round(Math.sqrt(Math.pow(attrs.nstartX-attrs.nendX,2)+Math.pow(attrs.nstartY-attrs.nendY,2))/globalGridSize);
+    // var lText = new fabric.Text(dist.toString(),{
+    //   originX:'left',
+    //   originY:'left',
+    //   left:0,
+    //   top:0,
+    //   fill:(dt.stroke)?dt.stroke:strokeColor,
+    //   fontSize:12,
+    //   textAlign:'center',
+    //   textBackgroundColor:'#fff'
+    // });
+    var sqGrp = new fabric.Group([dLine],{
+      left:attrs.nstartX,
+      top:attrs.nstartY,
+      width:rectWidth,
+      height:rectHeight,
+      angle:attrs.angle
+    });
+    if(attrs.uuid){
+      sqGrp.uuid = attrs.uuid;
+    }
+    fab.add(sqGrp);
   }
 }
