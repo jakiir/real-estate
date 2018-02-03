@@ -194,3 +194,21 @@ html,body{
 a,a:link{
   color:intehit;
 }
+.strokewidthholder{
+  padding-right:4px;
+}
+.strokewidth{
+  box-sizing: border-box;
+  width: 98%;
+  display:block;
+}
+.strokesample{
+  margin-top:10px;
+  width:100%;
+  margin-bottom:10px;
+  height:7px;
+  background:black;
+}
+.customcolor{
+  width:96%;
+}
