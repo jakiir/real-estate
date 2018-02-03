@@ -32,6 +32,7 @@ function saveInstruction(toolName,startX,startY,endX,endY,uuid,data){
   //save current fill and stroke colors
   //data.fill=fillColor;
   data.stroke=strokeColor;
+  data.strokeWidth=globalStrokeWidth;
   layers.push({
     tool:toolName,
     startX:startX,
@@ -131,4 +132,25 @@ function autoRestore(bckname){
 }
 function gen_uuid(){
   return 'ob_'+Date.now().toString();
+}
+function xySort(x1,y1,x2,y2){
+  var result={}
+  if(x1>x2){
+    result.x1=x2;
+    result.x2=x1;
+  }
+  else{
+    result.x1=x1;
+    result.x2=x2;
+  }
+  if(y1>y2){
+    result.y1=y2;
+    result.y2=y1;
+  }
+  else{
+    result.y1=y1;
+    result.y2=y2;
+  }
+  //console.log(result);
+  return result;
 }

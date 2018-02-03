@@ -39,24 +39,33 @@
 <body ng-app="drawing">
 <div class="toolbarholder" ng-controller="toolsController">
   <div class="toolbar left">
-    <div class="drtool" ng-class="{'current':currentTool==tname}" ng-click="toolAlter(tname)" ng-repeat="(tname,tool) in tools">
-      <i class="fa {{tool.icon}}"></i> <span>{{tool.name}}</span>
-    </div>
-    <div class="colors">
-      <div class="color" ng-repeat="color in colors" ng-class="{'current':currentStrokeColor==color}" style="background-color:{{color}}" ng-click="changeColor(color)">
+      <div class="drtool" ng-class="{'current':currentTool==tname}" ng-click="toolAlter(tname)" ng-repeat="(tname,tool) in tools">
+        <i class="fa {{tool.icon}}"></i> <span>{{tool.name}}</span>
+      </div>
+      <div class="colors">
+        <div class="color" ng-repeat="color in colors" ng-class="{'current':currentStrokeColor==color}" style="background-color:{{color}}" ng-click="changeColor(color)">
+        </div>
+      </div>
+      <div class="customcolor">
+        <p>Custom Color</p>
+        <input type="color" class="customcolor" ng-model="currentStrokeColor" ng-change="changeColor(currentStrokeColor)">
+      </div>
+      <div class="strokewidthholder">
+        <p>Stroke Width</p>
+        <input class="strokewidth" type="range" min="1" max="15" value="1" ng-model="strokeWidth" ng-change="changeStrokeWidth()">
+        <div class="strokesample" ng-style="{'height':heightInPx(strokeWidth)}"></div>
+      </div>
+      <div class="gridsize">
+        <p>Grid Size</p>
+        <select ng-model="grid" class="gsize" ng-change="changeGridSize()">
+          <option value="5">5 Pixels</option>
+          <option value="10">10 Pixels</option>
+          <option value="20">20 Pixels</option>
+          <option value="30">30 Pixels</option>
+          <option value="40">40 Pixels</option>
+        </select>
       </div>
     </div>
-    <div class="gridsize">
-      <p>Grid Size</p>
-      <select ng-model="grid" class="gsize" ng-change="changeGridSize()">
-        <option value="5">5 Pixels</option>
-        <option value="10">10 Pixels</option>
-        <option value="20">20 Pixels</option>
-        <option value="30">30 Pixels</option>
-        <option value="40">40 Pixels</option>
-      </select>
-    </div>
-  </div>
   <div class="toolbar top">
     <div class="toptoolrest">
 
@@ -143,20 +152,21 @@
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/fabric.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/angular.min.js"></script>
 <!-- Draw Stuff -->
-<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/events.js"></script>
-<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/init.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/events1.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/init1.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/utils.js"></script>
-<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/drawing.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/drawing1.js"></script>
 <!-- tools -->
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/pointer.js"></script>
-<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/line.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/line1.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/curve.js"></script>
 <!-- <script src="arrow.js"></script> -->
-<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/rect.js"></script>
-<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/circle.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/rect1.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/circle1.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/text.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/pencil.js"></script>
 <!-- events -->
 <!-- Angular APP -->
-<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/app.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/app1.js"></script>
 </body>
 </html>

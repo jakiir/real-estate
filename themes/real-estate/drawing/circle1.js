@@ -28,7 +28,27 @@ tools.circle={
     }
     circleData.stroke = (dt.stroke)?dt.stroke:strokeColor;
     var dCircle = new fabric.Circle(circleData);
-    var sqGrp = new fabric.Group([dCircle],{
+    //distance calculation
+    var hDist = Math.abs(attrs.endX-attrs.startX)/globalGridSize;
+    var vDist = Math.abs(attrs.startY-attrs.endY)/globalGridSize;
+    var lText = new fabric.Text('R:'+radius.toString(),{
+      // top:0,
+      // left:0,
+      originX:'center',
+      originY:'center',
+      fill:(dt.stroke)?dt.stroke:strokeColor,
+      fontSize:15,
+      textAlign:'center'
+      // angle:-90
+    });
+    // var bText = new fabric.Text(hDist.toString(),{
+    //   top:(rectHeight/2)-14,
+    //   left:0,
+    //   fill:(dt.stroke)?dt.stroke:strokeColor,
+    //   fontSize:12,
+    //   textAlign:'center'
+    // });
+    var sqGrp = new fabric.Group([dCircle,lText],{
       left:attrs.startX,
       top:attrs.startY,
       width:rectWidth,

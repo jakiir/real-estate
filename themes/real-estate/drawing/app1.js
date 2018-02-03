@@ -4,8 +4,8 @@ angular.module('drawing',[])
   $scope.currentTool=currentTool;
   canvasResolve();
   $scope.grid="10";
-  $scope.strokeWidth=globalStrokeWidth;
   $scope.backupList=[];
+  $scope.strokeWidth=1;
   $scope.currentStrokeColor=strokeColor;
   $scope.colors = [
     "#000000",
@@ -15,6 +15,7 @@ angular.module('drawing',[])
     "#c0392b",
     "#27ae60"
   ];
+  var setAccessSession = '';
   $scope.drawingCreds = {
     dname:"Drawing_"+Date.now(),
     dw:1000,
@@ -32,16 +33,16 @@ angular.module('drawing',[])
     globalGridSize = +$scope.grid;
     createGrid(globalGridSize);
   }
-  $scope.changeColor = function(color){
-    strokeColor = color;
-    $scope.currentStrokeColor=strokeColor;
-  }
   $scope.changeStrokeWidth=function(){
     globalStrokeWidth=+$scope.strokeWidth;
     //console.log(globalStrokeWidth)
   }
   $scope.heightInPx=function(initVal){
     return initVal+"px";
+  }
+  $scope.changeColor = function(color){
+    strokeColor = color;
+    $scope.currentStrokeColor=strokeColor;
   }
   function listBackups(){
     for(item in localStorage){

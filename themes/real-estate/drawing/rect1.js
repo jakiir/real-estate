@@ -28,7 +28,24 @@ tools.rect={
     rectData.stroke = (dt.stroke)?dt.stroke:strokeColor;
     var drect = new fabric.Rect(rectData);
     //distance calculation
-    var sqGrp = new fabric.Group([drect],{
+    var hDist = Math.abs(attrs.endX-attrs.startX)/globalGridSize;
+    var vDist = Math.abs(attrs.startY-attrs.endY)/globalGridSize;
+    var lText = new fabric.Text(vDist.toString(),{
+      top:0,
+      left:-rectWidth/2,
+      fill:(dt.stroke)?dt.stroke:strokeColor,
+      fontSize:12,
+      textAlign:'center',
+      angle:-90
+    });
+    var bText = new fabric.Text(hDist.toString(),{
+      top:(rectHeight/2)-14,
+      left:0,
+      fill:(dt.stroke)?dt.stroke:strokeColor,
+      fontSize:12,
+      textAlign:'center'
+    });
+    var sqGrp = new fabric.Group([drect,lText,bText],{
       left:attrs.startX,
       top:attrs.startY,
       width:rectWidth,

@@ -10,7 +10,7 @@ tools.pencil = {
       left:attrs.startX,
       top:attrs.startY,
       stroke:(dt.stroke)?dt.stroke:strokeColor,
-      strokeWidth:7
+      strokeWidth:dt.strokeWidth||globalStrokeWidth
     });
     if(attrs.uuid){
       ln.uuid = attrs.uuid;

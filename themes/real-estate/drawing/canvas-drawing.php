@@ -38,6 +38,15 @@
       <div class="color" ng-repeat="color in colors" ng-class="{'current':currentStrokeColor==color}" style="background-color:{{color}}" ng-click="changeColor(color)">
       </div>
     </div>
+    <div class="customcolor">
+      <p>Custom Color</p>
+      <input type="color" ng-model="currentStrokeColor" ng-change="changeColor(currentStrokeColor)">
+    </div>
+    <div class="strokewidthholder">
+      <p>Stroke Width</p>
+      <input class="strokewidth" type="range" min="2" max="15" value="7" ng-model="strokeWidth" ng-change="changeStrokeWidth()">
+      <div class="strokesample" ng-style="{'height':heightInPx(strokeWidth)}"></div>
+    </div>
     <div class="gridsize">
       <p>Grid Size</p>
       <select ng-model="grid" class="gsize" ng-change="changeGridSize()">
@@ -116,6 +125,7 @@
 <script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jquery.min.js"></script>
 <!-- Libs -->
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/fabric.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/fabric.arrow.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/angular.min.js"></script>
 <!-- Draw Stuff -->
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/events.js"></script>
@@ -125,7 +135,8 @@
 <!-- tools -->
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/pointer.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/line.js"></script>
-<!-- <script src="arrow.js"></script> -->
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/arrow.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/dashed_line.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/rect.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/circle.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/text.js"></script>

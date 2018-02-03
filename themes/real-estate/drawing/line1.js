@@ -18,17 +18,17 @@ tools.line = {
     });
     //Distance calculation
     var dist = Math.round(Math.sqrt(Math.pow(attrs.nstartX-attrs.nendX,2)+Math.pow(attrs.nstartY-attrs.nendY,2))/globalGridSize);
-    // var lText = new fabric.Text(dist.toString(),{
-    //   originX:'left',
-    //   originY:'left',
-    //   left:0,
-    //   top:0,
-    //   fill:(dt.stroke)?dt.stroke:strokeColor,
-    //   fontSize:12,
-    //   textAlign:'center',
-    //   textBackgroundColor:'#fff'
-    // });
-    var sqGrp = new fabric.Group([dLine],{
+    var lText = new fabric.Text(dist.toString(),{
+      originX:'left',
+      originY:'left',
+      left:0,
+      top:0,
+      fill:(dt.stroke)?dt.stroke:strokeColor,
+      fontSize:12,
+      textAlign:'center',
+      textBackgroundColor:'#fff'
+    });
+    var sqGrp = new fabric.Group([dLine,lText],{
       left:attrs.nstartX,
       top:attrs.nstartY,
       width:rectWidth,
