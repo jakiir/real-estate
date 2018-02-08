@@ -12,6 +12,7 @@ tools.circle={
     var rectWidth = attrs.endX-attrs.startX;
     var rectHeight = attrs.endY-attrs.startY;
     var radius = (rectWidth>rectHeight)?rectHeight/2:rectWidth/2;
+	var visibleRadius = Math.round(radius/globalGridSize);
     var dt = (attrs.data)?attrs.data:{};
     if(centerX<1 || centerY<1 || radius<1) return false;
     var circleData = {
@@ -31,7 +32,7 @@ tools.circle={
     //distance calculation
     var hDist = Math.abs(attrs.endX-attrs.startX)/globalGridSize;
     var vDist = Math.abs(attrs.startY-attrs.endY)/globalGridSize;
-    var lText = new fabric.Text('R:'+radius.toString(),{
+    var lText = new fabric.Text('R:'+visibleRadius.toString(),{
       // top:0,
       // left:0,
       originX:'center',
