@@ -16,8 +16,32 @@ tools.curve = {
     //   stroke:(dt.stroke)?dt.stroke:strokeColor,
     //   strokeWidth:dt.strokeWidth||globalStrokeWidth
     // });
+    var distPx = Math.round(Math.sqrt(Math.pow(attrs.nstartX-attrs.nendX,2)+Math.pow(attrs.nstartY-attrs.nendY,2)));
+    var factor = Math.round(distPx/3);
+    var centX = (attrs.nstartX+attrs.nendX)/2;
+    var centY = (attrs.nstartY+attrs.nendY)/2;
+    var finalCX = centX;
+    var finalCY = centY;
+    var xCurve = (attrs.startX-attrs.endX>attrs.startY-attrs.endY);
+    if(!xCurve){
+      if(attrs.startX>attrs.nendX){
+        finalCY = finalCY-factor;
+      }
+      else{
+        finalCY = finalCY+factor;
+      }
+    }
+    if(xCurve){
+      if(attrs.startY>attrs.endY){
+        finalCX = finalCX-factor;
+      }
+      else{
+        finalCX = finalCX+factor;
+      }
+    }
+    console.log(centX,centY,factor);
     var pathPoints = "M"+[attrs.startX,attrs.startY].join(" ");
-    pathPoints+=" Q "+[attrs.startX,attrs.endY].join(" ");
+    pathPoints+=" Q "+[finalCX,finalCY].join(" ");
     pathPoints+=" "+[attrs.endX,attrs.endY].join(" ");
     var dLine = new fabric.Path(pathPoints,{
       originX:'left',
@@ -27,7 +51,7 @@ tools.curve = {
       strokeWidth:dt.strokeWidth||globalStrokeWidth
     });
     //Distance calculation
-    var dist = Math.round(Math.sqrt(Math.pow(attrs.nstartX-attrs.nendX,2)+Math.pow(attrs.nstartY-attrs.nendY,2))/globalGridSize);
+    var dist = Math.round(distPx/globalGridSize);
     var lText = new fabric.Text(dist.toString(),{
       originX:'left',
       originY:'left',

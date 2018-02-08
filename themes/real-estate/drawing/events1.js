@@ -5,12 +5,25 @@ function eventListeners(){
     isDrawing=true;
     effectCtx.fillStyle=fillColor;
     effectCtx.strokeStyle=strokeColor;
+    var x = null;
+    var y = null;
+    if(e.targetTouches){
+      console.log("Mouse down Touch Event");
+      var rect = e.target.getBoundingClientRect();
+      x = e.targetTouches[0].pageX - rect.left;
+      y = e.targetTouches[0].pageY - rect.top;
+    }
+    else{
+      console.log("Mouse down Mouse Event");
+      x = e.offsetX;
+      y = e.offsetY;
+    }
     if(tools[currentTool].noSnap){
-      initX=e.offsetX;
-      initY=e.offsetY;
+      initX=x
+      initY=y;
       return false;
     }
-    var inits = getNearestGrid(e.offsetX,e.offsetY);
+    var inits = getNearestGrid(x,y);
     initX=inits.x;
     initY=inits.y;
   }
@@ -18,13 +31,27 @@ function eventListeners(){
     if(tools[currentTool].noAction) return true;
     clearEffect();
     //Initially make it non snappy
+    var x = null;
+    var y = null;
+    //return console.log(e);
+    if(e.targetTouches){
+      //console.log("Mouse Up Touch Event");
+      var rect = e.target.getBoundingClientRect();
+      x = e.changedTouches[0].pageX - rect.left;
+      y = e.changedTouches[0].pageY - rect.top;
+    }
+    else{
+      //console.log("Mouse Up Mouse Event");
+      x = e.offsetX;
+      y = e.offsetY;
+    }
     var final = {
-      x:e.offsetX,
-      y:e.offsetY
+      x:x,
+      y:y
     }
     //Snap to grid for non freehand tool
     if(!tools[currentTool].noSnap){
-      final = getNearestGrid(e.offsetX,e.offsetY);
+      final = getNearestGrid(x,y);
     }
     //push instructions to virtual Layer
 
@@ -36,6 +63,19 @@ function eventListeners(){
     initY = 0;
   }
   function mouseMoveFunction(e){
+    var x = null;
+    var y = null;
+    if(e.targetTouches){
+      //console.log(" Mouse Move Touch Event");
+      var rect = e.target.getBoundingClientRect();
+      x = e.targetTouches[0].pageX - rect.left;
+      y = e.targetTouches[0].pageY - rect.top;
+    }
+    else{
+      //console.log("Mouse Move Mouse Event");
+      x = e.offsetX;
+      y = e.offsetY;
+    }
     if(tools[currentTool].noAction) return true;
     //Validation for wrong tool config
     if(!tools[currentTool].ghost && !tools[currentTool].freeHand && !isDrawing) return false;
@@ -52,14 +92,14 @@ function eventListeners(){
     }
     //Freehand Tool Function
     if(tools[currentTool].freeHand){
-      saveInstruction(currentTool,initX,initY,e.offsetX,e.offsetY,gen_uuid());
+      saveInstruction(currentTool,initX,initY,x,y,gen_uuid());
     }
     tools[currentTool].execute(effectCtx,
       {
         startX:initX,
         startY:initY,
-        endX:e.offsetX,
-        endY:e.offsetY
+        endX:x,
+        endY:y
       }
       ,effectFab);
       //reset from ghost effect
@@ -68,15 +108,15 @@ function eventListeners(){
       }
       //freehand finishing
       if(tools[currentTool].freeHand){
-        initX=e.offsetX;
-        initY=e.offsetY;
+        initX=x;
+        initY=y;
       }
     }
     //Interaction Functions
     drawingFab.on('object:modified',function(){
       var activeObj = drawingFab.getActiveObject();
       if(!activeObj) return false;
-      //console.log(activeObj);
+      console.log(activeObj);
       var theEl = layers.filter(function(el){
         return el.uuid==activeObj.uuid;
       })[0];
@@ -86,10 +126,22 @@ function eventListeners(){
       var sGrid = getNearestGrid(activeObj.left,activeObj.top);
       var eGrid = getNearestGrid(sGrid.x+(activeObj.width*activeObj.scaleX),sGrid.y+(activeObj.height*activeObj.scaleY));
       //console.log(theEl==layers[0]);
-      theEl.startX=sGrid.x;
-      theEl.startY=sGrid.y;
-      theEl.endX=eGrid.x;
-      theEl.endY=eGrid.y;
+      if(theEl.startX<theEl.endX){
+        theEl.startX=sGrid.x;
+        theEl.endX=eGrid.x;
+      }
+      else{
+        theEl.startX=eGrid.x;
+        theEl.endX=sGrid.x;
+      }
+      if(theEl.startY<theEl.endY){
+        theEl.startY=sGrid.y;
+        theEl.endY=eGrid.y;
+      }
+      else{
+        theEl.startY=eGrid.y;
+        theEl.endY=sGrid.y;
+      }
       if(activeObj.angle){
         theEl.angle=activeObj.angle;
       }
@@ -108,7 +160,7 @@ function eventListeners(){
       if(!theEl){
         return false;
       }
-      //console.log(theEl);
+      console.log(theEl);
       if(theEl.tool=='text'){
         document.querySelector('.prefeditor').style.display='block';
       }
@@ -195,12 +247,14 @@ function eventListeners(){
         //tempa.click();
       })
 	  
-	  
     //Attaching event listeners
-    var hdrs= document.querySelector('.holders');
+	var hdrs= document.querySelector('.holders');
     hdrs.addEventListener('mousedown',mouseDownFunction);
     hdrs.addEventListener('mouseup',mouseUpFunction);
     hdrs.addEventListener('mousemove',mouseMoveFunction);
+    hdrs.addEventListener('touchstart',mouseDownFunction);
+    hdrs.addEventListener('touchmove',mouseMoveFunction);
+    hdrs.addEventListener('touchend',mouseUpFunction);
     document.body.addEventListener('keyup',checkDelete);
     document.querySelector('.deletel').addEventListener('click',checkDelete);
   }
