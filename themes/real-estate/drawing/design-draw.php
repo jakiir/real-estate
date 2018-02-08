@@ -29,7 +29,7 @@
   <title>Canvas Client</title>
   <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/fa/css/font-awesome.min.css">
   <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/style.css">
-  <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/spectrum/spectrum.css">
+  <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/spectrum/spectrum.css">
 	<script>
 		var ajax_url = '<?php echo admin_url('admin-ajax.php'); ?>';
 		var template_id = '<?php echo $template_id; ?>';
@@ -151,8 +151,9 @@
 <script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jquery.min.js"></script>
 <!-- Libs -->
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/fabric.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/fabric.arrow.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/angular.min.js"></script>
-<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/spectrum/spectrum.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/spectrum/spectrum.js"></script>
 <!-- Draw Stuff -->
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/events1.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/init1.js"></script>
@@ -161,8 +162,8 @@
 <!-- tools -->
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/pointer.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/line1.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/arrow.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/curve.js"></script>
-<!-- <script src="arrow.js"></script> -->
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/rect1.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/circle1.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/text.js"></script>
