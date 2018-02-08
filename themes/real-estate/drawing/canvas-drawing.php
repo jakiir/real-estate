@@ -23,6 +23,7 @@
 	}
 	$user_id = get_current_user_id();
 ?>
+<link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/spectrum/spectrum.css">
 <script>
 	var ajax_url = '<?php echo admin_url('admin-ajax.php'); ?>';
 	var template_id = '<?php echo $template_id; ?>';
@@ -127,6 +128,7 @@
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/fabric.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/fabric.arrow.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/angular.min.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/spectrum/spectrum.js"></script>
 <!-- Draw Stuff -->
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/events.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/init.js"></script>
@@ -136,6 +138,7 @@
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/pointer.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/line.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/arrow.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/curve.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/dashed_line.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/rect.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/circle.js"></script>

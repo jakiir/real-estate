@@ -168,6 +168,14 @@ angular.module('submitForm',['ui.tinymce'])
     }
     return data;
   }
+  
+  $scope.goToDrawing = function(thisItem){
+		$scope.submitData();
+		if(thisItem.target.attributes.dataurl.value){
+			window.location = thisItem.target.attributes.dataurl.value;
+		}
+	}
+  
   $scope.imageFileMess = true;
   $scope.showImageFileMess = function (event) {
 	  $scope.imageFileMess = false;

@@ -128,7 +128,7 @@ get_header('form-viewer'); ?>
 	//var this_form_name = formBlueprint.name;
 	document.title = '<?php echo $get_template_name; ?>';
 	var ajax_url = '<?php echo admin_url('admin-ajax.php'); ?>';
-	var template_id = <?php echo $template_id; ?>;
+	var template_id = <?php echo $template_id; ?>;	
 </script>  
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/imagefunctions.js"></script>
 <script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/bower_components/tinymce/tinymce.js"></script>
