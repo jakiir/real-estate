@@ -19,11 +19,12 @@
 <!-- Sub Section -->
 <div class="formcontrol number" ng-if="control.type=='subsection'">
   <h2>{{control.label}}</h2>
-  <div>
-    <input type="checkbox" ng-model="contro.status1"> Inspected
-    <input type="checkbox" ng-model="contro.status2"> Not Inspected
-    <input type="checkbox" ng-model="contro.status3"> Not Present
-    <input type="checkbox" ng-model="contro.status4"> Deficient
+  <div>	
+	<input type="checkbox" ng-model="control.status1" value="control.status1" ng-checked="control.status1"> Inspected
+    <input type="checkbox" ng-model="control.status2" value="control.status2" ng-checked="control.status2"> Not Inspected
+    <input type="checkbox" ng-model="control.status3" value="control.status3" ng-checked="control.status3"> Not Present
+    <input type="checkbox" ng-model="control.status4" value="control.status4" ng-checked="control.status4"> Deficient
+	
   </div>
 </div>
 <!-- Paragraph -->
