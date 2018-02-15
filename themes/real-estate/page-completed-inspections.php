@@ -25,7 +25,8 @@ get_header(); ?>
 			global $wpdb;
 			$user_id = get_current_user_id();
 			$table_inspection = $wpdb->prefix . 'inspection';
-			$get_inspection = $wpdb->get_results( "SELECT * FROM $table_inspection WHERE user_id=$user_id", OBJECT );
+			$inspectionReportDetail = $wpdb->prefix . 'inspectionreportdetail';
+			$get_inspection = $wpdb->get_results( "SELECT ins.id,ins.template_id,ins.report_identification,ins.prepared_for,ins.inpection_date,ird.id as ird_id FROM $table_inspection as ins JOIN $inspectionReportDetail as ird ON ird.inspectionId=ins.id WHERE ins.user_id=$user_id", OBJECT );
 		?>
 		<!--<div class="panel-body">
 			<input type="text" class="form-control" id="dev-table-filter" data-action="filter" data-filters="#dev-table" placeholder="Filter Developers" />
@@ -47,7 +48,7 @@ get_header(); ?>
 				?>
 					<tr>
 						<td><?php echo $inc; ?></td>
-						<td><a target="_blank" href="<?php echo home_url('/form-viewer/?item='.$inspection->template_id.'&report='.$inspection->id); ?>" title=""><?php echo $inspection->report_identification; ?></a></td>
+						<td><a target="_blank" href="<?php echo home_url('/form-viewer/?item='.$inspection->template_id.'&report='.$inspection->id.'&saved='.$inspection->ird_id); ?>" title=""><?php echo $inspection->report_identification; ?></a></td>
 						<td><?php echo $inspection->prepared_for; ?></td>
 						<td><?php echo $inspection->inpection_date; ?></td>
 					</tr>
