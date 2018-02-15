@@ -28,8 +28,15 @@ get_header('form-viewer'); ?>
 	}
 	
 	$template_id = !empty($_GET['item']) ? $_GET['item'] : '';
+	$report_id = !empty($_GET['report']) ? $_GET['report'] : 0;
+	$saved = !empty($_GET['saved']) ? $_GET['saved'] : 0;
 	$att = !empty($_GET['att']) ? $_GET['att'] : '';
 	$hash_id = !empty($_GET['hash']) ? $_GET['hash'] : '';
+
+	global $wpdb;
+	$user_id = get_current_user_id();
+	$table_inspection = $wpdb->prefix . 'inspection';
+	$get_inspection = $wpdb->get_results( "SELECT * FROM $table_inspection WHERE id=$report_id", OBJECT );
 ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/fa/css/font-awesome.min.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/form.css">
@@ -39,40 +46,18 @@ get_header('form-viewer'); ?>
 <div class="container" ng-controller="submissonForm">
     <header>
       <div class="stdfields">
-        <div class="fieldrow">
-          <div class="fieldcol">
-            <div class="clogoholder">
-            <img ng-src="{{formBlueprint.logo}}" alt="Logo" class="companylogo">
-          </div>
-          </div>
-        </div>
-        <div class="fleldrow">
-          <div class="fieldcol">
-            <h1 class="text-center reporttitle">{{formBlueprint.report_title}}</h1>
-          </div>
-        </div>
-        <div class="fieldrow">
-          <div class="fieldcol">
-            <p class="text-center">
-              {{formBlueprint.company_address}}
-            </p>
-          </div>
-        </div>
         <div class="fieldrow bordered">
           <div class="fieldcol">
-            <p>Report Title:</p>
-            <input type="text" ng-model="formBlueprint.prepared_by">
+            <p>Report Identification :</p>
+            <input type="text" readonly value="<?php echo $get_inspection[0]->report_identification; ?>">
+			<p>By:</p>
+            <input type="text" readonly value="<?php echo $get_inspection[0]->prepared_by; ?>">
           </div>
           <div class="fieldcol">
-            <p>Company Address:</p>
-            <input type="text" ng-model="formBlueprint.prepared_for">
-          </div>
-        </div>
-        <div class="fieldrow">
-          <div class="fieldcol">
-            <p class="text-center prepareddate">
-              <b>Date:</b> {{formBlueprint.prepared_date}}
-            </p>
+            <p>Prepared For:</p>
+            <input type="text" readonly value="<?php echo $get_inspection[0]->prepared_for; ?>">
+			<p>License:</p>
+            <input type="text" ng-model="formBlueprint.license">
           </div>
         </div>
       </div>
@@ -89,7 +74,7 @@ get_header('form-viewer'); ?>
             <div class="row" ng-repeat="child in section.children">
               <div class="col" ng-repeat="controls in child">
                 <div ng-repeat="control in controls">                  
-				  <div ng-include="'<?php echo esc_url( home_url('/submition-controls/?item='.$template_id.'&att='.$att.'&hash='.$hash_id) ); ?>'"></div>
+				  <div ng-include="'<?php echo esc_url( home_url('/submition-controls/?report='.$report_id.'&saved='.$saved.'&item='.$template_id.'&att='.$att.'&hash='.$hash_id) ); ?>'"></div>
                 </div>
               </div>
             </div>
@@ -115,9 +100,15 @@ get_header('form-viewer'); ?>
 	global $wpdb;
 	$table_template = $wpdb->prefix . 'template';	
 	$form_data = $wpdb->get_results( "SELECT * FROM $table_template WHERE id=$template_id", OBJECT );
-	$table_template_detail = $wpdb->prefix . 'template_detail';
-	$get_template_detail = $wpdb->get_results( "SELECT * FROM $table_template_detail WHERE template_id=$template_id", OBJECT );
-	$form_info = (!empty($get_template_detail[0]->field_text_html) ? $get_template_detail[0]->field_text_html : '{"name":"Untitled Form 1","logo":null,"tree":[]}');
+	if(empty($saved)){
+		$table_template_detail = $wpdb->prefix . 'template_detail';
+		$get_template_detail = $wpdb->get_results( "SELECT * FROM $table_template_detail WHERE template_id=$template_id", OBJECT );
+		$form_info = (!empty($get_template_detail[0]->field_text_html) ? $get_template_detail[0]->field_text_html : '{"name":"Untitled Form 1","logo":null,"tree":[]}');
+	} else {
+		$inspectionreportdetail = $wpdb->prefix . 'inspectionreportdetail';
+		$get_inspectionreportdetail = $wpdb->get_results( "SELECT * FROM $inspectionreportdetail WHERE id=$saved AND inspectionId=$report_id", OBJECT );
+		$form_info = (!empty($get_inspectionreportdetail[0]->fieldTextHtml) ? $get_inspectionreportdetail[0]->fieldTextHtml : '{"name":"Untitled Form 1","logo":null,"tree":[]}');
+	}
 	$get_template_name = (!empty($form_data[0]->name) ? $form_data[0]->name : '');
 ?>
 <script type="text/javascript">
@@ -129,6 +120,9 @@ get_header('form-viewer'); ?>
 	document.title = '<?php echo $get_template_name; ?>';
 	var ajax_url = '<?php echo admin_url('admin-ajax.php'); ?>';
 	var template_id = <?php echo $template_id; ?>;	
+	var inspection_id = <?php echo $report_id; ?>;
+	var saved = <?php echo $saved; ?>;
+	var site_url = '<?php echo home_url(); ?>';
 </script>  
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/imagefunctions.js"></script>
 <script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/bower_components/tinymce/tinymce.js"></script>

@@ -215,10 +215,14 @@ function eventListeners(){
         });
 		var template_id = tempa.getAttribute("data-template");
 		var hash_id = tempa.getAttribute("data-hash");
+		var report_id = tempa.getAttribute("data-report_id");
+		var saved = tempa.getAttribute("data-saved");
 		var form_data = new FormData();
 		form_data.append('action', 'savedrawingimages');
 		form_data.append('template_id', template_id);
 		form_data.append('hash_id', hash_id);
+		form_data.append('report_id', report_id);
+		form_data.append('saved', saved);
 		form_data.append('file', tempa.href);
 		$.ajax({
 		  dataType : "json",
