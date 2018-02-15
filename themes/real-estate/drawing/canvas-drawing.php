@@ -16,6 +16,8 @@
  get_header('canvas-drawing');
  $template_id = !empty($_GET['item']) ? $_GET['item'] : '';
  $hash = !empty($_GET['hash']) ? $_GET['hash'] : '';
+ $report_id = !empty($_GET['report']) ? $_GET['report'] : 0;
+ $saved = !empty($_GET['saved']) ? $_GET['saved'] : 0;
 
 	if (!is_user_logged_in()) {
 		echo '<script>window.location.replace("'.home_url().'");</script>';
@@ -28,6 +30,8 @@
 	var ajax_url = '<?php echo admin_url('admin-ajax.php'); ?>';
 	var template_id = '<?php echo $template_id; ?>';
 	var hash = '<?php echo $hash; ?>';
+	var report_id = '<?php echo $report_id; ?>';
+		var saved = '<?php echo $saved; ?>';
 	var user_id = '<?php echo $user_id; ?>';
 </script>
 <div class="toolbarholder" ng-controller="toolsController">
@@ -121,7 +125,7 @@
     </div>
   </div>
 </div>
-<a class="downloadholder" data-template="<?php echo $template_id; ?>" data-hash="<?php echo $hash; ?>" href="#" style="display:none"> </a>
+<a class="downloadholder" data-template="<?php echo $template_id; ?>" data-hash="<?php echo $hash; ?>" data-report_id="<?php echo $report_id; ?>" data-saved="<?php echo $saved; ?>" href="#" style="display:none"> </a>
 <img src="" alt="mainimg" crossorigin id="theimage" style="position:absolute;z-index:-2000;opacity:0">
 <script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jquery.min.js"></script>
 <!-- Libs -->

@@ -76,8 +76,10 @@ angular.module('submitForm',['ui.tinymce'])
 	$('.saveChanges').find('.fa').addClass('fa-refresh fa-spin');
 	var form_data = new FormData();    
     var formJsonData = localStorage.formbuilder_cache_data;
-    form_data.append('action', 'saveDynamicForm');
+    form_data.append('action', 'saveDynamicFormReport');
     form_data.append('template_id', template_id);
+	form_data.append('inspection_id', inspection_id);
+	form_data.append('saved', saved);
     form_data.append('formJsonData', formJsonData);
 	
 	$.ajax({
@@ -91,6 +93,7 @@ angular.module('submitForm',['ui.tinymce'])
         var parsedJson = data;        
         if(parsedJson.success == true){
 			$('.msg_show').html('<font style="color:green">'+parsedJson.mess+'</span>');
+			window.location.href = site_url+"/form-viewer/?item="+template_id+'&report='+inspection_id+'&saved='+parsedJson.report_detail_id;
         } else {
         $('.msg_show').html('<font style="color:red">'+parsedJson.mess+'</span>');
         }

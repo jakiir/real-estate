@@ -50,18 +50,18 @@ get_header(); ?>
 				  <div class="form-group">
 					<label class="col-lg-2 control-label" for="company">Company :</label>
 					<div class="col-lg-4">
-					  <input class="form-control required" type="text" name="company" id="company" value="<?php echo $get_inspection->company; ?>">
+					  <input class="form-control required" type="text" name="company" id="company" value="<?php //echo $get_inspection->company; ?>">
 					</div>
 					
 					<label class="col-lg-2 control-label" for="inpection_date">Date :</label>
 					<div class="col-lg-4">
-					  <input class="form-control datepicker required" type="text" name="inpection_date" id="inpection_date" value="<?php echo $get_inspection->inpection_date; ?>">
+					  <input class="form-control datepicker required" type="text" name="inpection_date" id="inpection_date" value="<?php //echo $get_inspection->inpection_date; ?>">
 					</div>							
 				  </div>
 				  <div class="form-group">
 					<label class="col-lg-2 control-label" for="report_identification">Report Identification :</label>
 					<div class="col-lg-10">
-					  <input class="form-control required" type="text" name="report_identification" id="report_identification" value="<?php echo $get_inspection->report_identification; ?>">
+					  <input class="form-control required" type="text" name="report_identification" id="report_identification" value="<?php //echo $get_inspection->report_identification; ?>">
 					</div>
 				  </div>						
 				  
@@ -77,9 +77,9 @@ get_header(); ?>
 						  <option value="">List of Template</option>
 						  <?php if(!empty($get_share_templages)){
 								foreach($get_share_templages as $template){ 
-									$selected = ($template->id==$get_inspection->template_id ? "selected='selected'" : null);
+									//$selected = ($template->id==$get_inspection->template_id ? "selected='selected'" : null);
 								?>
-								<option <?php echo $selected; ?> value="<?php echo $template->id; ?>"><?php echo $template->name; ?></option>
+								<option <?php //echo $selected; ?> value="<?php echo $template->id; ?>"><?php echo $template->name; ?></option>
 							<?php } } ?>
 						</select>
 					  </div>
@@ -89,38 +89,38 @@ get_header(); ?>
 				  <div class="form-group">
 					<label class="col-lg-2 control-label" for="prepared_for">Prepared For :</label>
 					<div class="col-lg-10">
-					  <input class="form-control required" type="text" name="prepared_for" id="prepared_for" value="<?php echo $get_inspection->prepared_for; ?>">
+					  <input class="form-control required" type="text" name="prepared_for" id="prepared_for" value="<?php //echo $get_inspection->prepared_for; ?>">
 					</div>
 				  </div>
 				  
 				  <div class="form-group">
 					<label class="col-lg-2 control-label" for="prepared_by">Prepared By :</label>
 					<div class="col-lg-10">
-					  <input class="form-control required" type="text" name="prepared_by" id="prepared_by" value="<?php echo $get_inspection->prepared_by; ?>">
+					  <input class="form-control required" type="text" name="prepared_by" id="prepared_by" value="<?php //echo $get_inspection->prepared_by; ?>">
 					</div>
 				  </div>
 				  
 				  <div class="form-group">
 					<label class="col-lg-2 control-label" for="time_in">Time In :</label>
 					<div class="col-lg-4">
-					  <input class="form-control required timepicker" type="text" name="time_in" id="time_in" value="<?php echo $get_inspection->time_in; ?>">
+					  <input class="form-control required timepicker" type="text" name="time_in" id="time_in" value="<?php //echo $get_inspection->time_in; ?>">
 					</div>
 					
 					<label class="col-lg-2 control-label" for="time_out">Time Out :</label>
 					<div class="col-lg-4">
-					  <input class="form-control required timepicker" type="text" name="time_out" id="time_out" value="<?php echo $get_inspection->time_out; ?>">
+					  <input class="form-control required timepicker" type="text" name="time_out" id="time_out" value="<?php //echo $get_inspection->time_out; ?>">
 					</div>							
 				  </div>
 				  
 				  <div class="form-group">					
 					<div class="col-lg-10 col-lg-offset-2">
 						<label class="redio-inline">
-						  <input type="radio" name="inspection_status" <?php echo ($get_inspection->inspection_status=='ocuppied' ? 'checked' : ''); ?> value="ocuppied"> Ocuppied
+						  <input type="radio" name="inspection_status" <?php //echo ($get_inspection->inspection_status=='ocuppied' ? 'checked' : ''); ?> value="ocuppied"> Ocuppied
 						</label>
 					</div>
 					<div class="col-lg-10 col-lg-offset-2">
 						<label class="redio-inline">
-						  <input type="radio" name="inspection_status" <?php echo ($get_inspection->inspection_status=='vacant' ? 'checked' : ''); ?> value="vacant"> Vacant
+						  <input type="radio" name="inspection_status" <?php //echo ($get_inspection->inspection_status=='vacant' ? 'checked' : ''); ?> value="vacant"> Vacant
 						</label>
 					</div>
 				  </div>
@@ -192,7 +192,7 @@ jQuery(function($){
 						  $('.msg_show').html('');
 						  $('.msg_show').html('<span style="color:green">'+parsedJson.mess+'</span>');
 						  console.log(parsedJson);
-						  window.location.href = "<?php echo home_url('/form-viewer/?item='); ?>"+template_id;
+						  window.location.href = "<?php echo home_url('/form-viewer/?item='); ?>"+template_id+'&report='+parsedJson.report_id;
 					  } else {
 						  $('.msg_show').html('');
 						$('.msg_show').html('<span style="color:red">'+parsedJson.mess+'</span>');

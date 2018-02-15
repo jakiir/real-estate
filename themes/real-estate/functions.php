@@ -416,7 +416,8 @@ function perform_inspections(){
 		 $time_out = !empty($_POST['time_out']) ? $_POST['time_out'] : '';
 		 $inspection_status = !empty($_POST['inspection_status']) ? $_POST['inspection_status'] : '';
 		 $user_id = get_current_user_id();
-		 $get_inspection = $wpdb->get_results( "SELECT * FROM $table_inspection WHERE user_id=$user_id AND template_id=$template_id", OBJECT );
+		 //$get_inspection = $wpdb->get_results( "SELECT * FROM $table_inspection WHERE user_id=$user_id AND template_id=$template_id", OBJECT );
+		 $get_inspection = '';
 		if(!empty($get_inspection)){
 			 $wpdb->update(
 				$table_inspection, 
@@ -453,10 +454,11 @@ function perform_inspections(){
 					 'user_id' => $user_id
 				 )
 			 );
-			 
+			 $lastid = $wpdb->insert_id;
 			 $results = array(
 				'success' => true,
 				'mess' => 'Data Successfully Inserted.',
+				'report_id'=>$lastid,
 				'template_id' => $template_id
 			 );	
 		}
@@ -581,7 +583,7 @@ function addTemplateItem(){
 	die();
 }
   
-  add_action( 'wp_ajax_nopriv_saveDynamicForm', 'saveDynamicForm', 85);
+add_action( 'wp_ajax_nopriv_saveDynamicForm', 'saveDynamicForm', 85);
 add_action( 'wp_ajax_saveDynamicForm', 'saveDynamicForm', 85 );
 function saveDynamicForm(){
 	
@@ -608,6 +610,42 @@ function saveDynamicForm(){
 			'mess' => 'Data Successfully updated.',
 			'template_id' => $template_id,
 			'allData' => $_POST
+		 );
+	 } else {
+		 $results = array(
+			'success' => false,
+			'mess' => 'Form data not save, there are some error to save.'
+		 );
+	 }
+	echo json_encode($results);        
+	die();
+}
+
+add_action( 'wp_ajax_nopriv_saveDynamicFormReport', 'saveDynamicFormReport', 85);
+add_action( 'wp_ajax_saveDynamicFormReport', 'saveDynamicFormReport', 85 );
+function saveDynamicFormReport(){
+	$inspection_id = $_POST['inspection_id'];	
+	 $results = array();
+	 if($inspection_id){
+		 global $wpdb;
+		 $saved = $_POST['saved'];
+		 $inspectionReportDetail = $wpdb->prefix . 'inspectionreportdetail';
+		 $formJsonData = !empty($_POST['formJsonData']) ? $_POST['formJsonData'] : '';
+		 if(empty($saved) || $saved==0){
+			$wpdb->insert($inspectionReportDetail, array('inspectionId' => $inspection_id));
+			$lastid = $wpdb->insert_id;
+		 } else {
+			 $lastid = $saved;
+		 }
+		$wpdb->query($wpdb->prepare("UPDATE $inspectionReportDetail 
+		 SET fieldTextHtml='".$formJsonData."'
+		 WHERE id=$lastid"));
+		 
+		 $results = array(
+			'success' => true,
+			'mess' => 'Data Successfully updated.',
+			'template_id' => $template_id,
+			'report_detail_id' => $lastid
 		 );
 	 } else {
 		 $results = array(
@@ -845,12 +883,14 @@ wp_update_attachment_metadata( $attach_id, $attach_data );
 if($attach_id){
 	$template_id = $_POST['template_id'];
 	$hash_id = $_POST['hash_id'];
+	$report_id = $_POST['report_id'];
+	$saved = $_POST['saved'];
 	$results_data = array(
 		'success' => true,
 		'mess' => 'Data Successfully updated.',
 		'template_id' => $template_id,
 		'attach_id' => $attach_id,
-		'redirect_url'=> home_url('/form-viewer/?item='.$template_id.'&att='.$attach_id.'&hash='.$hash_id)
+		'redirect_url'=> home_url('/form-viewer/?item='.$template_id.'&att='.$attach_id.'&hash='.$hash_id.'&report='.$report_id.'&saved='.$saved)
 	);  
 } else {
 	$results_data = array(

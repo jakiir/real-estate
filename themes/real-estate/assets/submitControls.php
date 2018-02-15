@@ -1,8 +1,50 @@
 <?php 	/**	 * Template Name: Submition Controls Template */ 
-$template_id = !empty($_GET['item']) ? $_GET['item'] : '';
-$att = !empty($_GET['att']) ? $_GET['att'] : '';
-$hash_id = !empty($_GET['hash']) ? $_GET['hash'] : '';
+	$template_id = !empty($_GET['item']) ? $_GET['item'] : '';
+	$att = !empty($_GET['att']) ? $_GET['att'] : '';
+	$hash_id = !empty($_GET['hash']) ? $_GET['hash'] : '';
+	$report_id = !empty($_GET['report']) ? $_GET['report'] : 0;
+	$saved = !empty($_GET['saved']) ? $_GET['saved'] : 0;
 ?>
+<div ng-if="control.type=='report'">
+      <div class="stdfields">
+        <div class="fieldrow">
+          <div class="fieldcol">
+            <div class="clogoholder">
+            <img ng-src="{{formBlueprint.logo}}" alt="Logo" class="companylogo">
+          </div>
+          </div>
+        </div>
+        <div class="fleldrow">
+          <div class="fieldcol">
+            <h1 class="text-center reporttitle">{{formBlueprint.report_title}}</h1>
+          </div>
+        </div>
+        <div class="fieldrow">
+          <div class="fieldcol">
+            <p class="text-center">
+              {{formBlueprint.company_address}}
+            </p>
+          </div>
+        </div>
+        <div class="fieldrow bordered">
+          <div class="fieldcol">
+            <p>Report Prepared By:</p>
+            <input type="text" ng-model="formBlueprint.prepared_by">
+          </div>
+          <div class="fieldcol">
+            <p>Company Prepared For:</p>
+            <input type="text" ng-model="formBlueprint.prepared_for">
+          </div>
+        </div>
+        <div class="fieldrow">
+          <div class="fieldcol">
+            <p class="text-center prepareddate">
+              <b>Date:</b> {{formBlueprint.prepared_date}}
+            </p>
+          </div>
+        </div>
+      </div>
+</div>
 <!-- text -->
 <div class="formcontrol text" ng-if="control.type=='label'">
   <div class="labelfield">
@@ -53,8 +95,8 @@ $hash_id = !empty($_GET['hash']) ? $_GET['hash'] : '';
     <!--<input type="file" class="invisible fileinp" c-on-change="fileBrowse(control)">-->	
 	<div style="position:absolute;top:-77px;border:1px solid #000;background:#fff;padding:3px;width: 164px;" ng-hide="imageFileMess">
 		<a class="goToDrawing frontend-button" href="#" ng-click="mediaUploderClb(control)"><i class="fa fa-picture-o" aria-hidden="true"></i> Open media <i class="fa fa-expand" aria-hidden="true"></i></a>
-		<a class="goToDrawing" ng-click="goToDrawing($event)" dataurl="<?php echo home_url('/canvas-drawing/?item='.$template_id.'&hash={{control.hash}}'.'#target={{control.url}}'); ?>" href="#"><i class="fa fa-picture-o" aria-hidden="true"></i> Annotate Image <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
-		<a class="goToDrawing" ng-click="goToDrawing($event)" dataurl="<?php echo home_url('/design-draw/?item='.$template_id.'&hash={{control.hash}}'); ?>" href="#"><i class="fa fa-picture-o" aria-hidden="true"></i> Survey Drawing <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
+		<a class="goToDrawing" ng-click="goToDrawing($event)" dataurl="<?php echo home_url('/canvas-drawing/?report='.$report_id.'&saved='.$saved.'&item='.$template_id.'&hash={{control.hash}}'.'#target={{control.url}}'); ?>" href="#"><i class="fa fa-picture-o" aria-hidden="true"></i> Annotate Image <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
+		<a class="goToDrawing" ng-click="goToDrawing($event)" dataurl="<?php echo home_url('/design-draw/?report='.$report_id.'&saved='.$saved.'&item='.$template_id.'&hash={{control.hash}}'); ?>" href="#"><i class="fa fa-picture-o" aria-hidden="true"></i> Survey Drawing <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
 	</div>
 	<span class="invisible fileinp"></span>
     <i class="fa fa-folder-open"></i>
@@ -70,11 +112,11 @@ $hash_id = !empty($_GET['hash']) ? $_GET['hash'] : '';
 </div>
 <!-- wysiwyg -->
 <div class="formcontrol editor" ng-if="control.type=='comment'">
-  <h4><input type="checkbox" id="{{control.htmlName}}" ng-click="commentListIsVisible=!commentListIsVisible"> <label for="{{control.htmlName}}">{{control.label}}</label></h4>
-  <div class="editbutton" ng-click="control.editMode=true" ng-hide="commentListIsVisible">
+  <h4><input type="checkbox" id="{{control.htmlName}}" ng-click="commentListIsVisible=!commentListIsVisible" ng-model="control.comment1" value="control.comment1" ng-checked="control.comment1"> <label for="{{control.htmlName}}">{{control.label}}</label></h4>
+  <div class="editbutton" ng-click="control.editMode=true" ng-show="commentListIsVisible=control.comment1">
     <i ng-click="" class="fa fa-pencil"></i>
   </div>
-  <div ng-bind-html="control.data" ng-hide="commentListIsVisible"></div>
+  <div ng-bind-html="control.data" ng-show="commentListIsVisible=control.comment1"></div>
   <div class="wysiwygpretend" ng-show="control.editMode">
     <textarea ui-tinymce="tinymceOptions" ng-model="control.data"></textarea>
     <div class="button tbmargin get-right" ng-click="control.editMode=false">Save</div>
