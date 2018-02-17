@@ -42,7 +42,8 @@ get_header(); ?>
 		<div class="container">
 			<div class="panel panel-primary">						
 				<div class="panel-heading">
-				  <h1 class="panel-title"><?php the_title(); ?></h1>
+				<?php $new_item = !empty($_GET['new_item']) ? $_GET['new_item'] : ''; ?>
+				  <h1 class="panel-title"><?php if($new_item){ echo 'Add Template'; } else { the_title(); } ?></h1>
 				</div>
 				<?php
 					global $wpdb;

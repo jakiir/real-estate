@@ -44,7 +44,11 @@ get_header(); ?>
 							global $wpdb;
 							$user_id = get_current_user_id();							
 							$table_template = $wpdb->prefix . 'template';
-							$get_share_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE user_id=$user_id AND shared_template=1", OBJECT );						
+							if(!empty($user) && $user->roles[0] == 'administrator'){
+								$get_share_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE shared_template=1", OBJECT );
+							} else {
+								$get_share_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE user_id=$user_id AND shared_template=1", OBJECT );
+							}
 						?>
 				      	<div class="row" style="padding: 6px;">			      	
 					        <div class="col-xs-6">
@@ -97,7 +101,11 @@ get_header(); ?>
 					              <h1 class="panel-title">Your Templates</h1>
 					            </div>
 								<?php 
-									$get_your_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE user_id=$user_id AND your_template=1 ORDER BY created_time ASC", OBJECT );
+									if(!empty($user) && $user->roles[0] == 'administrator'){
+										$get_your_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE your_template=1 ORDER BY created_time ASC", OBJECT );
+									} else {
+										$get_your_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE user_id=$user_id AND your_template=1 ORDER BY created_time ASC", OBJECT );
+									}
 								?>
 					            <select name="yourTemplates" id="yourTemplates" class="rounded multiselect2" size="10" style="background:#fff;color:#000;width:100%;">
 									<?php
@@ -153,6 +161,7 @@ get_header(); ?>
 					$('#template-name-success').remove();
 					$('#template-name').after('<label id="template-name-success" class="success" style="color:green;" for="template-name">'+parsedJson.mess+'</label>');
 					$('#addTempleteModal').modal('hide');
+					window.location.href = '<?php echo home_url('/edit-template/?new_item=1&item='); ?>'+parsedJson.template_id;
 				} else {
 					$('#template-name-error').remove();
 					$('#template-name-success').remove();

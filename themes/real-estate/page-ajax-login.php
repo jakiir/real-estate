@@ -14,7 +14,18 @@
  * @version 1.0
  */
 
-get_header(); ?>
+get_header(); 
+if (is_user_logged_in()) {
+	$user = wp_get_current_user();
+	if(!empty($user) && $user->roles[0] == 'administrator'){
+		$siteUrl = home_url('/template/');
+		wp_redirect( $siteUrl );
+	} else {
+		$siteUrl = home_url('/perform-inspection/');
+		wp_redirect( $siteUrl );
+	}
+}
+?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/fa/css/font-awesome.min.css">
 
 <!-- BLOG -->

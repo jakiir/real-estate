@@ -31,15 +31,27 @@ p{
 }
 .toptools{
   position:fixed;
-  top:20px;
+  top: 1px;
   right:45px;
   z-index:4000;
-  padding:8px 10px;
+  padding:8px 20px;
   font-size:1.4em;
   background: #eee;
   box-sizing: border-box;
   border-radius:4px;
   box-shadow:1px 1px 3px 0px #222;
+}
+.msg_show{
+	display:none;
+	position: absolute;
+    right: 0px;
+    bottom: -26px;
+    font-size: 14px;
+    background: #eee;
+    padding: 2px 10px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    box-shadow: 1px 1px 3px 0px #222;
 }
 .toptools .fa{
   cursor: pointer;
@@ -313,4 +325,8 @@ div.stdreportf input{
 }
 div.stdreportf .row .col {
     padding: 20px 10px;
+}
+.navbar-default {
+    width: 60%;
+    margin: 0 auto;
 }

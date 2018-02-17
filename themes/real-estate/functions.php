@@ -248,6 +248,8 @@ function editTemplateAction(){
 		 $template_date = !empty($_POST['template_date']) ? $_POST['template_date'] : '';
 		 $template_company = !empty($_POST['template_company']) ? $_POST['template_company'] : '';
 		 $footer_template = !empty($_POST['footer_template']) ? $_POST['footer_template'] : '';
+		 $shareTem=0;
+		 if($template_share== 'on') $shareTem=1;
 		
 		$wpdb->query($wpdb->prepare("UPDATE $table_template 
 		 SET name='".$template_name."',
@@ -256,7 +258,8 @@ function editTemplateAction(){
 		 state_form='".$template_state_id."',
 		 companyId='".$template_company."',
 		 footer_html='".$footer_template."',
-		 template_date='".$template_date."'
+		 template_date='".$template_date."',
+		 shared_template=$shareTem
 		 WHERE id=$template_id"
 		 ));
 		 
