@@ -26,7 +26,12 @@ get_header(); ?>
 			$user_id = get_current_user_id();
 			$table_inspection = $wpdb->prefix . 'inspection';
 			$inspectionReportDetail = $wpdb->prefix . 'inspectionreportdetail';
-			$get_inspection = $wpdb->get_results( "SELECT ins.id,ins.template_id,ins.report_identification,ins.prepared_for,ins.inpection_date,ird.id as ird_id FROM $table_inspection as ins JOIN $inspectionReportDetail as ird ON ird.inspectionId=ins.id WHERE ins.user_id=$user_id", OBJECT );
+			$user = wp_get_current_user();
+			if(!empty($user) && $user->roles[0] == 'administrator'){
+				$get_inspection = $wpdb->get_results( "SELECT ins.id,ins.template_id,ins.report_identification,ins.prepared_for,ins.inpection_date,ird.id as ird_id FROM $table_inspection as ins JOIN $inspectionReportDetail as ird ON ird.inspectionId=ins.id", OBJECT );
+			} else {
+				$get_inspection = $wpdb->get_results( "SELECT ins.id,ins.template_id,ins.report_identification,ins.prepared_for,ins.inpection_date,ird.id as ird_id FROM $table_inspection as ins JOIN $inspectionReportDetail as ird ON ird.inspectionId=ins.id WHERE ins.user_id=$user_id", OBJECT );
+			}
 		?>
 		<!--<div class="panel-body">
 			<input type="text" class="form-control" id="dev-table-filter" data-action="filter" data-filters="#dev-table" placeholder="Filter Developers" />

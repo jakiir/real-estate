@@ -865,3 +865,7 @@ object {
 .panel-body{
 	display: none;
 }
+.navbar-default {
+    width: 60%;
+    margin: 0 auto;
+}

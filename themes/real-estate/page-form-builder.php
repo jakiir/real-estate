@@ -47,7 +47,7 @@ get_header('form-builder'); ?>
 
 <div class="container" ng-controller="mainCtrl">
     <div class="toptools">
-	  <div class="msg_show" style="position: absolute;right:0px;top:-21px;font-size:14px;background: #fff;padding: 2px 6px;"></div>
+	  <div class="msg_show"></div>
       <i class="fa fa-floppy-o" id="save_to_database" title="save"></i>
       <a href="<?php echo home_url('/form-viewer/?item='.$template_id); ?>" target="_blank" title="Preview"><i class="fa fa-eye" title="Preview"></i></a>
       <i class="fa fa-upload" title="Export"></i>
@@ -222,7 +222,7 @@ get_header('form-builder'); ?>
 <script type="text/javascript">
   document.title = '<?php echo $get_template_name; ?>';
   document.getElementById('save_to_database').addEventListener('click', function() {
-	$('.msg_show').html('<i class="fa fa-refresh fa-spin" aria-hidden="true"></i>');
+	$('.msg_show').show().html('<i class="fa fa-refresh fa-spin" aria-hidden="true"></i>');
     var form_data = new FormData();    
     var template_id = '<?php echo $template_id; ?>';
     var formJsonData = localStorage.formbuilder_cache_data;
@@ -241,14 +241,20 @@ get_header('form-builder'); ?>
         var parsedJson = data;        
         if(parsedJson.success == true){
 			$('.msg_show').html('<font style="color:green">'+parsedJson.mess+'</span>');
+			$('.msg_show').delay(5000).fadeOut('slow');
           //window.location.href = "<?php echo home_url('/form-builder/?item='); ?>"+template_id;
         } else {
         $('.msg_show').html('<font style="color:red">'+parsedJson.mess+'</span>');
+		$('.msg_show').delay(5000).fadeOut('slow');
         }
       },
       error: function (errorThrown) {
 		$('.msg_show').html('<font style="color:red">'+errorThrown+'</span>');
+		$('.msg_show').delay(5000).fadeOut('slow');
       }
+	  
+	  
+	  
     });
     
     //console.log(JSON.stringify(JSON.parse(formBuilder.actions.getData('json', true))));
