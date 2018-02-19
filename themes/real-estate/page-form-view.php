@@ -82,9 +82,10 @@ get_header('form-viewer'); ?>
         </div>
       </div>
     </form>
+	<?php if($report_id){ ?>
     <div class="actions">
 	  <div class="msg_show" style="position: absolute;left:135px;top:19px;font-size:14px;background: #fff;padding: 2px 6px;"></div>
-      <div class="button primary saveChanges" ng-click="submitData()">
+      <div class="button primary saveChanges" ng-click="submitData(1,'','')">
         <i class="fa fa-floppy-o" aria-hidden="true"></i> Save Changes
       </div>
       <!--<div class="button secondary">
@@ -94,6 +95,7 @@ get_header('form-viewer'); ?>
         Discard
       </div>-->
     </div>
+	<?php } ?>
   </div>
 <?php get_footer(); ?>
 <?php 

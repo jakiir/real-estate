@@ -179,8 +179,8 @@ get_header('form-builder'); ?>
         <div class="flex">
           <input type="text" class="flexone" ng-model="currentControl.url">
           <div class="fileinput flex flexcenter hovereffect">
-            <input type="file" class="invisible fileinp" c-on-change="fileBrowse()">
-            <i class="fa fa-folder-open"></i>
+            <!--<input type="file" class="invisible fileinp" c-on-change="fileBrowse()">-->
+            <i class="fa fa-folder-open" ng-click="fileUploader(currentControl)"></i>
           </div>
         </div>
       </div>
@@ -199,7 +199,7 @@ get_header('form-builder'); ?>
       </div>
     </div>
   </div>
-<?php //get_footer(); ?>
+<?php get_footer(); ?>
 
 <script type="text/javascript">
 	var field_text_html = <?php echo $field_text_html; ?>;
@@ -208,7 +208,7 @@ get_header('form-builder'); ?>
 	var get_template_name = '<?php echo $get_template_name; ?>';
 	//console.log(get_template_name);
 </script>
-
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/imagefunctions.js"></script>
   <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/controls.js"></script>
   <script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/bower_components/tinymce/tinymce.js"></script>
   <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/angular.min.js"></script>
