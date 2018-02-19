@@ -65,8 +65,8 @@ angular.module('submitForm',['ui.tinymce'])
   }
   var temp_dt = new Date();
   $scope.formBlueprint.prepared_date = temp_dt.toString();
-  $scope.submitData = function(){
-    
+  $scope.submitData = function(thisItem,goToUrl,targetUrl){
+    var saveToDb=false;
     //var fd = new FormData(document.forms.mainform);
 	//var data = $scope.formBlueprint;
 	//fd.append('action', 'save_form_data');
@@ -89,11 +89,17 @@ angular.module('submitForm',['ui.tinymce'])
       contentType: false,
       processData: false,
       data: form_data,          
-      success: function (data) {
-        var parsedJson = data;        
-        if(parsedJson.success == true){
+      success: function (data) {		
+        var parsedJson = data;
+		saveToDb = parsedJson.success;        
+        if(parsedJson.success == true){			
 			$('.msg_show').html('<font style="color:green">'+parsedJson.mess+'</span>');
-			window.location.href = site_url+"/form-viewer/?item="+template_id+'&report='+inspection_id+'&saved='+parsedJson.report_detail_id;
+			if(thisItem==1){
+				window.location.href = site_url+"/form-viewer/?item="+template_id+'&report='+inspection_id+'&saved='+parsedJson.report_detail_id;
+			}
+			if(thisItem==2){
+				window.location.href = goToUrl+'&saved='+parsedJson.report_detail_id+targetUrl;
+			}
         } else {
         $('.msg_show').html('<font style="color:red">'+parsedJson.mess+'</span>');
         }
@@ -104,9 +110,11 @@ angular.module('submitForm',['ui.tinymce'])
 		$('.msg_show').html('<font style="color:red">'+errorThrown+'</span>');
       }
     });	
+	return saveToDb;
     //ToDo: Run AJAX submit for fd
   }
   $scope.fileBrowse = function(control){
+	  console.log(22);
     var fi = document.querySelector('.fileinp-new');
     console.log(fi.files);
     readFile(fi.files[0],function(res){
@@ -173,8 +181,8 @@ angular.module('submitForm',['ui.tinymce'])
   }
   
   $scope.goToDrawing = function(thisItem){
-		$scope.submitData();
-		if(thisItem.target.attributes.dataurl.value){
+		var saveToDb = $scope.submitData(2,thisItem.target.attributes.dataurl.value,thisItem.target.attributes.targetUrl.value);
+		if(thisItem.target.attributes.dataurl.value && saveToDb==true){
 			window.location = thisItem.target.attributes.dataurl.value;
 		}
 	}
