@@ -142,7 +142,7 @@ get_header(); ?>
 jQuery(function($){
 	$('.datepicker').datetimepicker({
 		viewMode: 'years',
-		format: 'DD/MM/YYYY'
+		format: 'MM/DD/YYYY'
 	});
 	$('.timepicker').datetimepicker({
 		format: 'LT'
