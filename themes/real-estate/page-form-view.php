@@ -44,6 +44,7 @@ get_header('form-viewer'); ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/custom.css">
 <!--<script type="text/javascript" src="<?php //echo esc_url( get_template_directory_uri() ); ?>/js/jquery.min.js"></script>-->
 <div class="container" ng-controller="submissonForm">
+<div id="drlistDivTbl">
     <header>
       <div class="stdfields">
         <div class="fieldrow bordered">
@@ -82,6 +83,7 @@ get_header('form-viewer'); ?>
         </div>
       </div>
     </form>
+</div>
 	<?php if($report_id){ ?>
     <div class="actions">
 	  <div class="msg_show" style="position: absolute;left:135px;top:19px;font-size:14px;background: #fff;padding: 2px 6px;"></div>
@@ -132,4 +134,22 @@ get_header('form-viewer'); ?>
 <script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/bower_components/angular-ui-tinymce/src/tinymce.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/jq.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/submitapp.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/printThis.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function () {
+		$("#printDrBtn").on("click", function (e) {
+			e.preventDefault();
+			$("#drlistDivTbl").printThis({
+				importStyle: false,         // import style tags
+				printContainer: true,
+				loadCSS: "<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/print.css",
+				importCSS: false,
+				copyTagClasses: false,
+				printDelay: 3000,
+				debug:false
+
+			});
+		});
+	});
+	</script>
   

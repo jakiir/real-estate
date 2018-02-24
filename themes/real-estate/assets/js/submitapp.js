@@ -49,7 +49,7 @@ angular.module('submitForm',['ui.tinymce'])
   
   var setAccessSession = '';
     function autoSave(){
-      localStorage.setItem('formbuilder_cache_data',JSON.stringify($scope.formBlueprint));
+      localStorage.setItem('formbuilder_cache_data'+template_id,JSON.stringify($scope.formBlueprint));
 	  setAccessSession = setTimeout(autoSave, 500);
 	  //console.log(localStorage.formbuilder_cache_data);
       //console.log("Auto Save Performed");
@@ -58,8 +58,8 @@ angular.module('submitForm',['ui.tinymce'])
   autoSave();
   // -- disabled for development
   // //check if the file is called from preview (will have cache data)
-  if(localStorage.getItem('formbuilder_cache_data') && !$scope.form.length){
-    $scope.formBlueprint = JSON.parse(localStorage.getItem('formbuilder_cache_data'));
+  if(localStorage.getItem('formbuilder_cache_data'+template_id) && !$scope.form.length){
+    $scope.formBlueprint = JSON.parse(localStorage.getItem('formbuilder_cache_data'+template_id));
     $scope.form = transform($scope.formBlueprint);
     console.log($scope.form);
   }
@@ -74,8 +74,9 @@ angular.module('submitForm',['ui.tinymce'])
 	//fd.append('this_form_name', this_form_name);
 	$('.saveChanges').find('.fa').removeClass('fa-floppy-o');
 	$('.saveChanges').find('.fa').addClass('fa-refresh fa-spin');
-	var form_data = new FormData();    
-    var formJsonData = localStorage.formbuilder_cache_data;
+	var form_data = new FormData();
+	var formCacheData = localStorage.getItem('formbuilder_cache_data'+template_id);
+    var formJsonData = formCacheData;
     form_data.append('action', 'saveDynamicFormReport');
     form_data.append('template_id', template_id);
 	form_data.append('inspection_id', inspection_id);

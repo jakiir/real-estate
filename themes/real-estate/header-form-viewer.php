@@ -46,8 +46,16 @@
 				<li><a href="<?php echo home_url('/completed-inspections/'); ?>">Completed inspections</a></li>
 				<li><a href="<?php echo home_url('/template/'); ?>">Template</a></li>
 			<?php } ?>
+			<!--<li><a href="#" role="button" id="printDrBtn" class=""><i class="fa fa-print" aria-hidden="true"></i> Print</a></li>-->
 		  <li><a class="login_button" href="<?php echo wp_logout_url( home_url() ); ?>">Logout</a></li>
 			<?php } ?>
 		</ul>
+		<?php if (is_user_logged_in()) { ?>
+			<span style="float: right;">
+				<?php echo $user->display_name; ?>
+				<br/>
+				<?php echo $user->roles[0]; ?>
+			</span>
+		<?php } ?>
 	  </div>
 	</nav>

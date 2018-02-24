@@ -44,11 +44,8 @@ get_header(); ?>
 							global $wpdb;
 							$user_id = get_current_user_id();							
 							$table_template = $wpdb->prefix . 'template';
-							if(!empty($user) && $user->roles[0] == 'administrator'){
-								$get_share_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE shared_template=1", OBJECT );
-							} else {
-								$get_share_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE user_id=$user_id AND shared_template=1", OBJECT );
-							}
+							$get_share_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE shared_template=1", OBJECT );
+							
 						?>
 				      	<div class="row" style="padding: 6px;">			      	
 					        <div class="col-xs-6">
@@ -100,12 +97,8 @@ get_header(); ?>
 					            <div class="panel-heading">
 					              <h1 class="panel-title">Your Templates</h1>
 					            </div>
-								<?php 
-									if(!empty($user) && $user->roles[0] == 'administrator'){
-										$get_your_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE your_template=1 ORDER BY created_time ASC", OBJECT );
-									} else {
-										$get_your_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE user_id=$user_id AND your_template=1 ORDER BY created_time ASC", OBJECT );
-									}
+								<?php 									
+									$get_your_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE user_id=$user_id AND your_template=1 ORDER BY created_time ASC", OBJECT );
 								?>
 					            <select name="yourTemplates" id="yourTemplates" class="rounded multiselect2" size="10" style="background:#fff;color:#000;width:100%;">
 									<?php
@@ -196,7 +189,8 @@ get_header(); ?>
 				var parsedJson = $.parseJSON(data);				
 				if(parsedJson.success == true){
 					var options = selected_item.sort().clone();
-					$('select.multiselect2').append(options);
+					var optionVal = '<option value="'+parsedJson.template_id+'">'+parsedJson.template_name+'</option>';
+					$('select.multiselect2').append(optionVal);
 					$('.msg_show').html('<font style="color:green;">'+parsedJson.mess+'</span>');
 				} else {
 					$('.msg_show').html('<font style="color:red;">'+parsedJson.mess+'</span>');

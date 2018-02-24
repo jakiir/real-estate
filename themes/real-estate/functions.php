@@ -249,8 +249,7 @@ function editTemplateAction(){
 		 $template_company = !empty($_POST['template_company']) ? $_POST['template_company'] : '';
 		 $footer_template = !empty($_POST['footer_template']) ? $_POST['footer_template'] : '';
 		 $shareTem=0;
-		 if($template_share== 'on') $shareTem=1;
-		
+		 if($template_share == 'true') $shareTem=1;
 		$wpdb->query($wpdb->prepare("UPDATE $table_template 
 		 SET name='".$template_name."',
 		 shared_flag='".$template_share."',
@@ -259,7 +258,8 @@ function editTemplateAction(){
 		 companyId='".$template_company."',
 		 footer_html='".$footer_template."',
 		 template_date='".$template_date."',
-		 shared_template=$shareTem
+		 shared_template=$shareTem,
+		 your_template=1
 		 WHERE id=$template_id"
 		 ));
 		 
@@ -495,14 +495,50 @@ function copyTemplate(){
 			 
 			 $results = array(
 				'success' => true,
-				'mess' => 'Template successfully copy.'				
+				'mess' => 'Template successfully copy.'	,
+				'template_id' => $template_id,
+				'template_name' => $get_your_templages[0]->name
 			 );
 			 
-		} else {			
-			$results = array(
-				'success' => false,
-				'mess' => 'This template is already copied!'				
-			 );
+		} else {
+			$get_your_temp = $wpdb->get_results( "SELECT * FROM $table_template WHERE id=$template_id AND user_id=$user_id AND your_template=1", OBJECT );
+			if(empty($get_your_temp)){
+				$get_your_templage = $wpdb->get_results( "SELECT * FROM $table_template WHERE id=$template_id", OBJECT );
+				$tempName = $get_your_templage[0]->name;
+				$temCount = $wpdb->get_var("SELECT COUNT(*) FROM $table_template WHERE name='$tempName'");
+				$temptName = '';
+				if($temCount > 0){
+					$temptName = $get_your_templage[0]->name.' - Copy';
+				}
+				$wpdb->insert($table_template, 
+					 array(
+						 'name' => $temptName,
+						 'shared_flag' => $get_your_templage[0]->shared_flag,
+						 'state' => $get_your_templage[0]->state,
+						 'state_form' => $get_your_templage[0]->state_form,
+						 'companyId' => $get_your_templage[0]->companyId,
+						 'logo_url' => $get_your_templage[0]->logo_url,
+						 'footer_html' => $get_your_templage[0]->footer_html,
+						 'header_html' => $get_your_templage[0]->header_html,
+						 'template_date' => $get_your_templage[0]->template_date,
+						 'shared_template' => $get_your_templage[0]->shared_template,
+						 'your_template' => 1,
+						 'user_id' => $user_id
+					 )
+				 );
+				 $insert_id = $wpdb->insert_id;
+				 $results = array(
+					'success' => true,
+					'mess' => 'Template successfully copy.',
+					'template_id' => $insert_id,
+					'template_name' => $temptName
+				 );
+			} else {
+				$results = array(
+					'success' => false,
+					'mess' => 'This template is already copied!'
+				 );
+			}		
 		} 
 	 } else {
 		 $results = array(

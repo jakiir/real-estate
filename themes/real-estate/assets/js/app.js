@@ -137,7 +137,7 @@ angular.module('formbuilder',['ngDrag','ui.tinymce'])
 	$scope.fileUploader = function(control){
 	  
 	var file_frame; // variable for the wp.media file_frame
-	event.preventDefault();
+	//event.preventDefault();
 	// if the file_frame has already been created, just reuse it
 	if ( file_frame ) {
 		file_frame.open();
