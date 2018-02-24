@@ -69,7 +69,7 @@ get_header(); ?>
 								  
 								  <div class="form-group">
 									<div class="col-lg-8 col-lg-offset-3" for="template_share">
-									 <label><input type="checkbox" name="template_share" id="template_share" <?php echo !empty($get_templages[0]->shared_flag) && $get_templages[0]->shared_flag == 'on' ? 'checked' : ''; ?>> Share</label>
+									 <label><input type="checkbox" name="template_share" id="template_share" <?php echo !empty($get_templages[0]->shared_flag) && $get_templages[0]->shared_flag == 'true' ? 'checked' : ''; ?>> Share</label>
 									</div>
 								  </div>
 								  
@@ -172,7 +172,7 @@ get_header(); ?>
 			} else {
 				var template_id = jQuery('#template_id').val();
 				var template_name = jQuery('#template_name').val();
-				var template_share = jQuery('#template_share').val();
+				var template_share= jQuery('#template_share').is(':checked');
 				var template_state = $('#template_state').find('option:selected').val();				
 				var template_state_id = jQuery('#template_state_id').val();				
 				var template_date = jQuery('#template_date').val();				

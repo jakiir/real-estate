@@ -47,5 +47,12 @@
 		  <li><a class="login_button" href="<?php echo wp_logout_url( home_url() ); ?>">Logout</a></li>
 			<?php } ?>
 		</ul>
+		<?php if (is_user_logged_in()) { ?>
+			<span style="float: right;">
+				<?php echo $user->display_name; ?>
+				<br/>
+				<?php echo $user->roles[0]; ?>
+			</span>
+		<?php } ?>
 	  </div>
 	</nav>
