@@ -39,12 +39,12 @@ get_header('form-viewer'); ?>
 	$get_inspection = $wpdb->get_results( "SELECT * FROM $table_inspection WHERE id=$report_id", OBJECT );
 ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/fa/css/font-awesome.min.css">
+<div class="container" ng-controller="submissonForm">
+<div id="drlistDivTbl">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/form.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/submitform_controls.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/custom.css">
 <!--<script type="text/javascript" src="<?php //echo esc_url( get_template_directory_uri() ); ?>/js/jquery.min.js"></script>-->
-<div class="container" ng-controller="submissonForm">
-<div id="drlistDivTbl">
     <header>
       <div class="stdfields">
         <div class="fieldrow bordered">
