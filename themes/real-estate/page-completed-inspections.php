@@ -36,55 +36,59 @@ get_header(); ?>
 			}
 		?>
 		<div class="panel-body">
-		<div class="row">
-			<div class="col-md-12">
-				<table class="table table-striped table-bordered" cellspacing="0" width="100%" id="devTable">
-					<thead>
+			<table class="table table-striped table-bordered" cellspacing="0" width="100%" id="devTable">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Report Id</th>
+						<th>Prepared For</th>
+						<th>Date</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php 
+						if(!empty($get_inspection)) {
+						$inc=1;
+						foreach($get_inspection as $inspection){
+					?>
 						<tr>
-							<th>#</th>
-							<th>Report Id</th>
-							<th>Prepared For</th>
-							<th>Date</th>
+							<td><input type="checkbox" name="report_box_<?php echo $inspection->id; ?>"/></td>
+							<td><a target="_blank" href="<?php echo home_url('/form-viewer/?item='.$inspection->template_id.'&report='.$inspection->id.'&saved='.$inspection->ird_id); ?>" title=""><?php echo $inspection->report_identification; ?></a></td>
+							<td><?php echo $inspection->prepared_for; ?></td>
+							<td><?php echo $inspection->inpection_date; ?></td>
 						</tr>
-					</thead>
-					<tbody>
-						<?php 
-							if(!empty($get_inspection)) {
-							$inc=1;
-							foreach($get_inspection as $inspection){
-						?>
-							<tr>
-								<td><input type="checkbox" name="report_box_<?php echo $inspection->id; ?>"/></td>
-								<td><a target="_blank" href="<?php echo home_url('/form-viewer/?item='.$inspection->template_id.'&report='.$inspection->id.'&saved='.$inspection->ird_id); ?>" title=""><?php echo $inspection->report_identification; ?></a></td>
-								<td><?php echo $inspection->prepared_for; ?></td>
-								<td><?php echo $inspection->inpection_date; ?></td>
-							</tr>
-						<?php $inc++; }} ?>
-						
-					</tbody>
-				</table>
-				<table class="table table-hover">
-					<tr>
-						<td colspan="4" style="border:none;">&nbsp;</td>
-					</tr>
-					<tr>
-						<td colspan="4" style="border:none;">&nbsp;</td>
-					</tr>
-					<tr>
-						<td>Date Range : </td>
-						<td><input class="form-control" type="text" name="date_range" id="date_range" value=""></td>
-						<td>To : </td>
-						<td><input class="form-control" type="text" name="dateTo" id="dateTo" value=""></td>
-					</tr>
-					<tr>
-						<td>&nbsp;</td>
-						<td><button type="button" class="btn btn-primary">Print</button></td>
-						<td>&nbsp;</td>
-						<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#shareFormView"><i class="fas fa-share"></i> Share</button></td>
-					</tr>
-				</table>
+					<?php $inc++; }} ?>
+					
+				</tbody>
+			</table>
+			<div class="table- table-hover-">
+				<div class="form-group">
+					<label class="col-md-2 control-label" for="date_range">
+						Date Range : 
+					</label>
+					<div class="col-md-4">					
+						<input class="form-control datepicker" type="text" name="date_range" id="date_range" value="">
+					</div>
+					<label class="col-md-2 control-label" for="date_range">
+						To : 
+					</label>
+					<div class="col-md-4">					
+						<input class="form-control datepicker" type="text" name="dateTo" id="dateTo" value="">
+					</div>
+				</div>
+				<br/>
+				<br/>
+				<div class="form-group">
+					<label class="col-md-2 control-label"></label>
+					<div class="col-md-4">						
+						<button type="button" class="btn btn-primary">Print</button>
+					</div>
+					<label class="col-md-2 control-label"></label>
+					<div class="col-md-4">					
+						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#shareFormView"><i class="fas fa-share"></i> Share</button>
+					</div>
+				</div>
 			</div>
-		</div>
 		</div>
 	</div>
 </section>
@@ -101,8 +105,10 @@ get_header(); ?>
         <h4 class="modal-title">Share form</h4>
       </div>
       <div class="modal-body">
-        <p><input class="form-control" type="text" name="dateTo" id="dateTo" value=""></p>
-		<p><button type="button" class="btn btn-primary"><i class="fas fa-share"></i> Share</button></p>
+		<form action="#" id="shareForm">
+			<p><input class="form-control" type="email" name="dateTo" id="dateTo" value=""></p>
+			<p><button type="button" class="btn btn-primary"><i class="fas fa-share"></i> Share</button></p>
+		</form>
       </div>
     </div>
 
@@ -111,8 +117,13 @@ get_header(); ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/css/dataTables.bootstrap.min.css">	
 <script type="text/javascript">
 $(document).ready(function() {
+	$("#shareForm").validate();
     $('#devTable').DataTable({
 		"iDisplayLength": 5
+	});
+	$('.datepicker').datetimepicker({
+		viewMode: 'years',
+		format: 'MM/DD/YYYY'
 	});
 } );
 </script>
