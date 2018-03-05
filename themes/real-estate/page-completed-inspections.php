@@ -52,7 +52,7 @@ get_header(); ?>
 						foreach($get_inspection as $inspection){
 					?>
 						<tr>
-							<td><input type="checkbox" name="report_box_<?php echo $inspection->id; ?>"/></td>
+							<td><input type="checkbox" onClick="eachSelect(this)" name="report_box[]"/></td>
 							<td><a target="_blank" href="<?php echo home_url('/form-viewer/?item='.$inspection->template_id.'&report='.$inspection->id.'&saved='.$inspection->ird_id); ?>" title=""><?php echo $inspection->report_identification; ?></a></td>
 							<td><?php echo $inspection->prepared_for; ?></td>
 							<td><?php echo $inspection->inpection_date; ?></td>
@@ -81,11 +81,11 @@ get_header(); ?>
 				<div class="form-group">
 					<label class="col-md-2 control-label"></label>
 					<div class="col-md-4">						
-						<button type="button" class="btn btn-primary">Print</button>
+						<button type="button" class="btn btn-primary checkBoxSlected" disabled="disabled">Print</button>
 					</div>
 					<label class="col-md-2 control-label"></label>
 					<div class="col-md-4">					
-						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#shareFormView"><i class="fas fa-share"></i> Share</button>
+						<button type="button" class="btn btn-primary checkBoxSlected" data-toggle="modal" data-target="#shareFormView" disabled="disabled"><i class="fas fa-share"></i> Share</button>
 					</div>
 				</div>
 			</div>
@@ -107,7 +107,7 @@ get_header(); ?>
       <div class="modal-body">
 		<form action="#" id="shareForm">
 			<p><input class="form-control" type="email" name="dateTo" id="dateTo" value=""></p>
-			<p><button type="button" class="btn btn-primary"><i class="fas fa-share"></i> Share</button></p>
+			<p><button type="button" class="btn btn-primary checkBoxSlected" disabled="disabled"><i class="fas fa-share"></i> Share</button></p>
 		</form>
       </div>
     </div>
@@ -126,5 +126,15 @@ $(document).ready(function() {
 		format: 'MM/DD/YYYY'
 	});
 } );
+
+function eachSelect(source){
+	var checkedboxesCount = document.querySelectorAll('input[name="report_box[]"]:checked').length;
+	if(checkedboxesCount > 0){
+		$('.checkBoxSlected').prop('disabled',false);
+	} else {
+		$('.checkBoxSlected').prop('disabled',true);
+	}
+}
+
 </script>
 <?php get_footer();
