@@ -92,7 +92,7 @@
     // Animated scrolling / Scroll Up
     // -------------------------------------------------------------
 
-    (function () {
+    /*(function () {
         $('li a[href*=#]').bind("click", function(e){
             var anchor = $(this);
             $('html, body').stop().animate({
@@ -100,7 +100,7 @@
             }, 1000);
             e.preventDefault();
         });
-    }());
+    }());*/
 
 
     // -------------------------------------------------------------

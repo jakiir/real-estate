@@ -6,7 +6,9 @@ get_header(); ?>
 		die('You have no access right! Please contact system administration for more information.!');
 	}
 ?>
-<link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/fa/css/font-awesome.min.css">
+<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jquery.dataTables.min.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/dataTables.bootstrap.min.js"></script>
 <style>
 	#profilePicRemover{
 		position: absolute;
@@ -33,36 +35,85 @@ get_header(); ?>
 				$get_inspection = $wpdb->get_results( "SELECT ins.id,ins.template_id,ins.report_identification,ins.prepared_for,ins.inpection_date,ird.id as ird_id FROM $table_inspection as ins JOIN $inspectionReportDetail as ird ON ird.inspectionId=ins.id WHERE ins.user_id=$user_id", OBJECT );
 			}
 		?>
-		<!--<div class="panel-body">
-			<input type="text" class="form-control" id="dev-table-filter" data-action="filter" data-filters="#dev-table" placeholder="Filter Developers" />
-		</div>-->
-		<table class="table table-hover" id="dev-table">
-			<thead>
-				<tr>
-					<th>#</th>
-					<th>Report Id</th>
-					<th>Prepared For</th>
-					<th>Date</th>
-				</tr>
-			</thead>
-			<tbody>
-				<?php 
-					if(!empty($get_inspection)) {
-					$inc=1;
-					foreach($get_inspection as $inspection){
-				?>
+		<div class="panel-body">
+		<div class="row">
+			<div class="col-md-12">
+				<table class="table table-striped table-bordered" cellspacing="0" width="100%" id="devTable">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Report Id</th>
+							<th>Prepared For</th>
+							<th>Date</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php 
+							if(!empty($get_inspection)) {
+							$inc=1;
+							foreach($get_inspection as $inspection){
+						?>
+							<tr>
+								<td><input type="checkbox" name="report_box_<?php echo $inspection->id; ?>"/></td>
+								<td><a target="_blank" href="<?php echo home_url('/form-viewer/?item='.$inspection->template_id.'&report='.$inspection->id.'&saved='.$inspection->ird_id); ?>" title=""><?php echo $inspection->report_identification; ?></a></td>
+								<td><?php echo $inspection->prepared_for; ?></td>
+								<td><?php echo $inspection->inpection_date; ?></td>
+							</tr>
+						<?php $inc++; }} ?>
+						
+					</tbody>
+				</table>
+				<table class="table table-hover">
 					<tr>
-						<td><?php echo $inc; ?></td>
-						<td><a target="_blank" href="<?php echo home_url('/form-viewer/?item='.$inspection->template_id.'&report='.$inspection->id.'&saved='.$inspection->ird_id); ?>" title=""><?php echo $inspection->report_identification; ?></a></td>
-						<td><?php echo $inspection->prepared_for; ?></td>
-						<td><?php echo $inspection->inpection_date; ?></td>
+						<td colspan="4" style="border:none;">&nbsp;</td>
 					</tr>
-				<?php $inc++; }} ?>
-			</tbody>
-		</table>
+					<tr>
+						<td colspan="4" style="border:none;">&nbsp;</td>
+					</tr>
+					<tr>
+						<td>Date Range : </td>
+						<td><input class="form-control" type="text" name="date_range" id="date_range" value=""></td>
+						<td>To : </td>
+						<td><input class="form-control" type="text" name="dateTo" id="dateTo" value=""></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td><button type="button" class="btn btn-primary">Print</button></td>
+						<td>&nbsp;</td>
+						<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#shareFormView"><i class="fas fa-share"></i> Share</button></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		</div>
 	</div>
 </section>
 	<!-- /BLOG -->
+	
+	<!-- Modal -->
+<div id="shareFormView" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Share form</h4>
+      </div>
+      <div class="modal-body">
+        <p><input class="form-control" type="text" name="dateTo" id="dateTo" value=""></p>
+		<p><button type="button" class="btn btn-primary"><i class="fas fa-share"></i> Share</button></p>
+      </div>
+    </div>
+
+  </div>
+</div>
+<link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/css/dataTables.bootstrap.min.css">	
 <script type="text/javascript">
+$(document).ready(function() {
+    $('#devTable').DataTable({
+		"iDisplayLength": 5
+	});
+} );
 </script>
 <?php get_footer();
