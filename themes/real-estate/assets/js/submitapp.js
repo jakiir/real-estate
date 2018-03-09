@@ -21,11 +21,20 @@ angular.module('submitForm',['ui.tinymce'])
     var form = [];
 	var sectionEle = 0;
     for(i=0;i<tree.length;i++){
-      //console.log(i);
-      if(tree[i][0][0].type=='section'){
+      //console.log(tree[i][0][0]);
+	  if(tree[i][0][0].type=='section'){
 		var sectionEle = 1;
-        form.push({
+		form.push({
           section:tree[i][0][0],
+          children:[],
+          expanded:false,
+		  display:''
+        });
+        continue;
+      }
+      if(tree[i][0][0].type=='subsection'){
+		form[form.length-1].children.push({
+          subsection:tree[i][0],
           children:[],
           expanded:false,
 		  display:''
@@ -41,7 +50,7 @@ angular.module('submitForm',['ui.tinymce'])
 			  display:'display-none'
 			});	
 		  }
-        form[form.length-1].children.push(tree[i]);
+        form[form.length-1].children[form[form.length-1].children.length-1].children.push(tree[i]);
       }
     }
     return form;

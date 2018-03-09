@@ -11,7 +11,8 @@ formControls.subsection={
   title:"Sub Section",
   label:"Sub Section Title",
   type:"subsection",
-  icon:"fa-cubes",
+  description:"Sub Section Description here",
+  icon:"fa-puzzle-piece",
   data:"",
   single:true,
 }

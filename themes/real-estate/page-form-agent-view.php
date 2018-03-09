@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Form Viewer
+ * Template Name: Form Agent Viewer
  * This is the template that displays all pages by default.
  * Please note that this is the WordPress construct of pages
  * and that other 'pages' on your WordPress site may use a
@@ -13,30 +13,36 @@
  * @since 1.0
  * @version 1.0
  */
-
-get_header('form-viewer'); ?>
-<?php 
-	if (is_user_logged_in()) {
-		$user = wp_get_current_user();
-		if($user->roles[0] != 'administrator' && $user->roles[0] != 'inspector'){
-			echo '<script>window.location.replace("'.home_url().'");</script>';
-			die('You have no access right! Please contact system administration for more information.!');
-		}
-	} else {
-		echo '<script>window.location.replace("'.home_url().'");</script>';
-		die('You have no access right! Please contact system administration for more information.!');
-	}
+$encode_tem_id = !empty($_GET['item']) ? $_GET['item'] : '';
+$encode_token = !empty($_GET['token']) ? $_GET['token'] : '';
+	//$encode = safe_b64encode($encode_token);
+	//echo $encode;
+	$template_id = '';
+	if(!$encode_tem_id || !$encode_token)
+		return false;
 	
-	$template_id = !empty($_GET['item']) ? $_GET['item'] : '';
+	$template_id = safe_b64decode($encode_tem_id);
+	$token = safe_b64decode($encode_token);
+	
+	
+	global $wpdb;
+	$agent_email_log = $wpdb->prefix . 'agent_email_log';
+	$get_agent_email_log = $wpdb->get_results( "SELECT * FROM $agent_email_log WHERE template_id=$template_id AND email_address='$token' AND expires_in >= NOW()", OBJECT );
+	if(empty($get_agent_email_log[0]->id))
+		return false;
+		
+get_header('form-agent-viewer');
+
+
 	$report_id = !empty($_GET['report']) ? $_GET['report'] : 0;
 	$saved = !empty($_GET['saved']) ? $_GET['saved'] : 0;
 	$att = !empty($_GET['att']) ? $_GET['att'] : '';
 	$hash_id = !empty($_GET['hash']) ? $_GET['hash'] : '';
 
-	global $wpdb;
 	$user_id = get_current_user_id();
 	$table_inspection = $wpdb->prefix . 'inspection';
 	$get_inspection = $wpdb->get_results( "SELECT * FROM $table_inspection WHERE id=$report_id", OBJECT );
+	
 ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/fa/css/font-awesome.min.css">
 <div class="container" ng-controller="submissonForm">

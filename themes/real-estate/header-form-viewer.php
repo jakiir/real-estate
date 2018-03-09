@@ -20,7 +20,7 @@
 
 	<?php wp_head(); ?>
 	<?php $template_directory_uri = get_template_directory_uri(); ?>
-	<link rel="stylesheet" href="<?php echo esc_url( $template_directory_uri . '/css/bootstrap.min.css"' ); ?>" />
+	<!--<link rel="stylesheet" href="<?php echo esc_url( $template_directory_uri . '/css/bootstrap.min.css"' ); ?>" />-->
 </head>
 
 <body ng-app="submitForm">
