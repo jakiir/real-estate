@@ -231,6 +231,22 @@ function manage_required_tables() {
 	//dbDelta( $sql_form_info );
 }
 
+function safe_b64encode($string) {
+	$data = base64_encode($string);
+	$data = str_replace(array('+','/','='),array('-','_',''),$data);
+	return urlencode($data);
+}
+
+function safe_b64decode($string) {
+	$data = urldecode($string);
+	$data = str_replace(array('-','_'),array('+','/'),$string);
+	$mod4 = strlen($data) % 4;
+	if ($mod4) {
+		$data .= substr('====', $mod4);
+	}
+	return base64_decode($data);
+}
+
 //order completion form submit
 add_action( 'wp_ajax_nopriv_editTemplateAction', 'editTemplateAction', 85);
 add_action( 'wp_ajax_editTemplateAction', 'editTemplateAction', 85 );

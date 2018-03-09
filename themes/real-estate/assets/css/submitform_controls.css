@@ -126,6 +126,27 @@ textarea.fcontrol.longtext{
   top:1em;
 }
 .sectionhead.display-none{display:none;}
+
+.subsectionhead{
+  padding:20px;
+  background:#eee;
+  position:relative;
+  cursor: pointer;
+  margin-top:10px;
+  margin:15px;
+}
+.subsectionhead .icon{
+  font-size:1.5em;
+  position:absolute;
+  right:1em;
+  top:1em;
+}
+.subsectionhead.display-none{display:none;}
+.subsectionbody{
+  border:2px solid #eee;
+  margin:15px;
+}
+
 .sectionbody{
   border:2px solid #eee;
 }
