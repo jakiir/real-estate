@@ -6,7 +6,7 @@ get_header(); ?>
 		die('You have no access right! Please contact system administration for more information.!');
 	}
 ?>
-<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+<link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/fa/css/font-awesome.min.css">
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jquery.dataTables.min.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/dataTables.bootstrap.min.js"></script>
 <style>
@@ -52,13 +52,12 @@ get_header(); ?>
 						foreach($get_inspection as $inspection){
 					?>
 						<tr>
-							<td><input type="checkbox" onClick="eachSelect(this)" name="report_box[]"/></td>
+							<td><input type="checkbox" onClick="eachSelect(this)" name="report_box[]" data-report="<?php echo $inspection->id; ?>" data-saved="<?php echo $inspection->ird_id; ?>" value="<?php echo $inspection->template_id; ?>"/></td>
 							<td><a target="_blank" href="<?php echo home_url('/form-viewer/?item='.$inspection->template_id.'&report='.$inspection->id.'&saved='.$inspection->ird_id); ?>" title=""><?php echo $inspection->report_identification; ?></a></td>
 							<td><?php echo $inspection->prepared_for; ?></td>
 							<td><?php echo $inspection->inpection_date; ?></td>
 						</tr>
 					<?php $inc++; }} ?>
-					
 				</tbody>
 			</table>
 			<div class="table- table-hover-">
@@ -85,7 +84,7 @@ get_header(); ?>
 					</div>
 					<label class="col-md-2 control-label"></label>
 					<div class="col-md-4">					
-						<button type="button" class="btn btn-primary checkBoxSlected" data-toggle="modal" data-target="#shareFormView" disabled="disabled"><i class="fas fa-share"></i> Share</button>
+						<button type="button" class="btn btn-primary checkBoxSlected" data-toggle="modal" data-target="#shareFormView" disabled="disabled"><i class="fa fa-share"></i> Share</button>
 					</div>
 				</div>
 			</div>
@@ -106,8 +105,9 @@ get_header(); ?>
       </div>
       <div class="modal-body">
 		<form action="#" id="shareForm">
-			<p><input class="form-control" type="email" name="dateTo" id="dateTo" value=""></p>
-			<p><button type="button" class="btn btn-primary checkBoxSlected" disabled="disabled"><i class="fas fa-share"></i> Share</button></p>
+			<p><input class="form-control required" type="email" name="agentEmailAddress" id="agentEmailAddress" value=""></p>
+			<p class="msg_show"></p>
+			<p><button type="submit" class="btn btn-primary checkBoxSlected" disabled="disabled"><i class="fa fa-share"></i> Share</button></p>
 		</form>
       </div>
     </div>
@@ -117,7 +117,6 @@ get_header(); ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/css/dataTables.bootstrap.min.css">	
 <script type="text/javascript">
 $(document).ready(function() {
-	$("#shareForm").validate();
     $('#devTable').DataTable({
 		"iDisplayLength": 5
 	});
@@ -125,7 +124,66 @@ $(document).ready(function() {
 		viewMode: 'years',
 		format: 'MM/DD/YYYY'
 	});
-} );
+	$("#shareForm").validate();
+	$(document).on("click", ":submit", function(e) {
+			$('.msg_show').html('<i class="fa fa-refresh fa-spin" aria-hidden="true"></i>');
+			var formValid = $("#shareForm").valid();
+			var thisForm = $(this);
+			
+			var checkboxesaa = document.querySelectorAll('input[name="report_box[]"]:checked');
+
+            var getSelected = [];
+			var getSelectedReport = [];
+			var getSelectedSaved = [];
+            for(var i=0, n=checkboxesaa.length;i<n;i++) {
+                getSelected.push(checkboxesaa[i].value);
+				getSelectedReport.push(checkboxesaa[i].getAttribute("data-report"));
+				getSelectedSaved.push(checkboxesaa[i].getAttribute("data-saved"));
+            }
+            if(getSelected.length == 0){
+				$('.msg_show').html('<span style="color:red">Please, select minimum 1 template!</span>');
+                return false;
+            }
+			
+			if (formValid === true) {
+				var agentEmailAddress = jQuery('#agentEmailAddress').val();
+				
+				var form_data = new FormData();
+				
+				form_data.append('action', 'send_agent_email');
+				form_data.append('getSelected', getSelected);				
+				form_data.append('getSelectedReport', getSelectedReport);
+				form_data.append('getSelectedSaved', getSelectedSaved);
+				form_data.append('agentEmailAddress', agentEmailAddress);
+				$.ajax({					
+					url: '<?php echo admin_url('admin-ajax.php'); ?>',
+					type: 'post',
+					contentType: false,
+					processData: false,
+					data : form_data,					
+					success: function (data) {
+					  var parsedJson = $.parseJSON(data);
+						console.log(parsedJson);
+					  if(parsedJson.success == true){						  
+						  $('.msg_show').html('');
+						  $('.msg_show').html('<span style="color:green">'+parsedJson.mess+'</span>');
+						  location.reload();
+					  } else {
+						  $('.msg_show').html('');
+						 $('.msg_show').html('<span style="color:red">'+parsedJson.mess+'</span>');
+					  }
+					},
+					error: function (errorThrown) {
+						$('.msg_show').html('');
+						$('.msg_show').html('<span style="color:red">'+errorThrown+'</span>');						
+					}
+				});
+			}			
+			return false;
+			
+		});
+	
+});
 
 function eachSelect(source){
 	var checkedboxesCount = document.querySelectorAll('input[name="report_box[]"]:checked').length;
