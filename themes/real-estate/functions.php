@@ -247,6 +247,87 @@ function safe_b64decode($string) {
 	return base64_decode($data);
 }
 
+
+add_action( 'wp_ajax_nopriv_send_agent_email', 'send_agent_email', 85);
+add_action( 'wp_ajax_send_agent_email', 'send_agent_email', 85 );
+function send_agent_email(){
+	$agentEmailAddress = $_POST['agentEmailAddress'];
+	 $results = array();
+	 if($agentEmailAddress){
+		 global $wpdb;
+		 $agent_email_log = $wpdb->prefix . 'agent_email_log';
+		 $getSelected = !empty($_POST['getSelected']) ? $_POST['getSelected'] : [];
+		 $getSelectedReport = !empty($_POST['getSelectedReport']) ? $_POST['getSelectedReport'] : [];
+		 $getSelectedSaved = !empty($_POST['getSelectedSaved']) ? $_POST['getSelectedSaved'] : [];
+		 $expSelected = explode(',',$getSelected);
+		 $expSelectedReport = explode(',',$getSelectedReport);
+		 $expSelectedSaved = explode(',',$getSelectedSaved);
+		 $user_id = get_current_user_id();
+		 $agentViewer = home_url('/agent-form-viewer/');
+
+		require get_template_directory() . '/emailQue/mail_setting.php';
+			 
+		$mail->From = 'notification@mail.clearagain.net';
+		//$email_to = 'jakir44.du@gmail.com';
+		$mail->FromName = 'clearagain.net';
+		//$mail->addAddress('joe@example.net', 'Joe User');     // Add a recipient
+		$mail->addAddress($agentEmailAddress);
+
+		//$mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
+		//$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
+		$mail->isHTML(true);                                  // Set email format to HTML
+		$sendUrl = '';
+		$inc=1;
+		foreach($expSelected as $key=>$template){
+			 $template_id = safe_b64encode($template);
+			 $report_id = safe_b64encode($expSelectedReport[$key]);
+			 $saved_id = safe_b64encode($expSelectedSaved[$key]);
+			 $emailAddress = safe_b64encode($agentEmailAddress);
+			 
+			 $sendUrl .= '<a href="'.$agentViewer.'?item='.$template_id.'&report='.$report_id.'&saved='.$saved_id.'&token='.$emailAddress.'">Form Viewer Link '.$inc.'</a><br/>';
+			 $inc++;
+		}
+
+		$mail->Subject = 'Agent From Viewer';
+		$mail->Body    = $sendUrl;
+		$mail->AltBody = $sendUrl;
+
+		if(!$mail->send()) {
+		 $results = array(
+			'success' => false,
+			'mess' => 'Message could not be sent. Mailer Error: 2' . $mail->ErrorInfo
+		 );
+		} else {
+
+		foreach($expSelected as $key=>$each_data){		
+			$expires_in = date('Y-m-d h:i:s', strtotime(' + 1 days'));
+			 $sendData = array(
+					 'email_address' => $agentEmailAddress,
+					 'template_id' => $each_data,
+					 'report_id' => $expSelectedReport[$key],
+					 'saved_id' => $expSelectedSaved[$key],
+					 'email_by' => $user_id,
+					 'expires_in' => $expires_in
+				 );		 
+			 $wpdb->insert($agent_email_log, 
+				 $sendData
+			 );
+		 }	 
+		$results = array(
+			'success' => true,
+			'mess' => 'Message has been sent'
+		 );
+		}
+		} else {
+		 $results = array(
+			'success' => false,
+			'mess' => 'Message could not be sent. Mailer Error: 1' . $mail->ErrorInfo
+		 );
+		}			
+	echo json_encode($results);        
+	die();
+  }
+
 //order completion form submit
 add_action( 'wp_ajax_nopriv_editTemplateAction', 'editTemplateAction', 85);
 add_action( 'wp_ajax_editTemplateAction', 'editTemplateAction', 85 );

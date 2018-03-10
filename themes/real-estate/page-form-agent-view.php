@@ -15,27 +15,28 @@
  */
 $encode_tem_id = !empty($_GET['item']) ? $_GET['item'] : '';
 $encode_token = !empty($_GET['token']) ? $_GET['token'] : '';
+$encode_report_id = !empty($_GET['report']) ? $_GET['report'] : 0;
+$encode_saved = !empty($_GET['saved']) ? $_GET['saved'] : 0;
 	//$encode = safe_b64encode($encode_token);
 	//echo $encode;
 	$template_id = '';
-	if(!$encode_tem_id || !$encode_token)
+	if(!$encode_tem_id || !$encode_token || !$encode_report_id || !$encode_saved)
 		return false;
 	
 	$template_id = safe_b64decode($encode_tem_id);
 	$token = safe_b64decode($encode_token);
 	
+	$report_id = safe_b64decode($encode_report_id);
+	$saved = safe_b64decode($encode_saved);
 	
 	global $wpdb;
 	$agent_email_log = $wpdb->prefix . 'agent_email_log';
-	$get_agent_email_log = $wpdb->get_results( "SELECT * FROM $agent_email_log WHERE template_id=$template_id AND email_address='$token' AND expires_in >= NOW()", OBJECT );
+	$get_agent_email_log = $wpdb->get_results( "SELECT * FROM $agent_email_log WHERE template_id=$template_id AND email_address='$token'  AND report_id=$report_id AND saved_id=$saved AND expires_in >= NOW()", OBJECT );
 	if(empty($get_agent_email_log[0]->id))
 		return false;
 		
 get_header('form-agent-viewer');
 
-
-	$report_id = !empty($_GET['report']) ? $_GET['report'] : 0;
-	$saved = !empty($_GET['saved']) ? $_GET['saved'] : 0;
 	$att = !empty($_GET['att']) ? $_GET['att'] : '';
 	$hash_id = !empty($_GET['hash']) ? $_GET['hash'] : '';
 
@@ -101,18 +102,18 @@ get_header('form-agent-viewer');
     </form>
 </div>
 	<?php if($report_id){ ?>
-    <div class="actions">
+    <!--<div class="actions">
 	  <div class="msg_show" style="position: absolute;left:135px;top:19px;font-size:14px;background: #fff;padding: 2px 6px;"></div>
       <div class="button primary saveChanges" ng-click="submitData(1,'','')">
         <i class="fa fa-floppy-o" aria-hidden="true"></i> Save Changes
       </div>
-      <!--<div class="button secondary">
+      <div class="button secondary">
         Draft
       </div>
       <div class="button negative">
         Discard
-      </div>-->
-    </div>
+      </div>
+    </div>-->
 	<?php } ?>
   </div>
 <?php get_footer(); ?>
