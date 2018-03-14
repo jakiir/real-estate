@@ -9,6 +9,9 @@ get_header(); ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/fa/css/font-awesome.min.css">
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jquery.dataTables.min.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/dataTables.bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/css/smoothness/jquery-ui-1.10.0.custom.min.css" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/jquery-ui.js"></script>
 <style>
 	#profilePicRemover{
 		position: absolute;
@@ -18,6 +21,7 @@ get_header(); ?>
 	label.error{color:red;}
 </style>
 <!-- BLOG -->
+
 <section id="blog" class="container">
 	<div class="panel panel-primary">						
 		<div class="panel-heading">
@@ -62,17 +66,17 @@ get_header(); ?>
 			</table>
 			<div class="table- table-hover-">
 				<div class="form-group">
-					<label class="col-md-2 control-label" for="date_range">
+					<label class="col-md-2 control-label" for="from">
 						Date Range : 
 					</label>
 					<div class="col-md-4">					
-						<input class="form-control datepicker" type="text" name="date_range" id="date_range" value="">
+						<input class="form-control datepicker date-range-filter" data-date-format="mm/dd/yyyy" type="text" name="date_range" id="from" value="">
 					</div>
-					<label class="col-md-2 control-label" for="date_range">
+					<label class="col-md-2 control-label" for="to">
 						To : 
 					</label>
 					<div class="col-md-4">					
-						<input class="form-control datepicker" type="text" name="dateTo" id="dateTo" value="">
+						<input class="form-control datepicker date-range-filter" data-date-format="mm/dd/yyyy" type="text" name="dateTo" id="to" value="">
 					</div>
 				</div>
 				<br/>
@@ -114,16 +118,62 @@ get_header(); ?>
 
   </div>
 </div>
-<link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/css/dataTables.bootstrap.min.css">	
+<link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/css/dataTables.bootstrap.min.css">
+
 <script type="text/javascript">
+
 $(document).ready(function() {
-    $('#devTable').DataTable({
+	
+	 $( "#from" ).datepicker({
+		dateFormat: 'mm/dd/yy',
+		defaultDate: "+1w",
+		changeMonth: true,
+		onClose: function( selectedDate ) {
+		  $( "#to" ).datepicker( "option", "minDate", selectedDate );
+		}
+	  });
+	  $( "#to" ).datepicker({
+		dateFormat: 'mm/dd/yy',
+		defaultDate: "+1w",
+		changeMonth: true,
+		onClose: function( selectedDate ) {
+		  $( "#from" ).datepicker( "option", "maxDate", selectedDate );
+		}
+	  });
+	  
+	// Set up your table
+	table = $('#devTable').DataTable({
 		"iDisplayLength": 5
 	});
-	$('.datepicker').datetimepicker({
+
+	// Extend dataTables search
+	$.fn.dataTable.ext.search.push(
+	  function(settings, data, dataIndex) {
+		var min = $('#from').val();
+		var max = $('#to').val();
+		var createdAt = data[3]; // Our date column in the table
+		if (
+		  (min == "" || max == "") ||
+		  (moment(createdAt).isSameOrAfter(min) && moment(createdAt).isSameOrBefore(max))
+		) {
+		  return true;
+		}
+		return false;
+	  }
+	);
+
+	// Re-draw the table when the a date range filter changes
+	$('.date-range-filter').change(function() {
+	  table.draw();
+	});
+	
+	/*$('.datepicker').datetimepicker({
 		viewMode: 'years',
 		format: 'MM/DD/YYYY'
-	});
+	});*/
+	
+	
+	  
 	$("#shareForm").validate();
 	$(document).on("click", ":submit", function(e) {
 			$('.msg_show').html('<i class="fa fa-refresh fa-spin" aria-hidden="true"></i>');
@@ -195,4 +245,4 @@ function eachSelect(source){
 }
 
 </script>
-<?php get_footer();
+<?php //get_footer();

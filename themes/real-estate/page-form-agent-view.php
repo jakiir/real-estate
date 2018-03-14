@@ -31,7 +31,8 @@ $encode_saved = !empty($_GET['saved']) ? $_GET['saved'] : 0;
 	
 	global $wpdb;
 	$agent_email_log = $wpdb->prefix . 'agent_email_log';
-	$get_agent_email_log = $wpdb->get_results( "SELECT * FROM $agent_email_log WHERE template_id=$template_id AND email_address='$token'  AND report_id=$report_id AND saved_id=$saved AND expires_in >= NOW()", OBJECT );
+	$get_agent_email_log = $wpdb->get_results( "SELECT * FROM $agent_email_log WHERE template_id=$template_id AND email_address='$token'  AND report_id=$report_id AND saved_id=$saved", OBJECT );
+	// AND expires_in >= NOW()
 	if(empty($get_agent_email_log[0]->id))
 		return false;
 		
