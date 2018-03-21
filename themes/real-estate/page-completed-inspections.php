@@ -56,8 +56,8 @@ get_header(); ?>
 						foreach($get_inspection as $inspection){
 					?>
 						<tr>
-							<td><input type="checkbox" onClick="eachSelect(this)" name="report_box[]" data-report="<?php echo $inspection->id; ?>" data-saved="<?php echo $inspection->ird_id; ?>" value="<?php echo $inspection->template_id; ?>"/></td>
-							<td><a target="_blank" href="<?php echo home_url('/form-viewer/?item='.$inspection->template_id.'&report='.$inspection->id.'&saved='.$inspection->ird_id); ?>" title=""><?php echo $inspection->report_identification; ?></a></td>
+							<td><input type="checkbox" onClick="eachSelect(this)" name="report_box[]" data-report="<?php echo $inspection->id; ?>" data-saved="<?php echo $inspection->ird_id; ?>" data-url="link-<?php echo $inc; ?>" value="<?php echo $inspection->template_id; ?>"/></td>
+							<td><a target="_blank" href="<?php echo home_url('/form-viewer/?item='.$inspection->template_id.'&report='.$inspection->id.'&saved='.$inspection->ird_id); ?>" class="link-<?php echo $inc; ?>" title="<?php echo $inspection->report_identification; ?>"><?php echo $inspection->report_identification; ?></a></td>
 							<td><?php echo $inspection->prepared_for; ?></td>
 							<td><?php echo $inspection->inpection_date; ?></td>
 						</tr>
@@ -84,7 +84,7 @@ get_header(); ?>
 				<div class="form-group">
 					<label class="col-md-2 control-label"></label>
 					<div class="col-md-4">						
-						<button type="button" class="btn btn-primary checkBoxSlected" disabled="disabled">Print</button>
+						<button type="button" class="btn btn-primary checkBoxSlected printSelectedItem" disabled="disabled">Print</button>
 					</div>
 					<label class="col-md-2 control-label"></label>
 					<div class="col-md-4">					
@@ -96,7 +96,12 @@ get_header(); ?>
 	</div>
 </section>
 	<!-- /BLOG -->
-	
+	<?php 
+		/*$inspectionreportdetail = $wpdb->prefix . 'inspectionreportdetail';
+		$get_inspectionreportdetail = $wpdb->get_results( "SELECT * FROM $inspectionreportdetail WHERE id=5 AND inspectionId=15", OBJECT );
+		$form_info = (!empty($get_inspectionreportdetail[0]->fieldTextHtml) ? $get_inspectionreportdetail[0]->fieldTextHtml : '{"name":"Untitled Form 1","logo":null,"tree":[]}');
+		echo $form_info;*/
+	?>
 	<!-- Modal -->
 <div id="shareFormView" class="modal fade" role="dialog">
   <div class="modal-dialog">
@@ -119,7 +124,6 @@ get_header(); ?>
   </div>
 </div>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/css/dataTables.bootstrap.min.css">
-
 <script type="text/javascript">
 
 $(document).ready(function() {
@@ -230,6 +234,15 @@ $(document).ready(function() {
 				});
 			}			
 			return false;
+			
+		});
+		
+		$('.printSelectedItem').on('click', function(){
+			var getLastCheckBox = $('input[name="report_box[]"]:checked').last().attr('data-url');
+			var gethrefUrl = $('.'+getLastCheckBox).attr('href');
+			//window.location.href = gethrefUrl+'&print=1';
+			newwindow=window.open(gethrefUrl+'&print=1','width=560,height=340,toolbar=0,menubar=0,location=0');
+			//console.log(newwindow);
 			
 		});
 	

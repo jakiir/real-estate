@@ -79,7 +79,16 @@ get_header('form-viewer'); ?>
 				  <h5>{{child.subsection[0].description}}</h5>
 				  <i class="icon fa" ng-class="{'fa-plus':!child.expanded,'fa-minus':child.expanded}"></i>
 				</div>
-				<div class="subsectionbody" ng-show="child.expanded">
+				<div class="subsectionbody" ng-show="child.expanded">				
+					<div class="formcontrol number" ng-if="child.subsection[0].type=='subsection'">
+					  <h2>{{child.subsection[0].label}}</h2>
+					  <div>  
+						<input type="checkbox" ng-model="child.subsection[0].status1" value="child.subsection[0].status1" ng-checked="child.subsection[0].status1"> Inspected
+						<input type="checkbox" ng-model="child.subsection[0].status2" value="child.subsection[0].status2" ng-checked="child.subsection[0].status2"> Not Inspected
+						<input type="checkbox" ng-model="child.subsection[0].status3" value="child.subsection[0].status3" ng-checked="child.subsection[0].status3"> Not Present
+						<input type="checkbox" ng-model="child.subsection[0].status4" value="child.subsection[0].status4" ng-checked="child.subsection[0].status4"> Deficient
+					  </div>
+					</div>
 					<div class="row" ng-repeat="controls in child.children">
 						<div class="col" ng-repeat="subcontrol in controls">
 							<div ng-repeat="control in subcontrol">
@@ -160,6 +169,11 @@ get_header('form-viewer'); ?>
 
 			});
 		});
+		
+		<?php if(isset($_GET['print'])){ ?>
+			$( "a#printDrBtn" ).click();
+		<?php } ?>
+		
 	});
 	</script>
   

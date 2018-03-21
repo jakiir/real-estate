@@ -82,7 +82,7 @@ get_header('form-agent-viewer');
           <div class="sectionbody" ng-show="section.expanded">
 		  
             <div ng-repeat="child in section.children">	
-				<div class="subsectionhead section-{{$index}} {{child.display}}" ng-click="child.expanded=!child.expanded" >
+				<div ng-show="child.subsection[0].status4" class="subsectionhead section-{{$index}} {{child.display}}" ng-click="child.expanded=!child.expanded" >
 				  <h2>{{child.subsection[0].label}}</h2>
 				  <h5>{{child.subsection[0].description}}</h5>
 				  <i class="icon fa" ng-class="{'fa-plus':!child.expanded,'fa-minus':child.expanded}"></i>
@@ -91,7 +91,7 @@ get_header('form-agent-viewer');
 					<div class="row" ng-repeat="controls in child.children">
 						<div class="col" ng-repeat="subcontrol in controls">
 							<div ng-repeat="control in subcontrol">
-								<div ng-include="'<?php echo esc_url( home_url('/submition-controls/?report='.$report_id.'&saved='.$saved.'&item='.$template_id.'&att='.$att.'&hash='.$hash_id) ); ?>'"></div>
+								<div ng-include="'<?php echo esc_url( home_url('/submition-controls-agent/?report='.$report_id.'&saved='.$saved.'&item='.$template_id.'&att='.$att.'&hash='.$hash_id) ); ?>'"></div>
 							</div>
 						</div>
 					</div>
@@ -151,7 +151,7 @@ get_header('form-agent-viewer');
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/angular.min.js"></script>
 <script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/bower_components/angular-ui-tinymce/src/tinymce.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/jq.js"></script>
-<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/submitapp.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/submitapp-agent.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/printThis.js"></script>
 	<script type="text/javascript">
 	$(document).ready(function () {
