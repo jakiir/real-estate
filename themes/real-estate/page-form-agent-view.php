@@ -103,18 +103,9 @@ get_header('form-agent-viewer');
     </form>
 </div>
 	<?php if($report_id){ ?>
-    <!--<div class="actions">
-	  <div class="msg_show" style="position: absolute;left:135px;top:19px;font-size:14px;background: #fff;padding: 2px 6px;"></div>
-      <div class="button primary saveChanges" ng-click="submitData(1,'','')">
-        <i class="fa fa-floppy-o" aria-hidden="true"></i> Save Changes
-      </div>
-      <div class="button secondary">
-        Draft
-      </div>
-      <div class="button negative">
-        Discard
-      </div>
-    </div>-->
+    <div class="actions">
+      <a href="#" style="text-decoration:none;" role="button" id="printDrBtn" class="button primary"><i class="fa fa-print" aria-hidden="true"></i> Print</a>
+    </div>
 	<?php } ?>
   </div>
 <?php get_footer(); ?>
@@ -161,7 +152,7 @@ get_header('form-agent-viewer');
 				importStyle: false,         // import style tags
 				printContainer: true,
 				loadCSS: "<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/print.css",
-				importCSS: false,
+				importCSS: true,
 				copyTagClasses: false,
 				printDelay: 3000,
 				debug:false

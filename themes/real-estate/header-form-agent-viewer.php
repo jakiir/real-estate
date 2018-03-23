@@ -26,13 +26,3 @@
 <body ng-app="submitForm">
 <div id="page" class="site">
 	<div id="content" class="site-content">
-	<nav class="navbar navbar-default">
-	  <div class="container-fluid">
-		<div class="navbar-header">
-		  <a class="navbar-brand" href="javascript:void(0)"><?php the_title(); ?></a>
-		</div>
-		<ul class="nav navbar-nav">		  
-		  <li><a href="#" role="button" id="printDrBtn" class=""><i class="fa fa-print" aria-hidden="true"></i> Print</a></li>
-		</ul>
-	  </div>
-	</nav>

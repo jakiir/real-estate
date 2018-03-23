@@ -23,7 +23,11 @@ table.table-bordered tbody td.course-field {
 }
 .actions{width:0;height:0;}
 .documentHides{display:none;width:0;height:0;margin: 0;}
-
+.theform {
+    margin-bottom:0!important;
+	width:0!important;
+	height:0!important;
+}
 /*for chrome*/
 @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) {
     #drlistDivTbl,#printAreaDiv {
