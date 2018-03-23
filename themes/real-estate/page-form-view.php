@@ -162,7 +162,7 @@ get_header('form-viewer'); ?>
 				importStyle: false,         // import style tags
 				printContainer: true,
 				loadCSS: "<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/print.css",
-				importCSS: false,
+				importCSS: true,
 				copyTagClasses: false,
 				printDelay: 3000,
 				debug:false
@@ -171,7 +171,7 @@ get_header('form-viewer'); ?>
 		});
 		
 		<?php if(isset($_GET['print'])){ ?>
-			$( "a#printDrBtn" ).click();
+			//$( "a#printDrBtn" ).click();
 		<?php } ?>
 		
 	});

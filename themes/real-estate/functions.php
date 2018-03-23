@@ -284,11 +284,11 @@ function send_agent_email(){
 			 $saved_id = safe_b64encode($expSelectedSaved[$key]);
 			 $emailAddress = safe_b64encode($agentEmailAddress);
 			 
-			 $sendUrl .= '<a href="'.$agentViewer.'?item='.$template_id.'&report='.$report_id.'&saved='.$saved_id.'&token='.$emailAddress.'">Form Viewer Link '.$inc.'</a><br/>';
+			 $sendUrl .= 'put the title of the inspection in the body.<br/><a href="'.$agentViewer.'?item='.$template_id.'&report='.$report_id.'&saved='.$saved_id.'&token='.$emailAddress.'">Form Viewer Link '.$inc.'</a><br/>';
 			 $inc++;
 		}
 
-		$mail->Subject = 'Agent From Viewer';
+		$mail->Subject = 'Put Inspection Reporting subject';
 		$mail->Body    = $sendUrl;
 		$mail->AltBody = $sendUrl;
 
