@@ -34,9 +34,9 @@ get_header(); ?>
 			$inspectionReportDetail = $wpdb->prefix . 'inspectionreportdetail';
 			$user = wp_get_current_user();
 			if(!empty($user) && $user->roles[0] == 'administrator'){
-				$get_inspection = $wpdb->get_results( "SELECT ins.id,ins.template_id,ins.report_identification,ins.prepared_for,ins.inpection_date,ird.id as ird_id FROM $table_inspection as ins JOIN $inspectionReportDetail as ird ON ird.inspectionId=ins.id", OBJECT );
+				$get_inspection = $wpdb->get_results( "SELECT ins.id,ins.company,ins.template_id,ins.report_identification,ins.prepared_for,ins.inpection_date,ird.id as ird_id FROM $table_inspection as ins JOIN $inspectionReportDetail as ird ON ird.inspectionId=ins.id", OBJECT );
 			} else {
-				$get_inspection = $wpdb->get_results( "SELECT ins.id,ins.template_id,ins.report_identification,ins.prepared_for,ins.inpection_date,ird.id as ird_id FROM $table_inspection as ins JOIN $inspectionReportDetail as ird ON ird.inspectionId=ins.id WHERE ins.user_id=$user_id", OBJECT );
+				$get_inspection = $wpdb->get_results( "SELECT ins.id,ins.company,ins.template_id,ins.report_identification,ins.prepared_for,ins.inpection_date,ird.id as ird_id FROM $table_inspection as ins JOIN $inspectionReportDetail as ird ON ird.inspectionId=ins.id WHERE ins.user_id=$user_id", OBJECT );
 			}
 		?>
 		<div class="panel-body">
@@ -56,7 +56,7 @@ get_header(); ?>
 						foreach($get_inspection as $inspection){
 					?>
 						<tr>
-							<td><input type="checkbox" onClick="eachSelect(this)" name="report_box[]" data-report="<?php echo $inspection->id; ?>" data-saved="<?php echo $inspection->ird_id; ?>" data-url="link-<?php echo $inc; ?>" value="<?php echo $inspection->template_id; ?>"/></td>
+							<td><input type="checkbox" onClick="eachSelect(this)" name="report_box[]" data-report="<?php echo $inspection->id; ?>" data-saved="<?php echo $inspection->ird_id; ?>" data-url="link-<?php echo $inc; ?>" data-title="<?php echo $inspection->report_identification; ?>" data-company="<?php echo $inspection->company; ?>" data-prepared_for="<?php echo $inspection->prepared_for; ?>" value="<?php echo $inspection->template_id; ?>"/></td>
 							<td><a target="_blank" href="<?php echo home_url('/form-viewer/?item='.$inspection->template_id.'&report='.$inspection->id.'&saved='.$inspection->ird_id); ?>" class="link-<?php echo $inc; ?>" title="<?php echo $inspection->report_identification; ?>"><?php echo $inspection->report_identification; ?></a></td>
 							<td><?php echo $inspection->prepared_for; ?></td>
 							<td><?php echo $inspection->inpection_date; ?></td>
@@ -189,10 +189,16 @@ $(document).ready(function() {
             var getSelected = [];
 			var getSelectedReport = [];
 			var getSelectedSaved = [];
+			var getSelectedTitle = [];
+			var getSelectedCompany = [];
+			var getSelectedPrep = [];
             for(var i=0, n=checkboxesaa.length;i<n;i++) {
                 getSelected.push(checkboxesaa[i].value);
 				getSelectedReport.push(checkboxesaa[i].getAttribute("data-report"));
 				getSelectedSaved.push(checkboxesaa[i].getAttribute("data-saved"));
+				getSelectedTitle.push(checkboxesaa[i].getAttribute("data-title"));
+				getSelectedCompany.push(checkboxesaa[i].getAttribute("data-company"));
+				getSelectedPrep.push(checkboxesaa[i].getAttribute("data-prepared_for"));
             }
             if(getSelected.length == 0){
 				$('.msg_show').html('<span style="color:red">Please, select minimum 1 template!</span>');
@@ -208,6 +214,9 @@ $(document).ready(function() {
 				form_data.append('getSelected', getSelected);				
 				form_data.append('getSelectedReport', getSelectedReport);
 				form_data.append('getSelectedSaved', getSelectedSaved);
+				form_data.append('getSelectedTitle', getSelectedTitle);
+				form_data.append('getSelectedCompany', getSelectedCompany);
+				form_data.append('getSelectedPrep', getSelectedPrep);
 				form_data.append('agentEmailAddress', agentEmailAddress);
 				$.ajax({					
 					url: '<?php echo admin_url('admin-ajax.php'); ?>',

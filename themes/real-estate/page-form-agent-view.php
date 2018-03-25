@@ -74,7 +74,7 @@ get_header('form-agent-viewer');
     <form class="theform">
       <div ng-repeat="section in form">
         <div class="section">
-          <div class="sectionhead section-{{$index}} {{section.display}}" ng-click="section.expanded=!section.expanded">
+          <div ng-show="showIt" class="sectionhead section-{{$index}} {{section.display}}" ng-click="section.expanded=!section.expanded">
             <h2>{{section.section.label}}</h2>
             <h5>{{section.section.description}}</h5>
             <i class="icon fa" ng-class="{'fa-plus':!section.expanded,'fa-minus':section.expanded}"></i>
@@ -82,7 +82,7 @@ get_header('form-agent-viewer');
           <div class="sectionbody" ng-show="section.expanded">
 		  
             <div ng-repeat="child in section.children">	
-				<div ng-show="child.subsection[0].status4" class="subsectionhead section-{{$index}} {{child.display}}" ng-click="child.expanded=!child.expanded" >
+				<div ng-init="$parent.showIt = child.subsection[0].status4" ng-show="child.subsection[0].status4" class="subsectionhead section-{{$index}} {{child.display}}" ng-click="child.expanded=!child.expanded" >
 				  <h2>{{child.subsection[0].label}}</h2>
 				  <h5>{{child.subsection[0].description}}</h5>
 				  <i class="icon fa" ng-class="{'fa-plus':!child.expanded,'fa-minus':child.expanded}"></i>
