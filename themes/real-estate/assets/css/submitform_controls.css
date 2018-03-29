@@ -127,6 +127,8 @@ textarea.fcontrol.longtext{
 }
 .sectionhead.display-none{display:none;}
 
+.display-none + .sectionbody{display:none;}
+
 .subsectionhead{
   padding:20px;
   background:#eee;

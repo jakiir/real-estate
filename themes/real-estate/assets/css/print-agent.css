@@ -26,6 +26,7 @@ table.table-bordered tbody td.course-field {
 .fa{display:none;}
 .wysiwygpretend,.imgcomment{display:none;}
 .printShow{visibility:visible;}
+.sectionhead .ng-binding{display:none;}
 .section-false{display:none;}
 .section-.ng-hide{display:none;}
 /*for chrome*/

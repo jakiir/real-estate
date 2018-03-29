@@ -56,7 +56,7 @@ get_header(); ?>
 						foreach($get_inspection as $inspection){
 					?>
 						<tr>
-							<td><input type="checkbox" onClick="eachSelect(this)" name="report_box[]" data-report="<?php echo $inspection->id; ?>" data-saved="<?php echo $inspection->ird_id; ?>" data-url="link-<?php echo $inc; ?>" data-title="<?php echo $inspection->report_identification; ?>" data-company="<?php echo $inspection->company; ?>" data-prepared_for="<?php echo $inspection->prepared_for; ?>" value="<?php echo $inspection->template_id; ?>"/></td>
+							<td><input type="checkbox" onClick="eachSelect(this)" name="report_box[]" data-report="<?php echo $inspection->id; ?>" data-saved="<?php echo $inspection->ird_id; ?>" data-url="link-<?php echo $inc; ?>" data-title="<?php echo $inspection->report_identification; ?>" data-company="<?php echo $inspection->company; ?>" data-prepared_for="<?php echo $inspection->prepared_for; ?>" value="<?php echo $inspection->template_id; ?>" data-print-url="<?php echo home_url('/form-print-view/?item='.$inspection->template_id.'&report='.$inspection->id.'&saved='.$inspection->ird_id); ?>"/></td>
 							<td><a target="_blank" href="<?php echo home_url('/form-viewer/?item='.$inspection->template_id.'&report='.$inspection->id.'&saved='.$inspection->ird_id); ?>" class="link-<?php echo $inc; ?>" title="<?php echo $inspection->report_identification; ?>"><?php echo $inspection->report_identification; ?></a></td>
 							<td><?php echo $inspection->prepared_for; ?></td>
 							<td><?php echo $inspection->inpection_date; ?></td>
@@ -110,7 +110,7 @@ get_header(); ?>
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Share form</h4>
+        <h4 class="modal-title">Please enter agent’s email adress</h4>
       </div>
       <div class="modal-body">
 		<form action="#" id="shareForm">
@@ -247,10 +247,11 @@ $(document).ready(function() {
 		});
 		
 		$('.printSelectedItem').on('click', function(){
-			var getLastCheckBox = $('input[name="report_box[]"]:checked').last().attr('data-url');
-			var gethrefUrl = $('.'+getLastCheckBox).attr('href');
+			//var getLastCheckBox = $('input[name="report_box[]"]:checked').last().attr('data-url');
+			//var gethrefUrl = $('.'+getLastCheckBox).attr('href');
+			var getPrintUrl = $('input[name="report_box[]"]:checked').last().attr('data-print-url');
 			//window.location.href = gethrefUrl+'&print=1';
-			newwindow=window.open(gethrefUrl+'&print=1','width=560,height=340,toolbar=0,menubar=0,location=0');
+			newwindow=window.open(getPrintUrl+'&print=1','width=560,height=340,toolbar=0,menubar=0,location=0');
 			//console.log(newwindow);
 			
 		});

@@ -33,6 +33,7 @@ angular.module('submitForm',['ui.tinymce'])
         continue;
       }
       if(tree[i][0][0].type=='subsection'){
+		  var sectionEle = 1;
 		form[form.length-1].children.push({
           subsection:tree[i][0],
           children:[],
@@ -49,11 +50,10 @@ angular.module('submitForm',['ui.tinymce'])
 			  expanded:true,
 			  display:'display-none'
 			});	
+			form[form.length-1].children.push(tree[i]);
+		  } else {
+			form[form.length-1].children[form[form.length-1].children.length-1].children.push(tree[i]);
 		  }
-		  console.log(tree[i][0]);
-		//if(tree[i][0][0].comment1=='true'){
-         form[form.length-1].children[form[form.length-1].children.length-1].children.push(tree[i]);
-		//}
       }
     }
     return form;

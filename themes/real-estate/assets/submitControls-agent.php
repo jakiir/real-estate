@@ -91,7 +91,7 @@
 ?>
   <input type="hidden" class="updatedUrl" value="{{control.hash=='<?php echo $hash_id; ?>'?'<?php echo $get_att_url; ?>':control.url}}"/>
   <img class="imggap fa" data-ng-init="uplodFile(control,'<?php echo $hash_id; ?>','<?php echo $get_att_url; ?>')" ng-src="{{control.hash=='<?php echo $hash_id; ?>'?'<?php echo $get_att_url; ?>':control.url}}" alt="Image Placeholder">  
-  <div class="fileinput flex flexcenter hovereffect" ng-click="imageFileMess=!imageFileMess">
+  <?php /* ?><div class="fileinput flex flexcenter hovereffect" ng-click="imageFileMess=!imageFileMess">
     <!--<input type="file" class="invisible fileinp" c-on-change="fileBrowse(control)">-->	
 	<div class="documentHides" style="position:absolute;top:-77px;border:1px solid #000;background:#fff;padding:3px;width: 164px;" ng-hide="imageFileMess">
 		<a class="goToDrawing frontend-button" href="#" ng-click="mediaUploderClb(control)"><i class="fa fa-picture-o" aria-hidden="true"></i> Open media <i class="fa fa-expand" aria-hidden="true"></i></a>
@@ -100,27 +100,29 @@
 	</div>
 	<span class="invisible fileinp"></span>
     <i class="fa fa-folder-open"></i>
-  </div>
-  <div class="commentprompt"><input type="checkbox" ng-model="control.withComment"> Add Comment</div>
-  <div class="imgcomment" ng-show="control.withComment">
+  </div><?php */?>
+  <div class="commentprompt"><input type="checkbox" > Add Comment</div>
+  <div ng-bind-html="control.data"></div>
+  <!--<div class="imgcomment" ng-show="control.withComment">
     <textarea ui-tinymce="tinymceOptions" ng-model="control.data"></textarea>
-  </div>
+  </div>-->
 </div>
 <!-- wysiwyg -->
-<div class="formcontrol editor" ng-if="control.type=='wysiwyg'" ng-style="{'border':control.isInstruction?'1px solid black':'none'}">
+<!--<div class="formcontrol editor" ng-if="control.type=='wysiwyg'" ng-style="{'border':control.isInstruction?'1px solid black':'none'}">
   <div ng-bind-html="control.data"></div>
-</div>
+</div>-->
 <!-- wysiwyg -->
 <div ng-show="control.comment1" class="formcontrol editor" ng-if="control.type=='comment'">
-  <h4><input type="checkbox" id="{{control.htmlName}}" ng-click="commentListIsVisible=!commentListIsVisible" ng-model="control.comment1" value="control.comment1" ng-checked="control.comment1"> <label for="{{control.htmlName}}">{{control.label}}</label></h4>
-  <div class="editbutton" ng-click="control.editMode=true" ng-show="commentListIsVisible=control.comment1">
+  <h4><input type="checkbox" id="{{control.htmlName}}" ng-click="commentListIsVisible=!commentListIsVisible" value="control.comment1"> <label for="{{control.htmlName}}">{{control.label}}</label></h4>
+  <?php /* ng-checked="control.comment1" ?><div class="editbutton" ng-click="control.editMode=true" ng-show="commentListIsVisible=control.comment1">
     <i ng-click="" class="fa fa-pencil"></i>
-  </div>
-  <div ng-bind-html="control.data" ng-show="commentListIsVisible=control.comment1"></div>
+  </div><?php */?>
+  <div ng-bind-html="control.data"></div>
+  <?php /* ?><div ng-bind-html="control.data" ng-show="commentListIsVisible=control.comment1"></div>
   <div class="wysiwygpretend" ng-show="control.editMode">
     <textarea ui-tinymce="tinymceOptions" ng-model="control.data"></textarea>
     <div class="button tbmargin get-right" ng-click="control.editMode=false">Save</div>
-  </div>
+  </div><?php */ ?>
 </div>
 <!-- Static Text -->
 <div ng-show="false" class="formcontrol static" ng-if="control.type=='static'">
