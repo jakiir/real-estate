@@ -82,7 +82,7 @@
   <input type="checkbox" ng-model="control.value"> {{control.label}}
 </div>
 <!-- Image -->
-<div ng-show="control.withComment" class="formcontrol image imgdrop" ng-if="control.type=='image'" ng-drop="imageDrop($event,$parent.$parent.$index,$parent.$index,$index)">
+<div ng-show="control.withComment" class="formcontrol image imgdrop repair-comment-{{addCommentIsVisible}}" ng-if="control.type=='image'" ng-drop="imageDrop($event,$parent.$parent.$index,$parent.$index,$index)">
 <?php 
 	$get_att_url = '';
 	if($att){
@@ -101,8 +101,8 @@
 	<span class="invisible fileinp"></span>
     <i class="fa fa-folder-open"></i>
   </div><?php */?>
-  <div class="commentprompt"><input type="checkbox" > Add Comment</div>
-  <div ng-bind-html="control.data"></div>
+  <div class="commentprompt repair-comment-{{addCommentIsVisible}}"><input type="checkbox" ng-click="addCommentIsVisible=!addCommentIsVisible"> Add Comment</div>
+  <div class="repair-comment-{{addCommentIsVisible}}" ng-bind-html="control.data"></div>
   <!--<div class="imgcomment" ng-show="control.withComment">
     <textarea ui-tinymce="tinymceOptions" ng-model="control.data"></textarea>
   </div>-->
@@ -112,12 +112,12 @@
   <div ng-bind-html="control.data"></div>
 </div>-->
 <!-- wysiwyg -->
-<div ng-show="control.comment1" class="formcontrol editor" ng-if="control.type=='comment'">
-  <h4><input type="checkbox" id="{{control.htmlName}}" ng-click="commentListIsVisible=!commentListIsVisible" value="control.comment1"> <label for="{{control.htmlName}}">{{control.label}}</label></h4>
+<div ng-show="control.comment1" class="formcontrol editor commentBoxItem" ng-if="control.type=='comment'">
+  <h4><input type="checkbox" id="{{control.htmlName}}" ng-click="commentListIsVisible=!commentListIsVisible" value="control.comment1" class="repair-print-{{commentListIsVisible}}"> <label class="repair-print-{{commentListIsVisible}}" for="{{control.htmlName}}">{{control.label}}</label></h4>
   <?php /* ng-checked="control.comment1" ?><div class="editbutton" ng-click="control.editMode=true" ng-show="commentListIsVisible=control.comment1">
     <i ng-click="" class="fa fa-pencil"></i>
   </div><?php */?>
-  <div ng-bind-html="control.data"></div>
+  <div class="repair-print-{{commentListIsVisible}}" ng-bind-html="control.data"></div>
   <?php /* ?><div ng-bind-html="control.data" ng-show="commentListIsVisible=control.comment1"></div>
   <div class="wysiwygpretend" ng-show="control.editMode">
     <textarea ui-tinymce="tinymceOptions" ng-model="control.data"></textarea>

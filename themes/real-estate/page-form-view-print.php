@@ -65,6 +65,7 @@ get_header('form-viewer-print'); ?>
     </header>
     <form class="theform">
       <div ng-repeat="section in form">
+	  <div ng-bind-html="section.children[0][0][0].data"></div>
         <div class="section">
           <div class="sectionhead section-{{$index}} {{section.display}}" ng-click="section.expanded=!section.expanded">
             <h2>{{section.section.label}}</h2>
