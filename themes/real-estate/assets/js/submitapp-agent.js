@@ -178,6 +178,25 @@ angular.module('submitForm',['ui.tinymce'])
 	});
 	file_frame.open();
   }
+	$scope.showDelete = function(itemStatus,itemIndex,totalitem) {
+		if(totalitem == itemIndex+1){
+			var makeArr = [];
+			if (itemStatus[itemIndex]['subsection'] !== undefined){
+				$.each( itemStatus, function( key, value ) {
+				  if (value.subsection !== undefined){
+					makeArr.push(value.subsection[0].status4);
+				  }
+				  //console.log(value);
+				});
+				var returnR = false;
+				if(jQuery.inArray(true, makeArr) !== -1){
+					returnR = true;
+				}
+				return returnR;
+			}
+		}
+	  return false;
+	}
   
   function flatten(tree){
     var data = [];

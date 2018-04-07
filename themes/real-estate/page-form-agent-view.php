@@ -73,16 +73,16 @@ get_header('form-agent-viewer');
     </header>
     <form class="theform">
       <div ng-repeat="section in form">
-	  <?php /*?><div ng-bind-html="section.children[0][0][0].data"></div><?php */?>
+	  <div ng-hide="true" ng-bind-html="section.children[0][0][0].data"></div>
         <div class="section">
-          <div ng-show="showIt" class="sectionhead section-{{$index}} {{section.display}} section-{{showIt}}" ng-click="section.expanded=!section.expanded">
+          <div ng-if="showIt" class="sectionhead section-{{$index}} {{section.display}} section-{{showIt}}" ng-click="section.expanded=!section.expanded">
             <h2>{{section.section.label}}</h2>
             <h5>{{section.section.description}}</h5>
             <i class="icon fa" ng-class="{'fa-plus':!section.expanded,'fa-minus':section.expanded}"></i>
           </div>
           <div class="sectionbody" ng-show="section.expanded">
             <div ng-repeat="child in section.children">
-				<div ng-init="$parent.showIt = section.children.length < 1 ? child.subsection[0].status4 : true" ng-show="child.subsection[0].status4" class="subsectionhead section-{{$index}} {{section.display}} section-{{child.subsection[0].status4}}" ng-click="child.expanded=!child.expanded" >
+				<div ng-init="$parent.showIt = showDelete(section.children,$index,section.children.length)" ng-show="child.subsection[0].status4" class="subsectionhead section-{{$index}} {{section.display}} section-{{child.subsection[0].status4}}" ng-click="child.expanded=!child.expanded" >
 				  <h2>{{child.subsection[0].label}}</h2>
 				  <h5>{{child.subsection[0].description}}</h5>
 				  <i class="icon fa" ng-class="{'fa-plus':!child.expanded,'fa-minus':child.expanded}"></i>
@@ -104,7 +104,7 @@ get_header('form-agent-viewer');
 </div>
 	<?php if($report_id){ ?>
     <div class="actions">
-      <a href="#" style="text-decoration:none;" role="button" id="reporPrintDrBtn" class="button primary printDrBtn"><i class="fa fa-print" aria-hidden="true"></i> Repair Report</a>
+      <a href="#" style="text-decoration:none;" role="button" id="reporPrintDrBtn" class="button primary"><i class="fa fa-print" aria-hidden="true"></i> Repair Report</a>
     </div>
 	<?php } ?>
   </div>
@@ -151,7 +151,7 @@ get_header('form-agent-viewer');
 			$("#drlistDivTbl").printThis({
 				importStyle: false,         // import style tags
 				printContainer: true,
-				loadCSS: "<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/print.css",
+				loadCSS: "<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/print-agent-full.css",
 				importCSS: true,
 				copyTagClasses: false,
 				printDelay: 3000,
