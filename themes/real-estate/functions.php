@@ -83,7 +83,6 @@ if ( ! function_exists( 'realestate_setup' ) ) :
 	}
 endif;
 add_action( 'after_setup_theme', 'realestate_setup' );
-
 /**
  * Set the content width in pixels, based on the theme's design and stylesheet.
  *
@@ -256,12 +255,19 @@ function send_agent_email(){
 	 if($agentEmailAddress){
 		 global $wpdb;
 		 $agent_email_log = $wpdb->prefix . 'agent_email_log';
+		 $template_table = $wpdb->prefix . 'template';
 		 $getSelected = !empty($_POST['getSelected']) ? $_POST['getSelected'] : [];
 		 $getSelectedReport = !empty($_POST['getSelectedReport']) ? $_POST['getSelectedReport'] : [];
 		 $getSelectedSaved = !empty($_POST['getSelectedSaved']) ? $_POST['getSelectedSaved'] : [];
+		 $getSelectedTitle = !empty($_POST['getSelectedTitle']) ? $_POST['getSelectedTitle'] : [];
+		 $getSelectedCompany = !empty($_POST['getSelectedCompany']) ? $_POST['getSelectedCompany'] : [];
+		 $getSelectedPrep = !empty($_POST['getSelectedPrep']) ? $_POST['getSelectedPrep'] : [];
 		 $expSelected = explode(',',$getSelected);
 		 $expSelectedReport = explode(',',$getSelectedReport);
 		 $expSelectedSaved = explode(',',$getSelectedSaved);
+		 $expSelectedTitle = explode(',',$getSelectedTitle);
+		 $expSelectedCompany = explode(',',$getSelectedCompany);
+		 $expSelectedPrep = explode(',',$getSelectedPrep);
 		 $user_id = get_current_user_id();
 		 $agentViewer = home_url('/agent-form-viewer/');
 
@@ -276,21 +282,23 @@ function send_agent_email(){
 		//$mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
 		//$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
 		$mail->isHTML(true);                                  // Set email format to HTML
-		$sendUrl = '';
+		$bodyText = '';
 		$inc=1;
+		$identificationNo = '';
 		foreach($expSelected as $key=>$template){
 			 $template_id = safe_b64encode($template);
 			 $report_id = safe_b64encode($expSelectedReport[$key]);
 			 $saved_id = safe_b64encode($expSelectedSaved[$key]);
 			 $emailAddress = safe_b64encode($agentEmailAddress);
+			 $identificationNo = $expSelectedTitle[$key];
+			 $get_template = $wpdb->get_results( "SELECT name FROM $template_table WHERE id=$template", OBJECT );
 			 
-			 $sendUrl .= 'put the title of the inspection in the body.<br/><a href="'.$agentViewer.'?item='.$template_id.'&report='.$report_id.'&saved='.$saved_id.'&token='.$emailAddress.'">Form Viewer Link '.$inc.'</a><br/>';
+			 $bodyText .= "{$get_template[0]->name} has been inspected for {$expSelectedCompany[$key]} company and prepared for : {$expSelectedPrep[$key]} Please click the report <a href='".$agentViewer."?item=".$template_id."&report=".$report_id."&saved=".$saved_id."&token=".$emailAddress."'> {$identificationNo}</a> to get details.<br/>Thanks.<br/>";
 			 $inc++;
 		}
-
-		$mail->Subject = 'Put Inspection Reporting subject';
-		$mail->Body    = $sendUrl;
-		$mail->AltBody = $sendUrl;
+		$mail->Subject = "Report: {$identificationNo} has been shared to you.";
+		$mail->Body    = $bodyText;
+		$mail->AltBody = $bodyText;
 
 		if(!$mail->send()) {
 		 $results = array(

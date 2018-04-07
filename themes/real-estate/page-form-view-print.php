@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Form Viewer
+ * Template Name: Form Viewer Print
  * This is the template that displays all pages by default.
  * Please note that this is the WordPress construct of pages
  * and that other 'pages' on your WordPress site may use a
@@ -14,7 +14,7 @@
  * @version 1.0
  */
 
-get_header('form-viewer'); ?>
+get_header('form-viewer-print'); ?>
 <?php 
 	if (is_user_logged_in()) {
 		$user = wp_get_current_user();
@@ -93,7 +93,7 @@ get_header('form-viewer'); ?>
 					<div class="row-" ng-repeat="controls in child.children">
 						<div class="col" ng-repeat="subcontrol in controls">
 							<div ng-repeat="control in subcontrol">
-								<div ng-include="'<?php echo esc_url( home_url('/submition-controls/?report='.$report_id.'&saved='.$saved.'&item='.$template_id.'&att='.$att.'&hash='.$hash_id) ); ?>'"></div>
+								<div ng-include="'<?php echo esc_url( home_url('/submition-controls-print/?report='.$report_id.'&saved='.$saved.'&item='.$template_id.'&att='.$att.'&hash='.$hash_id) ); ?>'"></div>
 							</div>
 						</div>
 					</div>
@@ -104,20 +104,6 @@ get_header('form-viewer'); ?>
       </div>
     </form>
 </div>
-	<?php if($report_id){ ?>
-    <div class="actions">
-	  <div class="msg_show" style="position: absolute;left:135px;top:19px;font-size:14px;background: #fff;padding: 2px 6px;"></div>
-      <div class="button primary saveChanges" ng-click="submitData(1,'','')">
-        <i class="fa fa-floppy-o" aria-hidden="true"></i> Save Changes
-      </div>
-      <!--<div class="button secondary">
-        Draft
-      </div>
-      <div class="button negative">
-        Discard
-      </div>-->
-    </div>
-	<?php } ?>
   </div>
 <?php get_footer(); ?>
 <?php 

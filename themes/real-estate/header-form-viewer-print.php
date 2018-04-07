@@ -26,10 +26,27 @@
 <body ng-app="submitForm">
 <div id="page" class="site">
 	<div id="content" class="site-content">
-	<nav class="navbar- navbar-default-" style="margin-top:10px;">
+	<nav class="navbar navbar-default">
 	  <div class="container-fluid">
-		<ul class="nav navbar-nav" style="width:100%;">		  
-		  <li style="float:none;text-align:center;margin:0 auto;width:150px;"><a href="#" style="text-decoration:none;" role="button" id="printDrBtn" class="button primary"><i class="fa fa-print" aria-hidden="true"></i> Full Report</a></li>
+		<ul class="nav navbar-nav">		  
+		  <?php 
+			if (is_user_logged_in()) {
+			$user = wp_get_current_user();
+			if(!empty($user) && $user->roles[0] != 'administrator'){
+		  ?>
+				<li class="active"><a href="<?php echo home_url('/completed-inspections/'); ?>">Back</a></li>
+			<?php } else { ?>
+				<li class="active"><a href="<?php echo home_url('/template/'); ?>">Back</a></li>
+			<?php } ?>
+			<li><a href="#" role="button" id="printDrBtn" class=""><i class="fa fa-print" aria-hidden="true"></i> Print</a></li>
+			<?php } ?>
 		</ul>
+		<?php if (is_user_logged_in()) { ?>
+			<span style="float: right;">
+				<?php echo $user->display_name; ?>
+				<br/>
+				<?php echo $user->roles[0]; ?>
+			</span>
+		<?php } ?>
 	  </div>
 	</nav>

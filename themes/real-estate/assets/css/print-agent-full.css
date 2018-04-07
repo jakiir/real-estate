@@ -26,8 +26,8 @@ table.table-bordered tbody td.course-field {
 .fa{display:none;}
 .wysiwygpretend,.imgcomment{display:none;}
 .printShow{visibility:visible;}
-.section-false{display:none;}
-.section-.ng-hide,.commentBoxItem.ng-hide{display:none;}
+/*.section-false{display:none;}
+.section-.ng-hide,.commentBoxItem.ng-hide{display:none;}*/
 input[type='checkbox'] {display:none;}
 /*for chrome*/
 @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) {

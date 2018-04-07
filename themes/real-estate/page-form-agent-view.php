@@ -73,23 +73,23 @@ get_header('form-agent-viewer');
     </header>
     <form class="theform">
       <div ng-repeat="section in form">
+	  <div ng-hide="true" ng-bind-html="section.children[0][0][0].data"></div>
         <div class="section">
-          <div class="sectionhead section-{{$index}} {{section.display}}" ng-click="section.expanded=!section.expanded">
+          <div ng-if="showIt" class="sectionhead section-{{$index}} {{section.display}} section-{{showIt}}" ng-click="section.expanded=!section.expanded">
             <h2>{{section.section.label}}</h2>
             <h5>{{section.section.description}}</h5>
             <i class="icon fa" ng-class="{'fa-plus':!section.expanded,'fa-minus':section.expanded}"></i>
           </div>
           <div class="sectionbody" ng-show="section.expanded">
-		  
-            <div ng-repeat="child in section.children">	
-				<div ng-show="child.subsection[0].status4" class="subsectionhead section-{{$index}} {{child.display}}" ng-click="child.expanded=!child.expanded" >
+            <div ng-repeat="child in section.children">
+				<div ng-init="$parent.showIt = showDelete(section.children,$index,section.children.length)" ng-show="child.subsection[0].status4" class="subsectionhead section-{{$index}} {{section.display}} section-{{child.subsection[0].status4}}" ng-click="child.expanded=!child.expanded" >
 				  <h2>{{child.subsection[0].label}}</h2>
 				  <h5>{{child.subsection[0].description}}</h5>
 				  <i class="icon fa" ng-class="{'fa-plus':!child.expanded,'fa-minus':child.expanded}"></i>
 				</div>
-				<div class="subsectionbody" ng-show="child.expanded">
-					<div class="row" ng-repeat="controls in child.children">
-						<div class="col" ng-repeat="subcontrol in controls">
+				<div class="subsectionbody section-{{child.subsection[0].status4}}" ng-show="child.expanded">
+					<div class="row-" ng-repeat="controls in child.children">
+						<div class="col-" ng-repeat="subcontrol in controls">
 							<div ng-repeat="control in subcontrol">
 								<div ng-include="'<?php echo esc_url( home_url('/submition-controls-agent/?report='.$report_id.'&saved='.$saved.'&item='.$template_id.'&att='.$att.'&hash='.$hash_id) ); ?>'"></div>
 							</div>
@@ -104,7 +104,7 @@ get_header('form-agent-viewer');
 </div>
 	<?php if($report_id){ ?>
     <div class="actions">
-      <a href="#" style="text-decoration:none;" role="button" id="printDrBtn" class="button primary"><i class="fa fa-print" aria-hidden="true"></i> Print</a>
+      <a href="#" style="text-decoration:none;" role="button" id="reporPrintDrBtn" class="button primary"><i class="fa fa-print" aria-hidden="true"></i> Repair Report</a>
     </div>
 	<?php } ?>
   </div>
@@ -151,7 +151,7 @@ get_header('form-agent-viewer');
 			$("#drlistDivTbl").printThis({
 				importStyle: false,         // import style tags
 				printContainer: true,
-				loadCSS: "<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/print.css",
+				loadCSS: "<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/print-agent-full.css",
 				importCSS: true,
 				copyTagClasses: false,
 				printDelay: 3000,
@@ -159,6 +159,20 @@ get_header('form-agent-viewer');
 
 			});
 		});
+		$("#reporPrintDrBtn").on("click", function (e) {
+			e.preventDefault();
+			$("#drlistDivTbl").printThis({
+				importStyle: false,         // import style tags
+				printContainer: true,
+				loadCSS: "<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/print-agent.css",
+				importCSS: true,
+				copyTagClasses: false,
+				printDelay: 3000,
+				debug:false
+
+			});
+		});
+		
 	});
 	</script>
   
