@@ -383,7 +383,7 @@ function editTemplateAction(){
 				  $wpdb->query($wpdb->prepare("UPDATE $table_template SET logo_url='".$imageUrl."' WHERE id=$template_id"));			 
 				 $results = array(
 					'success' => true,
-					'mess' => 'Data Successfully updated.',
+					'mess' => '<i class="fa fa-check-circle"></i>',
 					'template_id' => $template_id
 				 );		
 			} else {
@@ -399,7 +399,7 @@ function editTemplateAction(){
 		  } else {
 			$results = array(
 				'success' => true,
-				'mess' => 'Data Successfully updated.',
+				'mess' => '<i class="fa fa-check-circle"></i>',
 				'template_id' => $template_id
 			 );
 		  }		
@@ -430,7 +430,7 @@ function get_save_as_draft(){
 		 if(!empty($get_saveDraft)){
 			$results = array(
 				'success' => true,
-				'mess' => 'Data Successfully Updated.1',
+				'mess' => '<i class="fa fa-check-circle"></i>',
 				'template_id' => $template_id,
 				'hash' => $hash,
 				'user_id' => $user_id,
@@ -544,7 +544,7 @@ function perform_inspections(){
 			 
 			 $results = array(
 				'success' => true,
-				'mess' => 'Data Successfully Updated.1',
+				'mess' => '<i class="fa fa-check-circle"></i>',
 				'template_id' => $template_id
 			 );	
 		} else {
@@ -565,7 +565,7 @@ function perform_inspections(){
 			 $lastid = $wpdb->insert_id;
 			 $results = array(
 				'success' => true,
-				'mess' => 'Data Successfully Inserted.',
+				'mess' => '<i class="fa fa-check-circle"></i>',
 				'report_id'=>$lastid,
 				'template_id' => $template_id
 			 );	
@@ -751,7 +751,7 @@ function saveDynamicForm(){
 		 
 		 $results = array(
 			'success' => true,
-			'mess' => 'Data Successfully updated.',
+			'mess' => '<i class="fa fa-check-circle"></i>',
 			'template_id' => $template_id,
 			'allData' => $_POST
 		 );
@@ -787,7 +787,7 @@ function saveDynamicFormReport(){
 		 
 		 $results = array(
 			'success' => true,
-			'mess' => 'Data Successfully updated.',
+			'mess' => '<i class="fa fa-check-circle"></i>',
 			'template_id' => $template_id,
 			'report_detail_id' => $lastid
 		 );
@@ -825,7 +825,7 @@ function save_form_data(){
 			}
 			$results = array(
 				'success' => true,
-				'mess' => 'Data Successfully updated.',
+				'mess' => '<i class="fa fa-check-circle"></i>',
 				'template_id' => $template_id,
 				'allData' => $user_ID
 				);
@@ -1031,7 +1031,7 @@ if($attach_id){
 	$saved = $_POST['saved'];
 	$results_data = array(
 		'success' => true,
-		'mess' => 'Data Successfully updated.',
+		'mess' => '<i class="fa fa-check-circle"></i>',
 		'template_id' => $template_id,
 		'attach_id' => $attach_id,
 		'redirect_url'=> home_url('/form-viewer/?item='.$template_id.'&att='.$attach_id.'&hash='.$hash_id.'&report='.$report_id.'&saved='.$saved)

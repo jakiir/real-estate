@@ -222,7 +222,7 @@ get_header('form-builder'); ?>
 <script type="text/javascript">
   document.title = '<?php echo $get_template_name; ?>';
   document.getElementById('save_to_database').addEventListener('click', function() {
-	$('.msg_show').show().html('<i class="fa fa-refresh fa-spin" aria-hidden="true"></i>');
+	$('.msg_show').show().html('<span class="font_icon"><i class="fa fa-refresh fa-spin" aria-hidden="true"></i></span>');
     var form_data = new FormData();    
     var template_id = '<?php echo $template_id; ?>';
     var formJsonData = localStorage.formbuilder_cache_data;
@@ -240,7 +240,7 @@ get_header('form-builder'); ?>
       success: function (data) {
         var parsedJson = data;        
         if(parsedJson.success == true){
-			$('.msg_show').html('<font style="color:green">'+parsedJson.mess+'</span>');
+			$('.msg_show').html('<font class="font_icon success_icon">'+parsedJson.mess+'</span>');
 			$('.msg_show').delay(5000).fadeOut('slow');
           //window.location.href = "<?php echo home_url('/form-builder/?item='); ?>"+template_id;
         } else {

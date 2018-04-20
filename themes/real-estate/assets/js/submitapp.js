@@ -106,7 +106,7 @@ angular.module('submitForm',['ui.tinymce'])
         var parsedJson = data;
 		saveToDb = parsedJson.success;        
         if(parsedJson.success == true){			
-			$('.msg_show').html('<font style="color:green">'+parsedJson.mess+'</span>');
+			$('.msg_show').html('<font class="font_icon success_icon">'+parsedJson.mess+'</span>');
 			if(thisItem==1){
 				window.location.href = site_url+"/form-viewer/?item="+template_id+'&report='+inspection_id+'&saved='+parsedJson.report_detail_id;
 			}
