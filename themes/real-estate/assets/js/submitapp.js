@@ -7,7 +7,52 @@ angular.module('submitForm',['ui.tinymce'])
     inline: false,
     plugins : 'advlist autolink link image lists charmap print preview code',
     skin: 'lightgray',
-    theme : 'modern'
+    theme : 'modern',
+	toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table | fontsizeselect,addMedia',
+	setup: function (editor) {
+    editor.addButton('addMedia', {
+      text: 'Add Media',
+      icon: 'image',
+      onclick: function () {		 
+		editor.windowManager.open( {
+			title: 'Insert Media',
+			body: [
+				{
+					type: 'textbox',
+					name: 'img_url',
+					label: 'Image',
+					value: '',
+					classes: 'media_input_image',
+				},
+				{
+					type: 'textbox',
+					name: 'image_width',
+					label: 'Width',
+					value: '100px',
+					classes: 'media_image_width',
+				},
+				{
+					type: 'textbox',
+					name: 'image_height',
+					label: 'Height',
+					value: '100px',
+					classes: 'media_image_height',
+				},
+				{
+					type: 'button',
+					name: 'media_upload_button_tem',
+					label: '',
+					text: 'Upload image',
+					classes: 'media_upload_button_tem',
+				},
+			],
+			onsubmit: function( e ) {
+				editor.insertContent( '<img width="' + e.data.image_width + '" height="' + e.data.image_height + '" src="' + e.data.img_url + '" alt="upload image" />');
+			}
+		});
+		}
+	});
+	}
   };
 
   $scope.formBlueprint=formBlueprint;
@@ -106,7 +151,7 @@ angular.module('submitForm',['ui.tinymce'])
         var parsedJson = data;
 		saveToDb = parsedJson.success;        
         if(parsedJson.success == true){			
-			$('.msg_show').html('<font style="color:green">'+parsedJson.mess+'</span>');
+			$('.msg_show').html('<font class="font_icon success_icon">'+parsedJson.mess+'</span>');
 			if(thisItem==1){
 				window.location.href = site_url+"/form-viewer/?item="+template_id+'&report='+inspection_id+'&saved='+parsedJson.report_detail_id;
 			}
@@ -256,4 +301,24 @@ angular.module('submitForm',['ui.tinymce'])
       });
       }
   };
+});
+jQuery(document).ready(function($){
+    $(document).on('click', '.mce-media_upload_button_tem', template_builder_image_tinymce);
+
+    function template_builder_image_tinymce(e) {
+        e.preventDefault();
+        var $input_field = $('.mce-media_input_image');
+        var custom_uploader = wp.media.frames.file_frame = wp.media({
+            title: 'Add Image',
+            button: {
+                text: 'Add Image'
+            },
+            multiple: false
+        });
+        custom_uploader.on('select', function() {
+            var attachment = custom_uploader.state().get('selection').first().toJSON();
+            $input_field.val(attachment.url);
+        });
+        custom_uploader.open();
+    }
 });

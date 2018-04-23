@@ -125,8 +125,8 @@ get_header(); ?>
 					</div>
 				  </div>
 				  <div class="form-group">
-					<label class="col-md-9 msg_show"></label>
-					<div class="col-md-3">
+					<label class="col-md-11 msg_show" style="text-align: right;"></label>
+					<div class="col-md-1">
 						<button type="submit" name="order_type" class="btn-order-fill save_btn btn btn-primary pull-right" value="Next">
 						Next <i class="fa fa-angle-double-right" aria-hidden="true"></i>
 						</button>									  							  
@@ -151,7 +151,7 @@ jQuery(function($){
 	
 	
 	$(document).on("click", ":submit", function(e) {
-			$('.msg_show').html('<i class="fa fa-refresh fa-spin" aria-hidden="true"></i>');
+			$('.msg_show').html('<span class="font_icon"><i class="fa fa-refresh fa-spin" aria-hidden="true"></i></span>');
 			var formValid = $("#inspection_form").valid();
 			var thisForm = $(this);		
 			
@@ -190,8 +190,7 @@ jQuery(function($){
 					  var parsedJson = $.parseJSON(data);					  
 					  if(parsedJson.success == true){						  
 						  $('.msg_show').html('');
-						  $('.msg_show').html('<span style="color:green">'+parsedJson.mess+'</span>');
-						  console.log(parsedJson);
+						  $('.msg_show').html('<span class="font_icon success_icon">'+parsedJson.mess+'</span>');
 						  window.location.href = "<?php echo home_url('/form-viewer/?item='); ?>"+template_id+'&report='+parsedJson.report_id;
 					  } else {
 						  $('.msg_show').html('');

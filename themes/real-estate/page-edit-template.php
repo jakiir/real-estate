@@ -156,7 +156,7 @@ get_header(); ?>
 		});
 		$("#edit_template").validate();
 		$(document).on("click", ":submit", function(e) {
-			$('.msg_show').html('<i class="fa fa-refresh fa-spin" aria-hidden="true"></i>');
+			$('.msg_show').html('<span class="font_icon"><i class="fa fa-refresh fa-spin" aria-hidden="true"></i></span>');
 			var formValid = $("#edit_template").valid();
 			var thisForm = $(this);		
 			
@@ -202,7 +202,7 @@ get_header(); ?>
 					  var parsedJson = $.parseJSON(data);					  
 					  if(parsedJson.success == true){						  
 						  $('.msg_show').html('');
-						  $('.msg_show').html('<span style="color:green">'+parsedJson.mess+'</span>');
+						  $('.msg_show').html('<span class="font_icon success_icon">'+parsedJson.mess+'</span>');
 						  window.location.href = "<?php echo home_url('/form-builder/?item='); ?>"+template_id;
 					  } else {
 						  $('.msg_show').html('');

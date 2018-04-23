@@ -12,7 +12,59 @@ angular.module('formbuilder',['ngDrag','ui.tinymce'])
     inline: false,
     plugins : 'advlist autolink link image lists charmap print preview code',
     skin: 'lightgray',
-    theme : 'modern'
+    theme : 'modern',
+	toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table | fontsizeselect,addMedia',
+	setup: function (editor) {
+    editor.addButton('addMedia', {
+      text: 'Add Media',
+      icon: 'image',
+      onclick: function () {		 
+		editor.windowManager.open( {
+			title: 'Insert Media',
+			body: [
+				{
+					type: 'textbox',
+					name: 'img_url',
+					label: 'Image',
+					value: '',
+					classes: 'media_input_image',
+				},
+				{
+					type: 'textbox',
+					name: 'image_width',
+					label: 'Width',
+					value: '100px',
+					classes: 'media_image_width',
+				},
+				{
+					type: 'textbox',
+					name: 'image_height',
+					label: 'Height',
+					value: '100px',
+					classes: 'media_image_height',
+				},
+				{
+					type: 'button',
+					name: 'media_upload_button_tem',
+					label: '',
+					text: 'Upload image',
+					classes: 'media_upload_button_tem',
+				},
+			],
+			onsubmit: function( e ) {
+				editor.insertContent( '<img width="' + e.data.image_width + '" height="' + e.data.image_height + '" src="' + e.data.img_url + '" alt="upload image" />');
+			}
+		});
+            
+		  
+		  
+		  
+		 // var getImgUrl = $scope.fileUploader('editor');
+		  //console.log(getImgUrl);
+          //editor.insertContent('&nbsp;<b>It\'s my button!</b>&nbsp;');
+		}
+	});
+	}
   };
     $scope.data={
       name:"Untitled Form 1",
@@ -158,9 +210,15 @@ angular.module('formbuilder',['ngDrag','ui.tinymce'])
 		//$( '.frontend-button' ).hide();
 		//$( '.imggap' ).attr('src', attachment.url);
 		var ress = attachment.url;
-		if(ress){
-			control.url=ress;
-			$scope.$apply();
+		if(control == 'editor'){
+			if(ress){
+				return ress;
+			}
+		} else {
+			if(ress){
+				control.url=ress;
+				$scope.$apply();
+			}
 		}
 	});
 	file_frame.open();
@@ -264,4 +322,25 @@ angular.module('formbuilder',['ngDrag','ui.tinymce'])
         });
         }
     };
+});
+
+jQuery(document).ready(function($){
+    $(document).on('click', '.mce-media_upload_button_tem', template_builder_image_tinymce);
+
+    function template_builder_image_tinymce(e) {
+        e.preventDefault();
+        var $input_field = $('.mce-media_input_image');
+        var custom_uploader = wp.media.frames.file_frame = wp.media({
+            title: 'Add Image',
+            button: {
+                text: 'Add Image'
+            },
+            multiple: false
+        });
+        custom_uploader.on('select', function() {
+            var attachment = custom_uploader.state().get('selection').first().toJSON();
+            $input_field.val(attachment.url);
+        });
+        custom_uploader.open();
+    }
 });

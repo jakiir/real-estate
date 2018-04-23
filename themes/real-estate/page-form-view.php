@@ -45,7 +45,7 @@ get_header('form-viewer'); ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/submitform_controls.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/custom.css">
 <!--<script type="text/javascript" src="<?php //echo esc_url( get_template_directory_uri() ); ?>/js/jquery.min.js"></script>-->
-    <header>
+    <?php /*<header>
       <div class="stdfields">
         <div class="fieldrow bordered">
           <div class="fieldcol">
@@ -62,7 +62,7 @@ get_header('form-viewer'); ?>
           </div>
         </div>
       </div>
-    </header>
+    </header>*/?>
     <form class="theform">
       <div ng-repeat="section in form">
 	  <div ng-bind-html="section.children[0][0][0].data"></div>

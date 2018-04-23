@@ -135,3 +135,5 @@
 .forgot-password:focus{
     color: rgb(12, 97, 33);
 }
+.font_icon{font-size:40px;position:relative;top:-9px;}
+.success_icon{color:#82c91e;}
