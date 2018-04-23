@@ -8,10 +8,67 @@ angular.module('submitForm',['ui.tinymce'])
     plugins : 'advlist autolink link image lists charmap print preview code',
     skin: 'lightgray',
     theme : 'modern',
-	toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table | fontsizeselect,addMedia',
+	toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table | fontsizeselect,addMedia annotateImage surveyDrawing',
 	setup: function (editor) {
     editor.addButton('addMedia', {
       text: 'Add Media',
+      icon: 'image',
+      onclick: function () {		 
+		editor.windowManager.open( {
+			title: 'Insert Media',
+			body: [
+				{
+					type: 'textbox',
+					name: 'img_url',
+					label: 'Image',
+					value: '',
+					classes: 'media_input_image',
+				},
+				{
+					type: 'textbox',
+					name: 'image_width',
+					label: 'Width',
+					value: '100px',
+					classes: 'media_image_width',
+				},
+				{
+					type: 'textbox',
+					name: 'image_height',
+					label: 'Height',
+					value: '100px',
+					classes: 'media_image_height',
+				},
+				{
+					type: 'button',
+					name: 'media_upload_button_tem',
+					label: '',
+					text: 'Upload image',
+					classes: 'media_upload_button_tem',
+				},
+			],
+			onsubmit: function( e ) {
+				if(e.data.img_url == ''){
+					$('.mce-media_input_image').after('<div class="requird_msg">Requird field</div>');
+					$('.requird_msg').delay(1000).fadeOut();
+					return false;
+				}
+				if(e.data.image_width == ''){
+					$('.mce-media_image_width').after('<div class="requird_msg">Requird field</div>');
+					$('.requird_msg').delay(1000).fadeOut();
+					return false;
+				}
+				if(e.data.image_height == ''){
+					$('.mce-media_image_height').after('<div class="requird_msg">Requird field</div>');
+					$('.requird_msg').delay(1000).fadeOut();
+					return false;
+				}
+				editor.insertContent( '<img width="' + e.data.image_width + '" height="' + e.data.image_height + '" src="' + e.data.img_url + '" alt="upload image" />');
+			}
+		});
+		}
+	}),
+	editor.addButton('annotateImage', {
+      text: 'Annotate Image',
       icon: 'image',
       onclick: function () {		 
 		editor.windowManager.open( {
@@ -51,7 +108,49 @@ angular.module('submitForm',['ui.tinymce'])
 			}
 		});
 		}
-	});
+	}),
+	editor.addButton('surveyDrawing', {
+      text: 'Survey Drawing',
+      icon: 'image',
+      onclick: function () {		 
+		editor.windowManager.open( {
+			title: 'Insert Media',
+			body: [
+				{
+					type: 'textbox',
+					name: 'img_url',
+					label: 'Image',
+					value: '',
+					classes: 'media_input_image',
+				},
+				{
+					type: 'textbox',
+					name: 'image_width',
+					label: 'Width',
+					value: '100px',
+					classes: 'media_image_width',
+				},
+				{
+					type: 'textbox',
+					name: 'image_height',
+					label: 'Height',
+					value: '100px',
+					classes: 'media_image_height',
+				},
+				{
+					type: 'button',
+					name: 'media_upload_button_tem',
+					label: '',
+					text: 'Upload image',
+					classes: 'media_upload_button_tem',
+				},
+			],
+			onsubmit: function( e ) {
+				editor.insertContent( '<img width="' + e.data.image_width + '" height="' + e.data.image_height + '" src="' + e.data.img_url + '" alt="upload image" />');
+			}
+		});
+		}
+	})
 	}
   };
 
