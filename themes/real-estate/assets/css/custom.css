@@ -84,3 +84,10 @@
 	background-color: #f8f8f8;
 	border-color: #e7e7e7;
 }
+.requird_msg{
+	color: red;
+    position: absolute;
+    right: 0;
+    background-color: #000;
+    padding: 6px 6px;
+}
