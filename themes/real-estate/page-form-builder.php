@@ -206,6 +206,7 @@ get_header('form-builder'); ?>
 	if(field_text_html == ''){ field_text_html = {"name":"Untitled Form 1","logo":null,"tree":[]}; }
 	var get_template_data = '<?php echo $get_template_data; ?>';
 	var get_template_name = '<?php echo $get_template_name; ?>';
+	var site_url = '<?php echo home_url(); ?>';
 	//console.log(get_template_name);
 </script>
 

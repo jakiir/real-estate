@@ -235,7 +235,15 @@ function eventListeners(){
 			var parsedJson = data;        
 			if(parsedJson.success == true){
 				//$('.msg_show').html('<font style="color:green">'+parsedJson.mess+'</span>');
-			  window.location.href = parsedJson.redirect_url;
+				if(editor == 'no'){
+					window.location.href = parsedJson.redirect_url;
+				}
+				if(editor == 'yes'){
+					var $input_field = window.opener.$('.mce-media_input_image');
+					$input_field.val(parsedJson.attachemntUrl);
+					// Close the popup
+					window.close();
+				}
 			} else {
 				alert(parsedJson.mess);
 			//$('.msg_show').html('<font style="color:red">'+parsedJson.mess+'</span>');

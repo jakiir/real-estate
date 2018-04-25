@@ -72,7 +72,7 @@ angular.module('submitForm',['ui.tinymce'])
       icon: 'image',
       onclick: function () {		 
 		editor.windowManager.open( {
-			title: 'Insert Media',
+			title: 'Insert Annotate Media',
 			body: [
 				{
 					type: 'textbox',
@@ -97,10 +97,10 @@ angular.module('submitForm',['ui.tinymce'])
 				},
 				{
 					type: 'button',
-					name: 'media_upload_button_tem',
+					name: 'annotate_upload_button_tem',
 					label: '',
 					text: 'Upload image',
-					classes: 'media_upload_button_tem',
+					classes: 'annotate_upload_button_tem',
 				},
 			],
 			onsubmit: function( e ) {
@@ -114,7 +114,7 @@ angular.module('submitForm',['ui.tinymce'])
       icon: 'image',
       onclick: function () {		 
 		editor.windowManager.open( {
-			title: 'Insert Media',
+			title: 'Insert Survey Media',
 			body: [
 				{
 					type: 'textbox',
@@ -139,10 +139,10 @@ angular.module('submitForm',['ui.tinymce'])
 				},
 				{
 					type: 'button',
-					name: 'media_upload_button_tem',
+					name: 'survey_upload_button_tem',
 					label: '',
 					text: 'Upload image',
-					classes: 'media_upload_button_tem',
+					classes: 'survey_upload_button_tem',
 				},
 			],
 			onsubmit: function( e ) {
@@ -420,4 +420,15 @@ jQuery(document).ready(function($){
         });
         custom_uploader.open();
     }
+	
+	$(document).on('click', '.mce-annotate_upload_button_tem',function(e){
+		e.preventDefault();
+		window.open(site_url+'/canvas-drawing/?report=14&item=2&hash=1518713455636&saved=1&editor=yes#target=http://localhost/mehedi/real-estate/wp-content/uploads/2018/04/1524674598.png', '_blank', 'location=yes,height=1000,width=1000,scrollbars=yes,status=yes');
+	});
+	$(document).on('click', '.mce-survey_upload_button_tem',function(e){
+		e.preventDefault();
+		window.open(site_url+'/design-draw/?report=14&item=2&hash=1518713455636&saved=1&editor=yes', '_blank', 'location=yes,height=1000,width=1000,scrollbars=yes,status=yes');
+	});
+	
+	
 });
