@@ -3,6 +3,7 @@ angular.module('formbuilder',['ngDrag','ui.tinymce'])
     $sceProvider.enabled(false);
   })
   .controller('mainCtrl',function($scope,$sce){
+    var dragTemp = null;
     $scope.tools = formControls;
     $scope.currentControl=null;
     $scope.internalDrag=false;
@@ -18,7 +19,7 @@ angular.module('formbuilder',['ngDrag','ui.tinymce'])
     editor.addButton('addMedia', {
       text: 'Add Media',
       icon: 'image',
-      onclick: function () {		 
+      onclick: function () {
 		editor.windowManager.open( {
 			title: 'Insert Media',
 			body: [
@@ -75,7 +76,7 @@ angular.module('formbuilder',['ngDrag','ui.tinymce'])
 	editor.addButton('annotateImage', {
       text: 'Annotate Image',
       icon: 'image',
-      onclick: function () {		 
+      onclick: function () {
 		editor.windowManager.open( {
 			title: 'Insert Annotate Media',
 			body: [
@@ -117,7 +118,7 @@ angular.module('formbuilder',['ngDrag','ui.tinymce'])
 	editor.addButton('surveyDrawing', {
       text: 'Survey Drawing',
       icon: 'image',
-      onclick: function () {		 
+      onclick: function () {
 		editor.windowManager.open( {
 			title: 'Insert Survey Media',
 			body: [
@@ -195,7 +196,12 @@ angular.module('formbuilder',['ngDrag','ui.tinymce'])
     $scope.startDrag = function(e,control){
       var ct = JSON.stringify(control);
       $scope.externalDrag=true;
-      e.dataTransfer.setData('control',ct);
+      if(e.dataTransfer){
+        e.dataTransfer.setData('control',ct);
+      }
+      else{
+        dragTemp=ct;
+      }
     }
     function flatten(tree){
       var data = [];
@@ -226,7 +232,12 @@ angular.module('formbuilder',['ngDrag','ui.tinymce'])
     }
 
     $scope.unShiftToChild=function(e,index){
-      var dt = e.dataTransfer.getData('control');
+      if(e.dataTransfer){
+        var dt = e.dataTransfer.getData('control');
+      }
+      else {
+        var dt = dragTemp;
+      }
       var sData = freshen(dt);
       if(sData.single) return false;
       $scope.data.tree[index].unshift([]);
@@ -234,7 +245,12 @@ angular.module('formbuilder',['ngDrag','ui.tinymce'])
       $scope.currentControl=$scope.data.tree[index][0][$scope.data.tree[index][0].length-1];
     }
     $scope.pushToChild=function(e,index){
-      var dt = e.dataTransfer.getData('control');
+      if(e.dataTransfer){
+        var dt = e.dataTransfer.getData('control');
+      }
+      else {
+        var dt = dragTemp;
+      }
       var sData = freshen(dt);
       if(sData.single) return false;
       $scope.data.tree[index].push([]);
@@ -242,14 +258,24 @@ angular.module('formbuilder',['ngDrag','ui.tinymce'])
       $scope.currentControl=$scope.data.tree[index][$scope.data.tree[index].length-1][$scope.data.tree[index][$scope.data.tree[index].length-1].length-1];
     }
     $scope.addBottom=function(e,parent,index){
-      var dt = e.dataTransfer.getData('control');
+      if(e.dataTransfer){
+        var dt = e.dataTransfer.getData('control');
+      }
+      else {
+        var dt = dragTemp;
+      }
       var sData = freshen(dt);
       if(sData.single) return false;
       $scope.data.tree[parent][index].push(sData);
       $scope.currentControl = $scope.data.tree[parent][index][$scope.data.tree[parent][index].length-1];
     }
     $scope.addNewRow=function(e){
-      var dt = e.dataTransfer.getData('control');
+      if(e.dataTransfer){
+        var dt = e.dataTransfer.getData('control');
+      }
+      else {
+        var dt = dragTemp;
+      }
       var sData = freshen(dt);
       $scope.data.tree.push([]);
       $scope.data.tree[$scope.data.tree.length-1].push([]);
@@ -277,9 +303,9 @@ angular.module('formbuilder',['ngDrag','ui.tinymce'])
         }
       })
     }
-	
+
 	$scope.fileUploader = function(control){
-	  
+
 	var file_frame; // variable for the wp.media file_frame
 	//event.preventDefault();
 	// if the file_frame has already been created, just reuse it
@@ -315,7 +341,7 @@ angular.module('formbuilder',['ngDrag','ui.tinymce'])
 	});
 	file_frame.open();
   }
-	
+
     //Remove item
     $scope.removeControl = function(superidx,parent,index,e){
       e.stopPropagation();
@@ -352,7 +378,7 @@ angular.module('formbuilder',['ngDrag','ui.tinymce'])
         })
       }
     }
-	
+
 	if(field_text_html){
       $scope.data = JSON.parse(JSON.stringify(field_text_html));
     } else if(localStorage.getItem('formbuilder_cache_data')){
@@ -360,10 +386,15 @@ angular.module('formbuilder',['ngDrag','ui.tinymce'])
     } else {
 		$scope.data = '';
 	}
-	
+
     //Internal Rearrangement
     $scope.internalDragStart = function(e,path){
-      e.dataTransfer.setData('path',path.join(","));
+      if(!e.dataTransfer){
+        dragTemp = path.join(",");
+      }
+      else{
+        e.dataTransfer.setData('path',path.join(","));
+      }
       console.log("Drag Started");
       $scope.internalDrag=true;
     }
@@ -374,7 +405,13 @@ angular.module('formbuilder',['ngDrag','ui.tinymce'])
     }
     $scope.rearrange = function(e,master,par,idx){
       $scope.internalDrag=false;
-      var path = e.dataTransfer.getData('path');
+      if(!e.dataTransfer){
+        var path = dragTemp;
+        // dragTemp=null;
+      }
+      else{
+        var path = e.dataTransfer.getData('path');
+      }
       path = path.split(",");
       if($scope.data.tree[path[0]][path[1]][path[2]].single) return false;
       var source = JSON.stringify($scope.data.tree[path[0]][path[1]][path[2]]);
@@ -435,7 +472,7 @@ jQuery(document).ready(function($){
         });
         custom_uploader.open();
     }
-	
+
 	$(document).on('click', '.mce-annotate_upload_button_tem',function(e){
 		e.preventDefault();
 		window.open(site_url+'/canvas-drawing/?report=14&item=2&hash=1518713455636&saved=1&editor=yes#target=http://localhost/mehedi/real-estate/wp-content/uploads/2018/04/1524674598.png', '_blank', 'location=yes,height=1000,width=1000,scrollbars=yes,status=yes');

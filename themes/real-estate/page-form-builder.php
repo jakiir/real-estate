@@ -15,7 +15,7 @@
  */
 
 get_header('form-builder'); ?>
-<?php 
+<?php
 	if (is_user_logged_in()) {
 		$user = wp_get_current_user();
 		if($user->roles[0] != 'administrator'){
@@ -32,9 +32,9 @@ get_header('form-builder'); ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/controls.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/custom.css">
 
-<?php 
+<?php
 	global $wpdb;
-	$table_template = $wpdb->prefix . 'template';					
+	$table_template = $wpdb->prefix . 'template';
 	$template_id = !empty($_GET['item']) ? $_GET['item'] : '';
 	$get_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE id=$template_id", OBJECT );
 	$get_template_data = json_encode($get_templages);
@@ -42,7 +42,7 @@ get_header('form-builder'); ?>
 	$table_template_detail = $wpdb->prefix . 'template_detail';
 	$get_template_detail = $wpdb->get_results( "SELECT * FROM $table_template_detail WHERE template_id=$template_id", OBJECT );
 	$field_text_html = (!empty($get_template_detail[0]->field_text_html) ? $get_template_detail[0]->field_text_html : '{"name":"Untitled Form 1","logo":null,"tree":[]}');
-	
+
 ?>
 
 <div class="container" ng-controller="mainCtrl">
@@ -57,7 +57,9 @@ get_header('form-builder'); ?>
       <!-- toolbar -->
       <div class="dragelement tool" ng-repeat="tool in tools" draggable="true"
       ng-dragstart="startDrag($event,tool)"
-      ng-dragend="dragCleanup()">
+			ng-touchstart="startDrag($event,tool)"
+      ng-dragend="dragCleanup()"
+			ng-touchend="dragCleanup()">
         <i class="fa {{tool.icon}}"></i>  {{tool.title}}
       </div>
       <!-- toolbar -->
@@ -93,7 +95,8 @@ get_header('form-builder'); ?>
             ng-hide="row[0][0].single"
             ng-class="{'available':externalDrag}"
             ng-style="{'pointer-events':(internalDrag?'none':'auto')}"
-            ng-drop="unShiftToChild($event,$index)"></div> <!--left side drop-->
+            ng-drop="unShiftToChild($event,$index)"
+						ng-touchend="unShiftToChild($event,$index)"></div> <!--left side drop-->
             <div class="col controls" ng-repeat="item in row">
               <div class="controlholder controldraggable" ng-repeat="control in item track by $index"
               ng-class="{'sing':control.single}">
@@ -105,7 +108,8 @@ get_header('form-builder'); ?>
                 <!-- rearrange dragdrop -->
                 <div class="droparea rearr"
                 ng-class="{'idrg':internalDrag}"
-                ng-drop="rearrange($event,$parent.$parent.$index,$parent.$index,$index)">
+                ng-drop="rearrange($event,$parent.$parent.$index,$parent.$index,$index)"
+								ng-touchend="rearrange($event,$parent.$parent.$index,$parent.$index,$index)">
                 </div>
                 <!-- loop through the controls -->
                 <div class="controlh"
@@ -113,7 +117,9 @@ get_header('form-builder'); ?>
                 ng-click="selectControl($parent.$parent.$index,$parent.$index,$index)"
                 draggable="true"
                 ng-dragstart="internalDragStart($event,[$parent.$parent.$index,$parent.$index,$index])"
-                ng-dragend="internalDragEnd()">
+								ng-touchstart="internalDragStart($event,[$parent.$parent.$index,$parent.$index,$index])"
+                ng-dragend="internalDragEnd()"
+								ng-touchend="internalDragEnd()">
                   <div ng-include="'<?php echo esc_url( home_url('/form-controls/') ); ?>'"></div>
                 </div>
                 <!-- <div class="droparea rearr"
@@ -125,7 +131,8 @@ get_header('form-builder'); ?>
               ng-hide="row[0][0].single"
               ng-style="{'pointer-events':(internalDrag?'none':'auto')}"
               ng-class="{'available':externalDrag}"
-              ng-drop="addBottom($event,$parent.$index,$index)">
+              ng-drop="addBottom($event,$parent.$index,$index)"
+							ng-touchend="addBottom($event,$parent.$index,$index)">
                 <!-- add new into the group -->
               </div>
             </div>
@@ -133,13 +140,15 @@ get_header('form-builder'); ?>
             ng-style="{'pointer-events':(internalDrag?'none':'auto')}"
             ng-class="{'available':externalDrag}"
             ng-hide="row[0][0].single"
-            ng-drop="pushToChild($event,$index)"></div> <!--right side drop -->
+            ng-drop="pushToChild($event,$index)"
+						ng-touchend="pushToChild($event,$index)"></div> <!--right side drop -->
         </div>
         <div class="row">
           <div class="col droparea"
             ng-style="{'pointer-events':(internalDrag?'none':'auto')}"
             ng-class="{'available':externalDrag}"
             ng-drop="addNewRow($event)"
+						ng-touchend="addNewRow($event)"
           ></div>
         </div>
       </div>
@@ -224,22 +233,22 @@ get_header('form-builder'); ?>
   document.title = '<?php echo $get_template_name; ?>';
   document.getElementById('save_to_database').addEventListener('click', function() {
 	$('.msg_show').show().html('<span class="font_icon"><i class="fa fa-refresh fa-spin" aria-hidden="true"></i></span>');
-    var form_data = new FormData();    
+    var form_data = new FormData();
     var template_id = '<?php echo $template_id; ?>';
     var formJsonData = localStorage.formbuilder_cache_data;
     form_data.append('action', 'saveDynamicForm');
     form_data.append('template_id', template_id);
     form_data.append('formJsonData', formJsonData);
-    
+
     $.ajax({
 	  dataType : "json",
       url: '<?php echo admin_url('admin-ajax.php'); ?>',
       type: 'post',
       contentType: false,
       processData: false,
-      data: form_data,          
+      data: form_data,
       success: function (data) {
-        var parsedJson = data;        
+        var parsedJson = data;
         if(parsedJson.success == true){
 			$('.msg_show').html('<font class="font_icon success_icon">'+parsedJson.mess+'</span>');
 			$('.msg_show').delay(5000).fadeOut('slow');
@@ -253,11 +262,11 @@ get_header('form-builder'); ?>
 		$('.msg_show').html('<font style="color:red">'+errorThrown+'</span>');
 		$('.msg_show').delay(5000).fadeOut('slow');
       }
-	  
-	  
-	  
+
+
+
     });
-    
+
     //console.log(JSON.stringify(JSON.parse(formBuilder.actions.getData('json', true))));
   });
 </script>

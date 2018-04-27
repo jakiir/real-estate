@@ -230,9 +230,9 @@ function eventListeners(){
 		  type: 'post',
 		  contentType: false,
 		  processData: false,
-		  data: form_data,          
+		  data: form_data,
 		  success: function (data) {
-			var parsedJson = data;        
+			var parsedJson = data;
 			if(parsedJson.success == true){
 				//$('.msg_show').html('<font style="color:green">'+parsedJson.mess+'</span>');
 				if(editor == 'no'){
@@ -253,7 +253,7 @@ function eventListeners(){
 			//$('.msg_show').html('<font style="color:red">'+errorThrown+'</span>');
 		  }
 		});
-		
+
 		//console.log(tempa.href);
         //tempa.download=appName+".png";
         //tempa.click();
@@ -263,9 +263,15 @@ function eventListeners(){
     hdrs.addEventListener('mousedown',mouseDownFunction);
     hdrs.addEventListener('mouseup',mouseUpFunction);
     hdrs.addEventListener('mousemove',mouseMoveFunction);
-    hdrs.addEventListener('touchstart',mouseDownFunction);
-    hdrs.addEventListener('touchmove',mouseMoveFunction);
-    hdrs.addEventListener('touchend',mouseUpFunction);
+    hdrs.addEventListener('touchstart',function(e){
+      mouseDownFunction(e.touches[0]);
+    });
+    hdrs.addEventListener('touchmove',function(e){
+      mouseMoveFunction(e.touches[0]);
+    });
+    hdrs.addEventListener('touchend',function(e){
+      mouseUpFunction(e.touches[0]);
+    });
     document.body.addEventListener('keyup',checkDelete);
     document.querySelector('.deletel').addEventListener('click',checkDelete);
   }
