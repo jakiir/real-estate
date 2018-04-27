@@ -1023,6 +1023,7 @@ $imagenew = get_post( $attach_id );
 $fullsizepath = get_attached_file( $imagenew->ID );
 $attach_data = wp_generate_attachment_metadata( $attach_id, $fullsizepath );
 wp_update_attachment_metadata( $attach_id, $attach_data );
+$attachemntUrl = wp_get_attachment_image_src( $imagenew->ID, 'full' );
 
 if($attach_id){
 	$template_id = $_POST['template_id'];
@@ -1034,6 +1035,7 @@ if($attach_id){
 		'mess' => '<i class="fa fa-check-circle"></i>',
 		'template_id' => $template_id,
 		'attach_id' => $attach_id,
+		'attachemntUrl'=>$attachemntUrl[0],
 		'redirect_url'=> home_url('/form-viewer/?item='.$template_id.'&att='.$attach_id.'&hash='.$hash_id.'&report='.$report_id.'&saved='.$saved)
 	);  
 } else {

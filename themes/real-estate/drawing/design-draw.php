@@ -17,6 +17,7 @@
  $hash = !empty($_GET['hash']) ? $_GET['hash'] : '';
  $report_id = !empty($_GET['report']) ? $_GET['report'] : 0;
  $saved = !empty($_GET['saved']) ? $_GET['saved'] : 0;
+ $editor = !empty($_GET['editor']) ? $_GET['editor'] : 'no';
 	if (!is_user_logged_in()) {
 		echo '<script>window.location.replace("'.home_url().'");</script>';
 		die('You have no access right! Please contact system administration for more information.!');
@@ -37,6 +38,7 @@
 		var hash = '<?php echo $hash; ?>';
 		var report_id = '<?php echo $report_id; ?>';
 		var saved = '<?php echo $saved; ?>';
+		var editor = '<?php echo $editor; ?>';
 		var user_id = '<?php echo $user_id; ?>';
 	</script>
 </head>
