@@ -264,10 +264,16 @@ function eventListeners(){
 	var hdrs= document.querySelector('.holders');
     hdrs.addEventListener('mousedown',mouseDownFunction);
     hdrs.addEventListener('mouseup',mouseUpFunction);
-    hdrs.addEventListener('mousemove',mouseMoveFunction);
-    hdrs.addEventListener('touchstart',mouseDownFunction);
-    hdrs.addEventListener('touchmove',mouseMoveFunction);
-    hdrs.addEventListener('touchend',mouseUpFunction);
+    hdrs.addEventListener('mousemove',mouseMoveFunction);	
+	hdrs.addEventListener('touchstart',function(e){
+      mouseDownFunction(e.touches[0]);
+    });
+    hdrs.addEventListener('touchmove',function(e){
+      mouseMoveFunction(e.touches[0]);
+    });
+    hdrs.addEventListener('touchend',function(e){
+      mouseUpFunction(e.touches[0]);
+    });
     document.body.addEventListener('keyup',checkDelete);
     document.querySelector('.deletel').addEventListener('click',checkDelete);
   }
