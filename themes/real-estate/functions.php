@@ -1060,3 +1060,17 @@ function enqueue_scripts() {
         null
     );*/
 }
+add_action('pre_get_posts','ml_restrict_media_library');
+
+function ml_restrict_media_library( $wp_query_obj ) {
+    global $current_user, $pagenow;
+	if($current_user->roles[0] == 'administrator')
+	return;
+    if( !is_a( $current_user, 'WP_User') )
+    return;
+    if( 'admin-ajax.php' != $pagenow || $_REQUEST['action'] != 'query-attachments' )
+    return;
+    if( !current_user_can('manage_media_library') )
+    $wp_query_obj->set('author', $current_user->ID );
+    return;
+}
