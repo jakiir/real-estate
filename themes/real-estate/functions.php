@@ -1060,3 +1060,93 @@ function enqueue_scripts() {
         null
     );*/
 }
+add_action('pre_get_posts','ml_restrict_media_library');
+
+function ml_restrict_media_library( $wp_query_obj ) {
+    global $current_user, $pagenow;
+	if($current_user->roles[0] == 'administrator')
+	return;
+    if( !is_a( $current_user, 'WP_User') )
+    return;
+    if( 'admin-ajax.php' != $pagenow || $_REQUEST['action'] != 'query-attachments' )
+    return;
+    if( !current_user_can('manage_media_library') ){
+		$parrent_user = esc_attr( get_the_author_meta( 'parrent_user', $current_user->ID ) );
+		if(empty($parrent_user)) $parrent_user = $current_user->ID;
+		$users = get_users(array(
+			'meta_key'     => 'parrent_user',
+			'meta_value'   => $parrent_user,
+			'meta_compare' => '=',
+		));
+		$user_all[] = $parrent_user;
+		if(!empty($users)){
+			foreach($users as $user){
+				$user_all[] = $user->ID;
+			}
+		}
+		$selected_user = implode(',',$user_all);
+		$wp_query_obj->set('author', "$selected_user" );
+	}
+    return;
+}
+
+add_action( 'show_user_profile', 'parrent_user_profile_fields' );
+add_action( 'edit_user_profile', 'parrent_user_profile_fields' );
+add_action( 'user_new_form', 'parrent_user_profile_fields' );
+
+function parrent_user_profile_fields( $user ) { 
+$args = array(
+    'role'    => 'inspector',
+    'orderby' => 'user_nicename',
+    'order'   => 'ASC'
+);
+$users = get_users( $args );
+$parrent_user = esc_attr( get_the_author_meta( 'parrent_user', $user->ID ) );
+?>
+    <table class="form-table">
+    <tr>
+        <th><label for="parrent_user"><?php _e("Parrent User"); ?></label></th>
+        <td>
+		<select name="parrent_user" id="parrent_user">
+		<?php
+			foreach ( $users as $user ) {
+				$selected = ($parrent_user==$user->ID ? 'selected="selected"' : '');
+				echo '<option '.$selected.' value="'.esc_attr($user->ID).'">' . esc_html( $user->display_name ) . ' [' . esc_html( $user->user_login ) . ']</option>';
+			}
+		?>
+		</select>
+        </td>
+    </tr>
+    </table>
+<?php }
+
+add_action( 'user_register', 'save_parrent_user_profile_fields' );
+add_action( 'profile_update', 'save_parrent_user_profile_fields' );
+
+function save_parrent_user_profile_fields( $user_id ) {
+    if ( !current_user_can( 'edit_user', $user_id ) ) { 
+        return false; 
+    }
+    update_user_meta( $user_id, 'parrent_user', $_POST['parrent_user'] );
+}
+
+function parrent_user_column( $column ) {
+    $column['parrent_user'] = 'Parrent Users';
+    return $column;
+}
+add_filter( 'manage_users_columns', 'parrent_user_column' );
+
+function parrent_user_table_row( $val, $column_name, $user_id ) {
+    switch ($column_name) {
+        case 'parrent_user' :
+            $parrent_user_id = get_the_author_meta( 'parrent_user', $user_id );
+			if(!empty($parrent_user_id)){
+				$parrent_user=get_userdata($parrent_user_id);
+				return esc_html( $parrent_user->display_name ) . ' [' . esc_html( $parrent_user->user_login ) . ']';
+			} else { return '—'; }
+            break;
+        default:
+    }
+    return $val;
+}
+add_filter( 'manage_users_custom_column', 'parrent_user_table_row', 10, 3 );
