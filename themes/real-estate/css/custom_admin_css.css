@@ -1,4 +1,4 @@
-#template-data td{text-align:center;}
+#template-data td,#inspection-data td{text-align:center;}
 
 /* Popup box BEGIN */
 .hover_bkgr_fricc{

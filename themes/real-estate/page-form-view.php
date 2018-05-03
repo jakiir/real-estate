@@ -90,7 +90,7 @@ get_header('form-viewer'); ?>
 						<input type="checkbox" ng-model="child.subsection[0].status4" value="child.subsection[0].status4" ng-checked="child.subsection[0].status4"> Deficient
 					  </div>
 					</div>
-					<div class="row-" ng-repeat="controls in child.children">
+					<div class="row" ng-repeat="controls in child.children">
 						<div class="col" ng-repeat="subcontrol in controls">
 							<div ng-repeat="control in subcontrol">
 								<div ng-include="'<?php echo esc_url( home_url('/submition-controls/?report='.$report_id.'&saved='.$saved.'&item='.$template_id.'&att='.$att.'&hash='.$hash_id) ); ?>'"></div>

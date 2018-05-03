@@ -1,5 +1,6 @@
 jQuery(document).ready(function(){
 	jQuery('#template-data').DataTable();
+	jQuery('#inspection-data').DataTable();
 	
     jQuery(".trigger_popup_fricc").click(function(){
 		var template_id = jQuery(this).attr('data-template');

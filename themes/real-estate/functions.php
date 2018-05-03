@@ -862,25 +862,41 @@ function allow_new_role_uploads() {
 add_action('admin_menu', 'realestate_menu_pages');
 function realestate_menu_pages(){
     $get_templates_page = add_menu_page('Templates', 'Templates', 'manage_options', 'get-template', 'get_templates_output' );
+    $get_inspection_page = add_submenu_page('get-template', 'Inspection', 'Inspection', 'manage_options', 'get-inspection','get_inspection_output' );
 	add_action( 'admin_print_styles-' . $get_templates_page, 'get_templates_options_scripts' );
+	add_action( 'admin_print_styles-' . $get_inspection_page, 'get_templates_options_scripts' );
 }
 function get_templates_output(){
 	global $wpdb;
 	$user_ID = get_current_user_id();
 	$template = $wpdb->prefix . 'template';
 	$template_detail = $wpdb->prefix . 'template_detail';
-	$form_data = $wpdb->prefix . 'form_data';
 	?>
 	<div class="wrap">
 	<h1 class="wp-heading-inline">Template data</h1>
 		<fieldset style="position: relative;">			
 			<table id="template-data" class="display order-completion-table" cellspacing="0" border="0" style="border:1px solid #444;" width="100%">
 			<?php if(isset($_GET['tid']) && $_GET['tid'] !=''){ 
-				$tid = $_GET['tid'];
-				
+					$tid = $_GET['tid'];
+					$tempid = $wpdb->delete( $template, array( 'id' => $tid ) );
+					$wpdb->delete( $template_detail, array( 'template_id' => $tid ) );
+					if(isset($_GET['rev']) && $_GET['rev'] =='on'){
+						$inspection = $wpdb->prefix . 'inspection';
+						$get_inspection_id = $wpdb->get_results( "SELECT id FROM $inspection WHERE template_id=$tid", OBJECT );
+						if(!empty($get_inspection_id)){
+							$wpdb->delete( $inspection, array( 'template_id' => $tid ) );
+							$inspectionreportdetail = $wpdb->prefix . 'inspectionreportdetail';
+							foreach($get_inspection_id as $each_inspection){
+								$wpdb->delete( $inspectionreportdetail, array( 'inspectionId' => $each_inspection->id ) );
+							}
+						}
+					}
+					$templateUrl = admin_url( 'admin.php?page=get-template' );
+					echo '<script>window.location="'.$templateUrl.'";</script>';
 				} else { ?>
 				<thead>
 					<tr style="background-color:#444;color:#fff;">
+						<th>#</th>
 						<th>Template Name</th>
 						<th>Share</th>
 						<th>State</th>
@@ -893,22 +909,24 @@ function get_templates_output(){
 					<?php 
 					$users_table = $wpdb->prefix . 'users';
 					$get_templates = $wpdb->get_results( "SELECT * FROM $template", OBJECT );
+					$inc=1;
 					foreach($get_templates as $each_template):
 					$user_id = $each_template->user_id;
 					$get_users = $wpdb->get_results( "SELECT user_email,display_name FROM $users_table WHERE ID=$user_id" );
 					?>
 						<tr>
+							<td><?php echo $inc; ?></td>
 							<td><?php echo $each_template->name; ?></td>
 							<td><?php echo $each_template->shared_flag; ?></td>
 							<td><?php echo $each_template->state; ?></td>
 							<td><?php echo $each_template->companyId; ?></td>
 							<td><?php echo $get_users[0]->display_name.' [ '.$get_users[0]->user_email.' ]'; ?></td>
 							<td>
-								<a style="text-decoration: none;" href="<?php echo home_url('/form-builder/?item='.$each_template->id); ?>" alt="Order Completion Form" target="_blank"><span class="dashicons dashicons-external"></span></a>
+								<a style="text-decoration: none;" href="<?php echo home_url('/form-builder/?item='.$each_template->id); ?>" alt="Template" target="_blank"><span class="dashicons dashicons-external"></span></a>
 								<a style="text-decoration: none;" href="javascript:void(0)" alt="Remove Template" target="_self" class="trigger_popup_fricc" data-template="<?php echo esc_attr($each_template->id); ?>"><span class="dashicons dashicons-trash"></span></a>
 							</td>
 						</tr>
-					<?php endforeach; ?>
+					<?php $inc++; endforeach; ?>
 				</tbody>
 			<?php } ?>
 			</table>
@@ -930,6 +948,58 @@ function get_templates_output(){
 				</p>
 			</div>
 		</div>
+	</div>	
+	<?php
+}
+function get_inspection_output(){
+	global $wpdb;
+	$table_inspection = $wpdb->prefix . 'inspection';
+	$inspectionreportdetail = $wpdb->prefix . 'inspectionreportdetail';
+	?>
+	<div class="wrap">
+	<h1 class="wp-heading-inline">Inspection data</h1>
+		<fieldset style="position: relative;">			
+			<table id="inspection-data" class="display order-completion-table" cellspacing="0" border="0" style="border:1px solid #444;" width="100%">
+			<?php if(isset($_GET['ispid']) && $_GET['ispid'] !=''){ 
+					$ispid = $_GET['ispid'];
+					$wpdb->delete( $table_inspection, array( 'id' => $ispid ) );
+					$wpdb->delete( $inspectionreportdetail, array( 'inspectionId' => $ispid ) );
+					$inspectionUrl = admin_url( 'admin.php?page=get-inspection' );
+					echo '<script>window.location="'.$inspectionUrl.'";</script>';
+				} else { ?>
+				<thead>
+					<tr style="background-color:#444;color:#fff;">
+						<th>#</th>
+						<th>Report Id</th>
+						<th>Prepared For</th>
+						<th>Date</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php 						
+						$get_inspection = $wpdb->get_results( "SELECT ins.id,ins.company,ins.template_id,ins.report_identification,ins.prepared_for,ins.inpection_date,ird.id as ird_id FROM $table_inspection as ins JOIN $inspectionreportdetail as ird ON ird.inspectionId=ins.id", OBJECT );
+						
+						if(!empty($get_inspection)) {
+						$inc=1;
+						foreach($get_inspection as $inspection){
+						?>
+						<tr>
+							<td><?php echo $inc; ?></td>
+							<td><a target="_blank" href="<?php echo home_url('/form-viewer/?item='.$inspection->template_id.'&report='.$inspection->id.'&saved='.$inspection->ird_id); ?>" class="link-<?php echo $inc; ?>" title="<?php echo $inspection->report_identification; ?>"><?php echo $inspection->report_identification; ?></a></td>
+							<td><?php echo $inspection->prepared_for; ?></td>
+							<td><?php echo $inspection->inpection_date; ?></td>
+							<td>
+								<a style="text-decoration: none;" href="<?php echo home_url('/form-viewer/?item='.$inspection->template_id.'&report='.$inspection->id.'&saved='.$inspection->ird_id); ?>" alt="Inspection" target="_blank"><span class="dashicons dashicons-external"></span></a>
+								<a style="text-decoration: none;" href="<?php echo admin_url( 'admin.php?page=get-inspection&action=trash&ispid='.$inspection->id ); ?>" alt="Remove Template" target="_self"><span class="dashicons dashicons-trash"></span></a>
+							</td>
+						</tr>
+					<?php $inc++; }} ?>
+					
+				</tbody>
+			<?php } ?>
+			</table>
+		</fieldset>
 	</div>	
 	<?php
 }
