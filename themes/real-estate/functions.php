@@ -860,9 +860,10 @@ function allow_new_role_uploads() {
 }
 
 add_action('admin_menu', 'realestate_menu_pages');
-function realestate_menu_pages(){
-    $get_templates_page = add_menu_page('Templates', 'Templates', 'manage_options', 'get-template', 'get_templates_output' );
-    $get_inspection_page = add_submenu_page('get-template', 'Inspection', 'Inspection', 'manage_options', 'get-inspection','get_inspection_output' );
+function realestate_menu_pages(){	
+	add_menu_page('Templates Settings Page', 'Templates Settings', 'manage_options', 'get-template', 'get_templates_output' );
+    $get_templates_page = add_submenu_page('get-template', 'All Templates', 'All Templates', 'manage_options', 'get-template' );
+    $get_inspection_page = add_submenu_page('get-template', 'All Inspections', 'All Inspections', 'manage_options', 'get-inspection','get_inspection_output' );
 	add_action( 'admin_print_styles-' . $get_templates_page, 'get_templates_options_scripts' );
 	add_action( 'admin_print_styles-' . $get_inspection_page, 'get_templates_options_scripts' );
 }
@@ -873,7 +874,7 @@ function get_templates_output(){
 	$template_detail = $wpdb->prefix . 'template_detail';
 	?>
 	<div class="wrap">
-	<h1 class="wp-heading-inline">Template data</h1>
+	<h1 class="wp-heading-inline">All Templates</h1>
 		<fieldset style="position: relative;">			
 			<table id="template-data" class="display order-completion-table" cellspacing="0" border="0" style="border:1px solid #444;" width="100%">
 			<?php if(isset($_GET['tid']) && $_GET['tid'] !=''){ 
@@ -957,7 +958,7 @@ function get_inspection_output(){
 	$inspectionreportdetail = $wpdb->prefix . 'inspectionreportdetail';
 	?>
 	<div class="wrap">
-	<h1 class="wp-heading-inline">Inspection data</h1>
+	<h1 class="wp-heading-inline">All Inspections</h1>
 		<fieldset style="position: relative;">			
 			<table id="inspection-data" class="display order-completion-table" cellspacing="0" border="0" style="border:1px solid #444;" width="100%">
 			<?php if(isset($_GET['ispid']) && $_GET['ispid'] !=''){ 
