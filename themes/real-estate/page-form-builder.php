@@ -64,6 +64,24 @@ get_header('form-builder'); ?>
         <i class="fa {{tool.icon}}"></i>  {{tool.title}}
       </div>
       <!-- toolbar -->
+	  <ul class="mobile-form-builder-menu" style="padding:0;margin:0;">		  
+		  <?php 
+			if (is_user_logged_in()) {
+			$user = wp_get_current_user();
+			if(!empty($user) && $user->roles[0] != 'administrator'){
+		  ?>
+				<li class="dragelement tool <?php if(is_page('perform-inspection')) echo 'active'; ?>"><a href="<?php echo home_url('/perform-inspection/'); ?>">Home</a></li>
+				<li class="dragelement tool <?php if(is_page('perform-inspection')) echo 'active'; ?>"><a href="<?php echo home_url('/perform-inspection/'); ?>">Perform inspection</a></li>
+				<li class="dragelement tool <?php if(is_page('completed-inspections')) echo 'active'; ?>"><a href="<?php echo home_url('/completed-inspections/'); ?>">Completed inspections</a></li>
+			<?php } else { ?>
+				<li class="dragelement tool <?php if(is_page('template')) echo 'active'; ?>"><a href="<?php echo home_url('/template/'); ?>">Home</a></li>
+				<li class="dragelement tool <?php if(is_page('perform-inspection')) echo 'active'; ?>"><a href="<?php echo home_url('/perform-inspection/'); ?>">Perform inspection</a></li>
+				<li class="dragelement tool <?php if(is_page('completed-inspections')) echo 'active'; ?>"><a href="<?php echo home_url('/completed-inspections/'); ?>">Completed inspections</a></li>
+				<li class="dragelement tool <?php if(is_page('template')) echo 'active'; ?>"><a href="<?php echo home_url('/template/'); ?>">Template</a></li>
+			<?php } ?>
+		  <li class="dragelement tool"><a class="login_button" href="<?php echo wp_logout_url( home_url() ); ?>">Logout</a></li>
+			<?php } ?>
+		</ul>
     </div>
     <div class="canvas">
       <div class="area">
