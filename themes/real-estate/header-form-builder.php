@@ -24,11 +24,24 @@
 <body ng-app="formbuilder">
 <div id="page" class="site">
 	<div id="content" class="site-content">
-	<nav class="navbar navbar-default">
-	  <div class="container-fluid">
+	<nav class="navbar navbar-default" role="navigation">
+	  <div class="container">
 		<div class="navbar-header">
-		  <a class="navbar-brand" href="javascript:void(0)"><?php the_title(); ?></a>
+			<?php if (is_user_logged_in()) { $user = wp_get_current_user(); ?>
+				<span class="mobile-view-user">
+					<?php echo $user->display_name; ?>
+					<br/>
+					<?php echo $user->roles[0]; ?>
+				</span>
+			<?php } ?>
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			</button>
 		</div>
+		<div id="navbar" class="navbar-collapse collapse">
 		<ul class="nav navbar-nav">		  
 		  <?php 
 			if (is_user_logged_in()) {
@@ -48,11 +61,12 @@
 			<?php } ?>
 		</ul>
 		<?php if (is_user_logged_in()) { ?>
-			<span style="float: right;">
+			<span class="desktop-view-user">
 				<?php echo $user->display_name; ?>
 				<br/>
 				<?php echo $user->roles[0]; ?>
 			</span>
 		<?php } ?>
+		</div>
 	  </div>
 	</nav>
