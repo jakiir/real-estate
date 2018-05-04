@@ -38,7 +38,7 @@
 	.mobile-form-builder-menu{display:block;}
 	.controlholder.sing{padding:0;margin:0;}
 	.area {padding:2px;}
-	.toptools{left: 21%;right:inherit;}
+	.toptools{left:170px;right:inherit;}
 }
 @media only screen and (max-width: 600px){}
 @media only screen and (max-width: 480px){
@@ -48,7 +48,7 @@
 	.mobile-form-builder-menu{display:block;}
 	.controlholder.sing{padding:0;margin:0;}
 	.area {padding:2px;}
-	.toptools{left: 21%;right:inherit;}
+	.toptools{left:170px;right:inherit;}
 }
 @media only screen and (max-width: 390px){
 	.mobile-view-user{float:left;padding: 3px 5px;}
@@ -57,7 +57,7 @@
 	.mobile-form-builder-menu{display:block;}
 	.controlholder.sing{padding:0;margin:0;}
 	.area {padding:2px;}
-	.toptools{left: 21%;right:inherit;}
+	.toptools{left:170px;right:inherit;}
 }
 @media only screen and (max-width: 320px){
 	
@@ -67,6 +67,6 @@
 	.mobile-form-builder-menu{display:block;}
 	.controlholder.sing{padding:0;margin:0;}
 	.area {padding:2px;}
-	.toptools{left: 21%;right:inherit;}
+	.toptools{left:170px;right:inherit;}
 }
 
