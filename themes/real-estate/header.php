@@ -22,6 +22,7 @@
 	<link rel="stylesheet" href="<?php echo esc_url( $template_directory_uri . '/css/bootstrap.min.css"' ); ?>" />
 	<link rel="stylesheet" href="<?php echo esc_url( $template_directory_uri . '/css/custom-style.css"' ); ?>" />
 	<link rel="stylesheet" href="<?php echo esc_url( $template_directory_uri . '/css/bootstrap-datetimepicker.css"' ); ?>" />
+	<link rel="stylesheet" href="<?php echo esc_url( $template_directory_uri . '/css/responsive.css"' ); ?>" />
 	<script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jquery.min.js"></script><!-- jQuery -->
 	<script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/bootstrap.min.js"></script><!-- Bootstrap -->
 	<script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jquery.validate.js"></script><!-- Parallax -->
@@ -30,21 +31,41 @@
 <body ng-app="formbuilder">
 <div id="page" class="site">
 	<div id="content" class="site-content">
-	<nav class="navbar navbar-default">
-	  <div class="container-fluid">
+	<nav class="navbar navbar-default" role="navigation">
+	  <div class="container">		
 		<div class="navbar-header">
-		  <a class="navbar-brand" href="javascript:void(0)"><?php the_title(); ?></a>
+			<?php if (is_user_logged_in()) { $user = wp_get_current_user(); ?>
+				<span class="mobile-view-user">
+					<?php 
+					if(!empty($user) && $user->roles[0] == 'administrator'){
+						$adminUrl = admin_url();
+						echo '<a href="'.$adminUrl.'">'.$user->display_name.'</a>'; 
+					} else {
+						echo $user->display_name;
+					}
+					?>
+					<?php //echo $user->roles[0]; ?>
+				</span>
+			<?php } ?>
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			</button>
 		</div>
+		<div id="navbar" class="navbar-collapse collapse">
 		<ul class="nav navbar-nav">		  
 		  <?php 
 			if (is_user_logged_in()) {
-			$user = wp_get_current_user();
 			if(!empty($user) && $user->roles[0] != 'administrator'){
 		  ?>
+				<li><a href="javascript:void(0)"><?php the_title(); ?></a></li>
 				<li class="<?php if(is_page('perform-inspection')) echo 'active'; ?>"><a href="<?php echo home_url('/perform-inspection/'); ?>">Home</a></li>
 				<li class="<?php if(is_page('perform-inspection')) echo 'active'; ?>"><a href="<?php echo home_url('/perform-inspection/'); ?>">Perform inspection</a></li>
 				<li class="<?php if(is_page('completed-inspections')) echo 'active'; ?>"><a href="<?php echo home_url('/completed-inspections/'); ?>">Completed inspections</a></li>
 			<?php } else { ?>
+				<li><a href="javascript:void(0)"><?php the_title(); ?></a></li>
 				<li class="<?php if(is_page('template')) echo 'active'; ?>"><a href="<?php echo home_url('/template/'); ?>">Home</a></li>
 				<li class="<?php if(is_page('perform-inspection')) echo 'active'; ?>"><a href="<?php echo home_url('/perform-inspection/'); ?>">Perform inspection</a></li>
 				<li class="<?php if(is_page('completed-inspections')) echo 'active'; ?>"><a href="<?php echo home_url('/completed-inspections/'); ?>">Completed inspections</a></li>
@@ -54,11 +75,17 @@
 			<?php } ?>
 		</ul>
 		<?php if (is_user_logged_in()) { ?>
-			<span style="float: right;">
-				<?php echo $user->display_name; ?>
-				<br/>
-				<?php echo $user->roles[0]; ?>
+			<span class="desktop-view-user">
+				<?php if(!empty($user) && $user->roles[0] == 'administrator'){
+						$adminUrl = admin_url();
+						echo '<a href="'.$adminUrl.'">'.$user->display_name.'</a>'; 
+					} else {
+						echo $user->display_name;
+					}
+				?>
+				<?php //echo $user->roles[0]; ?>
 			</span>
 		<?php } ?>
+	  </div>
 	  </div>
 	</nav>

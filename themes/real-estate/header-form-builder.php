@@ -24,11 +24,12 @@
 <body ng-app="formbuilder">
 <div id="page" class="site">
 	<div id="content" class="site-content">
-	<nav class="navbar navbar-default">
-	  <div class="container-fluid">
+	<nav class="navbar navbar-default desktop-form-builder-menu" role="navigation">
+	  <div class="container">
 		<div class="navbar-header">
 		  <a class="navbar-brand" href="javascript:void(0)"><?php the_title(); ?></a>
 		</div>
+		<div id="navbar" class="navbar-collapse collapse">
 		<ul class="nav navbar-nav">		  
 		  <?php 
 			if (is_user_logged_in()) {
@@ -48,11 +49,17 @@
 			<?php } ?>
 		</ul>
 		<?php if (is_user_logged_in()) { ?>
-			<span style="float: right;">
-				<?php echo $user->display_name; ?>
-				<br/>
-				<?php echo $user->roles[0]; ?>
+			<span class="desktop-view-user">
+				<?php if(!empty($user) && $user->roles[0] == 'administrator'){
+						$adminUrl = admin_url();
+						echo '<a href="'.$adminUrl.'">'.$user->display_name.'</a>'; 
+					} else {
+						echo $user->display_name;
+					}
+				?>
+				<?php //echo $user->roles[0]; ?>
 			</span>
 		<?php } ?>
+		</div>
 	  </div>
 	</nav>

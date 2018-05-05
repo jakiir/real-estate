@@ -14,7 +14,9 @@
   margin:9px 0px;
   border-radius:3px;
   color: #fff;
+  list-style: none;
 }
+.tool.dragelement a{color: #fff;text-decoration:none;}
 .goToDrawing{
 	display: block;
     text-decoration: none;
@@ -91,3 +93,4 @@
     background-color: #000;
     padding: 6px 6px;
 }
+.mobile-view-user a,.desktop-view-user a{text-decoration:none;}

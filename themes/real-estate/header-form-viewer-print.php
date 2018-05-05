@@ -42,10 +42,15 @@
 			<?php } ?>
 		</ul>
 		<?php if (is_user_logged_in()) { ?>
-			<span style="float: right;">
-				<?php echo $user->display_name; ?>
-				<br/>
-				<?php echo $user->roles[0]; ?>
+			<span class="desktop-view-user">
+				<?php if(!empty($user) && $user->roles[0] == 'administrator'){
+						$adminUrl = admin_url();
+						echo '<a href="'.$adminUrl.'">'.$user->display_name.'</a>'; 
+					} else {
+						echo $user->display_name;
+					}
+				?>
+				<?php //echo $user->roles[0]; ?>
 			</span>
 		<?php } ?>
 	  </div>
