@@ -36,9 +36,15 @@
 		<div class="navbar-header">
 			<?php if (is_user_logged_in()) { $user = wp_get_current_user(); ?>
 				<span class="mobile-view-user">
-					<?php echo $user->display_name; ?>
-					<br/>
-					<?php echo $user->roles[0]; ?>
+					<?php 
+					if(!empty($user) && $user->roles[0] == 'administrator'){
+						$adminUrl = admin_url();
+						echo '<a href="'.$adminUrl.'">'.$user->display_name.'</a>'; 
+					} else {
+						echo $user->display_name;
+					}
+					?>
+					<?php //echo $user->roles[0]; ?>
 				</span>
 			<?php } ?>
 			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -52,13 +58,14 @@
 		<ul class="nav navbar-nav">		  
 		  <?php 
 			if (is_user_logged_in()) {
-			$user = wp_get_current_user();
 			if(!empty($user) && $user->roles[0] != 'administrator'){
 		  ?>
+				<li><a href="javascript:void(0)"><?php the_title(); ?></a></li>
 				<li class="<?php if(is_page('perform-inspection')) echo 'active'; ?>"><a href="<?php echo home_url('/perform-inspection/'); ?>">Home</a></li>
 				<li class="<?php if(is_page('perform-inspection')) echo 'active'; ?>"><a href="<?php echo home_url('/perform-inspection/'); ?>">Perform inspection</a></li>
 				<li class="<?php if(is_page('completed-inspections')) echo 'active'; ?>"><a href="<?php echo home_url('/completed-inspections/'); ?>">Completed inspections</a></li>
 			<?php } else { ?>
+				<li><a href="javascript:void(0)"><?php the_title(); ?></a></li>
 				<li class="<?php if(is_page('template')) echo 'active'; ?>"><a href="<?php echo home_url('/template/'); ?>">Home</a></li>
 				<li class="<?php if(is_page('perform-inspection')) echo 'active'; ?>"><a href="<?php echo home_url('/perform-inspection/'); ?>">Perform inspection</a></li>
 				<li class="<?php if(is_page('completed-inspections')) echo 'active'; ?>"><a href="<?php echo home_url('/completed-inspections/'); ?>">Completed inspections</a></li>
@@ -69,9 +76,14 @@
 		</ul>
 		<?php if (is_user_logged_in()) { ?>
 			<span class="desktop-view-user">
-				<?php echo $user->display_name; ?>
-				<br/>
-				<?php echo $user->roles[0]; ?>
+				<?php if(!empty($user) && $user->roles[0] == 'administrator'){
+						$adminUrl = admin_url();
+						echo '<a href="'.$adminUrl.'">'.$user->display_name.'</a>'; 
+					} else {
+						echo $user->display_name;
+					}
+				?>
+				<?php //echo $user->roles[0]; ?>
 			</span>
 		<?php } ?>
 	  </div>

@@ -44,6 +44,7 @@ get_header('form-viewer'); ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/form.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/submitform_controls.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/custom.css">
+<link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/css/responsive.css">
 <!--<script type="text/javascript" src="<?php //echo esc_url( get_template_directory_uri() ); ?>/js/jquery.min.js"></script>-->
     <?php /*<header>
       <div class="stdfields">
@@ -176,5 +177,8 @@ get_header('form-viewer'); ?>
 		<?php } ?>
 		
 	});
+	function expand_nav_menu() {
+		$('#navbar').toggleClass('in');
+	}
 	</script>
   

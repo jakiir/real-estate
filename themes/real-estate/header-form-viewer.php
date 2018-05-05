@@ -27,20 +27,36 @@
 <div id="page" class="site">
 	<div id="content" class="site-content">
 	<nav class="navbar navbar-default">
-	  <div class="container-fluid">
+	  <div class="container">
 		<div class="navbar-header">
-		  <a class="navbar-brand" href="javascript:void(0)"><?php the_title(); ?></a>
+			<?php if (is_user_logged_in()) { $user = wp_get_current_user(); ?>
+				<span class="mobile-view-user">
+					<?php 
+					if(!empty($user) && $user->roles[0] == 'administrator'){
+						$adminUrl = admin_url();
+						echo '<a href="'.$adminUrl.'">'.$user->display_name.'</a>'; 
+					} else {
+						echo $user->display_name;
+					}
+					?>
+					<?php //echo $user->roles[0]; ?>
+				</span>
+			<?php } ?>
+			<a href="javascript:void(0);" class="icon" onclick="expand_nav_menu()">&#9776;</a>
 		</div>
+		<div id="navbar" class="navbar-collapse collapse">
 		<ul class="nav navbar-nav">		  
 		  <?php 
 			if (is_user_logged_in()) {
 			$user = wp_get_current_user();
 			if(!empty($user) && $user->roles[0] != 'administrator'){
 		  ?>
+				<li><a href="javascript:void(0)"><?php the_title(); ?></a></li>
 				<li class="active"><a href="<?php echo home_url('/perform-inspection/'); ?>">Home</a></li>
 				<li><a href="<?php echo home_url('/perform-inspection/'); ?>">Perform inspection</a></li>
 				<li><a href="<?php echo home_url('/completed-inspections/'); ?>">Completed inspections</a></li>
 			<?php } else { ?>
+				<li><a href="javascript:void(0)"><?php the_title(); ?></a></li>
 				<li class="active"><a href="<?php echo home_url('/template/'); ?>">Home</a></li>
 				<li><a href="<?php echo home_url('/perform-inspection/'); ?>">Perform inspection</a></li>
 				<li><a href="<?php echo home_url('/completed-inspections/'); ?>">Completed inspections</a></li>
@@ -49,13 +65,19 @@
 			<li><a href="#" role="button" id="printDrBtn" class=""><i class="fa fa-print" aria-hidden="true"></i> Print</a></li>
 		  <li><a class="login_button" href="<?php echo wp_logout_url( home_url() ); ?>">Logout</a></li>
 			<?php } ?>
-		</ul>
+		</ul>		
 		<?php if (is_user_logged_in()) { ?>
-			<span style="float: right;">
-				<?php echo $user->display_name; ?>
-				<br/>
-				<?php echo $user->roles[0]; ?>
+			<span class="desktop-view-user">
+				<?php if(!empty($user) && $user->roles[0] == 'administrator'){
+						$adminUrl = admin_url();
+						echo '<a href="'.$adminUrl.'">'.$user->display_name.'</a>'; 
+					} else {
+						echo $user->display_name;
+					}
+				?>
+				<?php //echo $user->roles[0]; ?>
 			</span>
 		<?php } ?>
+		</div>
 	  </div>
 	</nav>
