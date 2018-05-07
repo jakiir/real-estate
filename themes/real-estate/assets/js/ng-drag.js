@@ -2,7 +2,7 @@
     var ngDragEventDirectives = {};
 
     angular.forEach(
-        'drag dragend dragenter dragexit dragleave dragover dragstart drop touchstart touchend touchmove'.split(' '),
+        'drag dragend dragenter dragexit dragleave dragover dragstart drop'.split(' '),
         function(eventName) {
             var directiveName = 'ng' + eventName.charAt(0).toUpperCase() + eventName.slice(1);
 

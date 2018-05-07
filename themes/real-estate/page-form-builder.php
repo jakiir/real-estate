@@ -57,10 +57,8 @@ get_header('form-builder'); ?>
     <div class="toolbar side">
       <!-- toolbar -->
       <div class="dragelement tool" ng-repeat="tool in tools" draggable="true"
-      ng-dragstart="startDrag($event,tool)"
-			ng-touchstart="startDrag($event,tool)"
-      ng-dragend="dragCleanup()"
-			ng-touchend="dragCleanup()">
+       ng-dragstart="startDrag($event,tool)"
+      ng-dragend="dragCleanup()">
         <i class="fa {{tool.icon}}"></i>  {{tool.title}}
       </div>
       <!-- toolbar -->
@@ -114,8 +112,7 @@ get_header('form-builder'); ?>
             ng-hide="row[0][0].single"
             ng-class="{'available':externalDrag}"
             ng-style="{'pointer-events':(internalDrag?'none':'auto')}"
-            ng-drop="unShiftToChild($event,$index)"
-						ng-touchend="unShiftToChild($event,$index)"></div> <!--left side drop-->
+            ng-drop="unShiftToChild($event,$index)"></div> <!--left side drop-->
             <div class="col controls" ng-repeat="item in row">
               <div class="controlholder controldraggable" ng-repeat="control in item track by $index"
               ng-class="{'sing':control.single}">
@@ -127,8 +124,7 @@ get_header('form-builder'); ?>
                 <!-- rearrange dragdrop -->
                 <div class="droparea rearr"
                 ng-class="{'idrg':internalDrag}"
-                ng-drop="rearrange($event,$parent.$parent.$index,$parent.$index,$index)"
-								ng-touchend="rearrange($event,$parent.$parent.$index,$parent.$index,$index)">
+                ng-drop="rearrange($event,$parent.$parent.$index,$parent.$index,$index)">
                 </div>
                 <!-- loop through the controls -->
                 <div class="controlh"
@@ -136,9 +132,7 @@ get_header('form-builder'); ?>
                 ng-click="selectControl($parent.$parent.$index,$parent.$index,$index)"
                 draggable="true"
                 ng-dragstart="internalDragStart($event,[$parent.$parent.$index,$parent.$index,$index])"
-								ng-touchstart="internalDragStart($event,[$parent.$parent.$index,$parent.$index,$index])"
-                ng-dragend="internalDragEnd()"
-								ng-touchend="internalDragEnd()">
+                ng-dragend="internalDragEnd()">
                   <div ng-include="'<?php echo esc_url( home_url('/form-controls/') ); ?>'"></div>
                 </div>
                 <!-- <div class="droparea rearr"
@@ -150,8 +144,7 @@ get_header('form-builder'); ?>
               ng-hide="row[0][0].single"
               ng-style="{'pointer-events':(internalDrag?'none':'auto')}"
               ng-class="{'available':externalDrag}"
-              ng-drop="addBottom($event,$parent.$index,$index)"
-							ng-touchend="addBottom($event,$parent.$index,$index)">
+              ng-drop="addBottom($event,$parent.$index,$index)">
                 <!-- add new into the group -->
               </div>
             </div>
@@ -159,16 +152,13 @@ get_header('form-builder'); ?>
             ng-style="{'pointer-events':(internalDrag?'none':'auto')}"
             ng-class="{'available':externalDrag}"
             ng-hide="row[0][0].single"
-            ng-drop="pushToChild($event,$index)"
-						ng-touchend="pushToChild($event,$index)"></div> <!--right side drop -->
+            ng-drop="pushToChild($event,$index)"></div> <!--right side drop -->
         </div>
         <div class="row">
           <div class="col droparea"
             ng-style="{'pointer-events':(internalDrag?'none':'auto')}"
             ng-class="{'available':externalDrag}"
-            ng-drop="addNewRow($event)"
-						ng-touchend="addNewRow($event)"
-          ></div>
+            ng-drop="addNewRow($event)"></div>
         </div>
       </div>
     </div>
@@ -248,6 +238,7 @@ get_header('form-builder'); ?>
   <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/imagefunctions.js"></script>
   <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/app.js"></script>
   <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/dragdrop.js"></script>
+  <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/dragdroptouch.js"></script>
 
 <script type="text/javascript">
   document.title = '<?php echo $get_template_name; ?>';

@@ -118,6 +118,11 @@ get_header('form-viewer'); ?>
         Discard
       </div>-->
     </div>
+	<?php } else { ?>
+		<style>
+		.fileinput{display:none;}
+		.wysiwygpretend .button{display:none;}
+		</style>
 	<?php } ?>
   </div>
 <?php get_footer(); ?>
