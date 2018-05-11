@@ -13,6 +13,9 @@
 <!doctype html>
 <html <?php language_attributes(); ?>>
 <head>
+	<meta http-equiv='cache-control' content='no-cache'>
+	<meta http-equiv='expires' content='0'>
+	<meta http-equiv='pragma' content='no-cache'>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<title>Form[todo:Replace with Form title]</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
