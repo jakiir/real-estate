@@ -66,7 +66,18 @@ get_header('form-viewer'); ?>
     </header>*/?>
     <form class="theform">
       <div ng-repeat="section in form">
-	  <div ng-bind-html="section.children[0][0][0].data"></div>
+	  <div ng-show="section.children[1] ? true : false" ng-bind-html="section.children[0][0][0].data"></div>
+	  <div ng-repeat="child in section.children" ng-show="section.children[1] ? false : true">
+			<div class="">
+				<div class="row" ng-repeat="child in section.children">
+				  <div class="col" ng-repeat="controls in child">
+					<div ng-repeat="control in controls">
+					  <div ng-include="'<?php echo esc_url( home_url('/submition-controls/?report='.$report_id.'&saved='.$saved.'&item='.$template_id.'&att='.$att.'&hash='.$hash_id) ); ?>'"></div>
+					</div>
+				  </div>
+				</div>
+			</div>
+		</div>
         <div class="section">
           <div class="sectionhead section-{{$index}} {{section.display}}" ng-click="section.expanded=!section.expanded">
             <h2>{{section.section.label}}</h2>

@@ -7,17 +7,8 @@ function eventListeners(){
     effectCtx.strokeStyle=strokeColor;
     var x = null;
     var y = null;
-    if(e.targetTouches){
-      console.log("Mouse down Touch Event");
-      var rect = e.target.getBoundingClientRect();
-      x = e.targetTouches[0].pageX - rect.left;
-      y = e.targetTouches[0].pageY - rect.top;
-    }
-    else{
-      console.log("Mouse down Mouse Event");
-      x = e.offsetX;
-      y = e.offsetY;
-    }
+    var x = e.offsetX || e.clientX;
+    var y = e.offsetY || e.clientY;
     if(tools[currentTool].noSnap){
       initX=x
       initY=y;
@@ -34,17 +25,8 @@ function eventListeners(){
     var x = null;
     var y = null;
     //return console.log(e);
-    if(e.targetTouches){
-      //console.log("Mouse Up Touch Event");
-      var rect = e.target.getBoundingClientRect();
-      x = e.changedTouches[0].pageX - rect.left;
-      y = e.changedTouches[0].pageY - rect.top;
-    }
-    else{
-      //console.log("Mouse Up Mouse Event");
-      x = e.offsetX;
-      y = e.offsetY;
-    }
+    x = e.offsetX || e.clientX;
+    y = e.offsetY || e.clientY;
     var final = {
       x:x,
       y:y
@@ -65,23 +47,14 @@ function eventListeners(){
   function mouseMoveFunction(e){
     var x = null;
     var y = null;
-    if(e.targetTouches){
-      //console.log(" Mouse Move Touch Event");
-      var rect = e.target.getBoundingClientRect();
-      x = e.targetTouches[0].pageX - rect.left;
-      y = e.targetTouches[0].pageY - rect.top;
-    }
-    else{
-      //console.log("Mouse Move Mouse Event");
-      x = e.offsetX;
-      y = e.offsetY;
-    }
+    x = e.offsetX || e.clientX;
+    y = e.offsetY || e.clientY;
     if(tools[currentTool].noAction) return true;
     //Validation for wrong tool config
     if(!tools[currentTool].ghost && !tools[currentTool].freeHand && !isDrawing) return false;
     if(tools[currentTool].freeHand && !isDrawing) return false;
     if(tools[currentTool].ghost && tools[currentTool].freeHand){
-      console.log("One tool cannot be both Free Hand and Ghost");
+      //console.log("One tool cannot be both Free Hand and Ghost");
       return false;
     }
     //if the tool isn't free hand, make sure the previous frame is clear
@@ -116,7 +89,7 @@ function eventListeners(){
     drawingFab.on('object:modified',function(){
       var activeObj = drawingFab.getActiveObject();
       if(!activeObj) return false;
-      console.log(activeObj);
+      //console.log(activeObj);
       var theEl = layers.filter(function(el){
         return el.uuid==activeObj.uuid;
       })[0];
@@ -160,7 +133,6 @@ function eventListeners(){
       if(!theEl){
         return false;
       }
-      console.log(theEl);
       if(theEl.tool=='text'){
         document.querySelector('.prefeditor').style.display='block';
       }
@@ -175,7 +147,6 @@ function eventListeners(){
           document.querySelector('.prefeditor').style.display='none';
           return false;
         }
-        //console.log(activeObj);
         var theEl = layers.filter(function(el){
           return el.uuid==activeObj.uuid;
         })[0];
@@ -186,7 +157,6 @@ function eventListeners(){
         reDraw();
       });
     function checkDelete(e){
-      //console.log(e);
       if(e.key){
         if(e.key.toLowerCase()!='backspace' && e.keyCode != 46) return false;
       }
@@ -195,7 +165,6 @@ function eventListeners(){
         document.querySelector('.prefeditor').style.display='none';
         return false;
       }
-      //console.log(activeObj);
       var theEl = layers.filter(function(el,i){
         return el.uuid==activeObj.uuid;
       })[0];
@@ -264,15 +233,33 @@ function eventListeners(){
 	var hdrs= document.querySelector('.holders');
     hdrs.addEventListener('mousedown',mouseDownFunction);
     hdrs.addEventListener('mouseup',mouseUpFunction);
-    hdrs.addEventListener('mousemove',mouseMoveFunction);	
-	hdrs.addEventListener('touchstart',function(e){
-      mouseDownFunction(e.touches[0]);
+    hdrs.addEventListener('mousemove',mouseMoveFunction);
+    hdrs.addEventListener('touchstart',function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      var br = hdrs.getBoundingClientRect();
+      var te = e.changedTouches[0];
+      te.offsetX = te.clientX - br.left;
+      te.offsetY = te.clientY - br.top;
+      return mouseDownFunction(te);
     });
     hdrs.addEventListener('touchmove',function(e){
-      mouseMoveFunction(e.touches[0]);
+      e.preventDefault();
+      e.stopPropagation();
+      var br = hdrs.getBoundingClientRect();
+      var te = e.changedTouches[0];
+      te.offsetX = te.clientX - br.left;
+      te.offsetY = te.clientY - br.top;
+      return mouseMoveFunction(te);
     });
     hdrs.addEventListener('touchend',function(e){
-      mouseUpFunction(e.touches[0]);
+      e.preventDefault();
+      e.stopPropagation();
+      var br = hdrs.getBoundingClientRect();
+      var te = e.changedTouches[0];
+      te.offsetX = te.clientX - br.left;
+      te.offsetY = te.clientY - br.top;
+      return mouseUpFunction(te);
     });
     document.body.addEventListener('keyup',checkDelete);
     document.querySelector('.deletel').addEventListener('click',checkDelete);
