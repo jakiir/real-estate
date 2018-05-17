@@ -73,7 +73,7 @@ get_header('form-agent-viewer');
     </header>
     <form class="theform">
       <div ng-repeat="section in form">
-	  <div ng-hide="true" ng-bind-html="section.children[0][0][0].data"></div>
+	  <div ng-hide="true" ng-bind-html="section.children[0][0][0].data" class="repair-comment-false"></div>
         <div class="section">
           <div ng-if="showIt" class="sectionhead section-{{$index}} {{section.display}} section-{{showIt}}" ng-click="section.expanded=!section.expanded">
             <h2>{{section.section.label}}</h2>

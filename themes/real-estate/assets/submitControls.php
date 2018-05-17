@@ -79,7 +79,7 @@
 </div>
 <!--Check box-->
 <div class="formcontrol checkbox" ng-if="control.type=='checkbox'">
-  <input type="checkbox" ng-model="control.value"> {{control.label}}
+  <input type="checkbox" ng-model="control.value" ng-checked="{{control.value}}"> {{control.label}}
 </div>
 <!-- Image -->
 <div class="formcontrol image imgdrop" ng-if="control.type=='image'" ng-drop="imageDrop($event,$parent.$parent.$index,$parent.$index,$index)">
@@ -101,7 +101,7 @@
 	<span class="invisible fileinp"></span>
     <i class="fa fa-folder-open"></i>
   </div>
-  <div class="commentprompt"><input type="checkbox" ng-model="control.withComment"> Add Comment</div>
+  <div class="commentprompt"><input type="checkbox" ng-model="control.withComment" ng-checked="{{control.withComment}}"> Add Comment</div>
   <div ng-bind-html="control.data" class="printShow"></div>
   <div class="imgcomment" ng-show="control.withComment">
     <textarea ui-tinymce="tinymceOptions" ng-model="control.data"></textarea>
@@ -113,7 +113,7 @@
 </div>
 <!-- wysiwyg -->
 <div class="formcontrol editor" ng-if="control.type=='comment'">
-  <h4><input type="checkbox" id="{{control.htmlName}}" ng-click="commentListIsVisible=!commentListIsVisible" ng-model="control.comment1" value="control.comment1" ng-checked="control.comment1"> <label for="{{control.htmlName}}">{{control.label}}</label></h4>
+  <h4><input type="checkbox" id="{{control.htmlName}}" ng-click="commentListIsVisible=!commentListIsVisible" ng-model="control.comment1" value="control.comment1" ng-checked="{{control.comment1}}"> <label for="{{control.htmlName}}">{{control.label}}</label></h4>
   <div class="editbutton" ng-click="control.editMode=true" ng-show="commentListIsVisible=control.comment1">
     <i ng-click="" class="fa fa-pencil"></i>
   </div>

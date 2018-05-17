@@ -92,7 +92,7 @@ function eventListeners(){
     drawingFab.on('object:modified',function(){
       var activeObj = drawingFab.getActiveObject();
       if(!activeObj) return false;
-      //console.log(activeObj);
+      console.log(activeObj);
       var theEl = layers.filter(function(el){
         return el.uuid==activeObj.uuid;
       })[0];
@@ -136,7 +136,7 @@ function eventListeners(){
       if(!theEl){
         return false;
       }
-      //console.log(theEl);
+      console.log(theEl);
       if(theEl.tool=='text'){
         document.querySelector('.prefeditor').style.display='block';
       }
@@ -171,7 +171,7 @@ function eventListeners(){
         document.querySelector('.prefeditor').style.display='none';
         return false;
       }
-      //console.log(activeObj);
+      console.log(activeObj);
       var theEl = layers.filter(function(el,i){
         return el.uuid==activeObj.uuid;
       })[0];
@@ -241,7 +241,7 @@ function eventListeners(){
     hdrs.addEventListener('mousemove',mouseMoveFunction);
     hdrs.addEventListener('touchstart',function(e){
       e.preventDefault();
-      e.stopPropagation();
+      //e.stopPropagation();
       var br = hdrs.getBoundingClientRect();
       var te = e.changedTouches[0];
       te.offsetX = te.clientX - br.left;
@@ -250,7 +250,7 @@ function eventListeners(){
     });
     hdrs.addEventListener('touchmove',function(e){
       e.preventDefault();
-      e.stopPropagation();
+      //e.stopPropagation();
       var br = hdrs.getBoundingClientRect();
       var te = e.changedTouches[0];
       te.offsetX = te.clientX - br.left;
@@ -259,7 +259,7 @@ function eventListeners(){
     });
     hdrs.addEventListener('touchend',function(e){
       e.preventDefault();
-      e.stopPropagation();
+      //e.stopPropagation();
       var br = hdrs.getBoundingClientRect();
       var te = e.changedTouches[0];
       te.offsetX = te.clientX - br.left;
@@ -270,7 +270,7 @@ function eventListeners(){
     document.querySelector('.deletel').addEventListener('click',checkDelete);
   }
   function loadDoc(){
-    //console.log("Document load");
+    console.log("Document load");
     var imageEl = document.querySelector('#theimage');
     var iWidth = imageEl.width;
     var iHeight = imageEl.height;
@@ -278,7 +278,7 @@ function eventListeners(){
       iHeight = (iHeight/iWidth)*1000;
       iWidth = 1000;
     }
-    //console.log(iWidth,iHeight);
+    console.log(iWidth,iHeight);
     setup(iWidth,iHeight,imageEl);
   }
   function uploadMedia(){

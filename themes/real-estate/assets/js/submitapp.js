@@ -62,7 +62,7 @@ angular.module('submitForm',['ui.tinymce'])
 					$('.requird_msg').delay(1000).fadeOut();
 					return false;
 				}
-				editor.insertContent( '<img width="' + e.data.image_width + '" height="' + e.data.image_height + '" src="' + e.data.img_url + '" alt="upload image" />');
+				editor.insertContent( '<img width="' + e.data.image_width + '" height="' + e.data.image_height + '" src="' + e.data.img_url + '" data-mce-src="' + e.data.img_url + '" style="width:' + e.data.image_width + '" alt="upload image" />');
 			}
 		});
 		}
@@ -104,7 +104,7 @@ angular.module('submitForm',['ui.tinymce'])
 				},
 			],
 			onsubmit: function( e ) {
-				editor.insertContent( '<img width="' + e.data.image_width + '" height="' + e.data.image_height + '" src="' + e.data.img_url + '" alt="upload image" />');
+				editor.insertContent( '<img width="' + e.data.image_width + '" height="' + e.data.image_height + '" src="' + e.data.img_url + '" data-mce-src="' + e.data.img_url + '" style="width:' + e.data.image_width + '" alt="upload image" />');
 			}
 		});
 		}
@@ -146,7 +146,7 @@ angular.module('submitForm',['ui.tinymce'])
 				},
 			],
 			onsubmit: function( e ) {
-				editor.insertContent( '<img width="' + e.data.image_width + '" height="' + e.data.image_height + '" src="' + e.data.img_url + '" alt="upload image" />');
+				editor.insertContent( '<img width="' + e.data.image_width + '" height="' + e.data.image_height + '" src="' + e.data.img_url + '" data-mce-src="' + e.data.img_url + '" style="width:' + e.data.image_width + '" alt="upload image" />');
 			}
 		});
 		}

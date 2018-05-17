@@ -236,7 +236,7 @@ function eventListeners(){
     hdrs.addEventListener('mousemove',mouseMoveFunction);
     hdrs.addEventListener('touchstart',function(e){
       e.preventDefault();
-      e.stopPropagation();
+      //e.stopPropagation();
       var br = hdrs.getBoundingClientRect();
       var te = e.changedTouches[0];
       te.offsetX = te.clientX - br.left;
@@ -245,7 +245,7 @@ function eventListeners(){
     });
     hdrs.addEventListener('touchmove',function(e){
       e.preventDefault();
-      e.stopPropagation();
+      //e.stopPropagation();
       var br = hdrs.getBoundingClientRect();
       var te = e.changedTouches[0];
       te.offsetX = te.clientX - br.left;
@@ -254,7 +254,7 @@ function eventListeners(){
     });
     hdrs.addEventListener('touchend',function(e){
       e.preventDefault();
-      e.stopPropagation();
+      //e.stopPropagation();
       var br = hdrs.getBoundingClientRect();
       var te = e.changedTouches[0];
       te.offsetX = te.clientX - br.left;

@@ -94,3 +94,6 @@
     padding: 6px 6px;
 }
 .mobile-view-user a,.desktop-view-user a{text-decoration:none;}
+.report-table{width:75%;margin:0 auto;display:none;}
+.report-table td,.report-table th{border-bottom: 1px dotted #ccc;padding:0 5px;}
+.print_pdf_footer{width:379px;margin:0 auto;text-align:center;display:none;}

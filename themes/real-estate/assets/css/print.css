@@ -28,7 +28,8 @@ table.table-bordered tbody td.course-field {
 .printShow{visibility:visible;}
 .section-false{display:none;}
 .section-.ng-hide,.commentBoxItem.ng-hide{display:none;}
-input[type='checkbox'] {display:none;}
+/*input[type='checkbox'] {display:none;}*/
+.report-table,.print_pdf_footer{display:block!important;}
 /*for chrome*/
 @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) {
     #drlistDivTbl,#printAreaDiv {

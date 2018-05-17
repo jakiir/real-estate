@@ -37,6 +37,9 @@ get_header('form-viewer'); ?>
 	$user_id = get_current_user_id();
 	$table_inspection = $wpdb->prefix . 'inspection';
 	$get_inspection = $wpdb->get_results( "SELECT * FROM $table_inspection WHERE id=$report_id", OBJECT );
+	
+	$table_template = $wpdb->prefix . 'template';	
+	$form_data = $wpdb->get_results( "SELECT * FROM $table_template WHERE id=$template_id", OBJECT );
 ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/fa/css/font-awesome.min.css">
 <div class="container" ng-controller="submissonForm">
@@ -64,10 +67,54 @@ get_header('form-viewer'); ?>
         </div>
       </div>
     </header>*/?>
+	
+	<table class="report-table">
+		<tr>
+			<th align="right">Company </th>
+			<td align="left">:</td>
+			<td align="left"><?php echo $get_inspection[0]->company; ?></td>
+			<th align="right">Date</th>
+			<td align="left">:</td>
+			<td align="left"><?php echo $get_inspection[0]->inpection_date; ?></td>
+		</tr>
+		<tr>
+			<th align="right">Report Identification</th>
+			<td align="left">:</td>
+			<td align="left"><?php echo $get_inspection[0]->report_identification; ?></td>
+			<th align="right">Template</th>
+			<td align="left">:</td>
+			<td align="left"><?php echo $form_data[0]->name; ?></td>
+		</tr>
+		<tr>
+			<th align="right">Prepared For</th>
+			<td align="left">:</td>
+			<td align="left"><?php echo $get_inspection[0]->prepared_for; ?></td>
+			<th align="right">Prepared By</th>
+			<td align="left">:</td>
+			<td align="left"><?php echo $get_inspection[0]->prepared_by; ?></td>
+		</tr>
+		<tr>
+			<th align="right">Time In</th>
+			<td align="left">:</td>
+			<td align="left"><?php echo $get_inspection[0]->time_in; ?></td>
+			<th align="right">Time Out</th>
+			<td align="left">:</td>
+			<td align="left"><?php echo $get_inspection[0]->time_out; ?></td>
+		</tr>
+		<tr>
+			<th align="right">Ocuppied or Vacant</th>
+			<td align="left">:</td>
+			<td align="left"><?php echo $get_inspection[0]->inspection_status; ?></td>
+			<th align="right">&nbsp;</th>
+			<td align="right">&nbsp;</td>
+			<td align="right">&nbsp;</td>
+		</tr>
+	</table>
+	
     <form class="theform">
       <div ng-repeat="section in form">
-	  <div ng-show="section.children[1] ? true : false" ng-bind-html="section.children[0][0][0].data"></div>
-	  <div ng-repeat="child in section.children" ng-show="section.children[1] ? false : true">
+	  <div ng-show="section.children[1] ? true : false" ng-bind-html="section.children[0][0][0].data" class="commentBoxItem"></div>
+	  <div ng-repeat="child in section.children" ng-show="section.children[1] ? false : true" class="commentBoxItem">
 			<div class="">
 				<div class="row" ng-repeat="child in section.children">
 				  <div class="col" ng-repeat="controls in child">
@@ -115,6 +162,15 @@ get_header('form-viewer'); ?>
         </div>
       </div>
     </form>
+	
+	<div class="print_pdf_footer">
+		Elite Inspection Group, LLC<br>
+		Administrative office and mailing address<br>
+		PO Box 2205 Frisco, TX 75034<br>
+		469-818-5500<br>
+		<a href="mailto:admin@eiginspection.com">admin@eiginspection.com</a> <a href="www.eigdallas.com">www.eigdallas.com</a>
+	</div>
+	
 </div>
 	<?php if($report_id){ ?>
     <div class="actions">
@@ -138,9 +194,6 @@ get_header('form-viewer'); ?>
   </div>
 <?php get_footer(); ?>
 <?php 
-	global $wpdb;
-	$table_template = $wpdb->prefix . 'template';	
-	$form_data = $wpdb->get_results( "SELECT * FROM $table_template WHERE id=$template_id", OBJECT );
 	if(empty($saved)){
 		$table_template_detail = $wpdb->prefix . 'template_detail';
 		$get_template_detail = $wpdb->get_results( "SELECT * FROM $table_template_detail WHERE template_id=$template_id", OBJECT );
