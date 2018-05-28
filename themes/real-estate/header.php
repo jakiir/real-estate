@@ -63,14 +63,14 @@
 			if (is_user_logged_in()) {
 			if(!empty($user) && $user->roles[0] != 'administrator'){
 		  ?>
-				<li><a href="javascript:void(0)"><?php the_title(); ?></a></li>
-				<li class="<?php if(is_page('perform-inspection')) echo 'active'; ?>"><a href="<?php echo home_url('/perform-inspection/'); ?>">Home</a></li>
+				<?php /* ?><li><a href="javascript:void(0)"><?php the_title(); ?></a></li><?php */ ?>
+				<li class=""><a href="<?php echo home_url('/perform-inspection/'); ?>">Home</a></li>
 				<li class="<?php if(is_page('perform-inspection')) echo 'active'; ?>"><a href="<?php echo home_url('/perform-inspection/'); ?>">Perform inspection</a></li>
 				<li class="<?php if(is_page('completed-inspections')) echo 'active'; ?>"><a href="<?php echo home_url('/completed-inspections/'); ?>">Completed inspections</a></li>
 			<?php } else { ?>
-				<li><a href="javascript:void(0)"><?php the_title(); ?></a></li>
-				<li class="<?php if(is_page('template')) echo 'active'; ?>"><a href="<?php echo home_url('/template/'); ?>">Home</a></li>
-				<li class="<?php if(is_page('perform-inspection')) echo 'active'; ?>"><a href="<?php echo home_url('/perform-inspection/'); ?>">Perform inspection</a></li>
+				<?php /* ?><li><a href="javascript:void(0)"><?php the_title(); ?></a></li><?php */ ?>
+				<li><a href="<?php echo home_url('/template/'); ?>">Home</a></li>
+				<li class=""><a href="<?php echo home_url('/perform-inspection/'); ?>">Perform inspection</a></li>
 				<li class="<?php if(is_page('completed-inspections')) echo 'active'; ?>"><a href="<?php echo home_url('/completed-inspections/'); ?>">Completed inspections</a></li>
 				<li class="<?php if(is_page('template')) echo 'active'; ?>"><a href="<?php echo home_url('/template/'); ?>">Template</a></li>
 			<?php } ?>

@@ -11,149 +11,48 @@ angular.module('submitForm',['ui.tinymce'])
 	toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table | fontsizeselect,addMedia annotateImage surveyDrawing',
 	setup: function (editor) {
     editor.addButton('addMedia', {
-      text: 'Add Media',
+      text: 'Add Image',
       icon: 'image',
-      onclick: function () {		 
-		editor.windowManager.open( {
-			title: 'Insert Media',
-			body: [
-				{
-					type: 'textbox',
-					name: 'img_url',
-					label: 'Image',
-					value: '',
-					classes: 'media_input_image',
+      onclick: function () {
+			var custom_uploader = wp.media.frames.file_frame = wp.media({
+				title: 'Select Image',
+				button: {
+					text: 'Add Image'
 				},
-				{
-					type: 'textbox',
-					name: 'image_width',
-					label: 'Width',
-					value: '100px',
-					classes: 'media_image_width',
-				},
-				{
-					type: 'textbox',
-					name: 'image_height',
-					label: 'Height',
-					value: '100px',
-					classes: 'media_image_height',
-				},
-				{
-					type: 'button',
-					name: 'media_upload_button_tem',
-					label: '',
-					text: 'Upload image',
-					classes: 'media_upload_button_tem',
-				},
-			],
-			onsubmit: function( e ) {
-				if(e.data.img_url == ''){
-					$('.mce-media_input_image').after('<div class="requird_msg">Requird field</div>');
-					$('.requird_msg').delay(1000).fadeOut();
-					return false;
-				}
-				if(e.data.image_width == ''){
-					$('.mce-media_image_width').after('<div class="requird_msg">Requird field</div>');
-					$('.requird_msg').delay(1000).fadeOut();
-					return false;
-				}
-				if(e.data.image_height == ''){
-					$('.mce-media_image_height').after('<div class="requird_msg">Requird field</div>');
-					$('.requird_msg').delay(1000).fadeOut();
-					return false;
-				}
-				editor.insertContent( '<img width="' + e.data.image_width + '" height="' + e.data.image_height + '" src="' + e.data.img_url + '" data-mce-src="' + e.data.img_url + '" style="width:' + e.data.image_width + '" alt="upload image" />');
-			}
-		});
+				multiple: false
+			});
+			custom_uploader.on('select', function() {
+				var attachment = custom_uploader.state().get('selection').first().toJSON();
+				
+				editor.insertContent( '<img width="200px" height="auto" src="' + attachment.url + '" data-mce-src="' + attachment.url + '" style="width:200px;" alt="upload image" />');
+			});
+			custom_uploader.open();
 		}
 	}),
 	editor.addButton('annotateImage', {
       text: 'Annotate Image',
       icon: 'image',
-      onclick: function () {		 
-		editor.windowManager.open( {
-			title: 'Insert Annotate Media',
-			body: [
-				{
-					type: 'textbox',
-					name: 'img_url',
-					label: 'Image',
-					value: '',
-					classes: 'media_input_image',
-				},
-				{
-					type: 'textbox',
-					name: 'image_width',
-					label: 'Width',
-					value: '100px',
-					classes: 'media_image_width',
-				},
-				{
-					type: 'textbox',
-					name: 'image_height',
-					label: 'Height',
-					value: '100px',
-					classes: 'media_image_height',
-				},
-				{
-					type: 'button',
-					name: 'annotate_upload_button_tem',
-					label: '',
-					text: 'Upload image',
-					classes: 'annotate_upload_button_tem',
-				},
-			],
-			onsubmit: function( e ) {
-				editor.insertContent( '<img width="' + e.data.image_width + '" height="' + e.data.image_height + '" src="' + e.data.img_url + '" data-mce-src="' + e.data.img_url + '" style="width:' + e.data.image_width + '" alt="upload image" />');
-			}
-		});
+      onclick: function () {
+		  window.open(site_url+'/canvas-drawing/?report=14&item=2&hash=1518713455636&saved=1&editor=yes#target='+site_url+'/wp-content/uploads/2018/05/download.png', '_blank', 'location=yes,height=1000,width=1000,scrollbars=yes,status=yes');
+		  window.insertAnnotateImage = function(imageUrl){
+			  console.log(imageUrl);
+			  editor.insertContent( '<img class="add_annotate_image" width="200px" height="auto" src="' + imageUrl + '" data-mce-src="' + imageUrl + '" style="width:200px;" alt="upload image" />');
+		  }
 		}
 	}),
 	editor.addButton('surveyDrawing', {
       text: 'Survey Drawing',
       icon: 'image',
-      onclick: function () {		 
-		editor.windowManager.open( {
-			title: 'Insert Survey Media',
-			body: [
-				{
-					type: 'textbox',
-					name: 'img_url',
-					label: 'Image',
-					value: '',
-					classes: 'media_input_image',
-				},
-				{
-					type: 'textbox',
-					name: 'image_width',
-					label: 'Width',
-					value: '100px',
-					classes: 'media_image_width',
-				},
-				{
-					type: 'textbox',
-					name: 'image_height',
-					label: 'Height',
-					value: '100px',
-					classes: 'media_image_height',
-				},
-				{
-					type: 'button',
-					name: 'survey_upload_button_tem',
-					label: '',
-					text: 'Upload image',
-					classes: 'survey_upload_button_tem',
-				},
-			],
-			onsubmit: function( e ) {
-				editor.insertContent( '<img width="' + e.data.image_width + '" height="' + e.data.image_height + '" src="' + e.data.img_url + '" data-mce-src="' + e.data.img_url + '" style="width:' + e.data.image_width + '" alt="upload image" />');
+      onclick: function () {
+			window.open(site_url+'/design-draw/?report=14&item=2&hash=1518713455636&saved=1&editor=yes', '_blank', 'location=yes,height=1000,width=1000,scrollbars=yes,status=yes');
+		
+			window.insertSurveyDrawing = function(imageUrl){
+			  editor.insertContent( '<img class="add_annotate_image" width="200px" height="auto" src="' + imageUrl + '" data-mce-src="' + imageUrl + '" style="width:200px;" alt="upload image" />');
 			}
-		});
 		}
 	})
 	}
   };
-
   $scope.formBlueprint=formBlueprint;
   $scope.form = transform(formBlueprint);
   $scope.formInfo = formInfo[0];
@@ -423,7 +322,7 @@ jQuery(document).ready(function($){
 	
 	$(document).on('click', '.mce-annotate_upload_button_tem',function(e){
 		e.preventDefault();
-		window.open(site_url+'/canvas-drawing/?report=14&item=2&hash=1518713455636&saved=1&editor=yes#target=http://localhost/mehedi/real-estate/wp-content/uploads/2018/04/1524674598.png', '_blank', 'location=yes,height=1000,width=1000,scrollbars=yes,status=yes');
+		window.open(site_url+'/canvas-drawing/?report=14&item=2&hash=1518713455636&saved=1&editor=yes#target='+site_url+'/wp-content/uploads/2018/05/download.png', '_blank', 'location=yes,height=1000,width=1000,scrollbars=yes,status=yes');
 	});
 	$(document).on('click', '.mce-survey_upload_button_tem',function(e){
 		e.preventDefault();

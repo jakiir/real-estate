@@ -215,8 +215,9 @@ function eventListeners(){
 					window.location.href = parsedJson.redirect_url;
 				}
 				if(editor == 'yes'){
-					var $input_field = window.opener.$('.mce-media_input_image');
-					$input_field.val(parsedJson.attachemntUrl);
+					//var $input_field = window.opener.$('.mce-media_input_image');
+					//$input_field.val(parsedJson.attachemntUrl);
+					opener.insertAnnotateImage(parsedJson.attachemntUrl);
 					// Close the popup
 					window.close();
 				}

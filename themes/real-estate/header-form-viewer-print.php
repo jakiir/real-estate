@@ -37,15 +37,15 @@
 			$user = wp_get_current_user();
 			if(!empty($user) && $user->roles[0] != 'administrator'){
 		  ?>
-				<li class="active"><a href="<?php echo home_url('/completed-inspections/'); ?>">Back</a></li>
+				<li><a href="<?php echo home_url('/completed-inspections/'); ?>">Back</a></li>
 			<?php } else { ?>
-				<li class="active"><a href="<?php echo home_url('/template/'); ?>">Back</a></li>
+				<li><a href="<?php echo home_url('/template/'); ?>">Back</a></li>
 			<?php } ?>
 			<li><a href="#" role="button" id="printDrBtn" class=""><i class="fa fa-print" aria-hidden="true"></i> Print</a></li>
 			<?php } ?>
 		</ul>
 		<?php if (is_user_logged_in()) { ?>
-			<span class="desktop-view-user">
+			<span class="desktop-view-user" style="float:right;line-height:46px;">
 				<?php if(!empty($user) && $user->roles[0] == 'administrator'){
 						$adminUrl = admin_url();
 						echo '<a href="'.$adminUrl.'">'.$user->display_name.'</a>'; 

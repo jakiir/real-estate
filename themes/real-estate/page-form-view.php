@@ -67,10 +67,17 @@ get_header('form-viewer'); ?>
         </div>
       </div>
     </header>*/?>
-	
 	<table class="report-table">
 		<tr>
-			<th align="right">Company </th>
+			<th align="right" colspan="2" style="padding-bottom:10px;">
+				<img src="<?php echo !empty($form_data[0]->logo_url) ? $form_data[0]->logo_url : '//placehold.it/200'; ?>" class="avatar img-responsive" alt="avatar" style="width:150px;">
+			</th>
+			<td align="left" colspan="4" style="text-transform:uppercase;"><?php echo $form_data[0]->name; ?> Report</td>
+		</tr>
+	</table>
+	<table class="report-table report-info">
+		<tr>
+			<th align="right" style="padding-top:10px;">Company </th>
 			<td align="left">:</td>
 			<td align="left"><?php echo $get_inspection[0]->company; ?></td>
 			<th align="right">Date</th>
@@ -102,7 +109,7 @@ get_header('form-viewer'); ?>
 			<td align="left"><?php echo $get_inspection[0]->time_out; ?></td>
 		</tr>
 		<tr>
-			<th align="right">Ocuppied or Vacant</th>
+			<th align="right" style="padding-bottom:10px;">Ocuppied or Vacant</th>
 			<td align="left">:</td>
 			<td align="left"><?php echo $get_inspection[0]->inspection_status; ?></td>
 			<th align="right">&nbsp;</th>
@@ -112,7 +119,7 @@ get_header('form-viewer'); ?>
 	</table>
 	
     <form class="theform">
-      <div ng-repeat="section in form">
+      <div ng-repeat="section in form" class="mainSection">
 	  <div ng-show="section.children[1] ? true : false" ng-bind-html="section.children[0][0][0].data" class="commentBoxItem"></div>
 	  <div ng-repeat="child in section.children" ng-show="section.children[1] ? false : true" class="commentBoxItem">
 			<div class="">
@@ -141,12 +148,12 @@ get_header('form-viewer'); ?>
 				</div>
 				<div class="subsectionbody" ng-show="child.expanded">				
 					<div class="formcontrol number" ng-if="child.subsection[0].type=='subsection'">
-					  <h2>{{child.subsection[0].label}}</h2>
+					  <?php /*<h2>{{child.subsection[0].label}}</h2>*/?>
 					  <div>  
-						<input type="checkbox" ng-model="child.subsection[0].status1" value="child.subsection[0].status1" ng-checked="child.subsection[0].status1"> Inspected
-						<input type="checkbox" ng-model="child.subsection[0].status2" value="child.subsection[0].status2" ng-checked="child.subsection[0].status2"> Not Inspected
-						<input type="checkbox" ng-model="child.subsection[0].status3" value="child.subsection[0].status3" ng-checked="child.subsection[0].status3"> Not Present
-						<input type="checkbox" ng-model="child.subsection[0].status4" value="child.subsection[0].status4" ng-checked="child.subsection[0].status4"> Deficient
+						<input type="checkbox" ng-model="child.subsection[0].status1" value="child.subsection[0].status1" ng-checked="{{child.subsection[0].status1}}"> Inspected
+						<input type="checkbox" ng-model="child.subsection[0].status2" value="child.subsection[0].status2" ng-checked="{{child.subsection[0].status2}}"> Not Inspected
+						<input type="checkbox" ng-model="child.subsection[0].status3" value="child.subsection[0].status3" ng-checked="{{child.subsection[0].status3}}"> Not Present
+						<input type="checkbox" ng-model="child.subsection[0].status4" value="child.subsection[0].status4" ng-checked="{{child.subsection[0].status4}}"> Deficient
 					  </div>
 					</div>
 					<div class="row" ng-repeat="controls in child.children">
