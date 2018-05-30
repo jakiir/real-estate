@@ -43,6 +43,9 @@ function eventListeners(){
     isDrawing=false;
     initX = 0;
     initY = 0;
+    if (tools[currentTool].boomerang) {
+      changeTool("pointer");
+    }
   }
   function mouseMoveFunction(e){
     var x = null;
@@ -135,18 +138,19 @@ function eventListeners(){
       }
       if(theEl.tool=='text'){
         document.querySelector('.prefeditor').style.display='block';
+		document.querySelector('.tfvalue').value=theEl.text || "";
       }
       else{
         document.querySelector('.prefeditor').style.display='none';
       }
     });
-    document.querySelector('.textupdatebtn')
-      .addEventListener('click',function(){
+    function updateText(){
         var activeObj = drawingFab.getActiveObject();
         if(!activeObj){
           document.querySelector('.prefeditor').style.display='none';
           return false;
         }
+        //console.log(activeObj);
         var theEl = layers.filter(function(el){
           return el.uuid==activeObj.uuid;
         })[0];
@@ -155,10 +159,18 @@ function eventListeners(){
         }
         theEl.text=document.querySelector('.tfvalue').value;
         reDraw();
-      });
+      }
+    document.querySelector('.textupdatebtn')
+      .addEventListener('click',updateText);
+    document.querySelector('.tfvalue')
+      .addEventListener('keyup',function(e){
+        if(e.keyCode===13){
+          updateText();
+        }
+      })
     function checkDelete(e){
       if(e.key){
-        if(e.key.toLowerCase()!='backspace' && e.keyCode != 46) return false;
+        if(e.key.toLowerCase()!='delete' && e.keyCode != 46) return false;
       }
       var activeObj = drawingFab.getActiveObject();
       if(!activeObj){

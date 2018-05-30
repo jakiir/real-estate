@@ -28,6 +28,15 @@ angular.module('drawing',[])
     //console.log(tools[currentTool]);
     canvasResolve();
   }
+  window.changeTool = function(tool){
+    $scope.toolAlter(tool);
+    try{
+      $scope.$apply()
+    }
+    catch(e){
+      console.log(e);
+    }
+  }
   $scope.changeGridSize = function(){
     globalGridSize = +$scope.grid;
     createGrid(globalGridSize);
