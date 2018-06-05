@@ -13,6 +13,9 @@
 <!doctype html>
 <html <?php language_attributes(); ?>>
 <head>
+	<meta http-equiv='cache-control' content='no-cache'>
+	<meta http-equiv='expires' content='0'>
+	<meta http-equiv='pragma' content='no-cache'>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<title>Form[todo:Replace with Form title]</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,6 +27,11 @@
 </head>
 
 <body ng-app="submitForm">
+<div id="incipitContent" style="background-color: rgb(236, 240, 241);display: flex;opacity:1;">
+	<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/solid_snake.svg">
+	<p style="font-style: italic">Loading...</p>
+	<blockquote style="border-top: 1px solid rgb(204, 204, 204); border-bottom: 1px solid rgb(204, 204, 204); opacity: 0;"></blockquote>
+</div>
 <div id="page" class="site">
 	<div id="content" class="site-content">
 	<nav class="navbar navbar-default">
@@ -51,16 +59,16 @@
 			$user = wp_get_current_user();
 			if(!empty($user) && $user->roles[0] != 'administrator'){
 		  ?>
-				<li><a href="javascript:void(0)"><?php the_title(); ?></a></li>
-				<li class="active"><a href="<?php echo home_url('/perform-inspection/'); ?>">Home</a></li>
-				<li><a href="<?php echo home_url('/perform-inspection/'); ?>">Perform inspection</a></li>
-				<li><a href="<?php echo home_url('/completed-inspections/'); ?>">Completed inspections</a></li>
+				<?php /* ?><li><a href="javascript:void(0)"><?php the_title(); ?></a></li><?php */ ?>
+				<li><a href="<?php echo home_url('/perform-inspection/'); ?>">Home</a></li>
+				<li class="<?php if(is_page('perform-inspection')) echo 'active'; ?>"><a href="<?php echo home_url('/perform-inspection/'); ?>">Perform inspection</a></li>
+				<li class="<?php if(is_page('completed-inspections')) echo 'active'; ?>"><a href="<?php echo home_url('/completed-inspections/'); ?>">Completed inspections</a></li>
 			<?php } else { ?>
-				<li><a href="javascript:void(0)"><?php the_title(); ?></a></li>
-				<li class="active"><a href="<?php echo home_url('/template/'); ?>">Home</a></li>
-				<li><a href="<?php echo home_url('/perform-inspection/'); ?>">Perform inspection</a></li>
-				<li><a href="<?php echo home_url('/completed-inspections/'); ?>">Completed inspections</a></li>
-				<li><a href="<?php echo home_url('/template/'); ?>">Template</a></li>
+				<?php /* ?><li><a href="javascript:void(0)"><?php the_title(); ?></a></li><?php */ ?>
+				<li><a href="<?php echo home_url('/template/'); ?>">Home</a></li>
+				<li class="<?php if(is_page('perform-inspection')) echo 'active'; ?>"><a href="<?php echo home_url('/perform-inspection/'); ?>">Perform inspection</a></li>
+				<li class="<?php if(is_page('completed-inspections')) echo 'active'; ?>"><a href="<?php echo home_url('/completed-inspections/'); ?>">Completed inspections</a></li>
+				<li class="<?php if(is_page('template')) echo 'active'; ?>"><a href="<?php echo home_url('/template/'); ?>">Template</a></li>
 			<?php } ?>
 			<li><a href="#" role="button" id="printDrBtn" class=""><i class="fa fa-print" aria-hidden="true"></i> Print</a></li>
 		  <li><a class="login_button" href="<?php echo wp_logout_url( home_url() ); ?>">Logout</a></li>

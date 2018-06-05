@@ -37,6 +37,9 @@ get_header('form-viewer'); ?>
 	$user_id = get_current_user_id();
 	$table_inspection = $wpdb->prefix . 'inspection';
 	$get_inspection = $wpdb->get_results( "SELECT * FROM $table_inspection WHERE id=$report_id", OBJECT );
+	
+	$table_template = $wpdb->prefix . 'template';	
+	$form_data = $wpdb->get_results( "SELECT * FROM $table_template WHERE id=$template_id", OBJECT );
 ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/fa/css/font-awesome.min.css">
 <div class="container" ng-controller="submissonForm">
@@ -45,28 +48,71 @@ get_header('form-viewer'); ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/submitform_controls.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/custom.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/css/responsive.css">
-<!--<script type="text/javascript" src="<?php //echo esc_url( get_template_directory_uri() ); ?>/js/jquery.min.js"></script>-->
-    <?php /*<header>
-      <div class="stdfields">
-        <div class="fieldrow bordered">
-          <div class="fieldcol">
-            <p>Report Identification :</p>
-            <input type="text" readonly value="<?php echo $get_inspection[0]->report_identification; ?>">
-			<p>By:</p>
-            <input type="text" readonly value="<?php echo $get_inspection[0]->prepared_by; ?>">
-          </div>
-          <div class="fieldcol">
-            <p>Prepared For:</p>
-            <input type="text" readonly value="<?php echo $get_inspection[0]->prepared_for; ?>">
-			<p>License:</p>
-            <input type="text" ng-model="formBlueprint.license">
-          </div>
-        </div>
-      </div>
-    </header>*/?>
+	<table class="report-table">
+		<tr>
+			<th align="right" colspan="2" style="padding-bottom:10px;">
+				<img src="<?php echo !empty($form_data[0]->logo_url) ? $form_data[0]->logo_url : '//placehold.it/200'; ?>" class="avatar img-responsive" alt="avatar" style="width:150px;">
+			</th>
+			<td align="left" colspan="4" style="text-transform:uppercase;"><?php echo $form_data[0]->name; ?> Report</td>
+		</tr>
+	</table>
+	<table class="report-table report-info">
+		<tr>
+			<th align="right" style="padding-top:10px;">Company </th>
+			<td align="left">:</td>
+			<td align="left"><?php echo $get_inspection[0]->company; ?></td>
+			<th align="right">Date</th>
+			<td align="left">:</td>
+			<td align="left"><?php echo $get_inspection[0]->inpection_date; ?></td>
+		</tr>
+		<tr>
+			<th align="right">Report Identification</th>
+			<td align="left">:</td>
+			<td align="left"><?php echo $get_inspection[0]->report_identification; ?></td>
+			<th align="right">Template</th>
+			<td align="left">:</td>
+			<td align="left"><?php echo $form_data[0]->name; ?></td>
+		</tr>
+		<tr>
+			<th align="right">Prepared For</th>
+			<td align="left">:</td>
+			<td align="left"><?php echo $get_inspection[0]->prepared_for; ?></td>
+			<th align="right">Prepared By</th>
+			<td align="left">:</td>
+			<td align="left"><?php echo $get_inspection[0]->prepared_by; ?></td>
+		</tr>
+		<tr>
+			<th align="right">Time In</th>
+			<td align="left">:</td>
+			<td align="left"><?php echo $get_inspection[0]->time_in; ?></td>
+			<th align="right">Time Out</th>
+			<td align="left">:</td>
+			<td align="left"><?php echo $get_inspection[0]->time_out; ?></td>
+		</tr>
+		<tr>
+			<th align="right" style="padding-bottom:10px;">Ocuppied or Vacant</th>
+			<td align="left">:</td>
+			<td align="left"><?php echo $get_inspection[0]->inspection_status; ?></td>
+			<th align="right">&nbsp;</th>
+			<td align="right">&nbsp;</td>
+			<td align="right">&nbsp;</td>
+		</tr>
+	</table>
+	
     <form class="theform">
-      <div ng-repeat="section in form">
-	  <div ng-bind-html="section.children[0][0][0].data"></div>
+      <div ng-repeat="section in form" class="mainSection">
+	  <div ng-show="section.children[1] ? true : false" ng-bind-html="section.children[0][0][0].data" class="commentBoxItem"></div>
+	  <div ng-repeat="child in section.children" ng-show="section.children[1] ? false : true" class="commentBoxItem">
+			<div class="">
+				<div class="row" ng-repeat="child in section.children">
+				  <div class="col" ng-repeat="controls in child">
+					<div ng-repeat="control in controls">
+					  <div ng-include="'<?php echo esc_url( home_url('/submition-controls/?report='.$report_id.'&saved='.$saved.'&item='.$template_id.'&att='.$att.'&hash='.$hash_id) ); ?>'"></div>
+					</div>
+				  </div>
+				</div>
+			</div>
+		</div>
         <div class="section">
           <div class="sectionhead section-{{$index}} {{section.display}}" ng-click="section.expanded=!section.expanded">
             <h2>{{section.section.label}}</h2>
@@ -83,12 +129,12 @@ get_header('form-viewer'); ?>
 				</div>
 				<div class="subsectionbody" ng-show="child.expanded">				
 					<div class="formcontrol number" ng-if="child.subsection[0].type=='subsection'">
-					  <h2>{{child.subsection[0].label}}</h2>
+					  <?php /*<h2>{{child.subsection[0].label}}</h2>*/?>
 					  <div>  
-						<input type="checkbox" ng-model="child.subsection[0].status1" value="child.subsection[0].status1" ng-checked="child.subsection[0].status1"> Inspected
-						<input type="checkbox" ng-model="child.subsection[0].status2" value="child.subsection[0].status2" ng-checked="child.subsection[0].status2"> Not Inspected
-						<input type="checkbox" ng-model="child.subsection[0].status3" value="child.subsection[0].status3" ng-checked="child.subsection[0].status3"> Not Present
-						<input type="checkbox" ng-model="child.subsection[0].status4" value="child.subsection[0].status4" ng-checked="child.subsection[0].status4"> Deficient
+						<input type="checkbox" ng-model="child.subsection[0].status1" value="child.subsection[0].status1" ng-checked="{{child.subsection[0].status1}}"> Inspected
+						<input type="checkbox" ng-model="child.subsection[0].status2" value="child.subsection[0].status2" ng-checked="{{child.subsection[0].status2}}"> Not Inspected
+						<input type="checkbox" ng-model="child.subsection[0].status3" value="child.subsection[0].status3" ng-checked="{{child.subsection[0].status3}}"> Not Present
+						<input type="checkbox" ng-model="child.subsection[0].status4" value="child.subsection[0].status4" ng-checked="{{child.subsection[0].status4}}"> Deficient
 					  </div>
 					</div>
 					<div class="row" ng-repeat="controls in child.children">
@@ -104,6 +150,15 @@ get_header('form-viewer'); ?>
         </div>
       </div>
     </form>
+	
+	<div class="print_pdf_footer">
+		Elite Inspection Group, LLC<br>
+		Administrative office and mailing address<br>
+		PO Box 2205 Frisco, TX 75034<br>
+		469-818-5500<br>
+		<a href="mailto:admin@eiginspection.com">admin@eiginspection.com</a> <a href="www.eigdallas.com">www.eigdallas.com</a>
+	</div>
+	
 </div>
 	<?php if($report_id){ ?>
     <div class="actions">
@@ -111,20 +166,16 @@ get_header('form-viewer'); ?>
       <div class="button primary saveChanges" ng-click="submitData(1,'','')">
         <i class="fa fa-floppy-o" aria-hidden="true"></i> Save Changes
       </div>
-      <!--<div class="button secondary">
-        Draft
-      </div>
-      <div class="button negative">
-        Discard
-      </div>-->
     </div>
+	<?php } else { ?>
+		<style>
+		.fileinput{display:none;}
+		.wysiwygpretend .button{display:none;}
+		</style>
 	<?php } ?>
   </div>
 <?php get_footer(); ?>
 <?php 
-	global $wpdb;
-	$table_template = $wpdb->prefix . 'template';	
-	$form_data = $wpdb->get_results( "SELECT * FROM $table_template WHERE id=$template_id", OBJECT );
 	if(empty($saved)){
 		$table_template_detail = $wpdb->prefix . 'template_detail';
 		$get_template_detail = $wpdb->get_results( "SELECT * FROM $table_template_detail WHERE template_id=$template_id", OBJECT );
@@ -166,7 +217,7 @@ get_header('form-viewer'); ?>
 				loadCSS: "<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/print.css",
 				importCSS: false,
 				copyTagClasses: false,
-				printDelay: 3000,
+				printDelay: 500,
 				debug:false
 
 			});

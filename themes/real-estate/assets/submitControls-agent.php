@@ -64,10 +64,10 @@
 <div ng-show="false" class="formcontrol number" ng-if="control.type=='subsection'">
   <h2>{{control.label}}</h2>
   <div>  
-	<input type="checkbox" ng-model="control.status1" value="control.status1" ng-checked="control.status1"> Inspected
-    <input type="checkbox" ng-model="control.status2" value="control.status2" ng-checked="control.status2"> Not Inspected
-    <input type="checkbox" ng-model="control.status3" value="control.status3" ng-checked="control.status3"> Not Present
-    <input type="checkbox" ng-model="control.status4" value="control.status4" ng-checked="control.status4"> Deficient
+	<input type="checkbox" ng-model="control.status1" value="control.status1" ng-checked="{{control.status1}}"> Inspected
+    <input type="checkbox" ng-model="control.status2" value="control.status2" ng-checked="{{control.status2}}"> Not Inspected
+    <input type="checkbox" ng-model="control.status3" value="control.status3" ng-checked="{{control.status3}}"> Not Present
+    <input type="checkbox" ng-model="control.status4" value="control.status4" ng-checked="{{control.status4}}"> Deficient
   </div>
 </div>
 <!-- Paragraph -->
@@ -113,7 +113,7 @@
 </div>-->
 <!-- wysiwyg -->
 <div ng-show="control.comment1" class="formcontrol editor commentBoxItem" ng-if="control.type=='comment'">
-  <h4><input type="checkbox" id="{{control.htmlName}}" ng-click="commentListIsVisible=!commentListIsVisible" value="control.comment1" class="repair-print-{{commentListIsVisible}}"> <label class="repair-print-{{commentListIsVisible}}" for="{{control.htmlName}}">{{control.label}}</label></h4>
+  <h4><input type="checkbox" id="{{control.htmlName}}" ng-click="commentListIsClb(commentListIsVisible=!commentListIsVisible,$event)" value="control.comment1" class="repair-print-{{commentListIsVisible}}"> <label class="repair-print-{{commentListIsVisible}}" for="{{control.htmlName}}">{{control.label}}</label></h4>
   <?php /* ng-checked="control.comment1" ?><div class="editbutton" ng-click="control.editMode=true" ng-show="commentListIsVisible=control.comment1">
     <i ng-click="" class="fa fa-pencil"></i>
   </div><?php */?>

@@ -16,6 +16,9 @@
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="profile" href="http://gmpg.org/xfn/11">
+	<meta http-equiv='cache-control' content='no-cache'>
+	<meta http-equiv='expires' content='0'>
+	<meta http-equiv='pragma' content='no-cache'>
 
 	<?php //wp_head(); ?>
 	<?php $template_directory_uri = get_template_directory_uri(); ?>
@@ -60,14 +63,14 @@
 			if (is_user_logged_in()) {
 			if(!empty($user) && $user->roles[0] != 'administrator'){
 		  ?>
-				<li><a href="javascript:void(0)"><?php the_title(); ?></a></li>
-				<li class="<?php if(is_page('perform-inspection')) echo 'active'; ?>"><a href="<?php echo home_url('/perform-inspection/'); ?>">Home</a></li>
+				<?php /* ?><li><a href="javascript:void(0)"><?php the_title(); ?></a></li><?php */ ?>
+				<li class=""><a href="<?php echo home_url('/perform-inspection/'); ?>">Home</a></li>
 				<li class="<?php if(is_page('perform-inspection')) echo 'active'; ?>"><a href="<?php echo home_url('/perform-inspection/'); ?>">Perform inspection</a></li>
 				<li class="<?php if(is_page('completed-inspections')) echo 'active'; ?>"><a href="<?php echo home_url('/completed-inspections/'); ?>">Completed inspections</a></li>
 			<?php } else { ?>
-				<li><a href="javascript:void(0)"><?php the_title(); ?></a></li>
-				<li class="<?php if(is_page('template')) echo 'active'; ?>"><a href="<?php echo home_url('/template/'); ?>">Home</a></li>
-				<li class="<?php if(is_page('perform-inspection')) echo 'active'; ?>"><a href="<?php echo home_url('/perform-inspection/'); ?>">Perform inspection</a></li>
+				<?php /* ?><li><a href="javascript:void(0)"><?php the_title(); ?></a></li><?php */ ?>
+				<li><a href="<?php echo home_url('/template/'); ?>">Home</a></li>
+				<li class=""><a href="<?php echo home_url('/perform-inspection/'); ?>">Perform inspection</a></li>
 				<li class="<?php if(is_page('completed-inspections')) echo 'active'; ?>"><a href="<?php echo home_url('/completed-inspections/'); ?>">Completed inspections</a></li>
 				<li class="<?php if(is_page('template')) echo 'active'; ?>"><a href="<?php echo home_url('/template/'); ?>">Template</a></li>
 			<?php } ?>

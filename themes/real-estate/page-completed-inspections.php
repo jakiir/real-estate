@@ -147,7 +147,7 @@ $(document).ready(function() {
 	  
 	// Set up your table
 	table = $('#devTable').DataTable({
-		"iDisplayLength": 5
+		"iDisplayLength": 10
 	});
 
 	// Extend dataTables search

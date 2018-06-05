@@ -123,14 +123,14 @@
           Create Document
         </div>
       </div>
-      <div class="section text-center unfinished-title" ng-show="backupList.length">
+      <!--<div class="section text-center unfinished-title" ng-show="backupList.length">
         <p>Or Load An Unfinished one :</p>
       </div>
       <div class="unfinished">
         <p ng-repeat="backup in backupList" class="backupname" ng-click="loadBackup(backup)">
           {{backup}}
         </p>
-      </div>
+      </div>-->
     </div>
   </div>
 </div>

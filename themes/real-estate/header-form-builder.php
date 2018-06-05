@@ -13,6 +13,9 @@
 <!doctype html>
 <html <?php language_attributes(); ?>>
 <head>
+	<meta http-equiv='cache-control' content='no-cache'>
+	<meta http-equiv='expires' content='0'>
+	<meta http-equiv='pragma' content='no-cache'>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="profile" href="http://gmpg.org/xfn/11">
@@ -26,9 +29,9 @@
 	<div id="content" class="site-content">
 	<nav class="navbar navbar-default desktop-form-builder-menu" role="navigation">
 	  <div class="container">
-		<div class="navbar-header">
+		<?php /* ?><div class="navbar-header">
 		  <a class="navbar-brand" href="javascript:void(0)"><?php the_title(); ?></a>
-		</div>
+		</div><?php */ ?>
 		<div id="navbar" class="navbar-collapse collapse">
 		<ul class="nav navbar-nav">		  
 		  <?php 
@@ -36,7 +39,7 @@
 			$user = wp_get_current_user();
 			if(!empty($user) && $user->roles[0] != 'administrator'){
 		  ?>
-				<li class="<?php if(is_page('perform-inspection')) echo 'active'; ?>"><a href="<?php echo home_url('/perform-inspection/'); ?>">Home</a></li>
+				<li><a href="<?php echo home_url('/perform-inspection/'); ?>">Home</a></li>
 				<li class="<?php if(is_page('perform-inspection')) echo 'active'; ?>"><a href="<?php echo home_url('/perform-inspection/'); ?>">Perform inspection</a></li>
 				<li class="<?php if(is_page('completed-inspections')) echo 'active'; ?>"><a href="<?php echo home_url('/completed-inspections/'); ?>">Completed inspections</a></li>
 			<?php } else { ?>

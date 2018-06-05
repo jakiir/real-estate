@@ -28,6 +28,15 @@ angular.module('drawing',[])
     //console.log(tools[currentTool]);
     canvasResolve();
   }
+  window.changeTool = function(tool){
+    $scope.toolAlter(tool);
+    try{
+      $scope.$apply()
+    }
+    catch(e){
+      console.log(e);
+    }
+  }
   $scope.changeGridSize = function(){
     globalGridSize = +$scope.grid;
     createGrid(globalGridSize);
@@ -75,8 +84,8 @@ angular.module('drawing',[])
 				if(itemDraw.match(/^dbc_/)){					
 					$scope.backupList.push(itemDraw);
 					$('.unfinished-title').removeClass('ng-hide').addClass('ng-show');
-					var htmlEle = '<p class="backupname" onClick=loadBackupCus("'+itemDraw+'")>'+itemDraw+'</p>';
-					$('.unfinished').prepend(htmlEle);
+					//var htmlEle = '<p class="backupname" onClick=loadBackupCus("'+itemDraw+'")>'+itemDraw+'</p>';
+					//$('.unfinished').prepend(htmlEle);
 				}
 				//console.log($scope.backupList);
 			} else {

@@ -2,6 +2,7 @@ tools.text={
   name:"Text",
   icon:"fa-font",
   ghost:true,
+  boomerang:true,
   execute:function(ctx,attrs,fab){
     var dt = (attrs.data)?attrs.data:{};
     var mText = new fabric.Text(attrs.text?attrs.text:'Click to change',{

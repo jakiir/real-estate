@@ -8,7 +8,7 @@ body {
     size: auto;   /* auto is the initial value */
     margin: 0;  /* this affects the margin in the printer settings */
     margin-top: 20px;
-	margin-bottom:20px;
+	margin-bottom:50px;
 }
 
 #drlistDivTbl,#printAreaDiv {
@@ -27,8 +27,11 @@ table.table-bordered tbody td.course-field {
 .wysiwygpretend,.imgcomment{display:none;}
 .printShow{visibility:visible;}
 .section-false{display:none;}
-.section-.ng-hide,.commentBoxItem.ng-hide{display:none;}
-input[type='checkbox'] {display:none;}
+.section-.ng-hide,.commentBoxItem.ng-hide,.commentCheckbox{display:none;}
+/*input[type='checkbox'] {display:none;}*/
+.print_pdf_footer,.viewHide,#fullReportPrint{display:block!important;}
+.report-table{width:100%;display:table!important;}
+.mainSection:first-child{display:block!important;}
 /*for chrome*/
 @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) {
     #drlistDivTbl,#printAreaDiv {
