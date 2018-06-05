@@ -48,25 +48,6 @@ get_header('form-viewer'); ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/submitform_controls.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/custom.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/css/responsive.css">
-<!--<script type="text/javascript" src="<?php //echo esc_url( get_template_directory_uri() ); ?>/js/jquery.min.js"></script>-->
-    <?php /*<header>
-      <div class="stdfields">
-        <div class="fieldrow bordered">
-          <div class="fieldcol">
-            <p>Report Identification :</p>
-            <input type="text" readonly value="<?php echo $get_inspection[0]->report_identification; ?>">
-			<p>By:</p>
-            <input type="text" readonly value="<?php echo $get_inspection[0]->prepared_by; ?>">
-          </div>
-          <div class="fieldcol">
-            <p>Prepared For:</p>
-            <input type="text" readonly value="<?php echo $get_inspection[0]->prepared_for; ?>">
-			<p>License:</p>
-            <input type="text" ng-model="formBlueprint.license">
-          </div>
-        </div>
-      </div>
-    </header>*/?>
 	<table class="report-table">
 		<tr>
 			<th align="right" colspan="2" style="padding-bottom:10px;">
@@ -185,12 +166,6 @@ get_header('form-viewer'); ?>
       <div class="button primary saveChanges" ng-click="submitData(1,'','')">
         <i class="fa fa-floppy-o" aria-hidden="true"></i> Save Changes
       </div>
-      <!--<div class="button secondary">
-        Draft
-      </div>
-      <div class="button negative">
-        Discard
-      </div>-->
     </div>
 	<?php } else { ?>
 		<style>
@@ -242,7 +217,7 @@ get_header('form-viewer'); ?>
 				loadCSS: "<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/print.css",
 				importCSS: false,
 				copyTagClasses: false,
-				printDelay: 3000,
+				printDelay: 500,
 				debug:false
 
 			});

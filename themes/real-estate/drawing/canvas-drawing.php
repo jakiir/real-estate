@@ -102,10 +102,10 @@
           Create Document
         </div>
       </div>
-      <div class="section text-center unfinished-title" ng-show="backupList.length">
+      <!--<div class="section text-center unfinished-title" ng-show="backupList.length">
         <p>Or Load An Unfinished one :</p>
       </div>
-      <div class="unfinished"></div>
+      <div class="unfinished"></div>-->
     </div>
   </div>
 </div>

@@ -30,7 +30,6 @@ get_header('form-viewer-print'); ?>
 	$template_id = !empty($_GET['item']) ? $_GET['item'] : '';
 	$report_id = !empty($_GET['report']) ? $_GET['report'] : 0;
 	$saved = !empty($_GET['saved']) ? $_GET['saved'] : 0;
-	$att = !empty($_GET['att']) ? $_GET['att'] : '';
 	$hash_id = !empty($_GET['hash']) ? $_GET['hash'] : '';
 
 	global $wpdb;
@@ -47,25 +46,6 @@ get_header('form-viewer-print'); ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/form.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/submitform_controls.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/custom.css">
-<!--<script type="text/javascript" src="<?php //echo esc_url( get_template_directory_uri() ); ?>/js/jquery.min.js"></script>-->
-    <?php /* ?><header>
-      <div class="stdfields">
-        <div class="fieldrow bordered">
-          <div class="fieldcol">
-            <p>Report Identification :</p>
-            <input type="text" readonly value="<?php echo $get_inspection[0]->report_identification; ?>">
-			<p>By:</p>
-            <input type="text" readonly value="<?php echo $get_inspection[0]->prepared_by; ?>">
-          </div>
-          <div class="fieldcol">
-            <p>Prepared For:</p>
-            <input type="text" readonly value="<?php echo $get_inspection[0]->prepared_for; ?>">
-			<p>License:</p>
-            <input type="text" ng-model="formBlueprint.license">
-          </div>
-        </div>
-      </div>
-    </header><?php*/ ?>
 	<table class="report-table">
 		<tr>
 			<th align="right" colspan="2" style="padding-bottom:10px;">
@@ -124,7 +104,115 @@ get_header('form-viewer-print'); ?>
 				<div class="row" ng-repeat="child in section.children">
 				  <div class="col" ng-repeat="controls in child">
 					<div ng-repeat="control in controls">
-					  <div ng-include="'<?php echo esc_url( home_url('/submition-controls/?report='.$report_id.'&saved='.$saved.'&item='.$template_id.'&att='.$att.'&hash='.$hash_id) ); ?>'"></div>
+					<!--start submit controls-->
+					  <div ng-if="control.type=='report'">
+						  <div class="stdfields">
+							<div class="fieldrow">
+							  <div class="fieldcol">
+								<div class="clogoholder">
+								<img ng-src="{{formBlueprint.logo}}" alt="Logo" class="companylogo">
+							  </div>
+							  </div>
+							</div>
+							<div class="fleldrow">
+							  <div class="fieldcol">
+								<h1 class="text-center reporttitle">{{formBlueprint.report_title}}</h1>
+							  </div>
+							</div>
+							<div class="fieldrow">
+							  <div class="fieldcol">
+								<p class="text-center">
+								  {{formBlueprint.company_address}}
+								</p>
+							  </div>
+							</div>
+							<div class="fieldrow bordered">
+							  <div class="fieldcol">
+								<p>Report Prepared By:</p>
+								<input type="text" ng-model="formBlueprint.prepared_by">
+							  </div>
+							  <div class="fieldcol">
+								<p>Company Prepared For:</p>
+								<input type="text" ng-model="formBlueprint.prepared_for">
+							  </div>
+							</div>
+							<div class="fieldrow">
+							  <div class="fieldcol">
+								<p class="text-center prepareddate">
+								  <b>Date:</b> {{formBlueprint.prepared_date}}
+								</p>
+							  </div>
+							</div>
+						  </div>
+					</div>
+					<!-- text -->
+					<div class="formcontrol text" ng-if="control.type=='label'">
+					  <div class="labelfield">
+						  {{control.label}}
+					  </div>
+					</div>
+					<!-- text -->
+					<div class="formcontrol text" ng-if="control.type=='text'">
+					  <textarea class="textinput" placeholder="{{control.placeholder}}"></textarea>
+					</div>
+					<!-- Section -->
+					<div class="formcontrol number" ng-if="control.type=='section'">
+					  <h1>{{control.label}}</h1>
+					  <h4>{{control.description}}</h4>
+					</div>
+					<!-- Sub Section -->
+					<div class="formcontrol number" ng-if="control.type=='subsection'">
+					  <h2>{{control.label}}</h2>
+					  <div>  
+						<input type="checkbox" ng-model="control.status1" value="control.status1" ng-checked="{{control.status1}}"> Inspected
+						<input type="checkbox" ng-model="control.status2" value="control.status2" ng-checked="{{control.status2}}"> Not Inspected
+						<input type="checkbox" ng-model="control.status3" value="control.status3" ng-checked="{{control.status3}}"> Not Present
+						<input type="checkbox" ng-model="control.status4" value="control.status4" ng-checked="{{control.status4}}"> Deficient
+					  </div>
+					</div>
+					<!-- Paragraph -->
+					<div class="formcontrol paragraph" ng-if="control.type=='textarea'">
+					  <p>{{control.label}}</p>
+					  <div class="inputpretend paragraph">
+						{{control.placeholder}}
+					  </div>
+					</div>
+					<!--Check box-->
+					<div class="formcontrol checkbox" ng-if="control.type=='checkbox'">
+					  <input type="checkbox" ng-model="control.value" ng-checked="{{control.value}}"> {{control.label}}
+					</div>
+					<!-- Image -->
+					<div class="formcontrol image imgdrop" ng-if="control.type=='image'" ng-drop="imageDrop($event,$parent.$parent.$index,$parent.$index,$index)">
+					  <input type="hidden" class="updatedUrl" value="{{control.url}}"/>
+					  <img class="imggap fa" ng-src="{{control.url}}" alt="Image Placeholder">  
+					  <div class="commentprompt"><input type="checkbox" ng-model="control.withComment" ng-checked="{{control.withComment}}"> Add Comment</div>
+					  <div ng-bind-html="control.data"></div>
+					</div>
+					<!-- wysiwyg -->
+					<div class="formcontrol editor" ng-if="control.type=='comment'">
+					  <h4><input type="checkbox" id="{{control.htmlName}}" ng-click="commentListIsVisible=!commentListIsVisible" ng-model="control.comment1" value="control.comment1" ng-checked="control.comment1"> <label for="{{control.htmlName}}">{{control.label}}</label></h4>
+					  <div ng-bind-html="control.data"></div>
+					</div>
+					<!-- Static Text -->
+					<div class="formcontrol static" ng-if="control.type=='static'">
+					  <div class="instruction">
+						<i class="fa fa-info-circle"></i> {{control.label}}
+					  </div>
+					</div>
+					<!-- Page Break -->
+					<div class="formcontrol break" ng-if="control.type=='break'">
+					</div>
+					<!-- Conditional Message -->
+					<div class="formcontrol conditional" ng-if="control.type=='conditional'">
+					  <div class="condtop"><input type="checkbox" ng-model="control.checked" ng-change="conditionalEval()"> {{control.label}}</div>
+					</div>
+					<!-- Conditional Message Target -->
+					<div class="formcontrol conditional" ng-if="control.type=='reason'">
+					  <div class="message" ng-class="{{control.htmlName}}">
+						{{control.reason?control.reason:"Reason text for '"+control.htmlName+"' will appear here"}}
+					  </div>
+					</div>
+					  <!--end submit controls-->
 					</div>
 				  </div>
 				</div>
@@ -157,7 +245,115 @@ get_header('form-viewer-print'); ?>
 					<div class="row-" ng-repeat="controls in child.children">
 						<div class="col" ng-repeat="subcontrol in controls">
 							<div ng-repeat="control in subcontrol">
-								<div ng-include="'<?php echo esc_url( home_url('/submition-controls-print/?report='.$report_id.'&saved='.$saved.'&item='.$template_id.'&att='.$att.'&hash='.$hash_id) ); ?>'"></div>
+								<!--start submit controls-->
+								  <div ng-if="control.type=='report'">
+									  <div class="stdfields">
+										<div class="fieldrow">
+										  <div class="fieldcol">
+											<div class="clogoholder">
+											<img ng-src="{{formBlueprint.logo}}" alt="Logo" class="companylogo">
+										  </div>
+										  </div>
+										</div>
+										<div class="fleldrow">
+										  <div class="fieldcol">
+											<h1 class="text-center reporttitle">{{formBlueprint.report_title}}</h1>
+										  </div>
+										</div>
+										<div class="fieldrow">
+										  <div class="fieldcol">
+											<p class="text-center">
+											  {{formBlueprint.company_address}}
+											</p>
+										  </div>
+										</div>
+										<div class="fieldrow bordered">
+										  <div class="fieldcol">
+											<p>Report Prepared By:</p>
+											<input type="text" ng-model="formBlueprint.prepared_by">
+										  </div>
+										  <div class="fieldcol">
+											<p>Company Prepared For:</p>
+											<input type="text" ng-model="formBlueprint.prepared_for">
+										  </div>
+										</div>
+										<div class="fieldrow">
+										  <div class="fieldcol">
+											<p class="text-center prepareddate">
+											  <b>Date:</b> {{formBlueprint.prepared_date}}
+											</p>
+										  </div>
+										</div>
+									  </div>
+								</div>
+								<!-- text -->
+								<div class="formcontrol text" ng-if="control.type=='label'">
+								  <div class="labelfield">
+									  {{control.label}}
+								  </div>
+								</div>
+								<!-- text -->
+								<div class="formcontrol text" ng-if="control.type=='text'">
+								  <textarea class="textinput" placeholder="{{control.placeholder}}"></textarea>
+								</div>
+								<!-- Section -->
+								<div class="formcontrol number" ng-if="control.type=='section'">
+								  <h1>{{control.label}}</h1>
+								  <h4>{{control.description}}</h4>
+								</div>
+								<!-- Sub Section -->
+								<div class="formcontrol number" ng-if="control.type=='subsection'">
+								  <h2>{{control.label}}</h2>
+								  <div>  
+									<input type="checkbox" ng-model="control.status1" value="control.status1" ng-checked="{{control.status1}}"> Inspected
+									<input type="checkbox" ng-model="control.status2" value="control.status2" ng-checked="{{control.status2}}"> Not Inspected
+									<input type="checkbox" ng-model="control.status3" value="control.status3" ng-checked="{{control.status3}}"> Not Present
+									<input type="checkbox" ng-model="control.status4" value="control.status4" ng-checked="{{control.status4}}"> Deficient
+								  </div>
+								</div>
+								<!-- Paragraph -->
+								<div class="formcontrol paragraph" ng-if="control.type=='textarea'">
+								  <p>{{control.label}}</p>
+								  <div class="inputpretend paragraph">
+									{{control.placeholder}}
+								  </div>
+								</div>
+								<!--Check box-->
+								<div class="formcontrol checkbox" ng-if="control.type=='checkbox'">
+								  <input type="checkbox" ng-model="control.value" ng-checked="{{control.value}}"> {{control.label}}
+								</div>
+								<!-- Image -->
+								<div class="formcontrol image imgdrop" ng-if="control.type=='image'" ng-drop="imageDrop($event,$parent.$parent.$index,$parent.$index,$index)">
+								  <input type="hidden" class="updatedUrl" value="{{control.url}}"/>
+								  <img class="imggap fa" ng-src="{{control.url}}" alt="Image Placeholder">  
+								  <div class="commentprompt"><input type="checkbox" ng-model="control.withComment" ng-checked="{{control.withComment}}"> Add Comment</div>
+								  <div ng-bind-html="control.data"></div>
+								</div>
+								<!-- wysiwyg -->
+								<div class="formcontrol editor" ng-if="control.type=='comment'">
+								  <h4><input type="checkbox" id="{{control.htmlName}}" ng-click="commentListIsVisible=!commentListIsVisible" ng-model="control.comment1" value="control.comment1" ng-checked="control.comment1"> <label for="{{control.htmlName}}">{{control.label}}</label></h4>
+								  <div ng-bind-html="control.data"></div>
+								</div>
+								<!-- Static Text -->
+								<div class="formcontrol static" ng-if="control.type=='static'">
+								  <div class="instruction">
+									<i class="fa fa-info-circle"></i> {{control.label}}
+								  </div>
+								</div>
+								<!-- Page Break -->
+								<div class="formcontrol break" ng-if="control.type=='break'">
+								</div>
+								<!-- Conditional Message -->
+								<div class="formcontrol conditional" ng-if="control.type=='conditional'">
+								  <div class="condtop"><input type="checkbox" ng-model="control.checked" ng-change="conditionalEval()"> {{control.label}}</div>
+								</div>
+								<!-- Conditional Message Target -->
+								<div class="formcontrol conditional" ng-if="control.type=='reason'">
+								  <div class="message" ng-class="{{control.htmlName}}">
+									{{control.reason?control.reason:"Reason text for '"+control.htmlName+"' will appear here"}}
+								  </div>
+								</div>
+								  <!--end submit controls-->
 							</div>
 						</div>
 					</div>
@@ -203,7 +399,7 @@ get_header('form-viewer-print'); ?>
 	var site_url = '<?php echo home_url(); ?>';
 </script>  
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/imagefunctions.js"></script>
-<script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/bower_components/tinymce/tinymce.js"></script>
+<?php /* ?><script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/bower_components/tinymce/tinymce.js"></script><?php */?>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/angular.min.js"></script>
 <script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/bower_components/angular-ui-tinymce/src/tinymce.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/jq.js"></script>
@@ -219,7 +415,7 @@ get_header('form-viewer-print'); ?>
 				loadCSS: "<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/print.css",
 				importCSS: false,
 				copyTagClasses: false,
-				printDelay: 3000,
+				printDelay: 500,
 				debug:false
 
 			});

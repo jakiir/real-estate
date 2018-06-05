@@ -28,6 +28,11 @@
 
 <body ng-app="submitForm">
 <div id="page" class="site">
+<div id="incipitContent" style="background-color: rgb(236, 240, 241);display: flex;opacity:1;">
+	<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/solid_snake.svg">
+	<p style="font-style: italic">Loading...</p>
+	<blockquote style="border-top: 1px solid rgb(204, 204, 204); border-bottom: 1px solid rgb(204, 204, 204); opacity: 0;"></blockquote>
+</div>
 	<div id="content" class="site-content">
 	<nav class="navbar navbar-default">
 	  <div class="container-fluid">
