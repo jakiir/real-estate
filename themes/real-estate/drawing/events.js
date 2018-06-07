@@ -321,7 +321,8 @@ function eventListeners(){
 				var get_url = window.location.href;
 				var get_url_first = get_url.split('#');
 				window.location.href = get_url_first[0]+'#target='+ress;
-				location.reload();
+				window.location.reload(true);
+				//location.reload(true);
 			}
 		});
 		file_frame.open();

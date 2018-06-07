@@ -32,8 +32,15 @@ angular.module('submitForm',['ui.tinymce'])
 	editor.addButton('annotateImage', {
       text: 'Annotate Image',
       icon: 'image',
-      onclick: function () {		 
-			window.open(site_url+'/canvas-drawing/?report=14&item=2&hash=1518713455636&saved=1&editor=yes#target='+site_url+'/wp-content/uploads/2018/05/download.png', '_blank', 'location=yes,height=1000,width=1000,scrollbars=yes,status=yes');
+      onclick: function (e) {	
+			var thisItemId = e.target.parentNode.parentNode.id;
+			var selectedImage = $('#'+thisItemId).parents('.mce-container-body').find(".mce-edit-area").find("iframe").contents().find('.mce-content-body').find("[data-mce-selected='1']").attr('src');
+			  
+			var defaultImageUrl = site_url + '/wp-content/uploads/2018/05/download.png';
+			if( typeof selectedImage !== 'undefined'){
+				defaultImageUrl = selectedImage;
+			}
+			window.open(site_url+'/canvas-drawing/?report=14&item=2&hash=1518713455636&saved=1&editor=yes#target='+defaultImageUrl, '_blank', 'location=yes,height=1000,width=1000,scrollbars=yes,status=yes');
 			window.insertAnnotateImage = function(imageUrl){
 			  console.log(imageUrl);
 			  editor.insertContent( '<img class="add_annotate_image" width="200px" height="auto" src="' + imageUrl + '" data-mce-src="' + imageUrl + '" style="width:200px;" alt="upload image" />');

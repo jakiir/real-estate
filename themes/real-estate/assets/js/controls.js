@@ -5,7 +5,7 @@ formControls.section={
   type:"section",
   description:"Section Description here",
   icon:"fa-puzzle-piece",
-  single:true,
+  single:true
 }
 formControls.subsection={
   title:"Sub Section",
@@ -14,7 +14,7 @@ formControls.subsection={
   description:"Sub Section Description here",
   icon:"fa-puzzle-piece",
   data:"",
-  single:true,
+  single:true
 }
 formControls.text={
   title:"Text",
@@ -25,12 +25,12 @@ formControls.text={
   data:""
 }
 
-formControls.text={
+formControls.reportfield={
   title:"Report",
   type:'report',
-  label:"Instruction Text",
+  label:"Report field",
   icon:"fa-font",
-  htmlName:"txt"
+  single:true
 }
 
 formControls.label={

@@ -107,7 +107,17 @@ get_header('form-builder'); ?>
 
             </div>
         </div>-->
-        <div class="row" ng-repeat="row in data.tree">
+
+        <div ng-repeat="row in data.tree">
+          <!-- Hot Rearrange -->
+          <div class="row">
+          <div class="col droparea"
+            ng-style="{'pointer-events':(internalDrag?'none':'auto')}"
+            ng-class="{'available':externalDrag}"
+            ng-drop="addNewRowInMiddle($event,$index)"></div>
+          </div>
+          <!-- /Hot Rearrange -->
+          <div class="row">
             <div class="droparea left sides"
             ng-hide="row[0][0].single"
             ng-class="{'available':externalDrag}"
@@ -153,6 +163,7 @@ get_header('form-builder'); ?>
             ng-class="{'available':externalDrag}"
             ng-hide="row[0][0].single"
             ng-drop="pushToChild($event,$index)"></div> <!--right side drop -->
+          </div>
         </div>
         <div class="row">
           <div class="col droparea"
