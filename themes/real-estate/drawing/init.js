@@ -31,7 +31,7 @@ var layers = [];
 var redoList =[];
 //Iitial Setup
 function setup(width,height,background){
-  document.querySelector('.backdrop').style.display="none";
+  //document.querySelector('.backdrop').style.display="none";
   //set globals
   globalWidth=width;
   globalHeight=height;

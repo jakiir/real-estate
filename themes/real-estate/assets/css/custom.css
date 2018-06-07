@@ -119,3 +119,7 @@ input[readonly="readonly"]{background-color:#eee;}
     border-left: none;
     border-right: none;
 }
+#incipitContent img{
+	width: 65px;
+    margin-top: 3%;
+}

@@ -490,7 +490,7 @@ function save_as_draft(){
 		 }			 
 		 $results = array(
 			'success' => true,
-			'mess' => 'All changes saved!',
+			'mess' => '',
 			'template_id' => $template_id,
 			'hash' => $hash,
 			'user_id' => $user_id
