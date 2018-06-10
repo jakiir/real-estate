@@ -14,7 +14,7 @@
  * @version 1.0
  */
 
-get_header(); 
+get_header('login'); 
 if (is_user_logged_in()) {
 	$user = wp_get_current_user();
 	if(!empty($user) && $user->roles[0] == 'administrator'){
@@ -34,7 +34,7 @@ if (is_user_logged_in()) {
 			<div class="row">
 				<div class="col-md-12">
 				<?php if (!is_user_logged_in()) { ?>
-					<div class="panel panel-primary">						
+					<div class="panel panel-deapred">						
 			      		<div class="panel-heading">
 			              <h1 class="panel-title">Site Login</h1>
 			            </div>	
@@ -61,4 +61,4 @@ if (is_user_logged_in()) {
 			</div>
 		</div>
 	</section>
-<?php get_footer();
+<?php get_footer('login');

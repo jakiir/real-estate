@@ -27,9 +27,9 @@ jQuery(document).ready(function($) {
                 $('form#login p.status').text(data.message);				
                 if (data.loggedin == true){
 					if(data.user_roles == 'administrator'){
-						document.location.href = ajax_login_object.templateurl;
+						document.location.href = ajax_login_object.homeurl;
 					} else if(data.user_roles == 'inspector') {
-						document.location.href = ajax_login_object.inspectorurl;
+						document.location.href = ajax_login_object.homeurl;
 					} else {
 						document.location.href = ajax_login_object.homeurl;
 					}					

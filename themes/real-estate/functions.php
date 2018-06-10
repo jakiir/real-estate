@@ -1020,7 +1020,7 @@ function ajax_login_init(){
         'ajaxurl' => admin_url( 'admin-ajax.php' ),
         'templateurl' => home_url('/template/'),
 		'inspectorurl' => home_url('/perform-inspection/'),
-		'homeurl' => home_url(),
+		'homeurl' => home_url('/landing-page/'),
         'loadingmessage' => __('Sending user info, please wait...')
     ));
 
