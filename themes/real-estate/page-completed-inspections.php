@@ -6,10 +6,8 @@ get_header(); ?>
 		die('You have no access right! Please contact system administration for more information.!');
 	}
 ?>
-<link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/fa/css/font-awesome.min.css">
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jquery.dataTables.min.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/dataTables.bootstrap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/css/smoothness/jquery-ui-1.10.0.custom.min.css" />
     <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/jquery-ui.js"></script>
 <style>
@@ -22,11 +20,11 @@ get_header(); ?>
 </style>
 <!-- BLOG -->
 
-<section id="blog" class="container">
-	<div class="panel panel-primary">						
-		<div class="panel-heading">
-		  <h1 class="panel-title"><?php the_title(); ?></h1>
-		</div>
+<article class="container">
+	<div class="row">
+	  <div class="col-sm-8 col-sm-offset-2">
+		<div class="box perform-inspection-box">
+		  <h2 class="page-title-body">Perform Inspection</h2>
 		<?php
 			global $wpdb;
 			$user_id = get_current_user_id();
@@ -64,36 +62,32 @@ get_header(); ?>
 					<?php $inc++; }} ?>
 				</tbody>
 			</table>
-			<div class="table- table-hover-">
-				<div class="form-group">
-					<label class="col-md-2 control-label" for="from">
-						Date Range : 
-					</label>
-					<div class="col-md-4">					
+			<div class="col-sm-12">
+				<div class="row">				
+					<div class="col-sm-6">
+						<label for="from">Date Range :</label>
 						<input class="form-control datepicker date-range-filter" data-date-format="mm/dd/yyyy" type="text" name="date_range" id="from" value="">
 					</div>
-					<label class="col-md-2 control-label" for="to">
-						To : 
-					</label>
-					<div class="col-md-4">					
+					<!-- End of col -->
+					<div class="col-sm-6">
+						<label for="to">To :</label>
 						<input class="form-control datepicker date-range-filter" data-date-format="mm/dd/yyyy" type="text" name="dateTo" id="to" value="">
 					</div>
 				</div>
 				<br/>
-				<br/>
-				<div class="form-group">
-					<label class="col-md-2 control-label"></label>
-					<div class="col-md-4">						
-						<button type="button" class="btn btn-primary checkBoxSlected printSelectedItem" disabled="disabled">Print</button>
+				<div class="row">
+					<div class="col-sm-6">						
+						<button type="button" class="btn-taptap checkBoxSlected printSelectedItem" disabled="disabled"><i class="fa fa-print"></i> Print</button>
 					</div>
-					<label class="col-md-2 control-label"></label>
-					<div class="col-md-4">					
-						<button type="button" class="btn btn-primary checkBoxSlected" data-toggle="modal" data-target="#shareFormView" disabled="disabled"><i class="fa fa-share"></i> Share</button>
+					<div class="col-sm-6">					
+						<button type="button" class="btn-taptap checkBoxSlected" data-toggle="modal" data-target="#shareFormView" disabled="disabled"><i class="fa fa-share"></i> Share</button>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+		</div>
+		</div>
+		</div>
 </section>
 	<!-- /BLOG -->
 	<?php 
@@ -108,22 +102,22 @@ get_header(); ?>
 
     <!-- Modal content-->
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header taptap-modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Please enter agent’s email adress</h4>
       </div>
-      <div class="modal-body">
+      <div class="modal-body taptap-modal-body">
 		<form action="#" id="shareForm">
 			<p><input class="form-control required" type="email" name="agentEmailAddress" id="agentEmailAddress" value=""></p>
 			<p class="msg_show"></p>
-			<p><button type="submit" class="btn btn-primary checkBoxSlected" disabled="disabled"><i class="fa fa-share"></i> Share</button></p>
+			<p><button type="submit" class="btn-taptap checkBoxSlected" disabled="disabled"><i class="fa fa-share"></i> Share</button></p>
 		</form>
       </div>
     </div>
 
   </div>
 </div>
-<link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/css/dataTables.bootstrap.min.css">
+
 <script type="text/javascript">
 
 $(document).ready(function() {
@@ -226,7 +220,6 @@ $(document).ready(function() {
 					data : form_data,					
 					success: function (data) {
 					  var parsedJson = $.parseJSON(data);
-						console.log(parsedJson);
 					  if(parsedJson.success == true){						  
 						  $('.msg_show').html('');
 						  $('.msg_show').html('<span style="color:green">'+parsedJson.mess+'</span>');

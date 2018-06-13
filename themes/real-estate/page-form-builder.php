@@ -26,14 +26,7 @@ get_header('form-builder'); ?>
 		echo '<script>window.location.replace("'.home_url().'");</script>';
 		die('You have no access right! Please contact system administration for more information.!2');
 	}
-?>
-<link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/fa/css/font-awesome.min.css">
-<link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/style.css">
-<link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/controls.css">
-<link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/custom.css">
-<link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/css/responsive.css" />
 
-<?php
 	global $wpdb;
 	$table_template = $wpdb->prefix . 'template';
 	$template_id = !empty($_GET['item']) ? $_GET['item'] : '';
@@ -51,10 +44,10 @@ get_header('form-builder'); ?>
 	  <div class="msg_show"></div>
       <i class="fa fa-floppy-o" id="save_to_database" title="save"></i>
       <a href="<?php echo home_url('/form-viewer/?item='.$template_id); ?>" target="_blank" title="Preview"><i class="fa fa-eye" title="Preview"></i></a>
-      <i class="fa fa-upload" title="Export"></i>
-      <i class="fa fa-ban" title="Discard"></i>
+      <!--<i class="fa fa-upload" title="Export"></i>
+      <i class="fa fa-ban" title="Discard"></i>-->
     </div>
-    <div class="toolbar side">
+    <div class="toolbar side tool-box">
       <!-- toolbar -->
       <div class="dragelement tool" ng-repeat="tool in tools" draggable="true"
        ng-dragstart="startDrag($event,tool)"
@@ -83,31 +76,6 @@ get_header('form-builder'); ?>
     </div>
     <div class="canvas">
       <div class="area">
-        <!--<div class="stdreportf">
-            <div class="controlholder sing">
-              <div class="row">
-                <div class="col">
-                  <p>Company Logo</p>
-                  <div class="clogoholder">
-                    <img class="companylogo" ng-src="{{data.logo}}" alt="Company Logo">
-                    <input class="fiimg" c-on-change="changeCompanyLogo()" type="file" accept="image/*">
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col">
-                  <p>Report Title</p>
-                  <input type="text" ng-model="data.report_title" placeholder="Report Title">
-                </div>
-                <div class="col">
-                  <p>Company Address</p>
-                  <input type="text" ng-model="data.company_address" placeholder="Enter The address here">
-                </div>
-              </div>
-
-            </div>
-        </div>-->
-
         <div ng-repeat="row in data.tree">
           <!-- Hot Rearrange -->
           <div class="row">
@@ -282,13 +250,29 @@ get_header('form-builder'); ?>
 		$('.msg_show').html('<font style="color:red">'+errorThrown+'</span>');
 		$('.msg_show').delay(5000).fadeOut('slow');
       }
-
-
-
     });
-
     //console.log(JSON.stringify(JSON.parse(formBuilder.actions.getData('json', true))));
   });
+  
+jQuery(function($){ 	
+	var stickyNavTop = $('.header-area').offset().top;	
+	var stickyNav = function(){
+		var scrollTop = $(window).scrollTop();
+		if (scrollTop > stickyNavTop) { 
+			$('.tool-box').addClass('sticky-side');
+			$('.toptools').addClass('sticky-toptools');
+		} else {
+			$('.tool-box').removeClass('sticky-side');
+			$('.toptools').removeClass('sticky-toptools'); 
+		}
+	};
+	stickyNav();
+	$(window).scroll(function() {
+		stickyNav();
+	});  
+});
+  
 </script>
 <?php wp_head(); ?>
 <?php get_footer(); ?>
+<script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/bootstrap.min.js"></script>

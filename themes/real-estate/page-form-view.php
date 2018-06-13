@@ -43,7 +43,7 @@ get_header('form-viewer'); ?>
 ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/fa/css/font-awesome.min.css">
 <div class="container" ng-controller="submissonForm">
-<div id="drlistDivTbl">
+<div id="templateViewer">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/form.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/submitform_controls.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/custom.css">
@@ -209,9 +209,11 @@ get_header('form-viewer'); ?>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/printThis.js"></script>
 	<script type="text/javascript">
 	$(document).ready(function () {
-		$("#printDrBtn").on("click", function (e) {
+		$("#printTemplateBtn").on("click", function (e) {
 			e.preventDefault();
-			$("#drlistDivTbl").printThis({
+			var thisItem = $("#printTemplateBtn");
+			thisItem.find('.fa').removeClass('fa-print').addClass('fa-refresh fa-spin');
+			$("#templateViewer").printThis({
 				importStyle: false,         // import style tags
 				printContainer: true,
 				loadCSS: "<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/print.css",
@@ -219,17 +221,22 @@ get_header('form-viewer'); ?>
 				copyTagClasses: false,
 				printDelay: 500,
 				debug:false
-
 			});
+			setTimeout(function(){
+				thisItem.find('.fa').removeClass('fa-refresh fa-spin').addClass('fa-print');
+			},1000);
 		});
 		
 		<?php if(isset($_GET['print'])){ ?>
-			//$( "a#printDrBtn" ).click();
+			//$( "a#printTemplateBtn" ).click();
 		<?php } ?>
 		
 	});
 	function expand_nav_menu() {
 		$('#navbar').toggleClass('in');
 	}
+	$(".dropdown").on("click", function (e) {
+		$(this).toggleClass('open');
+	});
+	
 	</script>
-  

@@ -21,7 +21,6 @@ get_header(); ?>
 		die('You have no access right! Please contact system administration for more information.!');
 	}
 ?>
-<link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/fa/css/font-awesome.min.css">
 <style>
 	#profilePicRemover{
 		position: absolute;
@@ -30,114 +29,95 @@ get_header(); ?>
 	}
 	label.error{color:red;}
 </style>
-
-<!-- BLOG -->
-<section id="blog" class="container">
-	<div class="panel panel-primary">						
-		<div class="panel-heading">
-		  <h1 class="panel-title"><?php the_title(); ?></h1>
-		</div>
-		<?php
-			global $wpdb;
-			$user_id = get_current_user_id();
-			$table_inspection = $wpdb->prefix . 'inspection';			
-			$get_inspection = $wpdb->get_row( "SELECT * FROM $table_inspection WHERE user_id=$user_id ORDER BY id DESC LIMIT 1");
-		?>
-		<div class="panel-body">
-			<form class="form-horizontal" role="form" id="inspection_form" enctype="multipart/form-data">
-			  <!-- edit form column -->
-			  <div class="col-md-12 personal-info">							
-				  <div class="form-group">
-					<label class="col-lg-2 control-label" for="company">Company :</label>
-					<div class="col-lg-4">
-					  <input class="form-control required" type="text" name="company" id="company" value="<?php //echo $get_inspection->company; ?>">
-					</div>
-					
-					<label class="col-lg-2 control-label" for="inpection_date">Date :</label>
-					<div class="col-lg-4">
-					  <input class="form-control datepicker required" type="text" name="inpection_date" id="inpection_date" value="<?php //echo $get_inspection->inpection_date; ?>">
-					</div>							
-				  </div>
-				  <div class="form-group">
-					<label class="col-lg-2 control-label" for="report_identification">Report Identification :</label>
-					<div class="col-lg-10">
-					  <input class="form-control required" type="text" name="report_identification" id="report_identification" value="<?php //echo $get_inspection->report_identification; ?>">
-					</div>
-				  </div>						
-				  
-				  <div class="form-group">
-					<label class="col-lg-2 control-label" for="template_id">Template :</label>
-					<div class="col-lg-10">
-					  <div class="ui-select">
-						<select id="template_id" name="template_id" class="form-control required" >
-						<?php										
-							$table_template = $wpdb->prefix . 'template';
-							$get_share_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE shared_template=1", OBJECT );						
-						?>
-						  <option value="">List of Template</option>
-						  <?php if(!empty($get_share_templages)){
-								foreach($get_share_templages as $template){ 
-									//$selected = ($template->id==$get_inspection->template_id ? "selected='selected'" : null);
-								?>
-								<option <?php //echo $selected; ?> value="<?php echo $template->id; ?>"><?php echo $template->name; ?></option>
-							<?php } } ?>
-						</select>
-					  </div>
-					</div>
-				  </div>
-				  
-				  <div class="form-group">
-					<label class="col-lg-2 control-label" for="prepared_for">Prepared For :</label>
-					<div class="col-lg-10">
-					  <input class="form-control required" type="text" name="prepared_for" id="prepared_for" value="<?php //echo $get_inspection->prepared_for; ?>">
-					</div>
-				  </div>
-				  
-				  <div class="form-group">
-					<label class="col-lg-2 control-label" for="prepared_by">Prepared By :</label>
-					<div class="col-lg-10">
-					  <input class="form-control required" type="text" name="prepared_by" id="prepared_by" value="<?php //echo $get_inspection->prepared_by; ?>">
-					</div>
-				  </div>
-				  
-				  <div class="form-group">
-					<label class="col-lg-2 control-label" for="time_in">Time In :</label>
-					<div class="col-lg-4">
-					  <input class="form-control required timepicker" type="text" name="time_in" id="time_in" value="<?php //echo $get_inspection->time_in; ?>">
-					</div>
-					
-					<label class="col-lg-2 control-label" for="time_out">Time Out :</label>
-					<div class="col-lg-4">
-					  <input class="form-control required timepicker" type="text" name="time_out" id="time_out" value="<?php //echo $get_inspection->time_out; ?>">
-					</div>							
-				  </div>
-				  
-				  <div class="form-group">					
-					<div class="col-lg-10 col-lg-offset-2">
-						<label class="redio-inline">
-						  <input type="radio" name="inspection_status" <?php //echo ($get_inspection->inspection_status=='ocuppied' ? 'checked' : ''); ?> value="ocuppied"> Ocuppied
-						</label>
-					</div>
-					<div class="col-lg-10 col-lg-offset-2">
-						<label class="redio-inline">
-						  <input type="radio" name="inspection_status" <?php //echo ($get_inspection->inspection_status=='vacant' ? 'checked' : ''); ?> value="vacant"> Vacant
-						</label>
-					</div>
-				  </div>
-				  <div class="form-group">
-					<label class="col-md-11 msg_show" style="text-align: right;"></label>
-					<div class="col-md-1">
-						<button type="submit" name="order_type" class="btn-order-fill save_btn btn btn-primary pull-right" value="Next">
-						Next <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-						</button>									  							  
-					</div>
-				  </div>
-				</div>						  
-			</form>						
-		</div>
-	</div>
-</section>
-	<!-- /BLOG -->
+<?php
+	global $wpdb;
+	$user_id = get_current_user_id();
+	$table_inspection = $wpdb->prefix . 'inspection';			
+	$get_inspection = $wpdb->get_row( "SELECT * FROM $table_inspection WHERE user_id=$user_id ORDER BY id DESC LIMIT 1");
+?>
+<article class="container">
+        <div class="row">
+          <div class="col-sm-8 col-sm-offset-2">
+            <div class="box perform-inspection-box">
+              <h2 class="page-title-body">Perform Inspection</h2>
+              <form class="perform-inspection-form" action="" method="post">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <label for="company">Company</label>
+                    <input type="text" class="form-control required" name="company" id="company" placeholder="">
+                  </div>
+                  <!-- End of col -->
+                  <div class="col-sm-6">
+                    <label for="inpection_date">Date</label>
+                    <input type="date" class="form-control datepicker required" name="inpection_date" id="inpection_date" placeholder="">
+                  </div>
+                  <!-- End of col -->
+                  <div class="col-sm-12">
+                    <label for="report_identification">Report Identification</label>
+                    <input type="text" class="form-control required" name="report_identification" id="report_identification" placeholder="">
+                  </div>
+                  <!-- End of col -->
+                  <div class="col-sm-12">
+                    <label for="template_id">Template</label>
+					<select id="template_id" name="template_id" class="form-control required" >
+					<?php										
+						$table_template = $wpdb->prefix . 'template';
+						$get_share_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE shared_template=1", OBJECT );						
+					?>
+					  <option value="">List of Template</option>
+					  <?php if(!empty($get_share_templages)){
+							foreach($get_share_templages as $template){
+							?>
+							<option value="<?php echo $template->id; ?>"><?php echo $template->name; ?></option>
+						<?php } } ?>
+					</select>
+                  </div>
+                  <!-- End of col -->
+                  <div class="col-sm-12">
+                    <label for="prepared_for">Prepared for</label>
+                    <input type="text" class="form-control required" name="prepared_for" id="prepared_for" placeholder="">
+                  </div>
+                  <!-- End of col -->
+                  <div class="col-sm-12">
+                    <label for="prepared_by">Prepared By</label>
+                    <input type="text" class="form-control required" name="prepared_by" id="prepared_by" placeholder="">
+                  </div>
+                  <!-- End of col -->
+                  <div class="col-sm-6">
+                    <label for="time_in">Time In</label>
+                    <input type="text" class="form-control required timepicker" name="time_in" id="time_in" placeholder="">
+                  </div>
+                  <!-- End of col -->
+                  <div class="col-sm-6">
+                    <label for="time_out">Time Out</label>
+                    <input type="text" class="form-control required timepicker" name="time_out" id="time_out" placeholder="">
+                  </div>
+                  <!-- End of col -->
+                  <div class="col-sm-12">
+                    <div class="status-radios">
+                      <input type="radio" id="radio-ocuppied" name="inspection_status" value="ocuppied"><label for="radio-ocuppied">Ocuppied</label>
+                      <input type="radio" id="radio-vacant" name="inspection_status" value="vacant"><label for="radio-vacant">Vacant</label>
+                    </div>
+                    <!-- End of status-radios -->
+                  </div>
+                  <!-- End of col -->
+                  <div class="col-sm-12">
+                    <div class="text-center">
+                      <input type="submit" name="order_type" class="btn-taptap" value="Next">
+                    </div>
+                  </div>
+                  <!-- End of col -->
+                </div>
+                <!-- End of row -->
+              </form>
+            </div>
+            <!-- End of box -->
+          </div>
+          <!-- End of col -->
+        </div>
+        <!-- End of row -->
+      </article>
+      <!--End of container-->
 <script type="text/javascript">
 jQuery(function($){
 	$('.datepicker').datetimepicker({
