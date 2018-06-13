@@ -28,101 +28,97 @@ get_header(); ?>
 		die('You have no access right! Please contact system administration for more information.!');
 	}
 ?>
-
-<link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/fa/css/font-awesome.min.css">
-<!-- BLOG -->
-	<section id="blog">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12">
-					<div class="panel panel-primary">
-						
-			      		<div class="panel-heading">
-			              <h1 class="panel-title"><?php the_title(); ?></h1>
-			            </div>
-				      	<?php
-							global $wpdb;
-							$user_id = get_current_user_id();							
-							$table_template = $wpdb->prefix . 'template';
-							$get_share_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE shared_template=1", OBJECT );
-							
+<article class="container">
+        <div class="row">
+          <div class="col-sm-8 col-sm-offset-2">
+            <div class="box add-templates-box">
+              <h2 class="page-title-body">Add Templates</h2>
+              <a data-toggle="modal" data-target="#addTempleteModal" href="javascript:void(0)" class="btn-taptap btn-create-new"><i class="fa fa-btn fa-plus-square"></i> Create New</a>
+              <ul class="template-tab-nav">
+                <li><a class="active-tab" href="#shared_template">Shared Templates</a></li>
+                <li><a href="#your_template">Your Templates</a></li>
+              </ul>
+			  <?php
+					global $wpdb;
+					$user_id = get_current_user_id();							
+					$table_template = $wpdb->prefix . 'template';
+					$get_share_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE shared_template=1", OBJECT );
+					
+				?>
+              <div id="shared_template" class="template-tab-pane">
+                <div class="template-tab-pane-list">
+                  <select name="sharedTemplates" id="sharedTemplates" class="rounded multiselect1" size="16" style="background:#fff;color:#000;width:100%;">
+						<?php
+							if(!empty($get_share_templages)){
+							foreach($get_share_templages as $template){
 						?>
-				      	<div class="row" style="padding: 6px;">			      	
-					        <div class="col-xs-6">
-					          <div class="panel panel-default">
-					            <div class="panel-heading">
-					              <h1 class="panel-title">Shared Templates</h1>
-					            </div>
-					            <select name="sharedTemplates" id="sharedTemplates" class="rounded multiselect1" size="10" style="background:#fff;color:#000;width:100%;">
-									<?php
-										if(!empty($get_share_templages)){
-										foreach($get_share_templages as $template){
-									?>
-										<option value="<?php echo $template->id; ?>"><?php echo $template->name; ?></option>
-										<?php } } ?>									
-								</select>					            
-					          </div>
-							  
-							  <a data-toggle="modal" data-target="#addTempleteModal" href="javascript:void(0)" class="btn btn-success" style="color:#fff;">
-									<i class="fa fa-btn fa-plus-square"></i> Add
-							   </a>													
-								<div class="modal fade" id="addTempleteModal" tabindex="-1" role="dialog" aria-labelledby="addTempleteModalLabel">
-									<div class="modal-dialog" role="document">
-										<div class="modal-content">
-											<div class="modal-header">
-												<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-												<h4 class="modal-title" id="addTempleteModalLabel">Add Template</h4>
-											</div>
-											<div class="modal-body">
-												<form class="submit_all_std_form">
-													<div class="form-group">
-														<label for="recipient-name" class="control-label">Template Name:</label>
-														<input type="text" class="form-control" id="template-name" placeholder="Item one" value="">
-													</div>
-												</form>
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-												<a href="javascript:void(0)" class="btn btn-success add_templete" style="color:#fff;">
-													<i class="fa fa-btn fa-plus-square"></i> Add Template
-												</a>
-											</div>
-										</div>
-									</div>
-								</div>							  
-					        </div>
-				       
-					        <div class="col-xs-6">
-					          <div class="panel panel-default">
-					            <div class="panel-heading">
-					              <h1 class="panel-title">Your Templates</h1>
-					            </div>
-								<?php 									
-									$get_your_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE user_id=$user_id AND your_template=1 ORDER BY created_time ASC", OBJECT );
-								?>
-					            <select name="yourTemplates" id="yourTemplates" class="rounded multiselect2" size="10" style="background:#fff;color:#000;width:100%;">
-									<?php
-										if(!empty($get_your_templages)){
-										foreach($get_your_templages as $template){
-									?>
-										<option value="<?php echo $template->id; ?>"><?php echo $template->name; ?></option>
-										<?php } } ?>							
-								</select>								
-					          </div>								
-								<button type="button" class="btn btn-success copy"><i class="fa fa-files-o" aria-hidden="true"></i> Copy</button>
-								<button type="button" class="btn btn-warning remove"><i class="fa fa-trash" aria-hidden="true"></i> Remove</button>
-								<!--<button type="button" class="btn btn-primary addAll">Add all</button>								
-								<button type="button" class="btn btn-danger removeAll">Remove all</button>-->
-								<button type="button" class="btn btn-primary editSelected"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button>
-								<span class="msg_show"></span>
-					        </div>
-				        </div>
-
-					</div>
+							<option value="<?php echo $template->id; ?>"><?php echo $template->name; ?></option>
+							<?php } } ?>									
+					</select>
+                </div>
+                <!-- End of template-tab-pane-list -->
+                <div class="text-right">
+                  <a href="javascript:void(0)" class="btn-taptap copy"><i class="fa fa-files-o" aria-hidden="true"></i> Copy</a>
+                </div>
+                <!-- End of text-right -->
+              </div>
+              <!-- End of template-tab-pane -->
+              <div id="your_template" class="template-tab-pane">
+                <div class="template-tab-pane-list">
+                  <?php 									
+						$get_your_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE user_id=$user_id AND your_template=1 ORDER BY created_time ASC", OBJECT );
+					?>
+					<select name="yourTemplates" id="yourTemplates" class="rounded multiselect2" size="16" style="background:#fff;color:#000;width:100%;">
+						<?php
+							if(!empty($get_your_templages)){
+							foreach($get_your_templages as $template){
+						?>
+							<option value="<?php echo $template->id; ?>"><?php echo $template->name; ?></option>
+							<?php } } ?>							
+					</select>
+                </div>
+                <!-- End of template-tab-pane-list -->				
+                <div class="text-right">				
+                  <a href="javascript:void(0)" class="btn-taptap editSelected"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>
+                  <a href="javascript:void(0)" class="btn-taptap remove"><i class="fa fa-trash" aria-hidden="true"></i> Remove</a>
+                </div>
+				<span class="msg_show"></span>
+                <!-- End of text-right -->
+              </div>
+              <!-- End of template-tab-pane -->
+            </div>
+            <!-- End of box -->
+          </div>
+          <!-- End of col -->
+        </div>
+        <!-- End of row -->
+      </article>
+      <!--End of container-->	
+	<div class="modal fade" id="addTempleteModal" tabindex="-1" role="dialog" aria-labelledby="addTempleteModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header taptap-modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="addTempleteModalLabel">Add Template</h4>
+				</div>
+				<div class="modal-body taptap-modal-body">
+					<form class="submit_all_std_form">
+						<div class="form-group">
+							<label for="recipient-name" class="control-label">Template Name:</label>
+							<input type="text" class="form-control" id="template-name" placeholder="Item one" value="">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<a href="javascript:void(0)" class="btn-taptap add_templete" style="color:#fff;">
+						<i class="fa fa-plus-square"></i> Add Template
+					</a>
+					<button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-minus-square"></i> Close</button>					
 				</div>
 			</div>
 		</div>
-	</section>
+	</div>
+	
 	<!-- /BLOG -->
 <script type="text/javascript">
 	jQuery(function($){

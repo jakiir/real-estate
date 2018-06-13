@@ -51,7 +51,7 @@ get_header('form-agent-viewer');
 ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/fa/css/font-awesome.min.css">
 <div class="container" ng-controller="submissonForm">
-<div id="drlistDivTbl">
+<div id="printReportArea">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/form.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/submitform_controls.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/custom.css">
@@ -708,7 +708,7 @@ get_header('form-agent-viewer');
 			e.preventDefault();
 			var thisItem = $('#reporPrintDrBtn');
 			thisItem.find('.fa').removeClass('fa-print').addClass('fa-refresh fa-spin');
-			$("#drlistDivTbl").printThis({
+			$("#printReportArea").printThis({
 				importStyle: false,         // import style tags
 				printContainer: true,
 				loadCSS: "<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/print-agent.css",
@@ -720,7 +720,11 @@ get_header('form-agent-viewer');
 			setTimeout(function(){
 				thisItem.find('.fa').removeClass('fa-refresh fa-spin').addClass('fa-print');
 			},1000);			
-		});		
+		});
+
+		$(".dropdown").on("click", function (e) {
+			$(this).toggleClass('open');
+		});
 	});
 	</script>
   

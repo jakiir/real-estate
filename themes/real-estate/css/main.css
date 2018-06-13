@@ -88,11 +88,16 @@
 /*-------------- End of Font css -------------*/
 
 /*-------------- Start of global css -------------*/
-
+a {
+    color: #337ab7;
+    text-decoration: none;
+	outline:0;
+}
 .area {
   width: 100%;
   float: left;
 }
+.header.area,header.area{padding:0;}
 a {
   outline: none !important;
 }
@@ -263,9 +268,11 @@ input.btn-taptap:focus,
   font-weight: 500;
   display: inline-block;
   padding: 25px;
+  text-decoration: none;
 }
 .main-nav > ul li a:hover,
-.main-nav > ul li a:focus {
+.main-nav > ul li a:focus,
+.main-nav > ul li a.active {
   color: #ffffff;
   background: #9d1c1f;
   text-decoration: none;
@@ -284,6 +291,7 @@ input.btn-taptap:focus,
   display: inline-block;
   position: relative;
   bottom: -2px;
+  text-transform: capitalize;
 }
 .user-options .dropdown {
   display: inline-block;
@@ -296,6 +304,7 @@ input.btn-taptap:focus,
   padding: 0;
   border: 0;
   border-radius: 50%;
+  outline:0;
 }
 .user-options .dropdown-menu {
   background: #cbcfd4;
@@ -305,6 +314,42 @@ input.btn-taptap:focus,
 	top: 63px;
   right: 0;
   left: auto;
+}
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}
+.dropdown-menu>li>a {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: 400;
+    line-height: 1.42857143;
+    color: #333;
+    white-space: nowrap;
+}
+.dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover {
+    color: #262626;
+    text-decoration: none;
+    background-color: #f5f5f5;
 }
 .user-options .dropdown-menu::before {
   bottom: 100%;
@@ -332,6 +377,9 @@ input.btn-taptap:focus,
 .user-options .dropdown-menu li a:focus {
   color: #ffffff;
   background: #9d1c1f;
+}
+.dropdown, .dropup {
+    position: relative;
 }
 main {
   padding: 30px 0 100px;
@@ -397,7 +445,7 @@ main {
 .template-tab-pane-list {
   height: 400px;
   background: #ffffff;
-  padding: 16px 20px;
+  padding: 5px 0px;
   border-radius: 5px;
   overflow-y: auto;
 }
@@ -486,7 +534,7 @@ label {
   overflow: hidden;
   margin-top: 27px;
 }
-.edit-template-img img {
+.edit-template-img img#preview_image {
   width: 100%;
   height: 330px;
   object-fit: cover;
@@ -509,7 +557,7 @@ label {
 .btn-file-upload:hover {
   background: #7a1618 !important;
 }
-#upload-photo {
+#template_logo {
   display: none;
 }
 .form-control {
@@ -575,7 +623,7 @@ label {
 }
 .tool-box {
   background: #ffffff;
-  padding: 30px 30px 30px 30px;
+  padding: 10px 30px 10px 30px;
   width: 200px;
   border-radius: 4px;
   position: fixed;
@@ -775,7 +823,9 @@ label {
   margin: 0;
 }
 
-
+.open>.dropdown-menu {
+    display: block;
+}
 
 
 /* font-family: 'Raleway', sans-serif; */
@@ -1002,22 +1052,3 @@ label {
     margin: 0;
   }
 }
-
-/* font-family: 'Raleway', sans-serif; */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*  */

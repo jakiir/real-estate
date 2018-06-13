@@ -27,127 +27,86 @@ get_header(); ?>
 		die('You have no access right! Please contact system administration for more information.!');
 	}
 ?>
-<link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/fa/css/font-awesome.min.css">
 <style>
 	#profilePicRemover{
 		position: absolute;
-		top: 2px;
+		top: 33px;
 		right: 22px;
 	}
 	label.error{color:red;}
 </style>
-
-<!-- BLOG -->
-	<section id="blog">
-		<div class="container">
-			<div class="panel panel-primary">						
-				<div class="panel-heading">
+<?php
+	global $wpdb;
+	$table_template = $wpdb->prefix . 'template';					
+	$template_id = !empty($_GET['item']) ? $_GET['item'] : '';
+	if(empty($template_id)) die('You have to select a template first');
+	$get_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE id=$template_id", OBJECT );
+	if(empty($get_templages)) die('You have to select a template first');					
+?>
+<article class="container">
+        <div class="row">
+          <div class="col-sm-8 col-sm-offset-2">
+            <div class="box edit-template-box">
 				<?php $new_item = !empty($_GET['new_item']) ? $_GET['new_item'] : ''; ?>
-				  <h1 class="panel-title"><?php if($new_item){ echo 'Add Template'; } else { the_title(); } ?></h1>
-				</div>
-				<?php
-					global $wpdb;
-					$table_template = $wpdb->prefix . 'template';					
-					$template_id = !empty($_GET['item']) ? $_GET['item'] : '';
-					if(empty($template_id)) die('You have to select a template first');
-					$get_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE id=$template_id", OBJECT );
-					if(empty($get_templages)) die('You have to select a template first');					
-				?>
-				<div class="panel-body">
-					<div class="container">						
-						<div class="row">
-							<form class="form-horizontal" role="form" id="edit_template" enctype="multipart/form-data">							
-							<input type="hidden" name="template_id" id="template_id" value="<?php echo (isset($_GET['item']) ? $_GET['item'] : ''); ?>">
-							  <!-- edit form column -->
-							  <div class="col-md-8 personal-info">							
-								  <div class="form-group">
-									<label class="col-lg-3 control-label" for="template_name">Name:</label>
-									<div class="col-lg-8">
-									  <input class="form-control required" type="text" name="template_name" id="template_name" value="<?php echo !empty($get_templages[0]->name) ? $get_templages[0]->name : ''; ?>">
-									</div>
-								  </div>
-								  
-								  <div class="form-group">
-									<div class="col-lg-8 col-lg-offset-3" for="template_share">
-									 <label><input type="checkbox" name="template_share" id="template_share" <?php echo !empty($get_templages[0]->shared_flag) && $get_templages[0]->shared_flag == 'true' ? 'checked' : ''; ?>> Share</label>
-									</div>
-								  </div>
-								  
-								  <div class="form-group">
-									<label class="col-lg-3 control-label" for="template_state">State:</label>
-									<div class="col-lg-8">
-									  <div class="ui-select">
-										<select id="template_state" name="template_state" class="form-control required" >
-										  <option value="texas">Texas</option>
-										  <option value="Alaska">Alaska</option>
-										  <option value="Pacific Time (US &amp; Canada)">Canada</option>
-										  <option value="Arizona">Arizona</option>									  
-										  <option value="Indiana">Indiana</option>
-										</select>
-									  </div>
-									</div>
-								  </div>
-								  
-								  <div class="form-group">
-									<label class="col-lg-3 control-label" for="template_state_id">State Id:</label>
-									<div class="col-lg-8">
-									  <input class="form-control required" type="text" name="template_state_id" id="template_state_id" value="<?php echo !empty($get_templages[0]->state_form) ? $get_templages[0]->state_form : ''; ?>">
-									</div>
-								  </div>
-								  
-								  <div class="form-group">
-									<label class="col-lg-3 control-label" for="template_date">Date:</label>
-									<div class="col-lg-8">
-									  <input class="form-control datepicker required" type="text" name="template_date" id="template_date" value="<?php echo !empty($get_templages[0]->template_date) ? $get_templages[0]->template_date : ''; ?>">
-									</div>
-								  </div>
-								  
-								  <div class="form-group">
-									<label class="col-lg-3 control-label" for="template_company">Company:</label>
-									<div class="col-lg-8">
-									  <input class="form-control required" type="text" name="template_company" id="template_company" value="<?php echo !empty($get_templages[0]->companyId) ? $get_templages[0]->companyId : ''; ?>">
-									</div>
-								  </div>							
-							  </div>
-							  
-							  <!--Right panel-->
-							  <div class="col-md-3">
-								<div class="text-center" id="hsc_std_photo">
-								  <img src="<?php echo !empty($get_templages[0]->logo_url) ? $get_templages[0]->logo_url : '//placehold.it/200'; ?>" class="avatar img-responsive" id="preview_image" alt="avatar">
-								  <h6>Upload a different photo...</h6>
-								  
-								  <input type="file" class="form-control <?php echo !empty($get_templages[0]->logo_url) ? '' : 'required'; ?>" name="template_logo" id="template_logo" onchange="instantPhotoUpload(this)">
-								</div>
-							  </div>
-							  
-							  <div class="col-md-12">
-								<div class="form-group">
-									<label for="footer_template" class="col-lg-1 control-label col-lg-offset-1">Footer:</label>
-									<div class="col-lg-9">
-									  <textarea class="form-control required" rows="3" name="footer_template" id="footer_template"><?php echo !empty($get_templages[0]->footer_html) ? $get_templages[0]->footer_html : ''; ?></textarea>
-									</div>
-								  </div>
-								  
-								  <div class="form-group">
-									<label class="col-md-9 col-lg-offset-1 control-label msg_show"></label>
-									<div class="col-md-2">
-										<button type="submit" name="order_type" class="btn-order-fill save_btn btn btn-primary" value="customize">
-										<i class="fa fa-building" aria-hidden="true"></i>										 
-										Customize
-										</button>									  							  
-									</div>
-								  </div>
-							  </div>
-							</form>
-					  </div>
-					</div>
-					<hr>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- /BLOG -->
-	
+              <h2 class="page-title-body"><?php if($new_item){ echo 'Add Template'; } else { echo 'Edit Templates'; } ?></h2>
+              <form class="edit-template-form" id="edit_template" enctype="multipart/form-data" method="post">
+			  <input type="hidden" name="template_id" id="template_id" value="<?php echo (isset($_GET['item']) ? $_GET['item'] : ''); ?>">
+                <div class="row">
+                  <div class="col-sm-6 col-sm-push-6 text-center">
+                    <div class="edit-template-img" id="hsc_std_photo">
+					  <?php $defaultImage = esc_url( get_template_directory_uri() ).'/images/edit-template-default.png'; ?>
+                      <img alt="img" src="<?php echo !empty($get_templages[0]->logo_url) ? $get_templages[0]->logo_url : $defaultImage; ?>" class="avatar img-responsive" id="preview_image">
+                    </div>
+                    <!-- End of edit-template-img -->
+                    <label class="btn-file-upload" for="template_logo">Browse</label>
+                    <input type="file" name="photo" <?php echo !empty($get_templages[0]->logo_url) ? '' : 'required'; ?>" name="template_logo" id="template_logo" onchange="instantPhotoUpload(this)"/>
+					
+                  </div>
+                  <!-- End of col -->
+                  <div class="col-sm-6 col-sm-pull-6">
+                    <label for="template_name">Name</label>
+                    <input type="text" class="form-control required" name="template_name" id="template_name" value="<?php echo !empty($get_templages[0]->name) ? $get_templages[0]->name : ''; ?>" placeholder="Name">
+                    <div class="share-checkbox">
+                      <input type="checkbox" name="template_share" id="template_share" <?php echo !empty($get_templages[0]->shared_flag) && $get_templages[0]->shared_flag == 'true' ? 'checked' : ''; ?> ><label for="template_share">Share</label>
+                    </div>
+                    <label for="template_state">State</label>
+					<select id="template_state" name="template_state" class="form-control required" >
+					  <option value="texas">Texas</option>
+					  <option value="Alaska">Alaska</option>
+					  <option value="Pacific Time (US &amp; Canada)">Canada</option>
+					  <option value="Arizona">Arizona</option>									  
+					  <option value="Indiana">Indiana</option>
+					</select>
+                    <label for="template_state_id">State ID</label>
+                    <input type="text" class="form-control required" name="template_state_id" id="template_state_id" value="<?php echo !empty($get_templages[0]->state_form) ? $get_templages[0]->state_form : ''; ?>" placeholder="AK">
+                    <label for="template_date">Date</label>
+                    <input type="text" class="form-control datepicker required" name="template_date" id="template_date" value="<?php echo !empty($get_templages[0]->template_date) ? $get_templages[0]->template_date : ''; ?>" placeholder="Date">
+                    <label for="template_company">Company</label>
+                    <input type="text" class="form-control required" name="template_company" id="template_company" value="<?php echo !empty($get_templages[0]->companyId) ? $get_templages[0]->companyId : ''; ?>" placeholder="Company">
+                  </div>
+                  <!-- End of col -->
+                  <div class="col-sm-12">
+                    <label for="footer_template">Footer</label>
+                    <textarea class="form-control required" rows="3" cols="80" name="footer_template" id="footer_template"><?php echo !empty($get_templages[0]->footer_html) ? $get_templages[0]->footer_html : ''; ?></textarea>
+                    <div class="text-right">
+						<span class="msg_show"></span>
+                      <button type="submit" name="order_type" class="btn-order-fill save_btn btn-taptap" value="customize">
+					  <i class="fa fa-building" aria-hidden="true"></i> Customize
+					  </button>
+                    </div>
+                  </div>
+                  <!-- End of col -->
+                </div>
+                <!-- End of row -->
+              </form>
+            </div>
+            <!-- End of box -->
+          </div>
+          <!-- End of col -->
+        </div>
+        <!-- End of row -->
+      </article>
+      <!--End of container-->	
 <script type="text/javascript">
 	jQuery(function($){
 		$('.datepicker').datetimepicker({
@@ -230,7 +189,7 @@ get_header(); ?>
 			reader.onload = imageIsLoaded;
 			reader.readAsDataURL(THIS.files[0]);
 			$("#hsc_std_photo").append($("<img/>", {id: 'profilePicRemover', src: '<?php echo esc_url( get_template_directory_uri() ); ?>/images/remove.png', alt: 'delete'}).click(function() {
-				$('#preview_image').attr('src', '//placehold.it/200');
+				$('#preview_image').attr('src', '<?php echo $defaultImage; ?>');
 				$('#profilePicRemover').remove();
 			}));
 		}

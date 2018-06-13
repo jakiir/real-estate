@@ -1,20 +1,28 @@
 .toolbar{
   position:fixed;
-  left:0px;
-  top:0px;
+  left: 52px;
+  top: 105px;
   width:150px;
   height:100%;
   background-color: #414100;
   box-sizing: border-box;
   padding:10px;
 }
+.sticky-side{top:0px;}
 .tool.dragelement{
-  padding:5px;
-  border:1px solid #aaa;
-  margin:9px 0px;
-  border-radius:3px;
-  color: #fff;
-  list-style: none;
+  
+}
+.tool-box .tool.dragelement {
+    color: #ffffff;
+    font-family: 'Raleway', sans-serif;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 400;
+    display: inline-block;
+    width: 100%;
+    background: #9d1c1f;
+    padding: 10px;
+    border-radius: 4px;
 }
 .tool.dragelement a{color: #fff;text-decoration:none;}
 .goToDrawing{
@@ -123,3 +131,4 @@ input[readonly="readonly"]{background-color:#eee;}
 	width: 65px;
     margin-top: 3%;
 }
+#templateViewer,#printReportArea{background:#fff;}

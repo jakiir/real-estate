@@ -21,8 +21,8 @@ get_header('landing');
 	  <div class="col-sm-8 col-sm-offset-2">
 		<div class="box home-box">
 		  <ul>
-			<li><a class="btn-extra-large" href="#">Manage Company</a></li>
-			<li><a class="btn-extra-large" href="#">Perform Inspection</a></li>
+			<li><a class="btn-extra-large" href="<?php echo home_url('/completed-inspections/'); ?>">Manage Company</a></li>
+			<li><a class="btn-extra-large" href="<?php echo home_url('/perform-inspection/'); ?>">Perform Inspection</a></li>
 		  </ul>
 		</div>
 		<!-- End of box -->

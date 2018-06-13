@@ -25,7 +25,7 @@
  * Card component
  */
 .card {
-    background-color: #7a1618;
+    background-color: #2f4052;
     /* just in case there no content*/
     padding: 20px 25px 30px;
     margin: 0 auto 25px;
@@ -137,7 +137,7 @@
 .forgot-password:focus{
     color: rgb(12, 97, 33);
 }
-.font_icon{font-size:40px;position:relative;top:-9px;}
+.font_icon{font-size:20px;position:relative;top:4px;}
 .success_icon{color:#82c91e;}
 .panel-deapred {
     border-color: #7a1618;
@@ -146,4 +146,26 @@
     color: #fff;
     background-color: #7a1618;
     border-color: #7a1618;
+}
+.taptap-modal-header{
+	background-color: #9d1c1f;
+    color: #fff;
+}
+.taptap-modal-header .close{
+	color: #fff;
+    opacity: 1;
+}
+.taptap-modal-body label{margin:0;}
+.template-tab-pane-list select{padding:10px;}
+.template-tab-pane-list select option{
+	color: #000000;
+    font-family: 'Raleway', sans-serif;
+    font-size: 18px;
+    line-height: 24px;
+    font-weight: 400;
+	margin-bottom: 12px;
+}
+.canvas .area{
+  background-color:#fff;
+  border-radius:4px;
 }

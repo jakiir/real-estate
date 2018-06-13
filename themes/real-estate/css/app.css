@@ -151,7 +151,6 @@
 .avatar {
   position: relative;
   display: block;
-  border-radius: 500px;
   white-space: nowrap;
 }
 .avatar img {

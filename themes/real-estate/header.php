@@ -23,72 +23,76 @@
 	<?php //wp_head(); ?>
 	<?php $template_directory_uri = get_template_directory_uri(); ?>
 	<link rel="stylesheet" href="<?php echo esc_url( $template_directory_uri . '/css/bootstrap.min.css"' ); ?>" />
-	<link rel="stylesheet" href="<?php echo esc_url( $template_directory_uri . '/css/custom-style.css"' ); ?>" />
 	<link rel="stylesheet" href="<?php echo esc_url( $template_directory_uri . '/css/bootstrap-datetimepicker.css"' ); ?>" />
+	<link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/css/dataTables.bootstrap.min.css">	
+    <!--font-awesome css-->
+    <link rel="stylesheet" href="<?php echo esc_url( $template_directory_uri . '/css/font-awesome.min.css"' ); ?>" />
+    <!-- app css -->
+    <link rel="stylesheet" href="<?php echo esc_url( $template_directory_uri . '/css/app.css"' ); ?>" />
+    <!-- css for this template -->
+    <link rel="stylesheet" href="<?php echo esc_url( $template_directory_uri . '/css/main.css"' ); ?>" />
+	<link rel="stylesheet" href="<?php echo esc_url( $template_directory_uri . '/css/custom-style.css"' ); ?>" />
 	<link rel="stylesheet" href="<?php echo esc_url( $template_directory_uri . '/css/responsive.css"' ); ?>" />
+	
 	<script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jquery.min.js"></script><!-- jQuery -->
 	<script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/bootstrap.min.js"></script><!-- Bootstrap -->
 	<script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jquery.validate.js"></script><!-- Parallax -->
 </head>
 
 <body ng-app="formbuilder">
-<div id="page" class="site">
-	<div id="content" class="site-content">
-	<nav class="navbar navbar-default" role="navigation">
-	  <div class="container">		
-		<div class="navbar-header">
-			<?php if (is_user_logged_in()) { $user = wp_get_current_user(); ?>
-				<span class="mobile-view-user">
-					<?php 
-					if(!empty($user) && $user->roles[0] == 'administrator'){
-						$adminUrl = admin_url();
-						echo '<a href="'.$adminUrl.'">'.$user->display_name.'</a>'; 
-					} else {
-						echo $user->display_name;
-					}
-					?>
-					<?php //echo $user->roles[0]; ?>
-				</span>
-			<?php } ?>
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-			<span class="sr-only">Toggle navigation</span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			</button>
-		</div>
-		<div id="navbar" class="navbar-collapse collapse">
-		<ul class="nav navbar-nav">		  
-		  <?php 
-			if (is_user_logged_in()) {
-			if(!empty($user) && $user->roles[0] != 'administrator'){
-		  ?>
-				<?php /* ?><li><a href="javascript:void(0)"><?php the_title(); ?></a></li><?php */ ?>
-				<li class=""><a href="<?php echo home_url('/perform-inspection/'); ?>">Home</a></li>
-				<li class="<?php if(is_page('perform-inspection')) echo 'active'; ?>"><a href="<?php echo home_url('/perform-inspection/'); ?>">Perform inspection</a></li>
-				<li class="<?php if(is_page('completed-inspections')) echo 'active'; ?>"><a href="<?php echo home_url('/completed-inspections/'); ?>">Completed inspections</a></li>
-			<?php } else { ?>
-				<?php /* ?><li><a href="javascript:void(0)"><?php the_title(); ?></a></li><?php */ ?>
-				<li><a href="<?php echo home_url('/template/'); ?>">Home</a></li>
-				<li class=""><a href="<?php echo home_url('/perform-inspection/'); ?>">Perform inspection</a></li>
-				<li class="<?php if(is_page('completed-inspections')) echo 'active'; ?>"><a href="<?php echo home_url('/completed-inspections/'); ?>">Completed inspections</a></li>
-				<li class="<?php if(is_page('template')) echo 'active'; ?>"><a href="<?php echo home_url('/template/'); ?>">Template</a></li>
-			<?php } ?>
-		  <li><a class="login_button" href="<?php echo wp_logout_url( home_url() ); ?>">Logout</a></li>	
-			<?php } ?>
-		</ul>
-		<?php if (is_user_logged_in()) { ?>
-			<span class="desktop-view-user">
-				<?php if(!empty($user) && $user->roles[0] == 'administrator'){
-						$adminUrl = admin_url();
-						echo '<a href="'.$adminUrl.'">'.$user->display_name.'</a>'; 
-					} else {
-						echo $user->display_name;
-					}
-				?>
-				<?php //echo $user->roles[0]; ?>
-			</span>
-		<?php } ?>
-	  </div>
-	  </div>
-	</nav>
+<header class="area">
+      <section class="header area">
+        <article class="container">
+          <div class="nav-icon">
+            <button class="nav-icon-btn" type="button">
+              <span class="nav-icon-bar"></span>
+              <span class="nav-icon-bar"></span>
+              <span class="nav-icon-bar"></span>
+            </button>
+          </div>
+          <!-- End of nav-icon -->
+          <div class="main-nav">
+            <div class="site-logo">
+              <a href="<?php echo home_url('/landing-page/'); ?>">
+                <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/logo.png" alt="...">
+              </a>
+            </div>
+            <!-- End of site-logo -->
+            <ul>
+              <li><a class="<?php if(is_page('landing-page')) echo 'active'; ?>" href="<?php echo home_url('/landing-page/'); ?>">Home</a></li>
+              <li><a class="<?php if(is_page('perform-inspection')) echo 'active'; ?>" href="<?php echo home_url('/perform-inspection/'); ?>">Perform Inspections</a></li>
+              <li><a class="<?php if(is_page('completed-inspections')) echo 'active'; ?>" href="<?php echo home_url('/completed-inspections/'); ?>">Completed Inspections</a></li>
+              <li><a class="<?php if(is_page('template')) echo 'active'; ?>" href="<?php echo home_url('/template/'); ?>">Templates</a></li>
+            </ul>
+            <!-- End of nav -->
+          </div>
+          <!--End of main-nav-->
+          <div class="user-options">
+            <h2 class="user-name">
+			<?php 
+				$user = wp_get_current_user();
+				if(!empty($user)){
+					echo $user->display_name;
+				}
+			?>
+			</h2>
+            <div class="dropdown">
+              <button class="btn btn-user dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <i class="icon-user"></i>
+              </button>
+              <ul class="dropdown-menu">
+                <li><a href="#">Profile</a></li>
+                <li><a href="<?php echo home_url('/completed-inspections/'); ?>">Company</a></li>
+                <li><a href="<?php echo wp_logout_url( home_url() ); ?>">Logout</a></li>
+              </ul>
+            </div>
+            <!-- End of dropdown -->
+          </div>
+          <!-- End of user-options -->
+        </article>
+        <!--End of container-->
+      </section>
+      <!--End of header-->
+    </header>
+    <!--End of header-->
+	<main class="area">
