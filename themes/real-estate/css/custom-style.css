@@ -169,3 +169,51 @@
   background-color:#fff;
   border-radius:4px;
 }
+.table-striped a{
+	color: #9d1c1f;
+    text-decoration: none;
+	font-weight:bold;
+}
+.table-striped a:focus, .table-striped a:hover {
+    color: #9d1c1f;
+    text-decoration: underline;
+}
+.table-filter td{
+	border: none !important;
+    vertical-align: middle !important;
+}
+div.dataTables_wrapper div.dataTables_paginate ul.pagination {
+    background-color: #9d1c1f;
+}
+.pagination li a{
+	background-color:#9d1c1f;
+	color: #fff;
+	border-color: #9d1c1f;
+	text-decoration:none;
+	margin-left: 6px;
+}
+.pagination>.disabled>a, .pagination>.disabled>a:focus, .pagination>.disabled>a:hover, .pagination>.disabled>span, .pagination>.disabled>span:focus, .pagination>.disabled>span:hover {
+    color: #fff;
+    cursor: not-allowed;
+    background-color: #9d1c1f;
+    border-color: #9d1c1f;
+}
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+    z-index: 3;
+    color: #fff;
+    cursor: default;
+    background-color: #5C0104;
+    border-color: #5C0104;
+	border-radius: 10px;
+}
+.pagination>li>a:focus, .pagination>li>a:hover, .pagination>li>span:focus, .pagination>li>span:hover {
+    z-index: 2;
+    color: #fff;
+    background-color: #5C0104;
+    border-color: #5C0104;
+	border-radius: 10px;
+}
+#devTable_length select.input-sm{
+	width:auto;
+	height:auto;
+}

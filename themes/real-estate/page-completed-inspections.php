@@ -8,8 +8,9 @@ get_header(); ?>
 ?>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jquery.dataTables.min.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/dataTables.bootstrap.min.js"></script>
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/css/smoothness/jquery-ui-1.10.0.custom.min.css" />
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/jquery-ui.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/moment.min.js"></script>
+  <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/css/jquery-ui-1.10.0.custom.min.css" />
+  <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jquery-ui.js"></script>
 <style>
 	#profilePicRemover{
 		position: absolute;
@@ -38,6 +39,20 @@ get_header(); ?>
 			}
 		?>
 		<div class="panel-body">
+			
+			<table class="table table-striped table-filter" border="0" cellspacing="0" width="100%">
+				<tr>
+					<td>Date Range:</td>
+					<td>
+						<input class="form-control datepicker date-range-filter" data-date-format="mm/dd/yyyy" type="text" name="date_range" id="from" value="">
+					</td>
+					<td>To:</td>
+					<td>
+					<input class="form-control datepicker date-range-filter" data-date-format="mm/dd/yyyy" type="text" name="dateTo" id="to" value="">
+					</td>
+				</tr>
+			</table>
+		
 			<table class="table table-striped table-bordered" cellspacing="0" width="100%" id="devTable">
 				<thead>
 					<tr>
@@ -63,25 +78,9 @@ get_header(); ?>
 				</tbody>
 			</table>
 			<div class="col-sm-12">
-				<div class="row">				
-					<div class="col-sm-6">
-						<label for="from">Date Range :</label>
-						<input class="form-control datepicker date-range-filter" data-date-format="mm/dd/yyyy" type="text" name="date_range" id="from" value="">
-					</div>
-					<!-- End of col -->
-					<div class="col-sm-6">
-						<label for="to">To :</label>
-						<input class="form-control datepicker date-range-filter" data-date-format="mm/dd/yyyy" type="text" name="dateTo" id="to" value="">
-					</div>
-				</div>
-				<br/>
-				<div class="row">
-					<div class="col-sm-6">						
-						<button type="button" class="btn-taptap checkBoxSlected printSelectedItem" disabled="disabled"><i class="fa fa-print"></i> Print</button>
-					</div>
-					<div class="col-sm-6">					
-						<button type="button" class="btn-taptap checkBoxSlected" data-toggle="modal" data-target="#shareFormView" disabled="disabled"><i class="fa fa-share"></i> Share</button>
-					</div>
+				<div class="row pull-right">					
+					<button type="button" class="btn-taptap checkBoxSlected printSelectedItem" disabled="disabled"><i class="fa fa-print"></i> Print</button>
+					<button type="button" class="btn-taptap checkBoxSlected" data-toggle="modal" data-target="#shareFormView" disabled="disabled"><i class="fa fa-share"></i> Share</button>
 				</div>
 			</div>
 		</div>
