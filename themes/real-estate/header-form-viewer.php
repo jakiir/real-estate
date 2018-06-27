@@ -56,7 +56,6 @@
               <li><a class="<?php if(is_page('perform-inspection')) echo 'active'; ?>" href="<?php echo home_url('/perform-inspection/'); ?>">Perform Inspections</a></li>
               <li><a class="<?php if(is_page('completed-inspections')) echo 'active'; ?>" href="<?php echo home_url('/completed-inspections/'); ?>">Completed Inspections</a></li>
               <li><a class="<?php if(is_page('template')) echo 'active'; ?>" href="<?php echo home_url('/template/'); ?>">Templates</a></li>
-			  <li><a href="javascript:void(0)" id="printTemplateBtn" class=""><i class="fa fa-print" aria-hidden="true"></i> Print</a></li>
             </ul>
             <!-- End of nav -->
           </div>

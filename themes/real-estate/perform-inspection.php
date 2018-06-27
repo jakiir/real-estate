@@ -40,7 +40,7 @@ get_header(); ?>
           <div class="col-sm-8 col-sm-offset-2">
             <div class="box perform-inspection-box">
               <h2 class="page-title-body">Perform Inspection</h2>
-              <form class="perform-inspection-form" action="" method="post">
+              <form class="perform-inspection-form" id="inspection_form" action="" method="post">
                 <div class="row">
                   <div class="col-sm-6">
                     <label for="company">Company</label>
@@ -49,7 +49,7 @@ get_header(); ?>
                   <!-- End of col -->
                   <div class="col-sm-6">
                     <label for="inpection_date">Date</label>
-                    <input type="date" class="form-control datepicker required" name="inpection_date" id="inpection_date" placeholder="">
+                    <input type="text" class="form-control datepicker required" name="inpection_date" id="inpection_date" placeholder="">
                   </div>
                   <!-- End of col -->
                   <div class="col-sm-12">
@@ -133,8 +133,7 @@ jQuery(function($){
 	$(document).on("click", ":submit", function(e) {
 			$('.msg_show').html('<span class="font_icon"><i class="fa fa-refresh fa-spin" aria-hidden="true"></i></span>');
 			var formValid = $("#inspection_form").valid();
-			var thisForm = $(this);		
-			
+			var thisForm = $(this);
 			if (formValid === false) {				
 				$('.msg_show').html('<span style="color:red">required field must be fill up!</span>');				
 			} else {

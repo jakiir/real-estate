@@ -125,7 +125,7 @@ get_header('form-agent-viewer');
 			<td align="right">&nbsp;</td>
 		</tr>
 	</table>
-    <form class="theform">
+    <form class="theform formcontrol">
       <div ng-repeat="section in form" class="mainSection">
 	  <div ng-show="section.children[1] ? true : false" ng-bind-html="section.children[0][0][0].data" class="repair-comment-false commentBoxItem"></div>
 	  <?php /* ?><div ng-repeat="child in section.children" ng-show="section.children[1] ? false : true" class="commentBoxItem sub_section_agent">
@@ -282,7 +282,7 @@ get_header('form-agent-viewer');
 </div>
 	<?php if($report_id){ ?>
     <div class="actions">
-      <a href="#" style="text-decoration:none;" role="button" id="reporPrintDrBtn" class="button primary"><i class="fa fa-print" aria-hidden="true"></i> Repair Report</a>
+      <a href="#" style="text-decoration:none;" role="button" id="reporPrintDrBtn" class="btn-taptap"><i class="fa fa-print" aria-hidden="true"></i> Repair Report</a>
     </div>
 	<?php } ?>
 	
@@ -338,7 +338,7 @@ get_header('form-agent-viewer');
 		</tr>
 	</table>
 	
-    <form class="theform">
+    <form class="theform formcontrol">
       <div ng-repeat="section in form" class="mainSection">
 	  <div ng-show="section.children[1] ? true : false" ng-bind-html="section.children[0][0][0].data" class="jak commentBoxItem"></div>
 	  <div ng-repeat="child in section.children" ng-show="section.children[1] ? false : true" class="commentBoxItem">

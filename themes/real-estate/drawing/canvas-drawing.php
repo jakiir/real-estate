@@ -155,7 +155,7 @@
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/app.js"></script>
 <!-- initialization script -->
 <script type="text/javascript">
-loadDocCus();
+//loadDocCus();
 	$(window).load(function(){
 		loadDocCus();
 	});

@@ -52,36 +52,11 @@
             </div>
             <!-- End of site-logo -->
             <ul>
-              <li><a class="<?php if(is_page('landing-page')) echo 'active'; ?>" href="<?php echo home_url('/landing-page/'); ?>">Home</a></li>
-              <li><a class="<?php if(is_page('perform-inspection')) echo 'active'; ?>" href="<?php echo home_url('/perform-inspection/'); ?>">Perform Inspections</a></li>
-              <li><a class="<?php if(is_page('completed-inspections')) echo 'active'; ?>" href="<?php echo home_url('/completed-inspections/'); ?>">Completed Inspections</a></li>
-              <li><a class="<?php if(is_page('template')) echo 'active'; ?>" href="<?php echo home_url('/template/'); ?>">Templates</a></li>
 			  <li><a href="javascript:void(0)" id="printDrBtn" class=""><i class="fa fa-print" aria-hidden="true"></i> Full Report</a></li>
             </ul>
             <!-- End of nav -->
           </div>
           <!--End of main-nav-->
-          <div class="user-options">
-            <h2 class="user-name" style="bottom:11px;">
-			<?php 
-				$user = wp_get_current_user();
-				if(!empty($user)){
-					echo $user->display_name;
-				}
-			?>
-			</h2>
-            <div class="dropdown">
-              <button class="btn btn-user dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                <i class="icon-user"></i>
-              </button>
-              <ul class="dropdown-menu">
-                <li><a href="#">Profile</a></li>
-                <li><a href="<?php echo home_url('/completed-inspections/'); ?>">Company</a></li>
-                <li><a href="<?php echo wp_logout_url( home_url() ); ?>">Logout</a></li>
-              </ul>
-            </div>
-            <!-- End of dropdown -->
-          </div>
           <!-- End of user-options -->
         </article>
         <!--End of container-->

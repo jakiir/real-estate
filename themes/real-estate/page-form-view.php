@@ -99,7 +99,7 @@ get_header('form-viewer'); ?>
 		</tr>
 	</table>
 	
-    <form class="theform">
+    <form class="theform formcontrol">
       <div ng-repeat="section in form" class="mainSection">
 	  <div ng-show="section.children[1] ? true : false" ng-bind-html="section.children[0][0][0].data" class="commentBoxItem"></div>
 	  <div ng-repeat="child in section.children" ng-show="section.children[1] ? false : true" class="commentBoxItem">
@@ -163,9 +163,10 @@ get_header('form-viewer'); ?>
 	<?php if($report_id){ ?>
     <div class="actions">
 	  <div class="msg_show" style="position: absolute;left:135px;top:19px;font-size:14px;background: #fff;padding: 2px 6px;"></div>
-      <div class="button primary saveChanges" ng-click="submitData(1,'','')">
+	  <a href="javascript:void(0)" class="btn-taptap saveChanges" ng-click="submitData(1,'','')">
         <i class="fa fa-floppy-o" aria-hidden="true"></i> Save Changes
-      </div>
+      </a>
+	  <a href="javascript:void(0)" id="printTemplateBtn" class="btn-taptap"><i class="fa fa-print" aria-hidden="true"></i> Print</a>
     </div>
 	<?php } else { ?>
 		<style>
