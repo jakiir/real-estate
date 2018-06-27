@@ -77,10 +77,14 @@ get_header(); ?>
 					<?php $inc++; }} ?>
 				</tbody>
 			</table>
-			<div class="col-sm-12">
-				<div class="row pull-right">					
-					<button type="button" class="btn-taptap checkBoxSlected printSelectedItem" disabled="disabled"><i class="fa fa-print"></i> Print</button>
-					<button type="button" class="btn-taptap checkBoxSlected" data-toggle="modal" data-target="#shareFormView" disabled="disabled"><i class="fa fa-share"></i> Share</button>
+			<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+				<div class="row">
+					<div class="col-sm-7 col-sm-offset-1">
+						<div class="dataTables_paginate paging_simple_numbers">					
+							<button type="button" class="btn-taptap checkBoxSlected printSelectedItem" disabled="disabled"><i class="fa fa-print"></i> Print</button>
+							<button type="button" class="btn-taptap checkBoxSlected" data-toggle="modal" data-target="#shareFormView" disabled="disabled"><i class="fa fa-share"></i> Share</button>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -260,4 +264,5 @@ function eachSelect(source){
 }
 
 </script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/main.js"></script>
 <?php //get_footer();
