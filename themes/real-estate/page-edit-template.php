@@ -18,7 +18,7 @@ get_header(); ?>
 <?php 
 	if (is_user_logged_in()) {
 		$user = wp_get_current_user();
-		if($user->roles[0] != 'administrator'){
+		if(!empty($user) && $user->roles[0] != 'administrator' && !empty($user) && $user->roles[0] != 'company_admin'){
 			echo '<script>window.location.replace("'.home_url().'");</script>';
 			die('You have no access right! Please contact system administration for more information.!');
 		}

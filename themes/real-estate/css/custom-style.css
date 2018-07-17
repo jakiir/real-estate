@@ -232,7 +232,9 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination {
 .nav-icon-btn:focus{outline:none;}
 #company_registration label.error{
 	position: absolute;
-    top: -51px;
+    top:-23px;
     color: red;
     right: 0;
 }
+#company_registration label{margin:0;}
+.dataTables_wrapper select.input-sm{height:auto;width:auto !important;}

@@ -34,6 +34,7 @@
 	<blockquote style="border-top: 1px solid rgb(204, 204, 204); border-bottom: 1px solid rgb(204, 204, 204); opacity: 0;"></blockquote>
 </div>
 <header class="area">
+<?php $user = wp_get_current_user(); ?>
       <section class="header area">
         <article class="container">
           <div class="nav-icon">
@@ -55,7 +56,9 @@
               <li><a class="<?php if(is_page('landing-page')) echo 'active'; ?>" href="<?php echo home_url('/landing-page/'); ?>">Home</a></li>
               <li><a class="<?php if(is_page('perform-inspection')) echo 'active'; ?>" href="<?php echo home_url('/perform-inspection/'); ?>">Perform Inspections</a></li>
               <li><a class="<?php if(is_page('completed-inspections')) echo 'active'; ?>" href="<?php echo home_url('/completed-inspections/'); ?>">Completed Inspections</a></li>
+              <?php if(!empty($user) && $user->roles[0] == 'administrator' && !empty($user) || $user->roles[0] == 'company_admin'){ ?>
               <li><a class="<?php if(is_page('template')) echo 'active'; ?>" href="<?php echo home_url('/template/'); ?>">Templates</a></li>
+			  <?php } ?>
             </ul>
             <!-- End of nav -->
           </div>
@@ -75,7 +78,7 @@
               </button>
               <ul class="dropdown-menu">
                 <li><a href="#">Profile</a></li>
-                <li><a href="<?php echo home_url('/completed-inspections/'); ?>">Company</a></li>
+                <li><a href="<?php echo home_url('/company-management/'); ?>">Company</a></li>
                 <li><a href="<?php echo wp_logout_url( home_url() ); ?>">Logout</a></li>
               </ul>
             </div>

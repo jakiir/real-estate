@@ -35,41 +35,110 @@ get_header(); ?>
 	<div class="row">
 		<div class="col-sm-8 col-sm-offset-2">
 			<div class="box perform-inspection-box">
-			<h2 class="page-title-body">Management Company</h2>
-			<?php
-			//$company_users = get_users( 'orderby=nicename&role=company_admin' );
-			
-			$args1 = array(
-			 'role' => 'company_admin',
-			 'orderby' => 'user_nicename',
-			 'order' => 'ASC'
-			);
-			 $company_users = get_users($args1);
-			?>
+			<h2 class="page-title-body">Company Management</h2>
+			<a href="<?php echo home_url('/company-registration/'); ?>" class="btn-taptap"><i class="fa fa-plus-square"></i> Add</a>
 				<div class="panel-body table-responsive">
-
-					<table class="table table-striped table-bordered" cellspacing="0" width="100%" id="devTable">
+					<h4>Company Admin List</h4>
+					<table class="table table-striped table-bordered" cellspacing="0" width="100%" id="companyManage">
 						<thead>
 							<tr>
 								<th>#</th>
 								<th>Company Name</th>
 								<th>Email Address</th>
+								<th>Parrent Users</th>
 							</tr>
 						</thead>
 						<tbody>
-						<?php 
+						<?php
+						$company_args = array(
+							 'role' => 'company_admin',
+							 'orderby' => 'user_nicename',
+							 'order' => 'ASC'
+						);						
+						if(!empty($user) && $user->roles[0] == 'company_admin'){
+							$company_args = array(
+							 'role' => 'company_admin',
+							 'orderby' => 'user_nicename',
+							 'order' => 'ASC',
+							 'meta_query' => array(
+								array(
+									'key' => 'parrent_user',
+									'value' => $user->ID,
+									'compare' => 'EXISTS',
+								),
+							  )
+							);
+						}
+						$company_users = get_users($company_args);
+						
 						if(!empty($company_users)) {
 						$inc=1;
 						foreach($company_users as $company_user){
+							$user_id = $company_user->ID;
+							$parrent_user_id = get_the_author_meta( 'parrent_user', $user_id );							
 						?>
 							<tr>
 								<td><?php echo $inc; ?></td>
 								<td><?php echo esc_html( $company_user->display_name ); ?></td>
 								<td><?php echo esc_html( $company_user->user_email ); ?></td>
+								<td><?php if(!empty($parrent_user_id)){ 
+								$parrent_user=get_userdata($parrent_user_id);
+								echo esc_html( $parrent_user->display_name ) . ' [' . esc_html( $parrent_user->user_login ) . ']'; } else { echo '--'; } ?></td>
 							</tr>
 						<?php $inc++; }} ?>
 						</tbody>
 					</table>
+					<h4>Inspector List</h4>
+					<table class="table table-striped table-bordered" cellspacing="0" width="100%" id="inspectionManage">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Company Name</th>
+								<th>Email Address</th>
+								<th>Parrent Users</th>
+							</tr>
+						</thead>
+						<tbody>
+						<?php
+							$ins_args = array(
+								 'role' => 'inspector',
+								 'orderby' => 'user_nicename',
+								 'order' => 'ASC' 
+							);
+							if(!empty($user) && $user->roles[0] == 'company_admin'){
+								$ins_args = array(
+									 'role' => 'inspector',
+									 'orderby' => 'user_nicename',
+									 'order' => 'ASC',
+									 'meta_query' => array(
+										array(
+											'key' => 'parrent_user',
+											'value' => $user->ID,
+											'compare' => 'EXISTS',
+										),
+									  ) 
+								);
+							}
+						$inspection_users = get_users($ins_args);						
+						if(!empty($inspection_users)) {
+						$inc=1;
+						foreach($inspection_users as $inspection_user){
+							$user_id = $inspection_user->ID;
+							$parrent_user_id = get_the_author_meta( 'parrent_user', $user_id );
+							
+						?>
+							<tr>
+								<td><?php echo $inc; ?></td>
+								<td><?php echo esc_html( $inspection_user->display_name ); ?></td>
+								<td><?php echo esc_html( $inspection_user->user_email ); ?></td>
+								<td><?php if(!empty($parrent_user_id)){
+								$parrent_user=get_userdata($parrent_user_id);
+								echo esc_html( $parrent_user->display_name ) . ' [' . esc_html( $parrent_user->user_login ) . ']'; } else { echo '--'; } ?></td>
+							</tr>
+						<?php $inc++; }} ?>
+						</tbody>
+					</table>
+					
 				</div>
 			</div>
 		</div>
@@ -77,7 +146,11 @@ get_header(); ?>
 </section>
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('#devTable').DataTable({
+		$('#companyManage').DataTable({
+			"iDisplayLength": 10
+		});
+		
+		$('#inspectionManage').DataTable({
 			"iDisplayLength": 10
 		});
 	});
