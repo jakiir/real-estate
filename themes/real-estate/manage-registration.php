@@ -37,23 +37,57 @@ get_header(); ?>
 				<h2 class="page-title-body">Company Registration</h2>
 				<div class="panel-body">
 					<form class="form-horizontal" method="post" id="company_registration" action="#">
-						
 						<div class="form-group">
-							<label for="company_name" class="cols-sm-2 control-label">Company Name</label>
+							<label for="registration_as" class="cols-sm-2 control-label">Registration As</label>
 							<div class="cols-sm-10">
 								<div class="input-group">
-									<span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-									<input type="text" class="form-control required" name="company_name" id="company_name"  placeholder="Enter company name"/>
+									<span class="input-group-addon"><i class="fa fa-users fa-lg" aria-hidden="true"></i></span>
+									<select name="registration_as" id="registration_as" class="form-control" <?php if(!empty($user) && $user->roles[0] == 'administrator'){ ?> onchange="regisrationAs(this)" <?php } ?>>
+										<?php if(!empty($user) && $user->roles[0] == 'administrator'){ ?>
+											<option value="new_company">New Company Admin</option>
+										<?php } ?>
+										<option value="company_admin">Company Admin</option>
+										<option value="inspector">Inspector</option>										
+									</select>
 								</div>
 							</div>
 						</div>
-
 						<div class="form-group">
-							<label for="email_address" class="cols-sm-2 control-label">Your Email</label>
+							<label for="company_name" class="cols-sm-2 control-label">Company Name</label>
+							<?php if(!empty($user) && $user->roles[0] == 'administrator'){ ?>
+								<div class="cols-sm-10">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+										<span id="company_as">
+										<input type="text" class="form-control required" name="company_name" id="company_name"  placeholder="Enter company name"/>
+										</span>
+									</div>
+								</div>
+							<?php } if(!empty($user) && $user->roles[0] == 'company_admin'){ ?>
+								<div class="cols-sm-10">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+										<input type="text" class="form-control required" name="company_name_d" value="<?php echo $user->display_name; ?>" disabled="disabled"/>
+										<input type="hidden" name="company_name" id="company_name" value="<?php echo $user->ID; ?>"/>
+									</div>
+								</div>
+							<?php } ?>
+						</div>
+						<div class="form-group">
+							<label for="user_fullname" class="cols-sm-2 control-label">User Full Name</label>
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-									<input type="email" class="form-control required" name="email_address" id="email_address"  placeholder="Enter your Email"/>
+									<input type="text" class="form-control required" name="user_fullname" id="user_fullname"  placeholder="Enter user fullname"/>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="email_address" class="cols-sm-2 control-label">User Email</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+									<input type="email" class="form-control required" name="email_address" id="email_address"  placeholder="Enter user Email"/>
 								</div>
 							</div>
 						</div>
@@ -89,7 +123,7 @@ get_header(); ?>
 						</div>
 						<?php wp_nonce_field('company_new_user','company_new_user_nonce', true, true ); ?>
 						<div class="form-group ">
-							<button type="submit" class="btn-taptap">Register</button>
+							<button type="submit" class="btn-taptap"><i class="fa fa-share-square"></i> Register</button>
 							<span class="msg_show"></span>
 						</div>
 					</form>
@@ -100,7 +134,30 @@ get_header(); ?>
 </section>
 
 <script type="text/javascript">
-
+<?php if(!empty($user) && $user->roles[0] == 'administrator'){ ?>
+function regisrationAs(thisVal){
+	var selected_val = thisVal.value;
+	if(selected_val == 'new_company'){
+		$('#company_as').html('<input type="text" class="form-control required" name="company_name" id="company_name"  placeholder="Enter company name"/>');
+	} else {
+		var html = '<select name="company_name" id="company_name" class="form-control">';
+		<?php
+			$args1 = array(
+				 'role' => 'company_admin',
+				 'orderby' => 'user_nicename',
+				 'order' => 'ASC'
+			);
+			 $company_users = get_users($args1);		
+			if(!empty($company_users)) {
+			foreach($company_users as $company_user){
+		?>
+		html = html + '<option value="<?php echo $company_user->ID; ?>"><?php echo $company_user->display_name; ?></option>';
+		<?php } } ?>
+		html = html + '</select>';
+		$('#company_as').html(html);
+	}
+}
+<?php } ?>
 $(document).ready(function() {
 	$("#company_registration").validate();
 	$(document).on("click", ":submit", function(e) {
@@ -112,12 +169,13 @@ $(document).ready(function() {
 			var thisForm = $(this);
 			if (formValid === true) {
 				var reg_nonce = $('#company_new_user_nonce').val();
+				var registration_as  = $('#registration_as').val();
 				var company_name  = $('#company_name').val();
+				var user_fullname  = $('#user_fullname').val();
 				var email_address  = $('#email_address').val();
 				var company_username  = $('#company_username').val();
 				var company_password  = $('#company_password').val();
-				var confirm_pass  = $('#confirm_pass').val();			
-				
+				var confirm_pass  = $('#confirm_pass').val();				
 				if(company_password !== confirm_pass){
 					$('.msg_show').html('<span style="color:red">Both password mismatch!</span>');
 					return false;
@@ -126,7 +184,9 @@ $(document).ready(function() {
 				var form_data = new FormData();
 				form_data.append('action', 'company_registration_clb');
 				form_data.append('nonce', reg_nonce);
+				form_data.append('registration_as', registration_as);
 				form_data.append('company_name', company_name);
+				form_data.append('user_fullname', user_fullname);
 				form_data.append('email_address', email_address);
 				form_data.append('company_username', company_username);
 				form_data.append('company_password', company_password);
@@ -143,7 +203,8 @@ $(document).ready(function() {
 					  if(parsedJson.success == true){						  
 						  $('.msg_show').html('');
 						  $('.msg_show').html('<span style="color:green">'+parsedJson.mess+'</span>');
-						  location.reload();
+						  window.location = "<?php echo home_url('/company-management/'); ?>";
+						  //location.reload();
 					  } else {
 						  $('.msg_show').html('');
 						 $('.msg_show').html('<span style="color:red">'+parsedJson.mess+'</span>');

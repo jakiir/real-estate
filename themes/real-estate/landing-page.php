@@ -24,7 +24,7 @@ get_header('landing');
 			<?php 
 			if (is_user_logged_in()) {
 				$user = wp_get_current_user();
-				if(!empty($user) && $user->roles[0] == 'administrator'){
+				if(!empty($user) && $user->roles[0] == 'administrator' || !empty($user) && $user->roles[0] == 'company_admin'){
 			  ?>
 			<li><a class="btn-extra-large" href="<?php echo home_url('/company-registration/'); ?>">Manage Company</a></li>
 			<?php } } ?>

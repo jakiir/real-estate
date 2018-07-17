@@ -17,8 +17,8 @@
 get_header('login'); 
 if (is_user_logged_in()) {
 	$user = wp_get_current_user();
-	if(!empty($user) && $user->roles[0] == 'administrator'){
-		$siteUrl = home_url('/template/');
+	if(!empty($user) && $user->roles[0] == 'administrator' && !empty($user) || $user->roles[0] == 'company_admin'){
+		$siteUrl = home_url('/landing-page/');
 		wp_redirect( $siteUrl );
 	} else {
 		$siteUrl = home_url('/perform-inspection/');

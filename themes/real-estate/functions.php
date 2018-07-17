@@ -1244,9 +1244,11 @@ function company_registration_clb() {
 			'mess' => 'Ooops, something went wrong, please try again later.'
 		);
   }
- 
+ $user = wp_get_current_user();
   // Post values
-    $company_name = $_POST['company_name'];
+    $registration_as = $_POST['registration_as'];
+	$company_name = $_POST['company_name'];
+	$user_fullname = $_POST['user_fullname'];
     $email_address = $_POST['email_address'];
     $company_username    = $_POST['company_username'];
     $company_password     = $_POST['company_password'];
@@ -1256,14 +1258,17 @@ function company_registration_clb() {
      * IMPORTANT: You should make server side validation here!
      *
      */
- 
+	if($registration_as == 'inspector'){
+		$user_role = 'inspector';
+	} else {
+		$user_role = 'company_admin';
+	}
     $userdata = array(
         'user_login' => $company_username,
         'user_pass'  => $confirm_pass,
         'user_email' => $email_address,
-        'first_name' => $company_name,
-        'nickname'   => $company_name,
-		'role' => 'company_admin'
+        'first_name' => $user_fullname,
+		'role' => $user_role
     );
  
     $user_id = wp_insert_user( $userdata ) ;
@@ -1271,6 +1276,12 @@ function company_registration_clb() {
     // Return
 	$results = array();
 	if (!is_wp_error($user_id)) {
+		if($registration_as == 'new_company' && $user->roles[0] == 'administrator'){
+			add_user_meta( $user_id, 'company_name', $company_name);
+		} else {
+			add_user_meta( $user_id, 'parrent_user', $company_name);
+		}
+		
 		$results = array(
 			'success' => true,
 			'mess' => '<i class="fa fa-check-circle"></i>'
