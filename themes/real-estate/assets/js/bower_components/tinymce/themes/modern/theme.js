@@ -1308,7 +1308,7 @@ define('tinymce.modern.Theme', [
 			}
 
 			// Load content.min.css or content.inline.min.css
-			editor.contentCSS.push(skinUrl + '/content' + (editor.inline ? '.inline' : '') + '.min.css');
+			//editor.contentCSS.push(skinUrl + '/content' + (editor.inline ? '.inline' : '') + '.min.css');
 		}
 
 		ProgressState.setup(editor, theme);

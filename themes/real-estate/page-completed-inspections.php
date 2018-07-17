@@ -38,7 +38,7 @@ get_header(); ?>
 				$get_inspection = $wpdb->get_results( "SELECT ins.id,ins.company,ins.template_id,ins.report_identification,ins.prepared_for,ins.inpection_date,ird.id as ird_id FROM $table_inspection as ins JOIN $inspectionReportDetail as ird ON ird.inspectionId=ins.id WHERE ins.user_id=$user_id", OBJECT );
 			}
 		?>
-		<div class="panel-body">
+		<div class="panel-body table-responsive">
 			
 			<table class="table table-striped table-filter" border="0" cellspacing="0" width="100%">
 				<tr>

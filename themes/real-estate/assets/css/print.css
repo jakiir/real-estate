@@ -32,6 +32,7 @@ table.table-bordered tbody td.course-field {
 .print_pdf_footer,.viewHide,#fullReportPrint{display:block!important;}
 .report-table{width:100%;display:table!important;}
 .mainSection:first-child{display:block!important;}
+.ng-binding.ng-hide{display:none;}
 /*for chrome*/
 @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) {
     #drlistDivTbl,#printAreaDiv {
