@@ -850,13 +850,25 @@ add_role(
     )
 );
 
+add_role(
+    'company_admin',
+    __( 'Company Admin' ),
+    array(
+        'read'         => true,  // true allows this capability
+        'edit_posts'   => true,
+		'delete_posts' => false, // Use false to explicitly deny
+    )
+);
+
 if ( current_user_can('inspector') && !current_user_can('upload_files') )
 add_action('admin_init', 'allow_new_role_uploads');
 
 
 function allow_new_role_uploads() {
-    $new_role = get_role('inspector');
-    $new_role->add_cap('upload_files');
+    $inspector_role = get_role('inspector');
+    $inspector_role->add_cap('upload_files');
+	$company_role = get_role('company_admin');
+    $company_role->add_cap('upload_files');
 }
 
 add_action('admin_menu', 'realestate_menu_pages');
@@ -1131,7 +1143,7 @@ add_action('pre_get_posts','ml_restrict_media_library');
 
 function ml_restrict_media_library( $wp_query_obj ) {
     global $current_user, $pagenow;
-	if($current_user->roles[0] == 'administrator')
+	if(!empty($current_user->roles[0]) && $current_user->roles[0] == 'administrator')
 	return;
     if( !is_a( $current_user, 'WP_User') )
     return;
@@ -1217,6 +1229,76 @@ function parrent_user_table_row( $val, $column_name, $user_id ) {
     return $val;
 }
 add_filter( 'manage_users_custom_column', 'parrent_user_table_row', 10, 3 );
+
+
+/**
+ * New User registration
+ *
+ */
+function company_registration_clb() {
+ 
+  // Verify nonce
+  if( !isset( $_POST['nonce'] ) || !wp_verify_nonce( $_POST['nonce'], 'company_new_user' ) ){
+	  $results = array(
+			'success' => false,
+			'mess' => 'Ooops, something went wrong, please try again later.'
+		);
+  }
+ 
+  // Post values
+    $company_name = $_POST['company_name'];
+    $email_address = $_POST['email_address'];
+    $company_username    = $_POST['company_username'];
+    $company_password     = $_POST['company_password'];
+    $confirm_pass     = $_POST['confirm_pass'];
+ 
+    /**
+     * IMPORTANT: You should make server side validation here!
+     *
+     */
+ 
+    $userdata = array(
+        'user_login' => $company_username,
+        'user_pass'  => $confirm_pass,
+        'user_email' => $email_address,
+        'first_name' => $company_name,
+        'nickname'   => $company_name,
+		'role' => 'company_admin'
+    );
+ 
+    $user_id = wp_insert_user( $userdata ) ;
+ 
+    // Return
+	$results = array();
+	if (!is_wp_error($user_id)) {
+		$results = array(
+			'success' => true,
+			'mess' => '<i class="fa fa-check-circle"></i>'
+		 );
+	} else {
+		if (isset($user_id->errors['empty_user_login'])) {
+			$results = array(
+				'success' => false,
+				'mess' => 'User Name and Email are mandatory'
+			);
+		} elseif (isset($user_id->errors['existing_user_login'])) {
+		  $results = array(
+				'success' => false,
+				'mess' => 'User name already exixts.'
+			);
+		} else {
+		  $results = array(
+				'success' => false,
+				'mess' => 'Error Occured please fill up the sign up form carefully.'
+			);
+		}
+	}
+	echo json_encode($results); 
+	die(); 
+}
+add_action('wp_ajax_company_registration_clb', 'company_registration_clb');
+add_action('wp_ajax_nopriv_company_registration_clb', 'company_registration_clb');
+
 
 function isMobile() {
 	$useragent=$_SERVER['HTTP_USER_AGENT'];

@@ -21,7 +21,13 @@ get_header('landing');
 	  <div class="col-sm-8 col-sm-offset-2">
 		<div class="box home-box">
 		  <ul>
-			<li><a class="btn-extra-large" href="<?php echo home_url('/completed-inspections/'); ?>">Manage Company</a></li>
+			<?php 
+			if (is_user_logged_in()) {
+				$user = wp_get_current_user();
+				if(!empty($user) && $user->roles[0] == 'administrator'){
+			  ?>
+			<li><a class="btn-extra-large" href="<?php echo home_url('/company-registration/'); ?>">Manage Company</a></li>
+			<?php } } ?>
 			<li><a class="btn-extra-large" href="<?php echo home_url('/perform-inspection/'); ?>">Perform Inspection</a></li>
 		  </ul>
 		</div>

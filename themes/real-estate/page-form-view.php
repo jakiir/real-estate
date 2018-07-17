@@ -162,8 +162,8 @@ get_header('form-viewer'); ?>
 </div>
 	<?php if($report_id){ ?>
     <div class="actions">
-	  <div class="msg_show" style="position: absolute;left:135px;top:19px;font-size:14px;background: #fff;padding: 2px 6px;"></div>
-	  <a href="javascript:void(0)" class="btn-taptap saveChanges" ng-click="submitData(1,'','')">
+	  <div class="msg_show form-view-msg"></div>
+	  <a href="javascript:void(0)" style="margin-bottom:10px;" class="btn-taptap saveChanges" ng-click="submitData(1,'','')">
         <i class="fa fa-floppy-o" aria-hidden="true"></i> Save Changes
       </a>
 	  <a href="javascript:void(0)" id="printTemplateBtn" class="btn-taptap"><i class="fa fa-print" aria-hidden="true"></i> Print</a>
@@ -175,7 +175,7 @@ get_header('form-viewer'); ?>
 		</style>
 	<?php } ?>
   </div>
-<?php get_footer(); ?>
+<?php get_footer('viewer'); ?>
 <?php 
 	if(empty($saved)){
 		$table_template_detail = $wpdb->prefix . 'template_detail';

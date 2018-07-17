@@ -157,7 +157,7 @@ angular.module('submitForm',['ui.tinymce'])
         var parsedJson = data;
 		saveToDb = parsedJson.success;        
         if(parsedJson.success == true){			
-			$('.msg_show').html('<font class="font_icon success_icon">'+parsedJson.mess+'</span>');
+			$('.msg_show').show().html('<font class="font_icon success_icon">'+parsedJson.mess+'</span>');
 			if(thisItem==1){
 				window.location.href = site_url+"/form-viewer/?item="+template_id+'&report='+inspection_id+'&saved='+parsedJson.report_detail_id;
 			}
@@ -165,13 +165,13 @@ angular.module('submitForm',['ui.tinymce'])
 				window.location.href = goToUrl+'&saved='+parsedJson.report_detail_id+targetUrl;
 			}
         } else {
-        $('.msg_show').html('<font style="color:red">'+parsedJson.mess+'</span>');
+        $('.msg_show').show().html('<font style="color:red">'+parsedJson.mess+'</span>');
         }
 		$('.saveChanges').find('.fa').removeClass('fa-refresh fa-spin');
 		$('.saveChanges').find('.fa').addClass('fa-floppy-o');
       },
       error: function (errorThrown) {
-		$('.msg_show').html('<font style="color:red">'+errorThrown+'</span>');
+		$('.msg_show').show().html('<font style="color:red">'+errorThrown+'</span>');
       }
     });	
 	return saveToDb;
