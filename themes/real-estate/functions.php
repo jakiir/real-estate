@@ -1206,7 +1206,9 @@ function save_parrent_user_profile_fields( $user_id ) {
     if ( !current_user_can( 'edit_user', $user_id ) ) { 
         return false; 
     }
-    update_user_meta( $user_id, 'parrent_user', $_POST['parrent_user'] );
+	if(isset($_POST['parrent_user'])){
+		update_user_meta( $user_id, 'parrent_user', $_POST['parrent_user'] );
+	}
 }
 
 function parrent_user_column( $column ) {

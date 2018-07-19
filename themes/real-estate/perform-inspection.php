@@ -58,12 +58,32 @@ get_header(); ?>
                   </div>
                   <!-- End of col -->
                   <div class="col-sm-12">
+					<?php 
+					$user = wp_get_current_user();
+					if(!empty($user) && $user->roles[0] != 'administrator'){
+						$parrent_user = esc_attr( get_the_author_meta( 'parrent_user', $user_id ) );
+						if(empty($parrent_user)) $parrent_user = $user_id;
+						$users = get_users(array(
+							'meta_key'     => 'parrent_user',
+							'meta_value'   => $parrent_user,
+							'meta_compare' => '=',
+						));
+						$user_all[] = $parrent_user;
+						if(!empty($users)){
+							foreach($users as $user){
+								$user_all[] = $user->ID;
+							}
+						}
+						$selected_user = implode(',',$user_all);
+						$table_template = $wpdb->prefix . 'template';						
+						$get_share_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE shared_template=1 AND user_id IN ($selected_user)", OBJECT );
+					} else {
+						$table_template = $wpdb->prefix . 'template';
+						$get_share_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE shared_template=1", OBJECT );
+					}
+					?>
                     <label for="template_id">Template</label>
 					<select id="template_id" name="template_id" class="form-control required" >
-					<?php										
-						$table_template = $wpdb->prefix . 'template';
-						$get_share_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE shared_template=1", OBJECT );						
-					?>
 					  <option value="">List of Template</option>
 					  <?php if(!empty($get_share_templages)){
 							foreach($get_share_templages as $template){

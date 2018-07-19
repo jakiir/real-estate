@@ -20,7 +20,8 @@ get_header(); ?>
 		die('You have no access right! Please contact system administration for more information.!');
 	}
 	$user = wp_get_current_user();
-	if(!empty($user) && $user->roles[0] != 'administrator' && !empty($user) && $user->roles[0] != 'company_admin'){
+	if((!empty($user) && $user->roles[0] != 'administrator') && (!empty($user) && $user->roles[0] != 'company_admin')){
+		echo '<script>window.location.replace("'.home_url().'");</script>';
 		die('You have no access right! Please contact system administration for more information.!');
 	}
 ?>
@@ -75,11 +76,12 @@ get_header(); ?>
 						$inc=1;
 						foreach($company_users as $company_user){
 							$user_id = $company_user->ID;
-							$parrent_user_id = get_the_author_meta( 'parrent_user', $user_id );							
+							$parrent_user_id = get_the_author_meta( 'parrent_user', $user_id );	
+							$company_name = get_user_meta( $user_id, 'company_name', true );
 						?>
 							<tr>
 								<td><?php echo $inc; ?></td>
-								<td><?php echo esc_html( $company_user->display_name ); ?></td>
+								<td><?php echo esc_html( $company_name ); ?></td>
 								<td><?php echo esc_html( $company_user->user_email ); ?></td>
 								<td><?php if(!empty($parrent_user_id)){ 
 								$parrent_user=get_userdata($parrent_user_id);
@@ -125,11 +127,11 @@ get_header(); ?>
 						foreach($inspection_users as $inspection_user){
 							$user_id = $inspection_user->ID;
 							$parrent_user_id = get_the_author_meta( 'parrent_user', $user_id );
-							
+							$company_name = get_user_meta( $user_id, 'company_name', true );
 						?>
 							<tr>
 								<td><?php echo $inc; ?></td>
-								<td><?php echo esc_html( $inspection_user->display_name ); ?></td>
+								<td><?php echo esc_html( $company_name ); ?></td>
 								<td><?php echo esc_html( $inspection_user->user_email ); ?></td>
 								<td><?php if(!empty($parrent_user_id)){
 								$parrent_user=get_userdata($parrent_user_id);

@@ -63,11 +63,13 @@ get_header(); ?>
 										</span>
 									</div>
 								</div>
-							<?php } if(!empty($user) && $user->roles[0] == 'company_admin'){ ?>
+							<?php } if(!empty($user) && $user->roles[0] == 'company_admin'){ 
+							$company_name = get_user_meta( $user->ID, 'company_name', true );
+							?>
 								<div class="cols-sm-10">
 									<div class="input-group">
 										<span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-										<input type="text" class="form-control required" name="company_name_d" value="<?php echo $user->display_name; ?>" disabled="disabled"/>
+										<input type="text" class="form-control required" name="company_name_d" value="<?php echo $company_name; ?>" disabled="disabled"/>
 										<input type="hidden" name="company_name" id="company_name" value="<?php echo $user->ID; ?>"/>
 									</div>
 								</div>
