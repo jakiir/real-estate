@@ -20,7 +20,8 @@ get_header(); ?>
 		die('You have no access right! Please contact system administration for more information.!');
 	}
 	$user = wp_get_current_user();
-	if(!empty($user) && $user->roles[0] != 'administrator' && !empty($user) && $user->roles[0] != 'company_admin'){
+	if((!empty($user) && $user->roles[0] != 'administrator') && (!empty($user) && $user->roles[0] != 'company_admin')){
+		echo '<script>window.location.replace("'.home_url().'");</script>';
 		die('You have no access right! Please contact system administration for more information.!');
 	}
 ?>
@@ -35,8 +36,8 @@ get_header(); ?>
 	<div class="row">
 		<div class="col-sm-8 col-sm-offset-2">
 			<div class="box perform-inspection-box">
-			<h2 class="page-title-body">Company Management</h2>
-			<a href="<?php echo home_url('/company-registration/'); ?>" class="btn-taptap"><i class="fa fa-plus-square"></i> Add</a>
+			<h2 class="page-title-body" style="display:block;">Company Management &nbsp; &nbsp; <a href="<?php echo home_url('/company-registration/'); ?>" class="btn-taptap"><i class="fa fa-plus-square"></i> Add</a></h2>
+			
 				<div class="panel-body table-responsive">
 					<h4>Company Admin List</h4>
 					<table class="table table-striped table-bordered" cellspacing="0" width="100%" id="companyManage">
@@ -45,16 +46,13 @@ get_header(); ?>
 								<th>#</th>
 								<th>Company Name</th>
 								<th>Email Address</th>
-								<th>Parrent Users</th>
+								<th>Parent Users</th>
+								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
 						<?php
-						$company_args = array(
-							 'role' => 'company_admin',
-							 'orderby' => 'user_nicename',
-							 'order' => 'ASC'
-						);						
+											
 						if(!empty($user) && $user->roles[0] == 'company_admin'){
 							$company_args = array(
 							 'role' => 'company_admin',
@@ -68,6 +66,12 @@ get_header(); ?>
 								),
 							  )
 							);
+						} else {
+							$company_args = array(
+								 'role' => 'company_admin',
+								 'orderby' => 'user_nicename',
+								 'order' => 'ASC'
+							);
 						}
 						$company_users = get_users($company_args);
 						
@@ -75,15 +79,20 @@ get_header(); ?>
 						$inc=1;
 						foreach($company_users as $company_user){
 							$user_id = $company_user->ID;
-							$parrent_user_id = get_the_author_meta( 'parrent_user', $user_id );							
+							$parrent_user_id = get_the_author_meta( 'parrent_user', $user_id );	
+							$company_name = get_user_meta( $user_id, 'company_name', true );
+							if(empty($company_name)){
+								$company_name = get_user_meta( $parrent_user_id, 'company_name', true );
+							}
 						?>
 							<tr>
 								<td><?php echo $inc; ?></td>
-								<td><?php echo esc_html( $company_user->display_name ); ?></td>
+								<td><?php echo esc_html( $company_name ); ?></td>
 								<td><?php echo esc_html( $company_user->user_email ); ?></td>
 								<td><?php if(!empty($parrent_user_id)){ 
 								$parrent_user=get_userdata($parrent_user_id);
 								echo esc_html( $parrent_user->display_name ) . ' [' . esc_html( $parrent_user->user_login ) . ']'; } else { echo '--'; } ?></td>
+								<td><a href="?company-trash=<?php echo safe_b64encode($user_id); ?>" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash"></i></a></td>
 							</tr>
 						<?php $inc++; }} ?>
 						</tbody>
@@ -95,7 +104,8 @@ get_header(); ?>
 								<th>#</th>
 								<th>Company Name</th>
 								<th>Email Address</th>
-								<th>Parrent Users</th>
+								<th>Parent Users</th>
+								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -124,16 +134,20 @@ get_header(); ?>
 						$inc=1;
 						foreach($inspection_users as $inspection_user){
 							$user_id = $inspection_user->ID;
-							$parrent_user_id = get_the_author_meta( 'parrent_user', $user_id );
-							
+							$parrent_user_id = get_the_author_meta( 'parrent_user', $user_id );	
+							$company_name = get_user_meta( $user_id, 'company_name', true );
+							if(empty($company_name)){
+								$company_name = get_user_meta( $parrent_user_id, 'company_name', true );
+							}
 						?>
 							<tr>
 								<td><?php echo $inc; ?></td>
-								<td><?php echo esc_html( $inspection_user->display_name ); ?></td>
+								<td><?php echo esc_html( $company_name ); ?></td>
 								<td><?php echo esc_html( $inspection_user->user_email ); ?></td>
 								<td><?php if(!empty($parrent_user_id)){
 								$parrent_user=get_userdata($parrent_user_id);
 								echo esc_html( $parrent_user->display_name ) . ' [' . esc_html( $parrent_user->user_login ) . ']'; } else { echo '--'; } ?></td>
+								<td><a href="?inspector-trash=<?php echo safe_b64encode($user_id); ?>" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash"></i></a></td>
 							</tr>
 						<?php $inc++; }} ?>
 						</tbody>

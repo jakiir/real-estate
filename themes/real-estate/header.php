@@ -84,8 +84,10 @@
                 <i class="icon-user"></i>
               </button>
               <ul class="dropdown-menu">
-                <li><a href="#">Profile</a></li>
+                <li><a href="<?php echo home_url('/company-profile/'); ?>">Profile</a></li>
+				<?php if(!empty($user) && $user->roles[0] == 'administrator' || !empty($user) && $user->roles[0] == 'company_admin'){ ?>
                 <li><a href="<?php echo home_url('/company-management/'); ?>">Company</a></li>
+				<?php } ?>
                 <li><a href="<?php echo wp_logout_url( home_url() ); ?>">Logout</a></li>
               </ul>
             </div>

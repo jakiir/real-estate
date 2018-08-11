@@ -25,11 +25,6 @@ get_header(); ?>
 		die('You have no access right! Please contact system administration for more information.!');
 	}
 ?>
-<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jquery.dataTables.min.js"></script>
-<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/dataTables.bootstrap.min.js"></script>
-<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/moment.min.js"></script>
-  <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/css/jquery-ui-1.10.0.custom.min.css" />
-  <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jquery-ui.js"></script>
 <article class="container">
 	<div class="row">
 		<div class="col-sm-8 col-sm-offset-2">
@@ -41,7 +36,7 @@ get_header(); ?>
 							<label for="registration_as" class="cols-sm-2 control-label">Registration As</label>
 							<div class="cols-sm-10">
 								<div class="input-group">
-									<span class="input-group-addon"><i class="fa fa-users fa-lg" aria-hidden="true"></i></span>
+									<span class="input-group-addon"><i class="fa fa-cogs" aria-hidden="true"></i></span>
 									<select name="registration_as" id="registration_as" class="form-control" <?php if(!empty($user) && $user->roles[0] == 'administrator'){ ?> onchange="regisrationAs(this)" <?php } ?>>
 										<?php if(!empty($user) && $user->roles[0] == 'administrator'){ ?>
 											<option value="new_company">New Company Admin</option>
@@ -57,17 +52,19 @@ get_header(); ?>
 							<?php if(!empty($user) && $user->roles[0] == 'administrator'){ ?>
 								<div class="cols-sm-10">
 									<div class="input-group">
-										<span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+										<span class="input-group-addon"><i class="fa fa-building" aria-hidden="true"></i></span>
 										<span id="company_as">
 										<input type="text" class="form-control required" name="company_name" id="company_name"  placeholder="Enter company name"/>
 										</span>
 									</div>
 								</div>
-							<?php } if(!empty($user) && $user->roles[0] == 'company_admin'){ ?>
+							<?php } if(!empty($user) && $user->roles[0] == 'company_admin'){ 
+							$company_name = get_user_meta( $user->ID, 'company_name', true );
+							?>
 								<div class="cols-sm-10">
 									<div class="input-group">
-										<span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-										<input type="text" class="form-control required" name="company_name_d" value="<?php echo $user->display_name; ?>" disabled="disabled"/>
+										<span class="input-group-addon"><i class="fa fa-building" aria-hidden="true"></i></span>
+										<input type="text" class="form-control required" name="company_name_d" value="<?php echo $company_name; ?>" disabled="disabled"/>
 										<input type="hidden" name="company_name" id="company_name" value="<?php echo $user->ID; ?>"/>
 									</div>
 								</div>
@@ -77,7 +74,7 @@ get_header(); ?>
 							<label for="user_fullname" class="cols-sm-2 control-label">User Full Name</label>
 							<div class="cols-sm-10">
 								<div class="input-group">
-									<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+									<span class="input-group-addon"><i class="fa fa-group" aria-hidden="true"></i></span>
 									<input type="text" class="form-control required" name="user_fullname" id="user_fullname"  placeholder="Enter user fullname"/>
 								</div>
 							</div>
@@ -96,7 +93,7 @@ get_header(); ?>
 							<label for="company_username" class="cols-sm-2 control-label">Username</label>
 							<div class="cols-sm-10">
 								<div class="input-group">
-									<span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
+									<span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
 									<input type="text" class="form-control required" name="company_username" id="company_username"  placeholder="Enter your Username"/>
 								</div>
 							</div>
@@ -150,8 +147,9 @@ function regisrationAs(thisVal){
 			 $company_users = get_users($args1);		
 			if(!empty($company_users)) {
 			foreach($company_users as $company_user){
+				$company_name = get_user_meta( $company_user->ID, 'company_name', true );
 		?>
-		html = html + '<option value="<?php echo $company_user->ID; ?>"><?php echo $company_user->display_name; ?></option>';
+		html = html + '<option value="<?php echo $company_user->ID; ?>"><?php echo $company_name; ?></option>';
 		<?php } } ?>
 		html = html + '</select>';
 		$('#company_as').html(html);

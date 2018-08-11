@@ -34,7 +34,8 @@ if (is_user_logged_in()) {
 			<?php if (!is_user_logged_in()) { ?>
 				<div class="box perform-inspection-box">
 					  <h2 class="page-title-body">Site Login</h2>
-					<div class="card card-container">								
+					  <div class="login_message" style="display:none;"></div>
+					<div class="card card-container" style="margin-top:15px;">						
 						<img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
 						<p id="profile-name" class="profile-name-card"></p>
 						<form id="login" action="login" method="post" class="form-signin">

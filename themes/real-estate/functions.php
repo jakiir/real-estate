@@ -1206,7 +1206,9 @@ function save_parrent_user_profile_fields( $user_id ) {
     if ( !current_user_can( 'edit_user', $user_id ) ) { 
         return false; 
     }
-    update_user_meta( $user_id, 'parrent_user', $_POST['parrent_user'] );
+	if(isset($_POST['parrent_user'])){
+		update_user_meta( $user_id, 'parrent_user', $_POST['parrent_user'] );
+	}
 }
 
 function parrent_user_column( $column ) {
@@ -1229,6 +1231,55 @@ function parrent_user_table_row( $val, $column_name, $user_id ) {
     return $val;
 }
 add_filter( 'manage_users_custom_column', 'parrent_user_table_row', 10, 3 );
+
+
+/**
+ * New User profile
+ *
+ */
+function company_profile_clb() {
+ 
+  // Verify nonce
+  if( !isset( $_POST['nonce'] ) || !wp_verify_nonce( $_POST['nonce'], 'company_profile_update' ) ){
+	  $results = array(
+			'success' => false,
+			'mess' => 'Ooops, something went wrong, please try again later.'
+		);
+  }
+ $user = wp_get_current_user();
+  // Post values
+	$user_fullname = $_POST['user_fullname'];
+    $company_password     = $_POST['company_password'];
+    $confirm_pass     = $_POST['confirm_pass'];
+
+    // Return
+	$results = array();
+	$user_id = $user->ID;
+	$user_id = wp_update_user( array( 
+		'ID' => $user_id, 
+		'display_name' => $user_fullname 
+	));
+
+	if ( is_wp_error( $user_id ) ) {
+		$results = array(
+			'success' => false,
+			'mess' => 'There was an error, probably that user does not exist.'
+		);
+	} else {
+		if(!empty($confirm_pass))
+		wp_set_password( $confirm_pass, $user_id );
+		$results = array(
+			'success' => true,
+			'mess' => '<i class="fa fa-check-circle"></i>'
+		 );
+	}
+	echo json_encode($results); 
+	die(); 
+}
+if (is_user_logged_in()) {
+	add_action('wp_ajax_company_profile_clb', 'company_profile_clb');
+	add_action('wp_ajax_nopriv_company_profile_clb', 'company_profile_clb');
+}
 
 
 /**
@@ -1310,6 +1361,50 @@ function company_registration_clb() {
 add_action('wp_ajax_company_registration_clb', 'company_registration_clb');
 add_action('wp_ajax_nopriv_company_registration_clb', 'company_registration_clb');
 
+if (is_user_logged_in()) {
+	if(isset($_GET['company-trash']) || isset($_GET['inspector-trash'])){
+		add_action('init', 'company_inspector_action');
+	}
+}
+function company_inspector_action() {
+	$user = wp_get_current_user();
+	if(!empty($user) && $user->roles[0] == 'administrator' && !empty($user) || $user->roles[0] == 'company_admin'){
+		if(isset($_GET['company-trash']) && !empty($_GET['company-trash'])){
+			require_once(ABSPATH.'wp-admin/includes/user.php' );
+			$companyId = safe_b64decode($_GET['company-trash']);			
+			$company_args = array(
+			 'role' => 'company_admin',
+			 'orderby' => 'user_nicename',
+			 'order' => 'ASC',
+			 'meta_query' => array(
+				array(
+					'key' => 'parrent_user',
+					'value' => $companyId,
+					'compare' => 'EXISTS',
+				),
+			  )
+			);
+			$company_users = get_users($company_args);
+			if(!empty($company_users)) {
+				$thisAllUser[] = $companyId;
+				foreach($company_users as $company_user){
+					$thisAllUser[] = $company_user->ID;
+				}
+			}
+			if(!empty($thisAllUser)) {
+				foreach($thisAllUser as $eachUser):
+					wp_delete_user( $eachUser );
+				endforeach;
+			}
+		}
+		
+		if(isset($_GET['inspector-trash']) && !empty($_GET['inspector-trash'])){
+			require_once(ABSPATH.'wp-admin/includes/user.php' );
+			$inspectorId = safe_b64decode($_GET['inspector-trash']);
+			wp_delete_user( $inspectorId );
+		}
+	}
+}
 
 function isMobile() {
 	$useragent=$_SERVER['HTTP_USER_AGENT'];

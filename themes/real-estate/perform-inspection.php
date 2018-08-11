@@ -34,6 +34,12 @@ get_header(); ?>
 	$user_id = get_current_user_id();
 	$table_inspection = $wpdb->prefix . 'inspection';			
 	$get_inspection = $wpdb->get_row( "SELECT * FROM $table_inspection WHERE user_id=$user_id ORDER BY id DESC LIMIT 1");
+	
+	$company_name = get_user_meta( $user_id, 'company_name', true );
+	if(empty($company_name)){
+		$parent_company_id = get_user_meta( $user_id, 'parrent_user', true );
+		$company_name = get_user_meta( $parent_company_id, 'company_name', true );
+	}
 ?>
 <article class="container">
         <div class="row">
@@ -44,7 +50,7 @@ get_header(); ?>
                 <div class="row">
                   <div class="col-sm-6">
                     <label for="company">Company</label>
-                    <input type="text" class="form-control required" name="company" id="company" placeholder="">
+                    <input type="text" class="form-control required" name="company" id="company" value="<?php echo $company_name; ?>" readonly="readonly" placeholder="">
                   </div>
                   <!-- End of col -->
                   <div class="col-sm-6">
@@ -58,12 +64,32 @@ get_header(); ?>
                   </div>
                   <!-- End of col -->
                   <div class="col-sm-12">
+					<?php 
+					$user = wp_get_current_user();
+					if(!empty($user) && $user->roles[0] != 'administrator'){
+						$parrent_user = esc_attr( get_the_author_meta( 'parrent_user', $user_id ) );
+						if(empty($parrent_user)) $parrent_user = $user_id;
+						$users = get_users(array(
+							'meta_key'     => 'parrent_user',
+							'meta_value'   => $parrent_user,
+							'meta_compare' => '=',
+						));
+						$user_all[] = $parrent_user;
+						if(!empty($users)){
+							foreach($users as $user){
+								$user_all[] = $user->ID;
+							}
+						}
+						$selected_user = implode(',',$user_all);
+						$table_template = $wpdb->prefix . 'template';						
+						$get_share_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE shared_template=1 AND user_id IN ($selected_user)", OBJECT );
+					} else {
+						$table_template = $wpdb->prefix . 'template';
+						$get_share_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE shared_template=1", OBJECT );
+					}
+					?>
                     <label for="template_id">Template</label>
 					<select id="template_id" name="template_id" class="form-control required" >
-					<?php										
-						$table_template = $wpdb->prefix . 'template';
-						$get_share_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE shared_template=1", OBJECT );						
-					?>
 					  <option value="">List of Template</option>
 					  <?php if(!empty($get_share_templages)){
 							foreach($get_share_templages as $template){
