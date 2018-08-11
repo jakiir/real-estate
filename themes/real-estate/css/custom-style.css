@@ -230,13 +230,13 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination {
 	display:none;
 }
 .nav-icon-btn:focus{outline:none;}
-#company_registration label.error{
+#company_registration label.error,#company_profile label.error{
 	position: absolute;
     top:-23px;
     color: red;
     right: 0;
 }
-#company_registration label{margin:0;}
+#company_registration label,#company_profile label{margin:0;}
 .dataTables_wrapper select.input-sm{height:auto;width:auto !important;}
 .perform-inspection-box h4{
 	background: #182939;

@@ -25,11 +25,6 @@ get_header(); ?>
 		die('You have no access right! Please contact system administration for more information.!');
 	}
 ?>
-<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jquery.dataTables.min.js"></script>
-<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/dataTables.bootstrap.min.js"></script>
-<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/moment.min.js"></script>
-  <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/css/jquery-ui-1.10.0.custom.min.css" />
-  <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jquery-ui.js"></script>
 <article class="container">
 	<div class="row">
 		<div class="col-sm-8 col-sm-offset-2">

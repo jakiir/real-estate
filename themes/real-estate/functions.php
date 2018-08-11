@@ -1234,6 +1234,55 @@ add_filter( 'manage_users_custom_column', 'parrent_user_table_row', 10, 3 );
 
 
 /**
+ * New User profile
+ *
+ */
+function company_profile_clb() {
+ 
+  // Verify nonce
+  if( !isset( $_POST['nonce'] ) || !wp_verify_nonce( $_POST['nonce'], 'company_profile_update' ) ){
+	  $results = array(
+			'success' => false,
+			'mess' => 'Ooops, something went wrong, please try again later.'
+		);
+  }
+ $user = wp_get_current_user();
+  // Post values
+	$user_fullname = $_POST['user_fullname'];
+    $company_password     = $_POST['company_password'];
+    $confirm_pass     = $_POST['confirm_pass'];
+
+    // Return
+	$results = array();
+	$user_id = $user->ID;
+	$user_id = wp_update_user( array( 
+		'ID' => $user_id, 
+		'display_name' => $user_fullname 
+	));
+
+	if ( is_wp_error( $user_id ) ) {
+		$results = array(
+			'success' => false,
+			'mess' => 'There was an error, probably that user does not exist.'
+		);
+	} else {
+		if(!empty($confirm_pass))
+		wp_set_password( $confirm_pass, $user_id );
+		$results = array(
+			'success' => true,
+			'mess' => '<i class="fa fa-check-circle"></i>'
+		 );
+	}
+	echo json_encode($results); 
+	die(); 
+}
+if (is_user_logged_in()) {
+	add_action('wp_ajax_company_profile_clb', 'company_profile_clb');
+	add_action('wp_ajax_nopriv_company_profile_clb', 'company_profile_clb');
+}
+
+
+/**
  * New User registration
  *
  */

@@ -34,6 +34,12 @@ get_header(); ?>
 	$user_id = get_current_user_id();
 	$table_inspection = $wpdb->prefix . 'inspection';			
 	$get_inspection = $wpdb->get_row( "SELECT * FROM $table_inspection WHERE user_id=$user_id ORDER BY id DESC LIMIT 1");
+	
+	$company_name = get_user_meta( $user_id, 'company_name', true );
+	if(empty($company_name)){
+		$parent_company_id = get_user_meta( $user_id, 'parrent_user', true );
+		$company_name = get_user_meta( $parent_company_id, 'company_name', true );
+	}
 ?>
 <article class="container">
         <div class="row">
@@ -44,7 +50,7 @@ get_header(); ?>
                 <div class="row">
                   <div class="col-sm-6">
                     <label for="company">Company</label>
-                    <input type="text" class="form-control required" name="company" id="company" placeholder="">
+                    <input type="text" class="form-control required" name="company" id="company" value="<?php echo $company_name; ?>" readonly="readonly" placeholder="">
                   </div>
                   <!-- End of col -->
                   <div class="col-sm-6">

@@ -46,7 +46,7 @@ get_header(); ?>
 								<th>#</th>
 								<th>Company Name</th>
 								<th>Email Address</th>
-								<th>Parrent Users</th>
+								<th>Parent Users</th>
 								<th>Action</th>
 							</tr>
 						</thead>
@@ -104,7 +104,7 @@ get_header(); ?>
 								<th>#</th>
 								<th>Company Name</th>
 								<th>Email Address</th>
-								<th>Parrent Users</th>
+								<th>Parent Users</th>
 								<th>Action</th>
 							</tr>
 						</thead>
