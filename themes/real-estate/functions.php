@@ -1312,6 +1312,50 @@ function company_registration_clb() {
 add_action('wp_ajax_company_registration_clb', 'company_registration_clb');
 add_action('wp_ajax_nopriv_company_registration_clb', 'company_registration_clb');
 
+if (is_user_logged_in()) {
+	if(isset($_GET['company-trash']) || isset($_GET['inspector-trash'])){
+		add_action('init', 'company_inspector_action');
+	}
+}
+function company_inspector_action() {
+	$user = wp_get_current_user();
+	if(!empty($user) && $user->roles[0] == 'administrator' && !empty($user) || $user->roles[0] == 'company_admin'){
+		if(isset($_GET['company-trash']) && !empty($_GET['company-trash'])){
+			require_once(ABSPATH.'wp-admin/includes/user.php' );
+			$companyId = safe_b64decode($_GET['company-trash']);			
+			$company_args = array(
+			 'role' => 'company_admin',
+			 'orderby' => 'user_nicename',
+			 'order' => 'ASC',
+			 'meta_query' => array(
+				array(
+					'key' => 'parrent_user',
+					'value' => $companyId,
+					'compare' => 'EXISTS',
+				),
+			  )
+			);
+			$company_users = get_users($company_args);
+			if(!empty($company_users)) {
+				$thisAllUser[] = $companyId;
+				foreach($company_users as $company_user){
+					$thisAllUser[] = $company_user->ID;
+				}
+			}
+			if(!empty($thisAllUser)) {
+				foreach($thisAllUser as $eachUser):
+					wp_delete_user( $eachUser );
+				endforeach;
+			}
+		}
+		
+		if(isset($_GET['inspector-trash']) && !empty($_GET['inspector-trash'])){
+			require_once(ABSPATH.'wp-admin/includes/user.php' );
+			$inspectorId = safe_b64decode($_GET['inspector-trash']);
+			wp_delete_user( $inspectorId );
+		}
+	}
+}
 
 function isMobile() {
 	$useragent=$_SERVER['HTTP_USER_AGENT'];

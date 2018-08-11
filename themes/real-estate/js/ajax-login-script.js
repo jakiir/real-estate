@@ -13,7 +13,7 @@ jQuery(document).ready(function($) {
 
     // Perform AJAX login on form submit
     $('form#login').on('submit', function(e){
-        $('form#login p.status').show().text(ajax_login_object.loadingmessage);
+        $('div.login_message').show().html('<font class="alert alert-info">'+ajax_login_object.loadingmessage+'</font>');
         $.ajax({
             type: 'POST',
             dataType: 'json',
@@ -23,8 +23,8 @@ jQuery(document).ready(function($) {
                 'username': $('form#login #username').val(), 
                 'password': $('form#login #password').val(), 
                 'security': $('form#login #security').val() },
-            success: function(data){
-                $('form#login p.status').text(data.message);				
+            success: function(data){                
+				console.log(data.loggedin);
                 if (data.loggedin == true){
 					if(data.user_roles == 'administrator'){
 						document.location.href = ajax_login_object.homeurl;
@@ -34,7 +34,10 @@ jQuery(document).ready(function($) {
 						document.location.href = ajax_login_object.homeurl;
 					}					
                     //document.location.href = ajax_login_object.redirecturl;
-                }
+					$('div.login_message').html('<font style="color:green" class="alert alert-success">'+data.message+'</font>');
+                } else {
+					$('div.login_message').html('<font class="alert alert-danger">'+data.message+'</font>');
+				}
             }
         });
         e.preventDefault();
