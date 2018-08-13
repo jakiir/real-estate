@@ -67,7 +67,7 @@ get_header(); ?>
 					<?php 
 					$user = wp_get_current_user();
 					if(!empty($user) && $user->roles[0] != 'administrator'){
-						$parrent_user = esc_attr( get_the_author_meta( 'parrent_user', $user_id ) );
+						$parrent_user = get_the_author_meta( 'parrent_user', $user_id );						
 						if(empty($parrent_user)) $parrent_user = $user_id;
 						$users = get_users(array(
 							'meta_key'     => 'parrent_user',
@@ -82,10 +82,10 @@ get_header(); ?>
 						}
 						$selected_user = implode(',',$user_all);
 						$table_template = $wpdb->prefix . 'template';						
-						$get_share_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE shared_template=1 AND user_id IN ($selected_user)", OBJECT );
+						$get_share_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE user_id IN ($selected_user) AND your_template=1  ORDER BY created_time ASC", OBJECT );
 					} else {
 						$table_template = $wpdb->prefix . 'template';
-						$get_share_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE shared_template=1", OBJECT );
+						$get_share_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE your_template=1  ORDER BY created_time ASC", OBJECT );
 					}
 					?>
                     <label for="template_id">Template</label>

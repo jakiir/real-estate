@@ -34,6 +34,10 @@ get_header(); ?>
 					<form class="form-horizontal" method="post" id="company_profile" action="#">
 						<?php
 							$company_name = get_user_meta( $user->ID, 'company_name', true );
+							if(empty($company_name)){
+								$parent_company_id = get_user_meta( $user->ID, 'parrent_user', true );
+								$company_name = get_user_meta( $parent_company_id, 'company_name', true );
+							}
 							if(!empty($company_name)){
 						?>
 						<div class="form-group">
@@ -41,7 +45,7 @@ get_header(); ?>
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-building" aria-hidden="true"></i></span>
-									<input type="text" class="form-control" name="company_name_d" value="<?php echo $company_name; ?>" placeholder="Enter company name"/>
+									<input type="text" class="form-control" name="company_name_d" value="<?php echo $company_name; ?>" placeholder="Enter company name" disabled="disabled"/>
 									<input type="hidden" name="company_name" id="company_name" disabled="disabled" value="<?php echo $user->ID; ?>"/>
 								</div>
 							</div>							

@@ -600,7 +600,7 @@ function copyTemplate(){
 			 
 			 $results = array(
 				'success' => true,
-				'mess' => 'Template successfully copy.'	,
+				'mess' => 'Template successfully copy.22'	,
 				'template_id' => $template_id,
 				'template_name' => $get_your_templages[0]->name
 			 );
@@ -632,6 +632,25 @@ function copyTemplate(){
 					 )
 				 );
 				 $insert_id = $wpdb->insert_id;
+				 if($insert_id != ''){					 
+					 $table_template_details = $wpdb->prefix . 'template_detail';
+					 $get_template_details = $wpdb->get_results( "SELECT * FROM $table_template_details WHERE template_id=$template_id", OBJECT );
+					 if(!empty($get_template_details)){
+						 $wpdb->insert($table_template_details, 
+							 array(
+								 'template_id' => $insert_id,
+								 'field_type_id' => $get_template_details[0]->field_type_id,
+								 'field_name' => $get_template_details[0]->field_name,
+								 'field_text_html' => $get_template_details[0]->field_text_html,
+								 'print_flag' => $get_template_details[0]->print_flag,
+								 'x_coord' => $get_template_details[0]->x_coord,
+								 'x_coord_relative' => $get_template_details[0]->x_coord_relative,
+								 'width' => $get_template_details[0]->width,
+								 'height' => $get_template_details[0]->height
+							 )
+						 );
+					 }
+				 }
 				 $results = array(
 					'success' => true,
 					'mess' => 'Template successfully copy.',
@@ -667,11 +686,13 @@ function removeTemplate(){
 		$table_template = $wpdb->prefix . 'template';
 		$get_your_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE id=$template_id AND user_id=$user_id AND your_template=1", OBJECT );
 		if(!empty($get_your_templages)){	
-			$wpdb->query($wpdb->prepare("UPDATE $table_template 
+			/*$wpdb->query($wpdb->prepare("UPDATE $table_template 
 			 SET your_template=0,
 			 user_id=$user_id
-			 WHERE id=$template_id AND user_id=$user_id AND your_template=1"));
-			 
+			 WHERE id=$template_id AND user_id=$user_id AND your_template=1"));*/
+			 $wpdb->delete( $table_template, array( 'id' => $template_id,'user_id' => $user_id,'your_template' => 1 ) );
+			 $table_template_detail = $wpdb->prefix . 'template_detail';
+			 $wpdb->delete( $table_template_detail, array( 'template_id' => $template_id) );
 			 $results = array(
 				'success' => true,
 				'mess' => 'Template successfully removed.'				

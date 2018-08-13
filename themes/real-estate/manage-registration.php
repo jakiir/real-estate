@@ -148,9 +148,10 @@ function regisrationAs(thisVal){
 			if(!empty($company_users)) {
 			foreach($company_users as $company_user){
 				$company_name = get_user_meta( $company_user->ID, 'company_name', true );
+				if(!empty($company_name)){
 		?>
 		html = html + '<option value="<?php echo $company_user->ID; ?>"><?php echo $company_name; ?></option>';
-		<?php } } ?>
+			<?php } } } ?>
 		html = html + '</select>';
 		$('#company_as').html(html);
 	}
