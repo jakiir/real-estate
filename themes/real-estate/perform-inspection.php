@@ -32,6 +32,7 @@ get_header(); ?>
 <?php
 	global $wpdb;
 	$user_id = get_current_user_id();
+	$user = wp_get_current_user();
 	$table_inspection = $wpdb->prefix . 'inspection';			
 	$get_inspection = $wpdb->get_row( "SELECT * FROM $table_inspection WHERE user_id=$user_id ORDER BY id DESC LIMIT 1");
 	
@@ -50,7 +51,7 @@ get_header(); ?>
                 <div class="row">
                   <div class="col-sm-6">
                     <label for="company">Company</label>
-                    <input type="text" class="form-control required" name="company" id="company" value="<?php echo $company_name; ?>" readonly="readonly" placeholder="">
+                    <input type="text" class="form-control required" name="company" id="company" value="<?php echo $company_name; ?>" <?php if(!empty($user) && $user->roles[0] != 'administrator'){ ?>readonly="readonly" <?php } ?> placeholder="">
                   </div>
                   <!-- End of col -->
                   <div class="col-sm-6">
@@ -59,13 +60,27 @@ get_header(); ?>
                   </div>
                   <!-- End of col -->
                   <div class="col-sm-12">
-                    <label for="report_identification">Report Identification</label>
+                    <label for="report_identification">Property Address</label>
                     <input type="text" class="form-control required" name="report_identification" id="report_identification" placeholder="">
+                  </div>
+                  <!-- End of col -->
+				  <div class="col-sm-12">
+                    <label for="building_orientation">Building Orientation</label>
+                    <input type="text" class="form-control required" name="building_orientation" id="building_orientation" placeholder="">
+                  </div>
+                  <!-- End of col -->
+				  <div class="col-sm-12">
+                    <label for="weather_conditions">Weather Conditions</label>
+                    <input type="text" class="form-control required" name="weather_conditions" id="weather_conditions" placeholder="">
+                  </div>
+                  <!-- End of col -->
+				  <div class="col-sm-12">
+                    <label for="parties_present">Parties Present</label>
+                    <input type="text" class="form-control required" name="parties_present" id="parties_present" placeholder="">
                   </div>
                   <!-- End of col -->
                   <div class="col-sm-12">
 					<?php 
-					$user = wp_get_current_user();
 					if(!empty($user) && $user->roles[0] != 'administrator'){
 						$parrent_user = get_the_author_meta( 'parrent_user', $user_id );						
 						if(empty($parrent_user)) $parrent_user = $user_id;
@@ -104,9 +119,19 @@ get_header(); ?>
                     <input type="text" class="form-control required" name="prepared_for" id="prepared_for" placeholder="">
                   </div>
                   <!-- End of col -->
-                  <div class="col-sm-12">
+                  <div class="col-sm-4">
                     <label for="prepared_by">Prepared By</label>
-                    <input type="text" class="form-control required" name="prepared_by" id="prepared_by" placeholder="">
+                    <input type="text" class="form-control required" name="prepared_by" id="prepared_by" readonly="readonly" value="<?php echo $user->display_name; ?>">
+                  </div>
+				  <div class="col-sm-4">
+                    <label for="licence_number">Lic #</label>
+					<?php $licence_number = get_user_meta($user->ID,  'licence_number', true ); ?>
+                    <input type="text" class="form-control required" name="licence_number" id="licence_number" readonly="readonly" value="<?php echo $licence_number; ?>">
+                  </div>
+				  <div class="col-sm-4">
+                    <label for="phone_number">Phone Number</label>
+					<?php $phone_number = get_user_meta($user->ID,  'phone_number', true ); ?>
+                    <input type="text" class="form-control required" name="phone_number" id="phone_number" readonly="readonly" value="<?php echo $phone_number; ?>">
                   </div>
                   <!-- End of col -->
                   <div class="col-sm-6">
@@ -147,7 +172,6 @@ get_header(); ?>
 <script type="text/javascript">
 jQuery(function($){
 	$('.datepicker').datetimepicker({
-		viewMode: 'years',
 		format: 'MM/DD/YYYY'
 	});
 	$('.timepicker').datetimepicker({
@@ -166,10 +190,13 @@ jQuery(function($){
 				var template_id = jQuery('#template_id').find('option:selected').val();
 				var company = jQuery('#company').val();
 				var inpection_date = jQuery('#inpection_date').val();
-				var report_identification = jQuery('#report_identification').val();				
+				var report_identification = jQuery('#report_identification').val();	
+				var building_orientation = jQuery('#building_orientation').val();				
+				var weather_conditions = jQuery('#weather_conditions').val();				
+				var parties_present = jQuery('#parties_present').val();
 				var prepared_for = jQuery('#prepared_for').val();				
 				var prepared_by = jQuery('#prepared_by').val();				
-				var time_in = jQuery('#time_in').val();
+				var time_in = jQuery('#time_in').val();				
 				var time_out = jQuery('#time_out').val();				
 				var inspection_status = $('input[name=inspection_status]:checked').val();				
 				var form_data = new FormData();
@@ -179,6 +206,9 @@ jQuery(function($){
 				form_data.append('company', company);
 				form_data.append('inpection_date', inpection_date);
 				form_data.append('report_identification', report_identification);
+				form_data.append('building_orientation', building_orientation);
+				form_data.append('weather_conditions', weather_conditions);
+				form_data.append('parties_present', parties_present);
 				form_data.append('prepared_for', prepared_for);
 				form_data.append('prepared_by', prepared_by);				
 				form_data.append('time_in', time_in);				

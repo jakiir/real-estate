@@ -517,6 +517,9 @@ function perform_inspections(){
 		 $company = !empty($_POST['company']) ? $_POST['company'] : '';
 		 $inpection_date = !empty($_POST['inpection_date']) ? $_POST['inpection_date'] : '';
 		 $report_identification = !empty($_POST['report_identification']) ? $_POST['report_identification'] : '';
+		 $building_orientation = !empty($_POST['building_orientation']) ? $_POST['building_orientation'] : '';
+		 $weather_conditions = !empty($_POST['weather_conditions']) ? $_POST['weather_conditions'] : '';
+		 $parties_present = !empty($_POST['parties_present']) ? $_POST['parties_present'] : '';
 		 $template_id = !empty($_POST['template_id']) ? $_POST['template_id'] : '';
 		 $prepared_for = !empty($_POST['prepared_for']) ? $_POST['prepared_for'] : '';
 		 $prepared_by = !empty($_POST['prepared_by']) ? $_POST['prepared_by'] : '';
@@ -532,7 +535,10 @@ function perform_inspections(){
 				array( 
 					'company' => $company,
 					 'inpection_date' => $inpection_date,
-					 'report_identification' => $report_identification,					 
+					 'report_identification' => $report_identification,
+					 'building_orientation' => $building_orientation,
+					 'weather_conditions' => $weather_conditions,
+					 'parties_present' => $parties_present,
 					 'prepared_for' => $prepared_for,
 					 'prepared_by' => $prepared_by,
 					 'time_in' => $time_in,
@@ -553,6 +559,9 @@ function perform_inspections(){
 					 'company' => $company,
 					 'inpection_date' => $inpection_date,
 					 'report_identification' => $report_identification,
+					 'building_orientation' => $building_orientation,
+					 'weather_conditions' => $weather_conditions,
+					 'parties_present' => $parties_present,
 					 'template_id' => $template_id,
 					 'prepared_for' => $prepared_for,
 					 'prepared_by' => $prepared_by,
@@ -1271,6 +1280,8 @@ function company_profile_clb() {
   // Post values
 	$user_fullname = $_POST['user_fullname'];
     $company_password     = $_POST['company_password'];
+	$licence_number = $_POST['licence_number'];
+    $phone_number     = $_POST['phone_number'];
     $confirm_pass     = $_POST['confirm_pass'];
 
     // Return
@@ -1289,6 +1300,9 @@ function company_profile_clb() {
 	} else {
 		if(!empty($confirm_pass))
 		wp_set_password( $confirm_pass, $user_id );
+	
+		update_user_meta( $user_id, 'licence_number', $licence_number);
+		update_user_meta( $user_id, 'phone_number', $phone_number);
 		$results = array(
 			'success' => true,
 			'mess' => '<i class="fa fa-check-circle"></i>'
@@ -1323,6 +1337,8 @@ function company_registration_clb() {
 	$user_fullname = $_POST['user_fullname'];
     $email_address = $_POST['email_address'];
     $company_username    = $_POST['company_username'];
+	$licence_number = $_POST['licence_number'];
+    $phone_number    = $_POST['phone_number'];
     $company_password     = $_POST['company_password'];
     $confirm_pass     = $_POST['confirm_pass'];
  
@@ -1353,6 +1369,9 @@ function company_registration_clb() {
 		} else {
 			add_user_meta( $user_id, 'parrent_user', $company_name);
 		}
+		
+		add_user_meta( $user_id, 'licence_number', $licence_number);
+		add_user_meta( $user_id, 'phone_number', $phone_number);
 		
 		$results = array(
 			'success' => true,
