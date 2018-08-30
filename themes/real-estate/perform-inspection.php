@@ -91,8 +91,8 @@ get_header(); ?>
 						));
 						$user_all[] = $parrent_user;
 						if(!empty($users)){
-							foreach($users as $user){
-								$user_all[] = $user->ID;
+							foreach($users as $company_user){
+								$user_all[] = $company_user->ID;
 							}
 						}
 						$selected_user = implode(',',$user_all);
@@ -126,12 +126,12 @@ get_header(); ?>
 				  <div class="col-sm-4">
                     <label for="licence_number">Lic #</label>
 					<?php $licence_number = get_user_meta($user->ID,  'licence_number', true ); ?>
-                    <input type="text" class="form-control required" name="licence_number" id="licence_number" readonly="readonly" value="<?php echo $licence_number; ?>">
+                    <input type="text" class="form-control" name="licence_number" id="licence_number" readonly="readonly" value="<?php echo $licence_number; ?>">
                   </div>
 				  <div class="col-sm-4">
                     <label for="phone_number">Phone Number</label>
 					<?php $phone_number = get_user_meta($user->ID,  'phone_number', true ); ?>
-                    <input type="text" class="form-control required" name="phone_number" id="phone_number" readonly="readonly" value="<?php echo $phone_number; ?>">
+                    <input type="text" class="form-control" name="phone_number" id="phone_number" readonly="readonly" value="<?php echo $phone_number; ?>">
                   </div>
                   <!-- End of col -->
                   <div class="col-sm-6">
