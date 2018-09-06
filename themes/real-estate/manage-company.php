@@ -41,19 +41,13 @@ get_header(); ?>
 				<div class="panel-body table-responsive">
 					<h4>Company Admin List</h4>
 					<table class="table table-striped table-bordered" cellspacing="0" width="100%" id="companyManage">
-						<thead>
-							<tr>
-								<th>#</th>
-								<th>Company Name</th>
-								<th>Email Address</th>
-								<th>Parent Users</th>
-								<th>Action</th>
-							</tr>
-						</thead>
-						<tbody>
 						<?php
 											
 						if(!empty($user) && $user->roles[0] == 'company_admin'){
+							$user_id = $user->ID;
+							$sadmin=0;
+							$parrent_user = get_the_author_meta( 'parrent_user', $user_id );						
+							if(empty($parrent_user)){ $parrent_user = $user_id; $sadmin=1; }
 							$company_args = array(
 							 'role' => 'company_admin',
 							 'orderby' => 'user_nicename',
@@ -61,7 +55,7 @@ get_header(); ?>
 							 'meta_query' => array(
 								array(
 									'key' => 'parrent_user',
-									'value' => $user->ID,
+									'value' => $parrent_user,
 									'compare' => 'EXISTS',
 								),
 							  )
@@ -74,7 +68,20 @@ get_header(); ?>
 							);
 						}
 						$company_users = get_users($company_args);
-						
+						?>
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Company Name</th>
+								<th>Email Address</th>
+								<th>Parent Users</th>
+								<?php if($sadmin): ?>
+								<th>Action</th>
+								<?php endif; ?>
+							</tr>
+						</thead>
+						<tbody>
+						<?php						
 						if(!empty($company_users)) {
 						$inc=1;
 						foreach($company_users as $company_user){
@@ -92,13 +99,41 @@ get_header(); ?>
 								<td><?php if(!empty($parrent_user_id)){ 
 								$parrent_user=get_userdata($parrent_user_id);
 								echo esc_html( $parrent_user->display_name ) . ' [' . esc_html( $parrent_user->user_login ) . ']'; } else { echo '--'; } ?></td>
+								<?php if($sadmin): ?>
 								<td><a href="?company-trash=<?php echo safe_b64encode($user_id); ?>" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash"></i></a></td>
+								<?php endif; ?>
 							</tr>
 						<?php $inc++; }} ?>
 						</tbody>
 					</table>
 					<h4>Inspector List</h4>
 					<table class="table table-striped table-bordered" cellspacing="0" width="100%" id="inspectionManage">
+						<?php
+							$ins_args = array(
+								 'role' => 'inspector',
+								 'orderby' => 'user_nicename',
+								 'order' => 'ASC' 
+							);
+							if(!empty($user) && $user->roles[0] == 'company_admin'){
+								$user_id = $user->ID;
+								$sadmin=0;
+								$parrent_user = get_the_author_meta( 'parrent_user', $user_id );						
+								if(empty($parrent_user)){ $parrent_user = $user_id; $sadmin=1; }
+								$ins_args = array(
+									 'role' => 'inspector',
+									 'orderby' => 'user_nicename',
+									 'order' => 'ASC',
+									 'meta_query' => array(
+										array(
+											'key' => 'parrent_user',
+											'value' => $parrent_user,
+											'compare' => 'EXISTS',
+										),
+									  ) 
+								);
+							}
+						$inspection_users = get_users($ins_args);
+						?>
 						<thead>
 							<tr>
 								<th>#</th>
@@ -110,26 +145,6 @@ get_header(); ?>
 						</thead>
 						<tbody>
 						<?php
-							$ins_args = array(
-								 'role' => 'inspector',
-								 'orderby' => 'user_nicename',
-								 'order' => 'ASC' 
-							);
-							if(!empty($user) && $user->roles[0] == 'company_admin'){
-								$ins_args = array(
-									 'role' => 'inspector',
-									 'orderby' => 'user_nicename',
-									 'order' => 'ASC',
-									 'meta_query' => array(
-										array(
-											'key' => 'parrent_user',
-											'value' => $user->ID,
-											'compare' => 'EXISTS',
-										),
-									  ) 
-								);
-							}
-						$inspection_users = get_users($ins_args);						
 						if(!empty($inspection_users)) {
 						$inc=1;
 						foreach($inspection_users as $inspection_user){

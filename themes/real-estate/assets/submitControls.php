@@ -82,7 +82,7 @@
   <input type="checkbox" ng-model="control.value" ng-checked="{{control.value}}"> {{control.label}}
 </div>
 <!-- Image -->
-<div class="formcontrol image imgdrop" ng-if="control.type=='image'" ng-drop="imageDrop($event,$parent.$parent.$index,$parent.$index,$index)">
+<div class="formcontrol image imgdrop add_comment_{{control.withComment}}" ng-if="control.type=='image'" ng-drop="imageDrop($event,$parent.$parent.$index,$parent.$index,$index)">
 <?php 
 	$get_att_url = '';
 	if($att){

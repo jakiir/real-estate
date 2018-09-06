@@ -65,8 +65,29 @@ get_header(); ?>
               <!-- End of template-tab-pane -->
               <div id="your_template" class="template-tab-pane">
                 <div class="template-tab-pane-list">
-                  <?php 									
-						$get_your_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE user_id=$user_id AND your_template=1 ORDER BY created_time ASC", OBJECT );
+                  <?php
+					  if(!empty($user) && $user->roles[0] != 'administrator'){
+							$parrent_user = get_the_author_meta( 'parrent_user', $user_id );						
+							if(empty($parrent_user)) $parrent_user = $user_id;
+							$users = get_users(array(
+								'meta_key'     => 'parrent_user',
+								'meta_value'   => $parrent_user,
+								'meta_compare' => '=',
+							));
+							$user_all[] = $parrent_user;
+							if(!empty($users)){
+								foreach($users as $user){
+									$user_all[] = $user->ID;
+								}
+							}
+							$selected_user = implode(',',$user_all);
+							$table_template = $wpdb->prefix . 'template';						
+							$get_your_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE user_id IN ($selected_user) AND your_template=1 ORDER BY created_time ASC", OBJECT );
+						} else {
+							$get_your_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE user_id=$user_id AND your_template=1 ORDER BY created_time ASC", OBJECT );
+						}
+				  
+						
 					?>
 					<select name="yourTemplates" id="yourTemplates" class="rounded multiselect2" size="16" style="background:#fff;color:#000;width:100%;">
 						<?php

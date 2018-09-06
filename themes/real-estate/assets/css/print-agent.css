@@ -39,6 +39,8 @@ table.table-bordered tbody td.course-field {
 .sectionbody{border:none!important;}
 .sub_section_agent{display:none;}
 .sub_section_agent.repair-print-active{display:block;}
+.ng-empty + label{display:none;}
+.ng-binding.ng-hide{display:none;}
 /*for chrome*/
 @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) {
     #drlistDivTbl,#printAreaDiv {

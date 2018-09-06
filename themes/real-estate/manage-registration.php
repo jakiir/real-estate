@@ -98,6 +98,26 @@ get_header(); ?>
 								</div>
 							</div>
 						</div>
+						
+						<div class="form-group">
+							<label for="licence_number" class="cols-sm-2 control-label">Lic #</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-barcode" aria-hidden="true"></i></span>
+									<input type="text" class="form-control required" name="licence_number" id="licence_number"  placeholder="Enter License Number"/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="phone_number" class="cols-sm-2 control-label">Phone Number</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-phone-square" aria-hidden="true"></i></span>
+									<input type="text" class="form-control required" name="phone_number" id="phone_number"  placeholder="Enter Phone Number"/>
+								</div>
+							</div>
+						</div>
 
 						<div class="form-group">
 							<label for="company_password" class="cols-sm-2 control-label">Password</label>
@@ -148,9 +168,10 @@ function regisrationAs(thisVal){
 			if(!empty($company_users)) {
 			foreach($company_users as $company_user){
 				$company_name = get_user_meta( $company_user->ID, 'company_name', true );
+				if(!empty($company_name)){
 		?>
 		html = html + '<option value="<?php echo $company_user->ID; ?>"><?php echo $company_name; ?></option>';
-		<?php } } ?>
+			<?php } } } ?>
 		html = html + '</select>';
 		$('#company_as').html(html);
 	}
@@ -171,6 +192,8 @@ $(document).ready(function() {
 				var company_name  = $('#company_name').val();
 				var user_fullname  = $('#user_fullname').val();
 				var email_address  = $('#email_address').val();
+				var licence_number  = $('#licence_number').val();
+				var phone_number  = $('#phone_number').val();
 				var company_username  = $('#company_username').val();
 				var company_password  = $('#company_password').val();
 				var confirm_pass  = $('#confirm_pass').val();				
@@ -187,6 +210,8 @@ $(document).ready(function() {
 				form_data.append('user_fullname', user_fullname);
 				form_data.append('email_address', email_address);
 				form_data.append('company_username', company_username);
+				form_data.append('licence_number', licence_number);
+				form_data.append('phone_number', phone_number);
 				form_data.append('company_password', company_password);
 				form_data.append('confirm_pass', confirm_pass);
 				

@@ -40,6 +40,15 @@ get_header('form-viewer'); ?>
 	
 	$table_template = $wpdb->prefix . 'template';	
 	$form_data = $wpdb->get_results( "SELECT * FROM $table_template WHERE id=$template_id", OBJECT );
+	$display_name = '';
+	$licence_number = '';
+	$phone_number = '';
+	if(!empty($get_inspection[0]->user_id)){
+		$user_info = get_userdata($get_inspection[0]->user_id);
+		$display_name = $user_info->display_name;
+		$licence_number = get_user_meta($user_info->ID,  'licence_number', true );
+		$phone_number = get_user_meta($user_info->ID,  'phone_number', true );
+	}
 ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/fa/css/font-awesome.min.css">
 <div class="container" ng-controller="submissonForm">
@@ -66,7 +75,7 @@ get_header('form-viewer'); ?>
 			<td align="left"><?php echo $get_inspection[0]->inpection_date; ?></td>
 		</tr>
 		<tr>
-			<th align="right">Report Identification</th>
+			<th align="right">Property Address</th>
 			<td align="left">:</td>
 			<td align="left"><?php echo $get_inspection[0]->report_identification; ?></td>
 			<th align="right">Template</th>
@@ -79,7 +88,15 @@ get_header('form-viewer'); ?>
 			<td align="left"><?php echo $get_inspection[0]->prepared_for; ?></td>
 			<th align="right">Prepared By</th>
 			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->prepared_by; ?></td>
+			<td align="left"><?php echo $display_name; ?></td>
+		</tr>
+		<tr>
+			<th align="right">Lic #</th>
+			<td align="left">:</td>
+			<td align="left"><?php echo $licence_number; ?></td>
+			<th align="right">Phone Number</th>
+			<td align="left">:</td>
+			<td align="left"><?php echo $phone_number; ?></td>
 		</tr>
 		<tr>
 			<th align="right">Time In</th>
@@ -93,9 +110,17 @@ get_header('form-viewer'); ?>
 			<th align="right" style="padding-bottom:10px;">Ocuppied or Vacant</th>
 			<td align="left">:</td>
 			<td align="left"><?php echo $get_inspection[0]->inspection_status; ?></td>
-			<th align="right">&nbsp;</th>
-			<td align="right">&nbsp;</td>
-			<td align="right">&nbsp;</td>
+			<th align="right">Building Orientation</th>
+			<td align="left">:</td>
+			<td align="left"><?php echo $get_inspection[0]->building_orientation; ?></td>
+		</tr>
+		<tr>
+			<th align="right">Weather Conditions</th>
+			<td align="left">:</td>
+			<td align="left"><?php echo $get_inspection[0]->weather_conditions; ?></td>
+			<th align="right">Parties Present</th>
+			<td align="left">:</td>
+			<td align="left"><?php echo $get_inspection[0]->parties_present; ?></td>
 		</tr>
 	</table>
 	
@@ -134,7 +159,7 @@ get_header('form-viewer'); ?>
 						<input type="checkbox" ng-model="child.subsection[0].status1" value="child.subsection[0].status1" ng-checked="{{child.subsection[0].status1}}"> Inspected
 						<input type="checkbox" ng-model="child.subsection[0].status2" value="child.subsection[0].status2" ng-checked="{{child.subsection[0].status2}}"> Not Inspected
 						<input type="checkbox" ng-model="child.subsection[0].status3" value="child.subsection[0].status3" ng-checked="{{child.subsection[0].status3}}"> Not Present
-						<input type="checkbox" ng-model="child.subsection[0].status4" value="child.subsection[0].status4" ng-checked="{{child.subsection[0].status4}}"> Deficient
+						<input type="checkbox" ng-model="child.subsection[0].status4" value="child.subsection[0].status4" ng-checked="true"> Deficient
 					  </div>
 					</div>
 					<div class="row" ng-repeat="controls in child.children">

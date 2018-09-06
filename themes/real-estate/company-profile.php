@@ -34,6 +34,10 @@ get_header(); ?>
 					<form class="form-horizontal" method="post" id="company_profile" action="#">
 						<?php
 							$company_name = get_user_meta( $user->ID, 'company_name', true );
+							if(empty($company_name)){
+								$parent_company_id = get_user_meta( $user->ID, 'parrent_user', true );
+								$company_name = get_user_meta( $parent_company_id, 'company_name', true );
+							}
 							if(!empty($company_name)){
 						?>
 						<div class="form-group">
@@ -41,7 +45,7 @@ get_header(); ?>
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-building" aria-hidden="true"></i></span>
-									<input type="text" class="form-control" name="company_name_d" value="<?php echo $company_name; ?>" placeholder="Enter company name"/>
+									<input type="text" class="form-control" name="company_name_d" value="<?php echo $company_name; ?>" placeholder="Enter company name" disabled="disabled"/>
 									<input type="hidden" name="company_name" id="company_name" disabled="disabled" value="<?php echo $user->ID; ?>"/>
 								</div>
 							</div>							
@@ -72,6 +76,28 @@ get_header(); ?>
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
 									<input type="text" class="form-control required" name="company_username" id="company_username" value="<?php echo $user->user_login; ?>" disabled="disabled" placeholder="Enter your Username"/>
+								</div>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="licence_number" class="cols-sm-2 control-label">Lic #</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-barcode" aria-hidden="true"></i></span>
+									<?php $licence_number = get_user_meta($user->ID,  'licence_number', true ); ?>
+									<input type="text" class="form-control required" name="licence_number" id="licence_number" value="<?php echo $licence_number; ?>" placeholder="Enter License Number"/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="phone_number" class="cols-sm-2 control-label">Phone Number</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-phone-square" aria-hidden="true"></i></span>
+									<?php $phone_number = get_user_meta($user->ID,  'phone_number', true ); ?>
+									<input type="text" class="form-control required" name="phone_number" id="phone_number" value="<?php echo $phone_number; ?>" placeholder="Enter Phone Number"/>
 								</div>
 							</div>
 						</div>
@@ -120,6 +146,8 @@ $(document).ready(function() {
 			if (formValid === true) {
 				var reg_nonce = $('#company_update_user_nonce').val();
 				var user_fullname  = $('#user_fullname').val();
+				var licence_number  = $('#licence_number').val();
+				var phone_number  = $('#phone_number').val();
 				var company_password  = $('#company_password').val();
 				var confirm_pass  = $('#confirm_pass').val();				
 				if(company_password !== confirm_pass){
@@ -131,6 +159,8 @@ $(document).ready(function() {
 				form_data.append('action', 'company_profile_clb');
 				form_data.append('nonce', reg_nonce);
 				form_data.append('user_fullname', user_fullname);
+				form_data.append('licence_number', licence_number);
+				form_data.append('phone_number', phone_number);
 				form_data.append('company_password', company_password);
 				form_data.append('confirm_pass', confirm_pass);
 				
