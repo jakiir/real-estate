@@ -277,7 +277,15 @@ function send_agent_email(){
 		//$email_to = 'jakir44.du@gmail.com';
 		$mail->FromName = 'clearagain.net';
 		//$mail->addAddress('joe@example.net', 'Joe User');     // Add a recipient
-		$mail->addAddress($agentEmailAddress);
+		$expEmail = explode(',',$agentEmailAddress);
+		if(!empty($expEmail[1])){
+			foreach($expEmail as $eachEmail){
+				$mail->addAddress($eachEmail);
+			}
+		} else {
+			$mail->addAddress($agentEmailAddress);
+		}
+		
 
 		//$mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
 		//$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
@@ -303,7 +311,7 @@ function send_agent_email(){
 		if(!$mail->send()) {
 		 $results = array(
 			'success' => false,
-			'mess' => 'Message could not be sent. Mailer Error: 2' . $mail->ErrorInfo
+			'mess' => 'Message could not be sent. Mailer Error: ' . $mail->ErrorInfo
 		 );
 		} else {
 
@@ -329,7 +337,7 @@ function send_agent_email(){
 		} else {
 		 $results = array(
 			'success' => false,
-			'mess' => 'Message could not be sent. Mailer Error: 1' . $mail->ErrorInfo
+			'mess' => 'Message could not be sent. Mailer Error: ' . $mail->ErrorInfo
 		 );
 		}			
 	echo json_encode($results);        
@@ -885,15 +893,13 @@ add_role(
     __( 'Company Admin' ),
     array(
         'read'         => true,  // true allows this capability
-        'edit_posts'   => true,
+        'edit_posts'   => false,
 		'delete_posts' => false, // Use false to explicitly deny
     )
 );
 
-if ( current_user_can('inspector') && !current_user_can('upload_files') )
+if ( (current_user_can('inspector') && !current_user_can('upload_files')) || (current_user_can('company_admin') && !current_user_can('upload_files')) )
 add_action('admin_init', 'allow_new_role_uploads');
-
-
 function allow_new_role_uploads() {
     $inspector_role = get_role('inspector');
     $inspector_role->add_cap('upload_files');

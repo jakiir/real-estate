@@ -14,6 +14,7 @@ angular.module('submitForm',['ui.tinymce'])
       text: 'Add Image',
       icon: 'image',
       onclick: function () {
+		  wp.media.controller.Library.prototype.defaults.contentUserSetting=false;
 			var custom_uploader = wp.media.frames.file_frame = wp.media({
 				title: 'Select Image',
 				button: {
@@ -178,7 +179,6 @@ angular.module('submitForm',['ui.tinymce'])
     //ToDo: Run AJAX submit for fd
   }
   $scope.fileBrowse = function(control){
-	  console.log(22);
     var fi = document.querySelector('.fileinp-new');
     console.log(fi.files);
     readFile(fi.files[0],function(res){
@@ -207,7 +207,7 @@ angular.module('submitForm',['ui.tinymce'])
 		file_frame.open();
 		return;
 	}
-
+wp.media.controller.Library.prototype.defaults.contentUserSetting=false;
 	file_frame = wp.media.frames.file_frame = wp.media({
 		title: $( this ).data( 'uploader_title' ),
 		button: {
@@ -314,6 +314,7 @@ jQuery(document).ready(function($){
     function template_builder_image_tinymce(e) {
         e.preventDefault();
         var $input_field = $('.mce-media_input_image');
+		wp.media.controller.Library.prototype.defaults.contentUserSetting=false;
         var custom_uploader = wp.media.frames.file_frame = wp.media({
             title: 'Add Image',
             button: {

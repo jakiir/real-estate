@@ -308,7 +308,7 @@ get_header('form-agent-viewer');
 </div>
 	<?php if($report_id){ ?>
     <div class="actions">
-      <a href="#" style="text-decoration:none;" role="button" id="reporPrintDrBtn" class="btn-taptap"><i class="fa fa-print" aria-hidden="true"></i> Repair Report</a>
+      <a href="#" style="text-decoration:none;" role="button" id="reporPrintDrBtn" class="btn-taptap"><i class="fa fa-print" aria-hidden="true"></i> Print Report</a>
     </div>
 	<?php } ?>
 	
