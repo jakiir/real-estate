@@ -116,7 +116,7 @@ get_header('form-viewer-print'); ?>
 		<tr>
 			<th align="right">Weather Conditions</th>
 			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->weather_conditions; ?></td>
+			<td align="left"><?php echo $get_inspection[0]->weather_conditions.' ['.$get_inspection[0]->temperature.']'; ?></td>
 			<th align="right">Parties Present</th>
 			<td align="left">:</td>
 			<td align="left"><?php echo $get_inspection[0]->parties_present; ?></td>

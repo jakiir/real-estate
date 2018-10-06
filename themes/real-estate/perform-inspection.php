@@ -73,6 +73,11 @@ get_header(); ?>
                     <label for="weather_conditions">Weather Conditions</label>
                     <input type="text" class="form-control required" name="weather_conditions" id="weather_conditions" placeholder="">
                   </div>
+				  <!-- End of col -->
+				  <div class="col-sm-12">
+                    <label for="temperature">Temperature</label>
+                    <input type="text" class="form-control required" name="temperature" id="temperature" placeholder="">
+                  </div>
                   <!-- End of col -->
 				  <div class="col-sm-12">
                     <label for="parties_present">Parties Present</label>
@@ -192,7 +197,8 @@ jQuery(function($){
 				var inpection_date = jQuery('#inpection_date').val();
 				var report_identification = jQuery('#report_identification').val();	
 				var building_orientation = jQuery('#building_orientation').val();				
-				var weather_conditions = jQuery('#weather_conditions').val();				
+				var weather_conditions = jQuery('#weather_conditions').val();
+				var temperature = jQuery('#temperature').val();	
 				var parties_present = jQuery('#parties_present').val();
 				var prepared_for = jQuery('#prepared_for').val();				
 				var prepared_by = jQuery('#prepared_by').val();				
@@ -208,6 +214,7 @@ jQuery(function($){
 				form_data.append('report_identification', report_identification);
 				form_data.append('building_orientation', building_orientation);
 				form_data.append('weather_conditions', weather_conditions);
+				form_data.append('temperature', temperature);
 				form_data.append('parties_present', parties_present);
 				form_data.append('prepared_for', prepared_for);
 				form_data.append('prepared_by', prepared_by);				

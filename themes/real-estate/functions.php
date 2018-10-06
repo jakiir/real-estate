@@ -527,6 +527,7 @@ function perform_inspections(){
 		 $report_identification = !empty($_POST['report_identification']) ? $_POST['report_identification'] : '';
 		 $building_orientation = !empty($_POST['building_orientation']) ? $_POST['building_orientation'] : '';
 		 $weather_conditions = !empty($_POST['weather_conditions']) ? $_POST['weather_conditions'] : '';
+		 $temperature = !empty($_POST['temperature']) ? $_POST['temperature'] : '';
 		 $parties_present = !empty($_POST['parties_present']) ? $_POST['parties_present'] : '';
 		 $template_id = !empty($_POST['template_id']) ? $_POST['template_id'] : '';
 		 $prepared_for = !empty($_POST['prepared_for']) ? $_POST['prepared_for'] : '';
@@ -546,6 +547,7 @@ function perform_inspections(){
 					 'report_identification' => $report_identification,
 					 'building_orientation' => $building_orientation,
 					 'weather_conditions' => $weather_conditions,
+					 'temperature' => $temperature,
 					 'parties_present' => $parties_present,
 					 'prepared_for' => $prepared_for,
 					 'prepared_by' => $prepared_by,
@@ -569,6 +571,7 @@ function perform_inspections(){
 					 'report_identification' => $report_identification,
 					 'building_orientation' => $building_orientation,
 					 'weather_conditions' => $weather_conditions,
+					 'temperature' => $temperature,
 					 'parties_present' => $parties_present,
 					 'template_id' => $template_id,
 					 'prepared_for' => $prepared_for,
