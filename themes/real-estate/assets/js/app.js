@@ -19,6 +19,7 @@ angular.module('formbuilder',['ngDrag','ui.tinymce'])
       text: 'Add Image',
       icon: 'image',
       onclick: function () {
+		  wp.media.controller.Library.prototype.defaults.contentUserSetting=false;
 			var custom_uploader = wp.media.frames.file_frame = wp.media({
 				title: 'Select Image',
 				button: {
@@ -209,7 +210,7 @@ angular.module('formbuilder',['ngDrag','ui.tinymce'])
 		file_frame.open();
 		return;
 	}
-
+wp.media.controller.Library.prototype.defaults.contentUserSetting=false;
 	file_frame = wp.media.frames.file_frame = wp.media({
 		title: $( this ).data( 'uploader_title' ),
 		button: {
@@ -344,6 +345,7 @@ jQuery(document).ready(function($){
     function template_builder_image_tinymce(e) {
         e.preventDefault();
         var $input_field = $('.mce-media_input_image');
+		wp.media.controller.Library.prototype.defaults.contentUserSetting=false;
         var custom_uploader = wp.media.frames.file_frame = wp.media({
             title: 'Add Image',
             button: {
