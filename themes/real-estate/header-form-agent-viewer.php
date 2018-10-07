@@ -46,13 +46,11 @@
           <!-- End of nav-icon -->
           <div class="main-nav">
             <div class="site-logo">
-              <a href="<?php echo home_url('/landing-page/'); ?>">
                 <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/logo.png" alt="...">
-              </a>
             </div>
             <!-- End of site-logo -->
             <ul>
-			  <li><a href="javascript:void(0)" id="printDrBtn" class=""><i class="fa fa-print" aria-hidden="true"></i> Full Report</a></li>
+			  <li><a href="javascript:void(0)" id="printDrBtn" class=""><i class="fa fa-print" aria-hidden="true"></i> Print  Report</a></li>
             </ul>
             <!-- End of nav -->
           </div>

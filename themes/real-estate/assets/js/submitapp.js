@@ -14,6 +14,7 @@ angular.module('submitForm',['ui.tinymce'])
       text: 'Add Image',
       icon: 'image',
       onclick: function () {
+		  wp.media.controller.Library.prototype.defaults.contentUserSetting=false;
 			var custom_uploader = wp.media.frames.file_frame = wp.media({
 				title: 'Select Image',
 				button: {
@@ -59,6 +60,7 @@ angular.module('submitForm',['ui.tinymce'])
 	})
 	}
   };
+ //$scope.tinymceOptions = {}
   $scope.formBlueprint=formBlueprint;
   //console.log($scope.formBlueprint);
   $scope.form = transform(formBlueprint);
@@ -78,7 +80,7 @@ angular.module('submitForm',['ui.tinymce'])
 		form.push({
           section:tree[i][0][0],
           children:[],
-          expanded:false,
+          expanded:false, //false
 		  display:''
         });
         continue;
@@ -88,7 +90,7 @@ angular.module('submitForm',['ui.tinymce'])
 		form[form.length-1].children.push({
           subsection:tree[i][0],
           children:[],
-          expanded:false,
+          expanded:false, //false
 		  display:''
         });
         continue;
@@ -113,11 +115,11 @@ angular.module('submitForm',['ui.tinymce'])
   var setAccessSession = '';
     function autoSave(){
       localStorage.setItem('formbuilder_cache_data'+template_id,JSON.stringify($scope.formBlueprint));
-	  setAccessSession = setTimeout(autoSave, 500);
+	  setAccessSession = setTimeout(autoSave, 5000);
 	  //console.log(localStorage.formbuilder_cache_data);
       //console.log("Auto Save Performed");
     }
-	setAccessSession = setTimeout(autoSave, 500);
+	setAccessSession = setTimeout(autoSave, 5000);
   autoSave();
   // -- disabled for development
   // //check if the file is called from preview (will have cache data)
@@ -128,7 +130,9 @@ angular.module('submitForm',['ui.tinymce'])
   }
   var temp_dt = new Date();
   $scope.formBlueprint.prepared_date = temp_dt.toString();
-  $scope.submitData = function(thisItem,goToUrl,targetUrl){
+  var setSubmitData = '';
+  $scope.submitData = function(thisItem=3,goToUrl='',targetUrl=''){
+	  setSubmitData = setTimeout($scope.submitData, 15000);
     var saveToDb=false;
     //var fd = new FormData(document.forms.mainform);
 	//var data = $scope.formBlueprint;
@@ -177,8 +181,9 @@ angular.module('submitForm',['ui.tinymce'])
 	return saveToDb;
     //ToDo: Run AJAX submit for fd
   }
+  setSubmitData = setTimeout($scope.submitData, 15000);
+  $scope.submitData(3,'','');
   $scope.fileBrowse = function(control){
-	  console.log(22);
     var fi = document.querySelector('.fileinp-new');
     console.log(fi.files);
     readFile(fi.files[0],function(res){
@@ -207,7 +212,7 @@ angular.module('submitForm',['ui.tinymce'])
 		file_frame.open();
 		return;
 	}
-
+wp.media.controller.Library.prototype.defaults.contentUserSetting=false;
 	file_frame = wp.media.frames.file_frame = wp.media({
 		title: $( this ).data( 'uploader_title' ),
 		button: {
@@ -314,6 +319,7 @@ jQuery(document).ready(function($){
     function template_builder_image_tinymce(e) {
         e.preventDefault();
         var $input_field = $('.mce-media_input_image');
+		wp.media.controller.Library.prototype.defaults.contentUserSetting=false;
         var custom_uploader = wp.media.frames.file_frame = wp.media({
             title: 'Add Image',
             button: {

@@ -550,7 +550,7 @@ a:hover, a:active {
 	display: block;
 	text-decoration: none;
 }
-
+.layoutArea .column img{display:inline-block;margin-right:10px;}
 /* Small menu. */
 .menu-toggle,
 .main-navigation.toggled ul {

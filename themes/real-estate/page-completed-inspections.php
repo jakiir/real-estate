@@ -111,7 +111,7 @@ get_header(); ?>
       </div>
       <div class="modal-body taptap-modal-body">
 		<form action="#" id="shareForm">
-			<p><input class="form-control required" type="email" name="agentEmailAddress" id="agentEmailAddress" value=""></p>
+			<p><input class="form-control required" type="text" name="agentEmailAddress" id="agentEmailAddress" value=""></p>
 			<p class="msg_show"></p>
 			<p><button type="submit" class="btn-taptap checkBoxSlected" disabled="disabled"><i class="fa fa-share"></i> Share</button></p>
 		</form>

@@ -145,7 +145,7 @@ get_header('form-agent-viewer');
 		<tr>
 			<th align="right">Weather Conditions</th>
 			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->weather_conditions; ?></td>
+			<td align="left"><?php echo $get_inspection[0]->weather_conditions.' ['.$get_inspection[0]->temperature.']'; ?></td>
 			<th align="right">Parties Present</th>
 			<td align="left">:</td>
 			<td align="left"><?php echo $get_inspection[0]->parties_present; ?></td>
@@ -308,7 +308,7 @@ get_header('form-agent-viewer');
 </div>
 	<?php if($report_id){ ?>
     <div class="actions">
-      <a href="#" style="text-decoration:none;" role="button" id="reporPrintDrBtn" class="btn-taptap"><i class="fa fa-print" aria-hidden="true"></i> Repair Report</a>
+      <a href="#" style="text-decoration:none;" role="button" id="reporPrintDrBtn" class="btn-taptap"><i class="fa fa-print" aria-hidden="true"></i> Print Report</a>
     </div>
 	<?php } ?>
 	
