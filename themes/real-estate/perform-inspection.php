@@ -71,7 +71,14 @@ get_header(); ?>
                   <!-- End of col -->
 				  <div class="col-sm-12">
                     <label for="weather_conditions">Weather Conditions</label>
-                    <input type="text" class="form-control required" name="weather_conditions" id="weather_conditions" placeholder="">
+					
+					<div class="status-radios">
+                      <input type="radio" id="radio-sunny" name="weather_conditions" value="Sunny"><label for="radio-sunny">Sunny</label>
+                      <input type="radio" id="radio-raining" name="weather_conditions" value="Raining"><label for="radio-raining">Raining</label>
+					  <input type="radio" id="radio-cloudy" name="weather_conditions" value="Cloudy"><label for="radio-cloudy">Cloudy</label>
+                      <input type="radio" id="radio-Snow-Ice" name="weather_conditions" value="Snow/Ice"><label for="radio-Snow-Ice">Snow/Ice</label>
+                    </div>
+                    <!-- End of status-radios -->
                   </div>
 				  <!-- End of col -->
 				  <div class="col-sm-12">
@@ -197,7 +204,7 @@ jQuery(function($){
 				var inpection_date = jQuery('#inpection_date').val();
 				var report_identification = jQuery('#report_identification').val();	
 				var building_orientation = jQuery('#building_orientation').val();				
-				var weather_conditions = jQuery('#weather_conditions').val();
+				var weather_conditions = jQuery('input[name=weather_conditions]:checked').val();				
 				var temperature = jQuery('#temperature').val();	
 				var parties_present = jQuery('#parties_present').val();
 				var prepared_for = jQuery('#prepared_for').val();				
