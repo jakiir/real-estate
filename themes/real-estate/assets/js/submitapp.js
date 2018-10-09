@@ -131,6 +131,7 @@ angular.module('submitForm',['ui.tinymce'])
   var temp_dt = new Date();
   $scope.formBlueprint.prepared_date = temp_dt.toString();
   var setSubmitData = '';
+  savedIdForItem = saved;
   $scope.submitData = function(thisItem=3,goToUrl='',targetUrl=''){
 	  setSubmitData = setTimeout($scope.submitData, 15000);
     var saveToDb=false;
@@ -147,7 +148,12 @@ angular.module('submitForm',['ui.tinymce'])
     form_data.append('action', 'saveDynamicFormReport');
     form_data.append('template_id', template_id);
 	form_data.append('inspection_id', inspection_id);
-	form_data.append('saved', saved);
+	if(thisItem==3){
+		form_data.append('saved', savedIdForItem);
+	} else {
+		form_data.append('saved', saved);
+	}
+	
     form_data.append('formJsonData', formJsonData);
 	
 	$.ajax({
@@ -167,6 +173,11 @@ angular.module('submitForm',['ui.tinymce'])
 			}
 			if(thisItem==2){
 				window.location.href = goToUrl+'&saved='+parsedJson.report_detail_id+targetUrl;
+			}
+			if(thisItem==3){
+				var newUrlAddress = site_url+"/form-viewer/?item="+template_id+'&report='+inspection_id+'&saved='+parsedJson.report_detail_id;
+				window.history.pushState("object or string", "Title", newUrlAddress);
+				savedIdForItem = parsedJson.report_detail_id;
 			}
         } else {
         $('.msg_show').show().html('<font style="color:red">'+parsedJson.mess+'</span>');

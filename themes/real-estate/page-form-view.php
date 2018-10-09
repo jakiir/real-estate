@@ -159,7 +159,7 @@ get_header('form-viewer'); ?>
 						<input type="checkbox" ng-model="child.subsection[0].status1" value="child.subsection[0].status1" ng-checked="{{child.subsection[0].status1}}"> Inspected
 						<input type="checkbox" ng-model="child.subsection[0].status2" value="child.subsection[0].status2" ng-checked="{{child.subsection[0].status2}}"> Not Inspected
 						<input type="checkbox" ng-model="child.subsection[0].status3" value="child.subsection[0].status3" ng-checked="{{child.subsection[0].status3}}"> Not Present
-						<input type="checkbox" ng-init="child.subsection[0].status4=child.subsection[0].status4 !== false || child.subsection[0].status4 === true ? true : false" ng-model="child.subsection[0].status4" value="{{child.subsection[0].status4}}"> Deficient
+						<input type="checkbox" ng-init="child.subsection[0].status4=child.subsection[0].status4 !== false || child.subsection[0].status4 === true ? true : false" ng-model="child.subsection[0].status4" value="{{child.subsection[0].status4}}" ng-checked="{{child.subsection[0].status4}}"> Deficient
 					  </div>
 					</div>
 					<div class="row" ng-repeat="controls in child.children">

@@ -8,25 +8,38 @@ html,body{
   position:fixed;
 }
 .toolbar.top{
-  z-index: 5000;
-  top:0px;
-  left:0px;
-  height:50px;
-  width:100%;
-  background-color:#ecf0f1;
-  box-shadow:0px 2px 3px #ddd;
-  display:flex;
+	z-index: 5000;
+	top:0px;
+	left:0px;
+	height:50px;
+	width:100%;
+	background-color:#ecf0f1;
+	box-shadow:0px 2px 3px #ddd;
+	display:-webkit-flex;
+	display:-webkit-box;
+	display:-moz-flex;
+	display:-moz-box;
+	display:-ms-flexbox;
+	display:flex;
+	flex-direction:row;
 }
 .toptoolrest{
   flex:1;
 }
 .toptool{
-  display:flex;
-  align-items: center;
-  padding:10px;
-  margin:5px;
-  border-radius:5px;
-  cursor:pointer;
+	align-items: center;
+	padding:10px;
+	margin:5px;
+	border-radius:5px;
+	cursor:pointer;
+	display:-webkit-flex;
+	display:-webkit-box;
+	display:-moz-flex;
+	display:-moz-box;
+	display:-ms-flexbox;
+	display:flex;
+	flex-direction:row;
+	text-align:center;
 }
 .toptoolspacer{
   width:15px;

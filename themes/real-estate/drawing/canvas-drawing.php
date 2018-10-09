@@ -129,7 +129,7 @@
 </div>
 <a class="downloadholder" data-template="<?php echo $template_id; ?>" data-hash="<?php echo $hash; ?>" data-report_id="<?php echo $report_id; ?>" data-saved="<?php echo $saved; ?>" href="#" style="display:none"> </a>
 <img src="" alt="mainimg" crossorigin id="theimage" style="position:absolute;z-index:-2000;opacity:0">
-<script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jquery.min.js"></script>
+<script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jquery.js"></script>
 <!-- Libs -->
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/fabric.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/fabric.arrow.js"></script>

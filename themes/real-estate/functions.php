@@ -816,7 +816,7 @@ function saveDynamicFormReport(){
 		 $saved = $_POST['saved'];
 		 $inspectionReportDetail = $wpdb->prefix . 'inspectionreportdetail';
 		 $formJsonData = !empty($_POST['formJsonData']) ? $_POST['formJsonData'] : '';
-		 if(empty($saved) || $saved==0){
+		 if(empty($saved) || $saved===0){
 			$wpdb->insert($inspectionReportDetail, array('inspectionId' => $inspection_id));
 			$lastid = $wpdb->insert_id;
 		 } else {
@@ -829,7 +829,7 @@ function saveDynamicFormReport(){
 		 $results = array(
 			'success' => true,
 			'mess' => '<i class="fa fa-check-circle"></i>',
-			'template_id' => $template_id,
+			'template_id' => '',
 			'report_detail_id' => $lastid
 		 );
 	 } else {
