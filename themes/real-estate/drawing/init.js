@@ -24,10 +24,11 @@ var fillColor="#FFFFFF";
 var strokeColor="#FF0000";
 //tools
 var tools = {};
-var currentTool='line';
+var currentTool='arrow';
 //Virtual Layers
 var layers = [];
 //Undo and redo
+var versions = [];
 var redoList =[];
 //Iitial Setup
 function setup(width,height,background){

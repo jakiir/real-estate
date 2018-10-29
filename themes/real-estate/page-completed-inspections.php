@@ -144,7 +144,8 @@ $(document).ready(function() {
 	  
 	// Set up your table
 	table = $('#devTable').DataTable({
-		"iDisplayLength": 10
+		"iDisplayLength": 10,
+		"order": [[ 3, "desc" ]]
 	});
 
 	// Extend dataTables search

@@ -104,7 +104,12 @@ function eventListeners(){
         return false;
       }
       var sGrid = getNearestGrid(activeObj.left,activeObj.top);
-      var eGrid = getNearestGrid(sGrid.x+(activeObj.width*activeObj.scaleX),sGrid.y+(activeObj.height*activeObj.scaleY));
+      if(theEl.tool!=="text"){
+        var eGrid = getNearestGrid(sGrid.x+(activeObj.width*activeObj.scaleX),sGrid.y+(activeObj.height*activeObj.scaleY));
+      }
+      else{
+        var eGrid = sGrid;
+      }
       //console.log(theEl==layers[0]);
       if(theEl.startX<theEl.endX){
         theEl.startX=sGrid.x;
@@ -125,6 +130,8 @@ function eventListeners(){
       if(activeObj.angle){
         theEl.angle=activeObj.angle;
       }
+      redoList=[];
+      versions.push(JSON.stringify(layers));
       reDraw();
     });
     drawingFab.on('mouse:down',function(){
