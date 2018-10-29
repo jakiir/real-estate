@@ -26,7 +26,7 @@ function resetDrawing(){
 }
 function saveInstruction(toolName,startX,startY,endX,endY,uuid,data){
   // reset redo
-  redo=[];
+  redoList=[];
   //blank fill data
   if(!data) data={};
   //save current fill and stroke colors
@@ -43,17 +43,22 @@ function saveInstruction(toolName,startX,startY,endX,endY,uuid,data){
     uuid:uuid,
     data:data
   });
+  versions.push(JSON.stringify(layers));
 }
 
 //Undo Redo
 function undo(){
-  if(!layers.length) return false;
-  redoList.push(layers.pop());
+  if(versions.length<2) return false;
+  redoList.push(versions.pop());
+  //debugger;
+  layers = JSON.parse(versions[versions.length-1])
   reDraw();
 }
 function cancelUndo(){
   if(!redoList.length) return false;
-  layers.push(redoList.pop());
+  versions.push(redoList.pop());
+  //debugger;
+  layers = JSON.parse(versions[versions.length-1])
   reDraw();
 }
 function clear(){

@@ -159,7 +159,7 @@ get_header('form-viewer'); ?>
 						<input type="checkbox" ng-model="child.subsection[0].status1" value="child.subsection[0].status1" ng-checked="{{child.subsection[0].status1}}"> Inspected
 						<input type="checkbox" ng-model="child.subsection[0].status2" value="child.subsection[0].status2" ng-checked="{{child.subsection[0].status2}}"> Not Inspected
 						<input type="checkbox" ng-model="child.subsection[0].status3" value="child.subsection[0].status3" ng-checked="{{child.subsection[0].status3}}"> Not Present
-						<input type="checkbox" ng-init="child.subsection[0].status4=child.subsection[0].status4 !== false || child.subsection[0].status4 === true ? true : false" ng-model="child.subsection[0].status4" value="{{child.subsection[0].status4}}"> Deficient
+						<input type="checkbox" ng-init="child.subsection[0].status4=child.subsection[0].status4 !== false || child.subsection[0].status4 === true ? true : false" ng-model="child.subsection[0].status4" value="{{child.subsection[0].status4}}" ng-checked="{{child.subsection[0].status4}}"> Deficient
 					  </div>
 					</div>
 					<div class="row" ng-repeat="controls in child.children">
@@ -187,11 +187,16 @@ get_header('form-viewer'); ?>
 </div>
 	<?php if($report_id){ ?>
     <div class="actions">
-	  <div class="msg_show form-view-msg"></div>
+	  <div class="msg_show form-view-msg" style="display:inline-block;"></div>
 	  <a href="javascript:void(0)" style="margin-bottom:10px;" class="btn-taptap saveChanges" ng-click="submitData(1,'','')">
         <i class="fa fa-floppy-o" aria-hidden="true"></i> Save Changes
       </a>
-	  <a href="javascript:void(0)" id="printTemplateBtn" class="btn-taptap"><i class="fa fa-print" aria-hidden="true"></i> Print</a>
+	  <?php /* ?><a href="javascript:void(0)" id="printTemplateBtn" class="btn-taptap">
+        <i class="fa fa-file"></i> Save as PDF
+      </a><?php */?>
+	  <a href="javascript:void(0)" class="btn-taptap checkBoxSlected" data-toggle="modal" data-target="#shareFormView" disabled="disabled"><i class="fa fa-share"></i> Share this
+      </a>
+	  <?php /* ?><a href="javascript:void(0)" id="printTemplateBtn" class="btn-taptap"><i class="fa fa-print" aria-hidden="true"></i> Print</a><?php */?>
     </div>
 	<?php } else { ?>
 		<style>
@@ -201,6 +206,29 @@ get_header('form-viewer'); ?>
 	<?php } ?>
   </div>
 <?php get_footer('viewer'); ?>
+
+<div id="shareFormView" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header taptap-modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Please enter agent’s email adress</h4>
+      </div>
+      <div class="modal-body taptap-modal-body">
+		<form action="#" id="shareForm">
+			<p><input class="form-control required" type="text" name="agentEmailAddress" id="agentEmailAddress" value=""></p>
+			<p class="msg_show_share"></p>
+			<br/>
+			<p><button type="submit" class="btn-taptap checkBoxSlected"><i class="fa fa-share"></i> Share</button></p>
+		</form>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <?php 
 	if(empty($saved)){
 		$table_template_detail = $wpdb->prefix . 'template_detail';
@@ -256,6 +284,55 @@ get_header('form-viewer'); ?>
 		<?php if(isset($_GET['print'])){ ?>
 			//$( "a#printTemplateBtn" ).click();
 		<?php } ?>
+		
+	$(document).on("click", ":submit", function(e) {
+			$('.msg_show_share').html('<i class="fa fa-refresh fa-spin" aria-hidden="true"></i>');
+			var thisForm = $(this);
+				var agentEmailAddress = jQuery('#agentEmailAddress').val();
+				if(agentEmailAddress == ""){
+					jQuery('#agentEmailAddress').focus();
+					$('.msg_show_share').html('<span style="color:red">Please, type minimum one email address.</span>');
+					return false;
+				}
+				var form_data = new FormData();
+				var getSelectedTitle = "<?php echo $get_inspection[0]->report_identification; ?>";
+				var getSelectedCompany = "<?php echo $get_inspection[0]->company; ?>";
+				var getSelectedPrep = "<?php echo $get_inspection[0]->prepared_for; ?>";
+				
+				form_data.append('action', 'send_agent_email');
+				form_data.append('getSelected', template_id);				
+				form_data.append('getSelectedReport', inspection_id);
+				form_data.append('getSelectedSaved', saved);
+				form_data.append('getSelectedTitle', getSelectedTitle);
+				form_data.append('getSelectedCompany', getSelectedCompany);
+				form_data.append('getSelectedPrep', getSelectedPrep);
+				form_data.append('agentEmailAddress', agentEmailAddress);
+				
+				$.ajax({					
+					url: '<?php echo admin_url('admin-ajax.php'); ?>',
+					type: 'post',
+					contentType: false,
+					processData: false,
+					data : form_data,					
+					success: function (data) {
+					  var parsedJson = $.parseJSON(data);
+					  if(parsedJson.success == true){						  
+						  $('.msg_show_share').html('');
+						  $('.msg_show_share').html('<span style="color:green">'+parsedJson.mess+'</span>');
+						  location.reload();
+					  } else {
+						  $('.msg_show_share').html('');
+						 $('.msg_show_share').html('<span style="color:red">'+parsedJson.mess+'</span>');
+					  }
+					},
+					error: function (errorThrown) {
+						$('.msg_show_share').html('');
+						$('.msg_show_share').html('<span style="color:red">'+errorThrown+'</span>');						
+					}
+				});		
+			return false;
+			
+		});
 		
 	});
 	function expand_nav_menu() {

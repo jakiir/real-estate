@@ -19,10 +19,21 @@ formControls.subsection={
 formControls.text={
   title:"Text",
   type:'text',
-  placeholder:"Enter Value",
+  //placeholder:"Enter Value",
   icon:"fa-font",
   htmlName:"txt",
+  default:"Default Value",
   data:""
+  
+  /*title:"Comment",
+  label:"Comments",
+  type:'comment',
+  icon:"fa-edit",
+  htmlName:"cmt",
+  //noProperty:true,
+  editMode:true,
+  data:"<h5>Comment Field</h5><p>This is a comment field, It will appear as this rich text editor, you can edit it to add example</p>"*/
+  
 }
 
 formControls.reportfield={

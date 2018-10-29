@@ -71,13 +71,13 @@ get_header(); ?>
                   <!-- End of col -->
 				  <div class="col-sm-12">
                     <label for="weather_conditions">Weather Conditions</label>
-					
-					<div class="status-radios">
-                      <input type="radio" id="radio-sunny" name="weather_conditions" value="Sunny"><label for="radio-sunny">Sunny</label>
-                      <input type="radio" id="radio-raining" name="weather_conditions" value="Raining"><label for="radio-raining">Raining</label>
-					  <input type="radio" id="radio-cloudy" name="weather_conditions" value="Cloudy"><label for="radio-cloudy">Cloudy</label>
-                      <input type="radio" id="radio-Snow-Ice" name="weather_conditions" value="Snow/Ice"><label for="radio-Snow-Ice">Snow/Ice</label>
+					<div class="share-checkbox">
+                      <input type="checkbox" id="checkbox-sunny" name="weather_conditions" value="Sunny"><label for="checkbox-sunny">Sunny</label>
+                      <input type="checkbox" id="checkbox-raining" name="weather_conditions" value="Raining"><label for="checkbox-raining">Raining</label>
+					  <input type="checkbox" id="checkbox-cloudy" name="weather_conditions" value="Cloudy"><label for="checkbox-cloudy">Cloudy</label>
+                      <input type="checkbox" id="checkbox-Snow-Ice" name="weather_conditions" value="Snow/Ice"><label for="checkbox-Snow-Ice">Snow/Ice</label>
                     </div>
+					
                     <!-- End of status-radios -->
                   </div>
 				  <!-- End of col -->
@@ -88,7 +88,14 @@ get_header(); ?>
                   <!-- End of col -->
 				  <div class="col-sm-12">
                     <label for="parties_present">Parties Present</label>
-                    <input type="text" class="form-control required" name="parties_present" id="parties_present" placeholder="">
+					<div class="share-checkbox">
+                      <input type="checkbox" id="checkbox-client" name="parties_present" value="Client"><label for="checkbox-client ">Client</label>
+                      <input type="checkbox" id="checkbox-buyer-realtor" name="parties_present" value="Buyer’s Realtor"><label for="checkbox-buyer-realtor">Buyer’s Realtor</label>
+					  <input type="checkbox" id="checkbox-builder" name="parties_present" value="Builder"><label for="checkbox-builder">Builder</label>
+                      <input type="checkbox" id="checkbox-seller" name="parties_present" value="Seller"><label for="checkbox-seller">Seller</label>
+					  <input type="checkbox" id="checkbox-none" name="parties_present" value="None"><label for="checkbox-none">None</label>
+                    </div>
+					
                   </div>
                   <!-- End of col -->
                   <div class="col-sm-12">
@@ -204,9 +211,19 @@ jQuery(function($){
 				var inpection_date = jQuery('#inpection_date').val();
 				var report_identification = jQuery('#report_identification').val();	
 				var building_orientation = jQuery('#building_orientation').val();				
-				var weather_conditions = jQuery('input[name=weather_conditions]:checked').val();				
+				//var weather_conditions = jQuery('input[name=weather_conditions]:checked').val();
+				var weather_favorite = [];
+				$.each($("input[name='weather_conditions']:checked"), function(){            
+					weather_favorite.push($(this).val());
+				});
+				var weather_conditions = weather_favorite.join(", ");
 				var temperature = jQuery('#temperature').val();	
-				var parties_present = jQuery('#parties_present').val();
+				//var parties_present = jQuery('#parties_present').val();				
+				var parties_favorite = [];
+				$.each($("input[name='parties_present']:checked"), function(){            
+					parties_favorite.push($(this).val());
+				});
+				var parties_present = parties_favorite.join(", ");
 				var prepared_for = jQuery('#prepared_for').val();				
 				var prepared_by = jQuery('#prepared_by').val();				
 				var time_in = jQuery('#time_in').val();				

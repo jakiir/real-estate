@@ -8,7 +8,7 @@
 <!-- text -->
 <div class="formcontrol text" ng-if="control.type=='text'">
   <div class="inputpretend">
-    {{control.placeholder}}
+    {{control.default}}
   </div>
 </div>
 <!-- Section -->
@@ -45,11 +45,11 @@
 </div>
 <!-- wysiwyg -->
 <div class="formcontrol editor" ng-if="control.type=='wysiwyg'">
-  <div class="editbutton" ng-click="control.editMode=true" ng-hide="control.editMode">
+  <div class="editbutton" ng-click="control.editMode=true" ng-if="!control.editMode">
     <i ng-click="" class="fa fa-pencil"></i>
   </div>
-  <div ng-bind-html="control.data" ng-hide="control.editMode"></div>
-  <div class="wysiwygpretend" ng-show="control.editMode">
+  <div ng-bind-html="control.data" ng-if="!control.editMode"></div>
+  <div class="wysiwygpretend" ng-if="control.editMode">
     <textarea ui-tinymce="tinymceOptions" ng-model="control.data"></textarea>
     <div class="button tbmargin get-right" ng-click="control.editMode=false">Save</div>
   </div>
@@ -58,11 +58,11 @@
 <!-- wysiwyg -->
 <div class="formcontrol editor" ng-if="control.type=='comment'">
   <h4>{{control.label}}</h4>
-  <div class="editbutton" ng-click="control.editMode=true" ng-hide="control.editMode">
+  <div class="editbutton" ng-click="control.editMode=true" ng-if="!control.editMode">
     <i ng-click="" class="fa fa-pencil"></i>
   </div>
-  <div ng-bind-html="control.data" ng-hide="control.editMode"></div>
-  <div class="wysiwygpretend" ng-show="control.editMode">
+  <div ng-bind-html="control.data" ng-if="!control.editMode"></div>
+  <div class="wysiwygpretend" ng-if="control.editMode">
     <textarea ui-tinymce="tinymceOptions" ng-model="control.data"></textarea>
     <div class="button tbmargin get-right" ng-click="control.editMode=false">Save</div>
   </div>

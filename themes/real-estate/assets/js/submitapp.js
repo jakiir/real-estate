@@ -25,7 +25,7 @@ angular.module('submitForm',['ui.tinymce'])
 			custom_uploader.on('select', function() {
 				var attachment = custom_uploader.state().get('selection').first().toJSON();
 				
-				editor.insertContent( '<img width="200px" height="auto" src="' + attachment.url + '" data-mce-src="' + attachment.url + '" style="width:200px;" alt="upload image" />');
+				editor.insertContent( '<img width="32%" height="auto" src="' + attachment.url + '" data-mce-src="' + attachment.url + '" style="width:32%;" alt="upload image" />');
 			});
 			custom_uploader.open();
 		}
@@ -34,6 +34,7 @@ angular.module('submitForm',['ui.tinymce'])
       text: 'Annotate Image',
       icon: 'image',
       onclick: function (e) {
+      	//console.log("Annotate button clicked")
 		  var thisItemId = e.target.parentNode.parentNode.id;
 		  var selectedImage = $('#'+thisItemId).parents('.mce-container-body').find(".mce-edit-area").find("iframe").contents().find('.mce-content-body').find("[data-mce-selected='1']").attr('src');
 		  
@@ -43,7 +44,7 @@ angular.module('submitForm',['ui.tinymce'])
 			}
 		  window.open(site_url+'/canvas-drawing/?report=14&item=2&hash=1518713455636&saved=1&editor=yes#target='+defaultImageUrl, '_blank', 'location=yes,height=1000,width=1000,scrollbars=yes,status=yes');
 		  window.insertAnnotateImage = function(imageUrl){
-			  editor.insertContent( '<img class="add_annotate_image" width="200px" height="auto" src="' + imageUrl + '" data-mce-src="' + imageUrl + '" style="width:200px;" alt="upload image" />');
+			  editor.insertContent( '<img class="add_annotate_image" width="32%" height="auto" src="' + imageUrl + '" data-mce-src="' + imageUrl + '" style="width:32%;" alt="upload image" />');
 		  }
 		}
 	}),
@@ -51,10 +52,11 @@ angular.module('submitForm',['ui.tinymce'])
       text: 'Survey Drawing',
       icon: 'image',
       onclick: function () {
+      	//console.log("SUEVEY button clicked")
 			window.open(site_url+'/design-draw/?report=14&item=2&hash=1518713455636&saved=1&editor=yes', '_blank', 'location=yes,height=1000,width=1000,scrollbars=yes,status=yes');
 		
 			window.insertSurveyDrawing = function(imageUrl){
-			  editor.insertContent( '<img class="add_annotate_image" width="200px" height="auto" src="' + imageUrl + '" data-mce-src="' + imageUrl + '" style="width:200px;" alt="upload image" />');
+			  editor.insertContent( '<img class="add_annotate_image" width="32%" height="auto" src="' + imageUrl + '" data-mce-src="' + imageUrl + '" style="width:32%;" alt="upload image" />');
 			}
 		}
 	})
@@ -131,6 +133,7 @@ angular.module('submitForm',['ui.tinymce'])
   var temp_dt = new Date();
   $scope.formBlueprint.prepared_date = temp_dt.toString();
   var setSubmitData = '';
+  savedIdForItem = saved;
   $scope.submitData = function(thisItem=3,goToUrl='',targetUrl=''){
 	  setSubmitData = setTimeout($scope.submitData, 15000);
     var saveToDb=false;
@@ -147,7 +150,12 @@ angular.module('submitForm',['ui.tinymce'])
     form_data.append('action', 'saveDynamicFormReport');
     form_data.append('template_id', template_id);
 	form_data.append('inspection_id', inspection_id);
-	form_data.append('saved', saved);
+	if(thisItem==3){
+		form_data.append('saved', savedIdForItem);
+	} else {
+		form_data.append('saved', saved);
+	}
+	
     form_data.append('formJsonData', formJsonData);
 	
 	$.ajax({
@@ -167,6 +175,11 @@ angular.module('submitForm',['ui.tinymce'])
 			}
 			if(thisItem==2){
 				window.location.href = goToUrl+'&saved='+parsedJson.report_detail_id+targetUrl;
+			}
+			if(thisItem==3){
+				var newUrlAddress = site_url+"/form-viewer/?item="+template_id+'&report='+inspection_id+'&saved='+parsedJson.report_detail_id;
+				window.history.pushState("object or string", "Title", newUrlAddress);
+				savedIdForItem = parsedJson.report_detail_id;
 			}
         } else {
         $('.msg_show').show().html('<font style="color:red">'+parsedJson.mess+'</span>');

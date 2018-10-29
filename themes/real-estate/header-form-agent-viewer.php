@@ -50,7 +50,11 @@
             </div>
             <!-- End of site-logo -->
             <ul>
-			  <li><a href="javascript:void(0)" id="printDrBtn" class=""><i class="fa fa-print" aria-hidden="true"></i> Print  Report</a></li>
+			  <li><a href="javascript:void(0)" id="printDrBtn" class="printDrBtn" data-icon="fa-print"><i class="fa fa-print" aria-hidden="true"></i> Print  Report</a>
+			  <a href="javascript:void(0)" class="printDrBtn" data-icon="fa-file">
+				<i class="fa fa-file"></i> Save as PDF
+			  </a>
+			  </li>
             </ul>
             <!-- End of nav -->
           </div>

@@ -308,7 +308,10 @@ get_header('form-agent-viewer');
 </div>
 	<?php if($report_id){ ?>
     <div class="actions">
-      <a href="#" style="text-decoration:none;" role="button" id="reporPrintDrBtn" class="btn-taptap"><i class="fa fa-print" aria-hidden="true"></i> Print Report</a>
+      <a href="#" style="text-decoration:none;" role="button" id="reporPrintDrBtn" class="btn-taptap reporPrintDrBtn" data-icon="fa-print"><i class="fa fa-print" aria-hidden="true"></i> Print Report</a>
+	  <a href="javascript:void(0)" class="btn-taptap reporPrintDrBtn" data-icon="fa-file">
+        <i class="fa fa-file"></i> Save as PDF
+      </a>
     </div>
 	<?php } ?>
 	
@@ -713,10 +716,11 @@ get_header('form-agent-viewer');
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/printThis.js"></script>
 	<script type="text/javascript">
 	$(document).ready(function () {
-		$("#printDrBtn").on("click", function (e) {
+		$(".printDrBtn").on("click", function (e) {
 			e.preventDefault();
-			var thisItem = $("#printDrBtn");
-			thisItem.find('.fa').removeClass('fa-print').addClass('fa-refresh fa-spin');
+			var thisItem = $(this);
+			var iconClass = thisItem.attr('data-icon');
+			thisItem.find('.fa').removeClass(iconClass).addClass('fa-refresh fa-spin');
 			$("#fullReportPrint").printThis({
 				importStyle: false,         // import style tags
 				printContainer: true,
@@ -727,13 +731,14 @@ get_header('form-agent-viewer');
 				debug:false
 			});
 			setTimeout(function(){
-				thisItem.find('.fa').removeClass('fa-refresh fa-spin').addClass('fa-print');
+				thisItem.find('.fa').removeClass('fa-refresh fa-spin').addClass(iconClass);
 			},1000);	
 		});
-		$("#reporPrintDrBtn").on("click", function (e) {
+		$(".reporPrintDrBtn").on("click", function (e) {
 			e.preventDefault();
-			var thisItem = $('#reporPrintDrBtn');
-			thisItem.find('.fa').removeClass('fa-print').addClass('fa-refresh fa-spin');
+			var thisItem = $(this);
+			var iconClass = thisItem.attr('data-icon');
+			thisItem.find('.fa').removeClass(iconClass).addClass('fa-refresh fa-spin');
 			$("#printReportArea").printThis({
 				importStyle: false,         // import style tags
 				printContainer: true,
@@ -744,7 +749,7 @@ get_header('form-agent-viewer');
 				debug:false
 			});
 			setTimeout(function(){
-				thisItem.find('.fa').removeClass('fa-refresh fa-spin').addClass('fa-print');
+				thisItem.find('.fa').removeClass('fa-refresh fa-spin').addClass(iconClass);
 			},1000);			
 		});
 
