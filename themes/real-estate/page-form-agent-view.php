@@ -151,7 +151,10 @@ get_header('form-agent-viewer');
 			<td align="left"><?php echo $get_inspection[0]->parties_present; ?></td>
 		</tr>
 	</table>
-    <form class="theform formcontrol">
+	<p class="agent_info sectionhead" style="background-color:#9d1c1f;color:#fff;">
+		This is a shared report.  You can click to expand each section to see the deficiencies identified.  Click the checkbox next to each deficiency you wish to share and then click print report or save as PDF at the bottom to generate the deficiencies report.
+	</p>
+    <form class="theform formcontrol">		
       <div ng-repeat="section in form" class="mainSection">
 	  <div ng-show="section.children[1] ? true : false" ng-bind-html="section.children[0][0][0].data" class="repair-comment-false commentBoxItem"></div>
 	  <?php /* ?><div ng-repeat="child in section.children" ng-show="section.children[1] ? false : true" class="commentBoxItem sub_section_agent">
@@ -266,7 +269,7 @@ get_header('form-agent-viewer');
 							  <div class="repair-comment-{{addCommentIsVisible}}" ng-bind-html="control.data"></div>
 							</div>
 							<!-- wysiwyg -->
-							<div ng-show="control.comment1" class="formcontrol editor commentBoxItem" ng-if="control.type=='comment'">
+							<div ng-show="control.comment1" class="formcontrol editor commentBoxItem shareOption-{{control.shareicon}}" ng-if="control.type=='comment'">
 							  <h4><input type="checkbox" id="{{control.htmlName}}" ng-click="commentListIsClb(commentListIsVisible=!commentListIsVisible,$event)" value="control.comment1" class="repair-print-{{commentListIsVisible}}"> <label class="repair-print-{{commentListIsVisible}}" for="{{control.htmlName}}">{{control.label}}</label></h4>
 							  <div class="repair-print-{{commentListIsVisible}}" ng-bind-html="control.data"></div>
 							</div>

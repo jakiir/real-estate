@@ -301,10 +301,12 @@ function send_agent_email(){
 			 $identificationNo = $expSelectedTitle[$key];
 			 $get_template = $wpdb->get_results( "SELECT name FROM $template_table WHERE id=$template", OBJECT );
 			 
-			 $bodyText .= "{$get_template[0]->name} has been inspected for {$expSelectedCompany[$key]} company and prepared for : {$expSelectedPrep[$key]} Please click the report <a href='".$agentViewer."?item=".$template_id."&report=".$report_id."&saved=".$saved_id."&token=".$emailAddress."'> {$identificationNo}</a> to get details.<br/>Thanks.<br/>";
+			 /*$bodyText .= "{$get_template[0]->name} has been inspected for {$expSelectedCompany[$key]} company and prepared for : {$expSelectedPrep[$key]} Please click the report <a href='".$agentViewer."?item=".$template_id."&report=".$report_id."&saved=".$saved_id."&token=".$emailAddress."'> {$identificationNo}</a> to get details.<br/>Thanks.<br/>";*/
+			 
+			 $bodyText .= "An inspection has been shared with you.  Use this to see the deficiencies identified by {$expSelectedCompany[$key]}.  <a href='".$agentViewer."?item=".$template_id."&report=".$report_id."&saved=".$saved_id."&token=".$emailAddress."'>Click {$get_template[0]->name}</a> to see the details.";
 			 $inc++;
 		}
-		$mail->Subject = "Report: {$identificationNo} has been shared to you.";
+		$mail->Subject = "Report: {$identificationNo} has been shared with you.";
 		$mail->Body    = $bodyText;
 		$mail->AltBody = $bodyText;
 

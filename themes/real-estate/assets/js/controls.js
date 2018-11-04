@@ -116,3 +116,12 @@ formControls.reason={
   icon:"fa-comment",
   reason:""
 }
+formControls.advertisement={
+  title:"Ad",
+  label:"advertisement",
+  type:'advertisement',
+  icon:"fa-edit",
+  htmlName:"cmt",
+  editMode:true,
+  data:"<h5>THIS BOX FOR ADVERTISEMENT. KEEP BLANK IF NO ADVERTISEMENT</h5>"
+}

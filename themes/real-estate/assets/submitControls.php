@@ -114,7 +114,11 @@
 <!-- wysiwyg -->
 <div class="formcontrol editor" ng-if="control.type=='comment'">
   <h4><input type="checkbox" id="{{control.htmlName}}" ng-click="commentListIsVisible=!commentListIsVisible" ng-model="control.comment1" value="control.comment1" ng-checked="{{control.comment1}}" class="commentCheckbox"> <label for="{{control.htmlName}}">{{control.label}}</label></h4>
-  <div class="editbutton" ng-click="control.editMode=true" ng-show="commentListIsVisible=control.comment1">
+	<label class="switch" ng-show="commentListIsVisible=control.comment1">
+		<input type="checkbox" ng-init="control.shareicon=control.shareicon !== false || control.shareicon === true ? true : false" ng-model="control.shareicon" value="{{control.shareicon}}" ng-checked="{{control.shareicon}}">
+		<span class="slider round"></span>
+	</label>
+  <div class="editbutton" ng-click="control.editMode=true" ng-show="commentListIsVisible=control.comment1">	
     <i ng-click="" class="fa fa-pencil"></i>
   </div>
   <div ng-bind-html="control.data" ng-show="commentListIsVisible=control.comment1"></div>
@@ -122,6 +126,14 @@
     <textarea ui-tinymce="tinymceOptions" ng-model="control.data"></textarea>
     <div class="button tbmargin get-right" ng-click="control.editMode=false">Save</div>
   </div>
+</div>
+<!-- advertisment -->
+<div class="formcontrol editor" ng-if="control.type=='advertisement'">  
+  <div ng-bind-html="control.data"></div>
+  <div class="wysiwygpretend">
+    <textarea ui-tinymce="tinymceOptions" ng-model="control.data"></textarea>
+    <div class="button tbmargin get-right" ng-click="control.editMode=false">Save</div>
+  </div>  
 </div>
 <!-- Static Text -->
 <div class="formcontrol static" ng-if="control.type=='static'">

@@ -214,14 +214,15 @@ get_header('form-viewer'); ?>
     <div class="modal-content">
       <div class="modal-header taptap-modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Please enter agent’s email adress</h4>
+        <h4 class="modal-title">Enter an email address to share the inspection.</h4>
       </div>
       <div class="modal-body taptap-modal-body">
 		<form action="#" id="shareForm">
+			<p>Share the inspection deficiencies with Real Estate Agents and others here.  Enter an email address to share the inspection.</p>
 			<p><input class="form-control required" type="text" name="agentEmailAddress" id="agentEmailAddress" value=""></p>
 			<p class="msg_show_share"></p>
 			<br/>
-			<p><button type="submit" class="btn-taptap checkBoxSlected"><i class="fa fa-share"></i> Share</button></p>
+			<p><button type="submit" class="btn-taptap checkBoxSlected"><i class="fa fa-share"></i> SHARE REPORT</button></p>
 		</form>
       </div>
     </div>
