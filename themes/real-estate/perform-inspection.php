@@ -87,10 +87,12 @@ get_header(); ?>
                   </div>
                   <!-- End of col -->
 				  <div class="col-sm-12">
-                    <label for="parties_present">Parties Present</label>
+                    <label>Parties Present</label>
 					<div class="share-checkbox">
-                      <input type="checkbox" id="checkbox-client" name="parties_present" value="Client"><label for="checkbox-client ">Client</label>
-                      <input type="checkbox" id="checkbox-buyer-realtor" name="parties_present" value="Buyer’s Realtor"><label for="checkbox-buyer-realtor">Buyer’s Realtor</label>
+                      <input type="checkbox" id="checkbox-client" name="parties_present" value="Client">
+					  <label for="checkbox-client">Client</label>
+                      <input type="checkbox" id="checkbox-buyer-realtor" name="parties_present" value="Buyer’s Realtor">
+					  <label for="checkbox-buyer-realtor">Buyer’s Realtor</label>
 					  <input type="checkbox" id="checkbox-builder" name="parties_present" value="Builder"><label for="checkbox-builder">Builder</label>
                       <input type="checkbox" id="checkbox-seller" name="parties_present" value="Seller"><label for="checkbox-seller">Seller</label>
 					  <input type="checkbox" id="checkbox-none" name="parties_present" value="None"><label for="checkbox-none">None</label>

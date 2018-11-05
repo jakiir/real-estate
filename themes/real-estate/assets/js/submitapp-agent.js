@@ -255,7 +255,16 @@ wp.media.controller.Library.prototype.defaults.contentUserSetting=false;
 		} else {
 			returnType = true;
 		}
-		$(thisItem.target).parents('.sub_section_agent').toggleClass('repair-print-active');	  
+		setTimeout(function() { 
+			var atLeastOneIsChecked = $(thisItem.target).parents('.sub_section_agent').find('input.repair-print-false').length;
+			if(atLeastOneIsChecked > 0){
+				$(thisItem.target).parents('.sub_section_agent').addClass('repair-print-active');
+			} else {
+				$(thisItem.target).parents('.sub_section_agent').removeClass('repair-print-active');
+			}
+		}, 1000);
+		
+			  
 	}
   
   function flatten(tree){
