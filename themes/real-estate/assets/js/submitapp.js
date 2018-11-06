@@ -135,6 +135,13 @@ angular.module('submitForm',['ui.tinymce'])
   var setSubmitData = '';
   savedIdForItem = saved;
   $scope.submitData = function(thisItem=3,goToUrl='',targetUrl=''){
+	  
+	  var pathArray = window.location.pathname.split( '/' );
+		var segment_1 = pathArray[1];
+		if(segment_1 !='form-viewer'){
+			return false;
+		}
+	  
 	  setSubmitData = setTimeout($scope.submitData, 15000);
     var saveToDb=false;
     //var fd = new FormData(document.forms.mainform);
@@ -157,7 +164,6 @@ angular.module('submitForm',['ui.tinymce'])
 	}
 	
     form_data.append('formJsonData', formJsonData);
-	
 	$.ajax({
 	  dataType : "json",
       url: ajax_url,
@@ -168,7 +174,7 @@ angular.module('submitForm',['ui.tinymce'])
       success: function (data) {		
         var parsedJson = data;
 		saveToDb = parsedJson.success;        
-        if(parsedJson.success == true){			
+        if(parsedJson.success == true){
 			$('.msg_show').show().html('<font class="font_icon success_icon">'+parsedJson.mess+'</span>');
 			if(thisItem==1){
 				window.location.href = site_url+"/form-viewer/?item="+template_id+'&report='+inspection_id+'&saved='+parsedJson.report_detail_id;
@@ -215,6 +221,24 @@ angular.module('submitForm',['ui.tinymce'])
         //$scope.$apply();
       }
   }
+  
+  $scope.commentListIsClb = function(control,thisItem){
+		if(control){
+		  returnType = false;
+		} else {
+			returnType = true;
+		}
+		setTimeout(function() { 
+			var atLeastOneIsChecked = $(thisItem.target).parents('.sub_section_agent').find('input.repair-print-false').length;
+			if(atLeastOneIsChecked > 0){
+				$(thisItem.target).parents('.sub_section_agent').addClass('repair-print-active');
+			} else {
+				$(thisItem.target).parents('.sub_section_agent').removeClass('repair-print-active');
+			}
+		}, 1000);
+		
+			  
+	}
   
   $scope.mediaUploderClb = function(control){
 	  

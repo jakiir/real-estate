@@ -1,15 +1,3 @@
-<?php
-/**
- * The header for our theme
- *
- * This is the template that displays all of the <head> section and everything up until <div id="content">
- *
- * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
- *
- * @package realestate
- */
-
-?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
 <head>
@@ -54,37 +42,24 @@
             </div>
             <!-- End of site-logo -->
             <ul>
-              <li><a class="<?php if(is_page('landing-page')) echo 'active'; ?>" href="<?php echo home_url('/landing-page/'); ?>">Home</a></li>
-              <li><a class="<?php if(is_page('perform-inspection')) echo 'active'; ?>" href="<?php echo home_url('/perform-inspection/'); ?>">Perform Inspections</a></li>
-              <li><a class="<?php if(is_page('completed-inspections')) echo 'active'; ?>" href="<?php echo home_url('/completed-inspections/'); ?>">Completed Inspections</a></li>
-              <?php if(!empty($user) && $user->roles[0] == 'administrator' && !empty($user) || $user->roles[0] == 'company_admin'){ ?>
-              <li><a class="<?php if(is_page('template')) echo 'active'; ?>" href="<?php echo home_url('/template/'); ?>">Templates</a></li>
-			  <?php } ?>
+			  <?php 
+				if (is_user_logged_in()) {
+				$user = wp_get_current_user();
+				if(!empty($user) && $user->roles[0] != 'administrator'){
+			  ?>
+					<li><a class="<?php if(is_page('completed-inspections')) echo 'active'; ?>" href="<?php echo home_url('/completed-inspections/'); ?>">Back</a></li>
+				<?php } else { ?>
+					<li><a class="<?php if(is_page('template')) echo 'active'; ?>" href="<?php echo home_url('/template/'); ?>">Back</a></li>
+				<?php } ?>
+				<li><a href="javascript:void(0)" id="printTemplateBtn" class="btn-taptap"><i class="fa fa-print" aria-hidden="true"></i> PRINT INSPECTIONS REPORT</a></li>
+				<?php } ?>
+			  
             </ul>
             <!-- End of nav -->
           </div>
           <!--End of main-nav-->
           <div class="user-options">
-            <h2 class="user-name" style="bottom:11px;">
-			<?php 
-				$user = wp_get_current_user();
-				if(!empty($user)){
-					echo $user->display_name;
-				}
-			?>
-			</h2>
-            <div class="dropdown">
-              <button class="btn btn-user dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                <i class="icon-user"></i>
-              </button>
-              <ul class="dropdown-menu">
-                <li><a href="<?php echo home_url('/company-profile/'); ?>">Profile</a></li>
-                <?php if(!empty($user) && $user->roles[0] == 'administrator' || !empty($user) && $user->roles[0] == 'company_admin'){ ?>
-                <li><a href="<?php echo home_url('/company-management/'); ?>">Company</a></li>
-				<?php } ?>
-                <li><a href="<?php echo wp_logout_url( home_url() ); ?>">Logout</a></li>
-              </ul>
-            </div>
+			<a href="javascript:void(0)" id="fullPrintTemplateBtn" class="btn-taptap"><i class="fa fa-print" aria-hidden="true"></i> PRINT FULL TEMPLATE</a>
             <!-- End of dropdown -->
           </div>
           <!-- End of user-options -->

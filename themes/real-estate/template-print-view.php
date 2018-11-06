@@ -1,20 +1,9 @@
 <?php
 /**
- * Template Name: Form Viewer Print
- * This is the template that displays all pages by default.
- * Please note that this is the WordPress construct of pages
- * and that other 'pages' on your WordPress site may use a
- * different template.
- *
- * @link https://codex.wordpress.org/Template_Hierarchy
- *
- * @package WordPress
- * @subpackage Twenty_Seventeen
- * @since 1.0
- * @version 1.0
+ * Template Name: Template Print Page
  */
 
-get_header('form-viewer-print'); ?>
+get_header('template-print-page'); ?>
 <?php 
 	if (is_user_logged_in()) {
 		$user = wp_get_current_user();
@@ -27,9 +16,10 @@ get_header('form-viewer-print'); ?>
 		die('You have no access right! Please contact system administration for more information.!');
 	}
 	
-	$template_id = !empty($_GET['item']) ? $_GET['item'] : '';
-	$report_id = !empty($_GET['report']) ? $_GET['report'] : 0;
-	$saved = !empty($_GET['saved']) ? $_GET['saved'] : 0;
+	$template_id = !empty($_GET['template']) ? $_GET['template'] : '';
+	$report_id = !empty($_GET['reportId']) ? $_GET['reportId'] : 0;
+	$saved = !empty($_GET['savedId']) ? $_GET['savedId'] : 0;
+	$att = !empty($_GET['att']) ? $_GET['att'] : '';
 	$hash_id = !empty($_GET['hash']) ? $_GET['hash'] : '';
 
 	global $wpdb;
@@ -39,7 +29,6 @@ get_header('form-viewer-print'); ?>
 	
 	$table_template = $wpdb->prefix . 'template';	
 	$form_data = $wpdb->get_results( "SELECT * FROM $table_template WHERE id=$template_id", OBJECT );
-	
 	$display_name = '';
 	$licence_number = '';
 	$phone_number = '';
@@ -52,10 +41,11 @@ get_header('form-viewer-print'); ?>
 ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/fa/css/font-awesome.min.css">
 <div class="container" ng-controller="submissonForm">
-<div id="drlistDivTbl">
+<div id="templateViewer">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/form.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/submitform_controls.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/custom.css">
+<link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/css/responsive.css">
 	<table class="report-table">
 		<tr>
 			<th align="right" colspan="2" style="padding-bottom:10px;">
@@ -122,6 +112,7 @@ get_header('form-viewer-print'); ?>
 			<td align="left"><?php echo $get_inspection[0]->parties_present; ?></td>
 		</tr>
 	</table>
+	
     <form class="theform">
       <div ng-repeat="section in form" class="mainSection">
 	  <div ng-show="section.children[1] ? true : false" ng-bind-html="section.children[0][0][0].data" class="commentBoxItem"></div>
@@ -217,7 +208,7 @@ get_header('form-viewer-print'); ?>
 					<!-- wysiwyg -->
 					<div class="formcontrol editor" ng-if="control.type=='comment'">
 					  <h4><input type="checkbox" id="{{control.htmlName}}" ng-click="commentListIsVisible=!commentListIsVisible" ng-model="control.comment1" value="control.comment1" ng-checked="control.comment1"> <label for="{{control.htmlName}}">{{control.label}}</label></h4>
-					  <div ng-bind-html="control.data"></div>
+					  <div ng-bind-html="control.data" class="showing-{{commentListIsVisible}}"></div>
 					</div>
 					<!-- Static Text -->
 					<div class="formcontrol static" ng-if="control.type=='static'">
@@ -262,10 +253,10 @@ get_header('form-viewer-print'); ?>
 					<div class="formcontrol number" ng-if="child.subsection[0].type=='subsection'">
 					  <?php /*?><h2>{{child.subsection[0].label}}</h2><?php */?>
 					  <div>  
-						<input type="checkbox" ng-model="child.subsection[0].status1" value="child.subsection[0].status1" ng-checked="{{child.subsection[0].status1}}"> Inspected
-						<input type="checkbox" ng-model="child.subsection[0].status2" value="child.subsection[0].status2" ng-checked="{{child.subsection[0].status2}}"> Not Inspected
-						<input type="checkbox" ng-model="child.subsection[0].status3" value="child.subsection[0].status3" ng-checked="{{child.subsection[0].status3}}"> Not Present
-						<input type="checkbox" ng-model="child.subsection[0].status4" value="child.subsection[0].status4" ng-checked="{{child.subsection[0].status4}}"> Deficient
+						<input type="checkbox" ng-model="child.subsection[0].status1" value="child.subsection[0].status1" ng-checked="{{child.subsection[0].status1}}" class="top-ins"> Inspected
+						<input type="checkbox" ng-model="child.subsection[0].status2" value="child.subsection[0].status2" ng-checked="{{child.subsection[0].status2}}" class="top-ins"> Not Inspected
+						<input type="checkbox" ng-model="child.subsection[0].status3" value="child.subsection[0].status3" ng-checked="{{child.subsection[0].status3}}" class="top-ins"> Not Present
+						<input type="checkbox" ng-model="child.subsection[0].status4" value="child.subsection[0].status4" ng-checked="{{child.subsection[0].status4}}" class="top-ins"> Deficient
 					  </div>
 					</div>
 					<div class="row-" ng-repeat="controls in child.children">
@@ -357,8 +348,8 @@ get_header('form-viewer-print'); ?>
 								</div>
 								<!-- wysiwyg -->
 								<div class="formcontrol editor" ng-if="control.type=='comment'">
-								  <h4><input type="checkbox" id="{{control.htmlName}}" ng-click="commentListIsVisible=!commentListIsVisible" ng-model="control.comment1" value="control.comment1" ng-checked="control.comment1"> <label for="{{control.htmlName}}">{{control.label}}</label></h4>
-								  <div ng-bind-html="control.data"></div>
+								  <h4><input type="checkbox" id="{{control.htmlName}}" ng-click="commentListIsVisible=!commentListIsVisible" ng-model="control.comment1" value="control.comment1" ng-checked="control.comment1" checked="control.comment1"> <label for="{{control.htmlName}}">{{control.label}}</label></h4>
+								  <div ng-bind-html="control.data" class="showing-{{commentListIsVisible}} second-showing"></div>
 								</div>
 								<!-- Static Text -->
 								<div class="formcontrol static" ng-if="control.type=='static'">
@@ -389,6 +380,7 @@ get_header('form-viewer-print'); ?>
         </div>
       </div>
     </form>
+	
 	<div class="print_pdf_footer">
 		Elite Inspection Group, LLC<br>
 		Administrative office and mailing address<br>
@@ -396,9 +388,10 @@ get_header('form-viewer-print'); ?>
 		469-818-5500<br>
 		<a href="mailto:admin@eiginspection.com">admin@eiginspection.com</a> <a href="www.eigdallas.com">www.eigdallas.com</a>
 	</div>
+	
 </div>
   </div>
-<?php get_footer(); ?>
+<?php get_footer('template-print'); ?>
 <?php 
 	if(empty($saved)){
 		$table_template_detail = $wpdb->prefix . 'template_detail';
@@ -425,7 +418,7 @@ get_header('form-viewer-print'); ?>
 	var site_url = '<?php echo home_url(); ?>';
 </script>  
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/imagefunctions.js"></script>
-<?php /* ?><script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/bower_components/tinymce/tinymce.js"></script><?php */?>
+<script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/bower_components/tinymce/tinymce.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/angular.min.js"></script>
 <script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/bower_components/angular-ui-tinymce/src/tinymce.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/jq.js"></script>
@@ -433,9 +426,29 @@ get_header('form-viewer-print'); ?>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/printThis.js"></script>
 	<script type="text/javascript">
 	$(document).ready(function () {
-		$("#printDrBtn").on("click", function (e) {
+		$("#printTemplateBtn").on("click", function (e) {
 			e.preventDefault();
-			$("#drlistDivTbl").printThis({
+			var thisItem = $("#printTemplateBtn");
+			thisItem.find('.fa').removeClass('fa-print').addClass('fa-refresh fa-spin');
+			$("#templateViewer").printThis({
+				importStyle: false,         // import style tags
+				printContainer: true,
+				loadCSS: "<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/print-templete-print.css",
+				importCSS: false,
+				copyTagClasses: false,
+				printDelay: 500,
+				debug:false
+			});
+			setTimeout(function(){
+				thisItem.find('.fa').removeClass('fa-refresh fa-spin').addClass('fa-print');
+			},1000);
+		});
+		
+		$("#fullPrintTemplateBtn").on("click", function (e) {
+			e.preventDefault();
+			var thisItem = $("#fullPrintTemplateBtn");
+			thisItem.find('.fa').removeClass('fa-print').addClass('fa-refresh fa-spin');
+			$("#templateViewer").printThis({
 				importStyle: false,         // import style tags
 				printContainer: true,
 				loadCSS: "<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/print.css",
@@ -443,14 +456,22 @@ get_header('form-viewer-print'); ?>
 				copyTagClasses: false,
 				printDelay: 500,
 				debug:false
-
 			});
+			setTimeout(function(){
+				thisItem.find('.fa').removeClass('fa-refresh fa-spin').addClass('fa-print');
+			},1000);
 		});
 		
 		<?php if(isset($_GET['print'])){ ?>
-			//$( "a#printDrBtn" ).click();
+			//$( "a#printTemplateBtn" ).click();
 		<?php } ?>
 		
 	});
+	function expand_nav_menu() {
+		$('#navbar').toggleClass('in');
+	}
+	$(".dropdown").on("click", function (e) {
+		$(this).toggleClass('open');
+	});
+	
 	</script>
-  

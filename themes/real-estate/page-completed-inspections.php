@@ -69,7 +69,7 @@ get_header(); ?>
 						foreach($get_inspection as $inspection){
 					?>
 						<tr>
-							<td><input type="checkbox" onClick="eachSelect(this)" name="report_box[]" data-report="<?php echo $inspection->id; ?>" data-saved="<?php echo $inspection->ird_id; ?>" data-url="link-<?php echo $inc; ?>" data-title="<?php echo $inspection->report_identification; ?>" data-company="<?php echo $inspection->company; ?>" data-prepared_for="<?php echo $inspection->prepared_for; ?>" value="<?php echo $inspection->template_id; ?>" data-print-url="<?php echo home_url('/form-print-view/?item='.$inspection->template_id.'&report='.$inspection->id.'&saved='.$inspection->ird_id); ?>"/></td>
+							<td><input type="checkbox" onClick="eachSelect(this)" name="report_box[]" data-report="<?php echo $inspection->id; ?>" data-saved="<?php echo $inspection->ird_id; ?>" data-url="link-<?php echo $inc; ?>" data-title="<?php echo $inspection->report_identification; ?>" data-company="<?php echo $inspection->company; ?>" data-prepared_for="<?php echo $inspection->prepared_for; ?>" value="<?php echo $inspection->template_id; ?>" data-print-url="<?php echo home_url('/template-print-page/?template='.$inspection->template_id.'&reportId='.$inspection->id.'&savedId='.$inspection->ird_id); ?>"/></td>
 							<td><a target="_blank" href="<?php echo home_url('/form-viewer/?item='.$inspection->template_id.'&report='.$inspection->id.'&saved='.$inspection->ird_id); ?>" class="link-<?php echo $inc; ?>" title="<?php echo $inspection->report_identification; ?>"><?php echo $inspection->report_identification; ?></a></td>
 							<td><?php echo $inspection->prepared_for; ?></td>
 							<td><?php echo $inspection->inpection_date; ?></td>

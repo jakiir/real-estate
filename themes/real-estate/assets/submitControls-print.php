@@ -113,7 +113,7 @@
 </div><?php */?>
 <!-- wysiwyg -->
 <div class="formcontrol editor" ng-if="control.type=='comment'">
-  <h4><input type="checkbox" id="{{control.htmlName}}" ng-click="commentListIsVisible=!commentListIsVisible" ng-model="control.comment1" value="control.comment1" ng-checked="control.comment1"> <label for="{{control.htmlName}}">{{control.label}}</label></h4>
+  <h4><input type="checkbox" id="{{control.htmlName}}" ng-click="commentListIsClb(commentListIsVisible=!commentListIsVisible,$event)" class="repair-print-{{commentListIsVisible}}" ng-model="control.comment1" value="control.comment1" ng-checked="control.comment1"> <label class="repair-print-{{commentListIsVisible}}" for="{{control.htmlName}}">{{control.label}}</label></h4>
   <?php /* ng-checked="control.comment1" ?><div class="editbutton" ng-click="control.editMode=true" ng-show="commentListIsVisible=control.comment1">
     <i ng-click="" class="fa fa-pencil"></i>
   </div><?php */?>

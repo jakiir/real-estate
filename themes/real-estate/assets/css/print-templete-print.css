@@ -1,0 +1,46 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 11px;
+}
+@page {
+    size: auto;   /* auto is the initial value */
+    margin: 0;  /* this affects the margin in the printer settings */
+    margin-top: 20px;
+	margin-bottom:50px;
+}
+
+#drlistDivTbl,#printAreaDiv {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.page-break{page-break-after: always;}
+
+
+table.table-bordered tbody td.course-field {
+    border-top: 0;
+}
+.actions{width:0;height:0;}
+.documentHides{display:none;width:0;height:0;margin: 0;}
+.fa{display:none;}
+.wysiwygpretend,.imgcomment{display:none;}
+.printShow{visibility:visible;}
+.section-false{display:none;}
+.section-.ng-hide,.commentBoxItem.ng-hide,.commentCheckbox{display:none;}
+/*input[type='checkbox'] {display:none;}*/
+.print_pdf_footer,.viewHide,#fullReportPrint{display:block!important;}
+.report-table{width:100%;display:table!important;}
+.mainSection:first-child{display:block!important;}
+.ng-empty,.showing-true{display:none!important;}
+.top-ins.ng-empty{display:inline-block!important;}
+.ng-empty + label{display:none;}
+.ng-binding.ng-hide,.add_comment_false img.imggap{display:none;}
+/*for chrome*/
+@media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) {
+    #drlistDivTbl,#printAreaDiv {
+        margin-left: 20px;
+        margin-right: 20px;
+        padding-left: 0;
+    }
+}
