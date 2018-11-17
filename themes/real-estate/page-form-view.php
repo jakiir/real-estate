@@ -59,75 +59,47 @@ get_header('form-viewer'); ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/css/responsive.css">
 	<table class="report-table">
 		<tr>
-			<th align="right" colspan="2" style="padding-bottom:10px;">
-				<img src="<?php echo !empty($form_data[0]->logo_url) ? $form_data[0]->logo_url : '//placehold.it/200'; ?>" class="avatar img-responsive" alt="avatar" style="width:150px;">
+			<th align="right" colspan="6" style="padding-bottom:10px;border:none;">
+				<img src="<?php echo !empty($get_inspection[0]->cover_photo) ? $get_inspection[0]->cover_photo : '/wp-content/themes/real-estate/images/cover_photo.jpg'; ?>" class="avatar img-responsive" alt="avatar" style="width:100%;">
+				<br/>
+				<div style="text-transform:capitalize;text-align:center;font-size:25px;">
+				<?php echo $get_inspection[0]->report_identification; ?></div>
+				<?php //echo $form_data[0]->name.' Report'; ?>
 			</th>
-			<td align="left" colspan="4" style="text-transform:uppercase;"><?php echo $form_data[0]->name; ?> Report</td>
+		</tr>
+		</table>
+		<div class="report-table" style="border:none;">
+			<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+		</div>
+		<table class="report-table" style="border:none;">
+		<tr>
+			<th align="right" colspan="6" style="padding-bottom:10px;border:none;">
+				<div style="text-align:center;font-size:18px;font-weight:normal;">
+					<?php 
+						$originalDate = $get_inspection[0]->inpection_date;
+						$newDate = date("F d, Y", strtotime($originalDate));
+						echo '<div style="font-size:18px;font-weight:bold;">'.$newDate.'</div>';
+						echo '<div style="width:250px;margin:0 auto;">'.$form_data[0]->footer_html.'</div>';
+					?>
+				</div>
+			</th>
 		</tr>
 	</table>
-	<table class="report-table report-info">
+	<div class="page-break">&nbsp;</div>
+	<div class="report-table"><br/><br/><br/><br/><br/></div>
+	<table class="report-table report-info" style="border:none;">
 		<tr>
-			<th align="right" style="padding-top:10px;">Company </th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->company; ?></td>
-			<th align="right">Date</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->inpection_date; ?></td>
-		</tr>
-		<tr>
-			<th align="right">Property Address</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->report_identification; ?></td>
-			<th align="right">Template</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $form_data[0]->name; ?></td>
-		</tr>
-		<tr>
-			<th align="right">Prepared For</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->prepared_for; ?></td>
-			<th align="right">Prepared By</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $display_name; ?></td>
-		</tr>
-		<tr>
-			<th align="right">Lic #</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $licence_number; ?></td>
-			<th align="right">Phone Number</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $phone_number; ?></td>
-		</tr>
-		<tr>
-			<th align="right">Time In</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->time_in; ?></td>
-			<th align="right">Time Out</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->time_out; ?></td>
-		</tr>
-		<tr>
-			<th align="right" style="padding-bottom:10px;">Ocuppied or Vacant</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->inspection_status; ?></td>
-			<th align="right">Building Orientation</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->building_orientation; ?></td>
-		</tr>
-		<tr>
-			<th align="right">Weather Conditions</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->weather_conditions.' ['.$get_inspection[0]->temperature.']'; ?></td>
-			<th align="right">Parties Present</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->parties_present; ?></td>
+			<td style="border:none;">
+				<div style="font-size:18px;color:#000;display:block;margin-bottom:20px;">Report Identification: </div>
+				<div style="font-size:16px;color:#000;display:block;">Inspection Time In: <?php echo $get_inspection[0]->time_in; ?> Time Out: <?php echo $get_inspection[0]->time_out; ?> Property was: <?php echo $get_inspection[0]->inspection_status; ?> Building Orientation (For The Purpose Of This Report, the Front Faces): <?php echo $get_inspection[0]->building_orientation; ?> Weather conditions During Inspection: <?php echo $get_inspection[0]->weather_conditions; ?> Temp: <?php echo $get_inspection[0]->temperature; ?> Parties present at inspection: <?php echo $get_inspection[0]->parties_present; ?></div>			
+			</td>			
 		</tr>
 	</table>
-	
+	<div class="report-table"><br/><br/><br/></div>
     <form class="theform formcontrol">
       <div ng-repeat="section in form" class="mainSection">
-	  <div ng-show="section.children[1] ? true : false" ng-bind-html="section.children[0][0][0].data" class="commentBoxItem"></div>
-	  <div ng-repeat="child in section.children" ng-if="section.children[1] ? false : true" class="commentBoxItem">
+	  <div ng-show="!section.children[0].subsection" ng-bind-html="section.children[0][0][0].data" class="commentBoxItem"></div>
+	  <div ng-repeat="child in section.children" ng-if="!section.children[0].subsection" class="commentBoxItem">
 			<div class="">
 				<div class="row" ng-repeat="child in section.children">
 				  <div class="col" ng-repeat="controls in child">
@@ -177,11 +149,12 @@ get_header('form-viewer'); ?>
     </form>
 	
 	<div class="print_pdf_footer">
-		Elite Inspection Group, LLC<br>
-		Administrative office and mailing address<br>
-		PO Box 2205 Frisco, TX 75034<br>
-		469-818-5500<br>
-		<a href="mailto:admin@eiginspection.com">admin@eiginspection.com</a> <a href="www.eigdallas.com">www.eigdallas.com</a>
+		<div style="text-decoration:underline;">INSPECTOR</div>
+		<div>
+			<?php echo $display_name; ?> – <?php echo $licence_number; ?>
+			<br/>
+			<?php echo $form_data[0]->footer_html; ?>
+		</div>
 	</div>
 	
 </div>
@@ -190,11 +163,11 @@ get_header('form-viewer'); ?>
 	  <div class="msg_show form-view-msg" style="display:inline-block;"></div>
 	  <a href="javascript:void(0)" style="margin-bottom:10px;" class="btn-taptap saveChanges" ng-click="submitData(1,'','')">
         <i class="fa fa-floppy-o" aria-hidden="true"></i> Save Changes
-      </a>
-	  <?php /* ?><a href="javascript:void(0)" id="printTemplateBtn" class="btn-taptap">
-        <i class="fa fa-file"></i> Save as PDF
-      </a><?php */?>
+      </a>	  
 	  <a href="javascript:void(0)" class="btn-taptap checkBoxSlected" data-toggle="modal" data-target="#shareFormView" disabled="disabled"><i class="fa fa-share"></i> Share this
+      </a>
+	  <a href="javascript:void(0)" id="printTemplateBtn" class="btn-taptap">
+        <i class="fa fa-file"></i> Save as PDF
       </a>
 	  <?php /* ?><a href="javascript:void(0)" id="printTemplateBtn" class="btn-taptap"><i class="fa fa-print" aria-hidden="true"></i> Print</a><?php */?>
     </div>
@@ -264,10 +237,15 @@ get_header('form-viewer'); ?>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/printThis.js"></script>
 	<script type="text/javascript">
 	$(document).ready(function () {
+		
+		$('.dropdown-toggle').on("click", function (e) {
+			$('.dropdown').toggleClass('open');
+		});
+		
 		$("#printTemplateBtn").on("click", function (e) {
 			e.preventDefault();
 			var thisItem = $("#printTemplateBtn");
-			thisItem.find('.fa').removeClass('fa-print').addClass('fa-refresh fa-spin');
+			thisItem.find('.fa').removeClass('fa-file').addClass('fa-refresh fa-spin');
 			$("#templateViewer").printThis({
 				importStyle: false,         // import style tags
 				printContainer: true,
@@ -278,7 +256,7 @@ get_header('form-viewer'); ?>
 				debug:false
 			});
 			setTimeout(function(){
-				thisItem.find('.fa').removeClass('fa-refresh fa-spin').addClass('fa-print');
+				thisItem.find('.fa').removeClass('fa-refresh fa-spin').addClass('fa-file');
 			},1000);
 		});
 		

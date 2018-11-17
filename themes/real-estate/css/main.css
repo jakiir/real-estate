@@ -558,7 +558,7 @@ label {
 .btn-file-upload:hover {
   background: #7a1618 !important;
 }
-#template_logo {
+#template_logo,#template_cover_logo {
   display: none;
 }
 .form-control {
@@ -828,6 +828,9 @@ label {
     display: block;
 }
 
+.dropdown-toggle i:focus {
+    outline: 0;
+}
 
 /* font-family: 'Raleway', sans-serif; */
 

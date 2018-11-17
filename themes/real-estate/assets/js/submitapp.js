@@ -239,6 +239,46 @@ angular.module('submitForm',['ui.tinymce'])
 		
 			  
 	}
+	var controlTxtArr = [];
+	$scope.getLebelTxtVal = function(controlTxt,uniqHtmlName){
+		if(controlTxt.target.checked === true && uniqHtmlName === 'chk477637599') {
+			controlTxtArr.push(controlTxt.target.checked);
+		}
+		if(controlTxt.target.checked === false && uniqHtmlName === 'chk477637599') {
+			controlTxtArr = [];
+		}
+		if(jQuery.inArray(true, controlTxtArr) !== -1){
+			var checkedArray = {
+				chk405632825:'Remove wood to ground contact', 
+				chk384562903:'Remove form board(s)',
+				chk308759888:'Improve drainage',
+				chk414503547:'Remove debris', 
+				chk768117824:'Lower soil',
+				chk279198366:'Remove rotted wood',
+				chk90884889:'Trim foliage', 
+				chk1123152864:'Remove planter box',
+				chk1302861332:'Remove wood pile',
+				chk1421756000:'Trim fence', 
+				chk985119344:'Add ventilation',
+				chk1312660569:'Other (C)'
+			};
+			if(controlTxt.target.checked === true && typeof checkedArray[uniqHtmlName] !== 'undefined' && checkedArray[uniqHtmlName].length > 0) {
+				var new9Bitem = $('#mceu_739-body').find(".mce-edit-area").find("iframe").contents().find('.mce-content-body').find("p").find('ul.new7Bitem');
+				if(new9Bitem.length === 0){
+					$('#mceu_739-body').find(".mce-edit-area").find("iframe").contents().find('.mce-content-body').find("p").html('<ul class="new7Bitem"><li class="'+uniqHtmlName+'">'+checkedArray[uniqHtmlName]+'</li></ul>');
+				} else {
+					$('#mceu_739-body').find(".mce-edit-area").find("iframe").contents().find('.mce-content-body').find("p").find('ul.new7Bitem').append('<li class="'+uniqHtmlName+'">'+checkedArray[uniqHtmlName]+'</li>');
+				}
+			}
+			if(controlTxt.target.checked === false && typeof checkedArray[uniqHtmlName] !== 'undefined' && checkedArray[uniqHtmlName].length > 0) {
+				var new9Bitemm = $('#mceu_739-body').find(".mce-edit-area").find("iframe").contents().find('.mce-content-body').find("p").find('ul.new7Bitem');
+				if(new9Bitemm.length > 0){
+					$('#mceu_739-body').find(".mce-edit-area").find("iframe").contents().find('.mce-content-body').find("p").find('ul.new7Bitem').find('li.'+uniqHtmlName).remove();
+				}
+			}
+		}
+		
+	}
   
   $scope.mediaUploderClb = function(control){
 	  

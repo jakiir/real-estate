@@ -585,12 +585,36 @@ function perform_inspections(){
 				 )
 			 );
 			 $lastid = $wpdb->insert_id;
-			 $results = array(
-				'success' => true,
-				'mess' => '<i class="fa fa-check-circle"></i>',
-				'report_id'=>$lastid,
-				'template_id' => $template_id
-			 );	
+			 if(!empty($lastid)){
+				if (!function_exists('wp_handle_upload')) {
+					require_once(ABSPATH . 'wp-admin/includes/file.php');
+				}
+				  // echo $_FILES["upload"]["name"];
+				  $uploadedfile = $_FILES['cover_photo'];
+				  if(!empty($uploadedfile)){
+					  $upload_overrides = array('test_form' => false);
+					  $movefile = wp_handle_upload($uploadedfile, $upload_overrides);
+
+					// echo $movefile['url'];
+					if ($movefile && !isset($movefile['error'])) {
+						  $imageUrl = $movefile['url'];
+						  $wpdb->query($wpdb->prepare("UPDATE $table_inspection SET cover_photo='".$imageUrl."' WHERE id=$lastid"));
+					} else {
+						 $results = array(
+							'success' => false,
+							'mess' => $movefile['error']
+						 );			
+					}	
+				  }
+			 }
+			 if(empty($results)){
+				 $results = array(
+					'success' => true,
+					'mess' => '<i class="fa fa-check-circle"></i>',
+					'report_id'=>$lastid,
+					'template_id' => $template_id
+				 );
+			 }
 		}
 	 } else {
 		 $results = array(

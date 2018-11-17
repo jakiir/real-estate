@@ -47,7 +47,7 @@ get_header(); ?>
           <div class="col-sm-8 col-sm-offset-2">
             <div class="box perform-inspection-box">
               <h2 class="page-title-body">Perform Inspection</h2>
-              <form class="perform-inspection-form" id="inspection_form" action="" method="post">
+              <form class="perform-inspection-form" id="inspection_form" action="" enctype="multipart/form-data" method="post">
                 <div class="row">
                   <div class="col-sm-6">
                     <label for="company">Company</label>
@@ -172,6 +172,14 @@ get_header(); ?>
                     </div>
                     <!-- End of status-radios -->
                   </div>
+				  <div class="col-sm-12">
+					<div class="edit-cover-img" id="hsc_std_photo">
+					  <?php $defaultImage = esc_url( get_template_directory_uri() ).'/images/edit-template-default.png'; ?>
+                      <img alt="img" src="<?php echo $defaultImage; ?>" class="avatar img-responsive" id="preview_image" style="height:208px;">
+                    </div>
+                    <label class="btn-file-upload" for="template_cover_logo" style="margin-top:5px;margin-bottom:30px;">Upload Cover Photo</label>
+                    <input type="file" name="photo" "="" id="template_cover_logo" onchange="instantPhotoUpload(this)">
+                  </div>
                   <!-- End of col -->
                   <div class="col-sm-12">
                     <div class="text-center">
@@ -230,7 +238,8 @@ jQuery(function($){
 				var prepared_by = jQuery('#prepared_by').val();				
 				var time_in = jQuery('#time_in').val();				
 				var time_out = jQuery('#time_out').val();				
-				var inspection_status = $('input[name=inspection_status]:checked').val();				
+				var inspection_status = $('input[name=inspection_status]:checked').val();
+				var file_data = $('#template_cover_logo').prop('files')[0];				
 				var form_data = new FormData();
 				
 				form_data.append('action', 'perform_inspections');
@@ -247,6 +256,7 @@ jQuery(function($){
 				form_data.append('time_in', time_in);				
 				form_data.append('time_out', time_out);				
 				form_data.append('inspection_status', inspection_status);
+				form_data.append('cover_photo', file_data);
 				
 				$.ajax({					
 					url: '<?php echo admin_url('admin-ajax.php'); ?>',
@@ -276,5 +286,25 @@ jQuery(function($){
 		});
 	
 });
+
+	var abc = 0; 
+	function instantPhotoUpload(THIS){
+		if (THIS.files && THIS.files[0]) {
+			$('#profilePicRemover').remove();
+			 abc += 1; //increementing global variable by 1		
+			var z = abc - 1;
+			var reader = new FileReader();
+			reader.onload = imageIsLoaded;
+			reader.readAsDataURL(THIS.files[0]);
+			$("#hsc_std_photo").append($("<img/>", {id: 'profilePicRemover', src: '<?php echo esc_url( get_template_directory_uri() ); ?>/images/remove.png', alt: 'delete'}).click(function() {
+				$('#preview_image').attr('src', '<?php echo $defaultImage; ?>');
+				$('#profilePicRemover').remove();
+			}));
+		}
+	}
+	function imageIsLoaded(e) {
+		$('#preview_image').attr('src', e.target.result);
+	}
+
 </script>
 <?php get_footer();

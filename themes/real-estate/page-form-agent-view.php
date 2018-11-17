@@ -87,70 +87,43 @@ get_header('form-agent-viewer');
     </header><?php */ ?>
 	<table class="report-table">
 		<tr>
-			<th align="right" colspan="2" style="padding-bottom:10px;">
-				<img src="<?php echo !empty($form_data[0]->logo_url) ? $form_data[0]->logo_url : '//placehold.it/200'; ?>" class="avatar img-responsive" alt="avatar" style="width:150px;">
+			<th align="right" colspan="6" style="padding-bottom:10px;border:none;">
+				<img src="<?php echo !empty($get_inspection[0]->cover_photo) ? $get_inspection[0]->cover_photo : '/wp-content/themes/real-estate/images/cover_photo.jpg'; ?>" class="avatar img-responsive" alt="avatar" style="width:100%;">
+				<br/>
+				<div style="text-transform:capitalize;text-align:center;font-size:25px;">
+				<?php echo $get_inspection[0]->report_identification; ?></div>
+				<?php //echo $form_data[0]->name.' Report'; ?>
 			</th>
-			<td align="left" colspan="4" style="text-transform:uppercase;"><?php echo $form_data[0]->name; ?> Report</td>
+		</tr>
+		</table>
+		<div class="report-table" style="border:none;">
+			<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+		</div>
+		<table class="report-table" style="border:none;">
+		<tr>
+			<th align="right" colspan="6" style="padding-bottom:10px;border:none;">
+				<div style="text-align:center;font-size:18px;font-weight:normal;">
+					<?php 
+						$originalDate = $get_inspection[0]->inpection_date;
+						$newDate = date("F d, Y", strtotime($originalDate));
+						echo '<div style="font-size:18px;font-weight:bold;">'.$newDate.'</div>';
+						echo $form_data[0]->footer_html;
+					?>
+				</div>
+			</th>
 		</tr>
 	</table>
-	<table class="report-table report-info">
+	<div class="page-break">&nbsp;</div>
+	<div class="report-table"><br/><br/><br/><br/><br/></div>
+	<table class="report-table report-info" style="border:none;">
 		<tr>
-			<th align="right" style="padding-top:10px;">Company </th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->company; ?></td>
-			<th align="right">Date</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->inpection_date; ?></td>
-		</tr>
-		<tr>
-			<th align="right">Property Address</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->report_identification; ?></td>
-			<th align="right">Template</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $form_data[0]->name; ?></td>
-		</tr>
-		<tr>
-			<th align="right">Prepared For</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->prepared_for; ?></td>
-			<th align="right">Prepared By</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $display_name; ?></td>
-		</tr>
-		<tr>
-			<th align="right">Lic #</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $licence_number; ?></td>
-			<th align="right">Phone Number</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $phone_number; ?></td>
-		</tr>
-		<tr>
-			<th align="right">Time In</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->time_in; ?></td>
-			<th align="right">Time Out</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->time_out; ?></td>
-		</tr>
-		<tr>
-			<th align="right" style="padding-bottom:10px;">Ocuppied or Vacant</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->inspection_status; ?></td>
-			<th align="right">Building Orientation</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->building_orientation; ?></td>
-		</tr>
-		<tr>
-			<th align="right">Weather Conditions</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->weather_conditions.' ['.$get_inspection[0]->temperature.']'; ?></td>
-			<th align="right">Parties Present</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->parties_present; ?></td>
+			<td style="border:none;">
+				<div style="font-size:18px;color:#000;display:block;margin-bottom:20px;">Report Identification: </div>
+				<div style="font-size:16px;color:#000;display:block;">Inspection Time In: <?php echo $get_inspection[0]->time_in; ?> Time Out: <?php echo $get_inspection[0]->time_out; ?> Property was: <?php echo $get_inspection[0]->inspection_status; ?> Building Orientation (For The Purpose Of This Report, the Front Faces): <?php echo $get_inspection[0]->building_orientation; ?> Weather conditions During Inspection: <?php echo $get_inspection[0]->weather_conditions; ?> Temp: <?php echo $get_inspection[0]->temperature; ?> Parties present at inspection: <?php echo $get_inspection[0]->parties_present; ?></div>			
+			</td>			
 		</tr>
 	</table>
+	<div class="report-table"><br/><br/><br/></div>
 	<p class="agent_info sectionhead" style="background-color:#9d1c1f;color:#fff;">
 		This is a shared report.  You can click to expand each section to see the deficiencies identified.  Click the checkbox next to each deficiency you wish to share and then click print report or save as PDF at the bottom to generate the deficiencies report.
 	</p>

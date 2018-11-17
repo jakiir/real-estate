@@ -78,7 +78,7 @@
   </div>
 </div>
 <!--Check box-->
-<div class="formcontrol checkbox" ng-if="control.type=='checkbox'">
+<div class="formcontrol checkbox inline-checkbox-view" ng-if="control.type=='checkbox'">
   <input type="checkbox" ng-model="control.value" ng-checked="{{control.value}}"> {{control.label}}
 </div>
 <!-- Image -->

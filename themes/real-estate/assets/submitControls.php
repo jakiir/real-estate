@@ -78,8 +78,8 @@
   </div>
 </div>
 <!--Check box-->
-<div class="formcontrol checkbox" ng-if="control.type=='checkbox'">
-  <input type="checkbox" ng-model="control.value" ng-checked="{{control.value}}"> {{control.label}}
+<div class="formcontrol checkbox inline-checkbox-view" ng-if="control.type=='checkbox'">
+  <input type="checkbox" ng-model="control.value" ng-checked="{{control.value}}" ng-click="getLebelTxtVal($event,control.htmlName)" class="{{control.htmlName}}"> {{control.label}}
 </div>
 <!-- Image -->
 <div class="formcontrol image imgdrop add_comment_{{control.withComment}}" ng-if="control.type=='image'" ng-drop="imageDrop($event,$parent.$parent.$index,$parent.$index,$index)">

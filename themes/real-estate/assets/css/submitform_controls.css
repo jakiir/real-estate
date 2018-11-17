@@ -174,8 +174,9 @@ textarea.fcontrol.longtext{
   opacity:1;
 }
 .theform{
-  margin-bottom:150px;
+  margin-bottom:80px;
 }
+.formcontrol.checkbox{margin-left:20px;}
 .textinput{
   display:block;
   width:100%;
@@ -191,3 +192,4 @@ textarea.fcontrol.longtext{
   margin-top:10px;
 }
 .shareOption-false{display:none !important;}
+.inline-checkbox-view{margin-left:20px;}

@@ -22,9 +22,9 @@
 	<link rel="profile" href="http://gmpg.org/xfn/11">
 
 	<?php wp_head(); ?>
-	<?php $template_directory_uri = get_template_directory_uri(); ?>
-	<link rel="stylesheet" href="<?php echo esc_url( $template_directory_uri . '/css/main.css"' ); ?>" />
+	<?php $template_directory_uri = get_template_directory_uri(); ?>	
 	<link rel="stylesheet" href="<?php echo esc_url( $template_directory_uri . '/css/bootstrap.min.css"' ); ?>" />
+	<link rel="stylesheet" href="<?php echo esc_url( $template_directory_uri . '/css/main.css"' ); ?>" />
 	<script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/bootstrap.min.js"></script>
 </head>
 
@@ -65,7 +65,7 @@
           </div>
           <!--End of main-nav-->
           <div class="user-options">
-            <h2 class="user-name" style="bottom:11px;">
+            <h2 class="user-name">
 			<?php 
 				$user = wp_get_current_user();
 				if(!empty($user)){
