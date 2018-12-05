@@ -241,39 +241,47 @@ angular.module('submitForm',['ui.tinymce'])
 	}
 	var controlTxtArr = [];
 	$scope.getLebelTxtVal = function(controlTxt,uniqHtmlName){
-		if(controlTxt.target.checked === true && uniqHtmlName === 'chk477637599') {
+		if(controlTxt.target.checked === true && uniqHtmlName === 'condition_yes_7a') {
 			controlTxtArr.push(controlTxt.target.checked);
 		}
-		if(controlTxt.target.checked === false && uniqHtmlName === 'chk477637599') {
+		if(controlTxt.target.checked === false && uniqHtmlName === 'condition_yes_7a') {
 			controlTxtArr = [];
 		}
 		if(jQuery.inArray(true, controlTxtArr) !== -1){
 			var checkedArray = {
-				chk405632825:'Remove wood to ground contact', 
-				chk384562903:'Remove form board(s)',
-				chk308759888:'Improve drainage',
-				chk414503547:'Remove debris', 
-				chk768117824:'Lower soil',
-				chk279198366:'Remove rotted wood',
-				chk90884889:'Trim foliage', 
-				chk1123152864:'Remove planter box',
-				chk1302861332:'Remove wood pile',
-				chk1421756000:'Trim fence', 
-				chk985119344:'Add ventilation',
-				chk1312660569:'Other (C)'
+				condition_checkbox_7b_01:'Remove wood to ground contact', 
+				condition_checkbox_7b_02:'Remove form board(s)',
+				condition_checkbox_7b_03:'Improve drainage',
+				condition_checkbox_7b_04:'Remove debris', 
+				condition_checkbox_7b_05:'Lower soil',
+				condition_checkbox_7b_06:'Remove rotted wood',
+				condition_checkbox_7b_07:'Trim foliage', 
+				condition_checkbox_7b_08:'Remove planter box',
+				condition_checkbox_7b_09:'Remove wood pile',
+				condition_checkbox_7b_10:'Trim fence', 
+				condition_checkbox_7b_11:'Add ventilation',
+				condition_checkbox_7b_12:'Other (C)'
 			};
+			var editor_id = 'reason_referring_value_9b';
+			if(template_id == '56'){
+				editor_id = 'reason_referring_value_9b';
+			}
 			if(controlTxt.target.checked === true && typeof checkedArray[uniqHtmlName] !== 'undefined' && checkedArray[uniqHtmlName].length > 0) {
-				var new9Bitem = $('#mceu_739-body').find(".mce-edit-area").find("iframe").contents().find('.mce-content-body').find("p").find('ul.new7Bitem');
+				var new9Bitem = $('#'+editor_id).parent().parent().find(".mce-edit-area").find("iframe").contents().find('.mce-content-body').find('ul.new7Bitem');
 				if(new9Bitem.length === 0){
-					$('#mceu_739-body').find(".mce-edit-area").find("iframe").contents().find('.mce-content-body').find("p").html('<ul class="new7Bitem"><li class="'+uniqHtmlName+'">'+checkedArray[uniqHtmlName]+'</li></ul>');
+					$('#'+editor_id).parent().parent().find(".mce-edit-area").find("iframe").contents().find('.mce-content-body').find("p").after().html('<p><ul class="new7Bitem"><li class="'+uniqHtmlName+'">'+checkedArray[uniqHtmlName]+'</li></ul></p>');
 				} else {
-					$('#mceu_739-body').find(".mce-edit-area").find("iframe").contents().find('.mce-content-body').find("p").find('ul.new7Bitem').append('<li class="'+uniqHtmlName+'">'+checkedArray[uniqHtmlName]+'</li>');
+					$('#'+editor_id).parent().parent().find(".mce-edit-area").find("iframe").contents().find('.mce-content-body').find('ul.new7Bitem').append('<li class="'+uniqHtmlName+'">'+checkedArray[uniqHtmlName]+'</li>');
 				}
+				$('#'+editor_id).parent().parent().find(".mce-edit-area").find("iframe").contents().find('.mce-content-body').focus();
+				$("body").click();
 			}
 			if(controlTxt.target.checked === false && typeof checkedArray[uniqHtmlName] !== 'undefined' && checkedArray[uniqHtmlName].length > 0) {
-				var new9Bitemm = $('#mceu_739-body').find(".mce-edit-area").find("iframe").contents().find('.mce-content-body').find("p").find('ul.new7Bitem');
+				var new9Bitemm = $('#'+editor_id).parent().parent().find(".mce-edit-area").find("iframe").contents().find('.mce-content-body').find('ul.new7Bitem');
 				if(new9Bitemm.length > 0){
-					$('#mceu_739-body').find(".mce-edit-area").find("iframe").contents().find('.mce-content-body').find("p").find('ul.new7Bitem').find('li.'+uniqHtmlName).remove();
+					$('#'+editor_id).parent().parent().find(".mce-edit-area").find("iframe").contents().find('.mce-content-body').find("p").find('ul.new7Bitem').find('li.'+uniqHtmlName).remove();
+					$('#'+editor_id).parent().parent().find(".mce-edit-area").find("iframe").contents().find('.mce-content-body').focus();
+					$("body").click();
 				}
 			}
 		}

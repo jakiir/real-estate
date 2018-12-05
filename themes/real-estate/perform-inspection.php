@@ -167,7 +167,7 @@ get_header(); ?>
                   <!-- End of col -->
                   <div class="col-sm-12">
                     <div class="status-radios">
-                      <input type="radio" id="radio-ocuppied" name="inspection_status" value="ocuppied"><label for="radio-ocuppied">Ocuppied</label>
+                      <input type="radio" id="radio-occupied" name="inspection_status" value="occupied"><label for="radio-occupied">occupied</label>
                       <input type="radio" id="radio-vacant" name="inspection_status" value="vacant"><label for="radio-vacant">Vacant</label>
                     </div>
                     <!-- End of status-radios -->

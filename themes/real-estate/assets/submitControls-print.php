@@ -82,7 +82,7 @@
   <input type="checkbox" ng-model="control.value" ng-checked="{{control.value}}"> {{control.label}}
 </div>
 <!-- Image -->
-<div class="formcontrol image imgdrop" ng-if="control.type=='image'" ng-drop="imageDrop($event,$parent.$parent.$index,$parent.$index,$index)">
+<div class="formcontrol image imgdrop not_required_{{control.notRequired}}" ng-if="control.type=='image'" ng-drop="imageDrop($event,$parent.$parent.$index,$parent.$index,$index)">
 <?php 
 	$get_att_url = '';
 	if($att){
@@ -101,7 +101,7 @@
 	<span class="invisible fileinp"></span>
     <i class="fa fa-folder-open"></i>
   </div><?php */ ?>
-  <div class="commentprompt"><input type="checkbox" ng-model="control.withComment" ng-checked="{{control.withComment}}"> Add Comment</div>
+  <div class="commentprompt"><input type="checkbox" ng-model="control.withComment" ng-checked="{{control.withComment}}"> Add Comment <input type="checkbox" ng-model="control.notRequired"> NOT REQUIRED</div>
   <div ng-bind-html="control.data"></div>
   <?php /*?><div class="imgcomment" ng-show="control.withComment">
     <textarea ui-tinymce="tinymceOptions" ng-model="control.data"></textarea>

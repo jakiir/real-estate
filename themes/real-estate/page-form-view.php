@@ -98,7 +98,7 @@ get_header('form-viewer'); ?>
 	<div class="report-table"><br/><br/><br/></div>
     <form class="theform formcontrol">
       <div ng-repeat="section in form" class="mainSection">
-	  <div ng-show="!section.children[0].subsection" ng-bind-html="section.children[0][0][0].data" class="commentBoxItem"></div>
+	  <?php /*?><div ng-show="!section.children[0].subsection" ng-bind-html="section.children[0][0][0].data" class="commentBoxItem"></div><?php */?>
 	  <div ng-repeat="child in section.children" ng-if="!section.children[0].subsection" class="commentBoxItem">
 			<div class="">
 				<div class="row" ng-repeat="child in section.children">
@@ -166,7 +166,7 @@ get_header('form-viewer'); ?>
       </a>	  
 	  <a href="javascript:void(0)" class="btn-taptap checkBoxSlected" data-toggle="modal" data-target="#shareFormView" disabled="disabled"><i class="fa fa-share"></i> Share this
       </a>
-	  <a href="javascript:void(0)" id="printTemplateBtn" class="btn-taptap">
+	  <a target="_blank" href="<?php echo home_url('/form-viewer-print/?item='.$template_id.'&report='.$report_id.'&saved='.$saved.''); ?>" class="btn-taptap">
         <i class="fa fa-file"></i> Save as PDF
       </a>
 	  <?php /* ?><a href="javascript:void(0)" id="printTemplateBtn" class="btn-taptap"><i class="fa fa-print" aria-hidden="true"></i> Print</a><?php */?>
@@ -241,28 +241,6 @@ get_header('form-viewer'); ?>
 		$('.dropdown-toggle').on("click", function (e) {
 			$('.dropdown').toggleClass('open');
 		});
-		
-		$("#printTemplateBtn").on("click", function (e) {
-			e.preventDefault();
-			var thisItem = $("#printTemplateBtn");
-			thisItem.find('.fa').removeClass('fa-file').addClass('fa-refresh fa-spin');
-			$("#templateViewer").printThis({
-				importStyle: false,         // import style tags
-				printContainer: true,
-				loadCSS: "<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/print.css",
-				importCSS: false,
-				copyTagClasses: false,
-				printDelay: 500,
-				debug:false
-			});
-			setTimeout(function(){
-				thisItem.find('.fa').removeClass('fa-refresh fa-spin').addClass('fa-file');
-			},1000);
-		});
-		
-		<?php if(isset($_GET['print'])){ ?>
-			//$( "a#printTemplateBtn" ).click();
-		<?php } ?>
 		
 	$(document).on("click", ":submit", function(e) {
 			$('.msg_show_share').html('<i class="fa fa-refresh fa-spin" aria-hidden="true"></i>');

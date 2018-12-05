@@ -1,9 +1,20 @@
 <?php
 /**
- * Template Name: Template Print Page
+ * Template Name: Form Viewer Print
+ * This is the template that displays all pages by default.
+ * Please note that this is the WordPress construct of pages
+ * and that other 'pages' on your WordPress site may use a
+ * different template.
+ *
+ * @link https://codex.wordpress.org/Template_Hierarchy
+ *
+ * @package WordPress
+ * @subpackage Twenty_Seventeen
+ * @since 1.0
+ * @version 1.0
  */
 
-get_header('template-print-page'); ?>
+get_header('viewer-print'); ?>
 <?php 
 	if (is_user_logged_in()) {
 		$user = wp_get_current_user();
@@ -16,9 +27,9 @@ get_header('template-print-page'); ?>
 		die('You have no access right! Please contact system administration for more information.!');
 	}
 	
-	$template_id = !empty($_GET['template']) ? $_GET['template'] : '';
-	$report_id = !empty($_GET['reportId']) ? $_GET['reportId'] : 0;
-	$saved = !empty($_GET['savedId']) ? $_GET['savedId'] : 0;
+	$template_id = !empty($_GET['item']) ? $_GET['item'] : '';
+	$report_id = !empty($_GET['report']) ? $_GET['report'] : 0;
+	$saved = !empty($_GET['saved']) ? $_GET['saved'] : 0;
 	$att = !empty($_GET['att']) ? $_GET['att'] : '';
 	$hash_id = !empty($_GET['hash']) ? $_GET['hash'] : '';
 
@@ -390,8 +401,22 @@ get_header('template-print-page'); ?>
 	</div>
 	
 </div>
+	<?php if($report_id){ ?>
+    <div class="actions">
+	  <a href="javascript:void(0)" onclick="saveAsPdf()" id="printTemplateBtn" class="btn-taptap">
+        <i class="fa fa-file"></i> Save as PDF
+      </a>
+	  <?php /* ?><a href="javascript:void(0)" id="printTemplateBtn" class="btn-taptap"><i class="fa fa-print" aria-hidden="true"></i> Print</a><?php */?>
+    </div>
+	<?php } else { ?>
+		<style>
+		.fileinput{display:none;}
+		.wysiwygpretend .button{display:none;}
+		</style>
+	<?php } ?>
   </div>
-<?php get_footer('template-print'); ?>
+<?php get_footer('viewer'); ?>
+
 <?php 
 	if(empty($saved)){
 		$table_template_detail = $wpdb->prefix . 'template_detail';
@@ -421,33 +446,13 @@ get_header('template-print-page'); ?>
 <script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/bower_components/tinymce/tinymce.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/angular.min.js"></script>
 <script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/bower_components/angular-ui-tinymce/src/tinymce.js"></script>
-<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/jq.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/submitapp.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/printThis.js"></script>
 	<script type="text/javascript">
-	$(document).ready(function () {
-		$("#printTemplateBtn").on("click", function (e) {
-			e.preventDefault();
+	function saveAsPdf(){
+			//e.preventDefault();
 			var thisItem = $("#printTemplateBtn");
-			thisItem.find('.fa').removeClass('fa-print').addClass('fa-refresh fa-spin');
-			$("#templateViewer").printThis({
-				importStyle: false,         // import style tags
-				printContainer: true,
-				loadCSS: "<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/print-templete-print.css",
-				importCSS: false,
-				copyTagClasses: false,
-				printDelay: 500,
-				debug:false
-			});
-			setTimeout(function(){
-				thisItem.find('.fa').removeClass('fa-refresh fa-spin').addClass('fa-print');
-			},1000);
-		});
-		
-		$("#fullPrintTemplateBtn").on("click", function (e) {
-			e.preventDefault();
-			var thisItem = $("#fullPrintTemplateBtn");
-			thisItem.find('.fa').removeClass('fa-print').addClass('fa-refresh fa-spin');
+			thisItem.find('.fa').removeClass('fa-file').addClass('fa-refresh fa-spin');
 			$("#templateViewer").printThis({
 				importStyle: false,         // import style tags
 				printContainer: true,
@@ -458,20 +463,12 @@ get_header('template-print-page'); ?>
 				debug:false
 			});
 			setTimeout(function(){
-				thisItem.find('.fa').removeClass('fa-refresh fa-spin').addClass('fa-print');
+				thisItem.find('.fa').removeClass('fa-refresh fa-spin').addClass('fa-file');
 			},1000);
-		});
-		
-		<?php if(isset($_GET['print'])){ ?>
-			//$( "a#printTemplateBtn" ).click();
-		<?php } ?>
-		
+		}
+	$(document).ready(function () {
+		setTimeout(function(){
+			saveAsPdf();
+		},5000);	
 	});
-	function expand_nav_menu() {
-		$('#navbar').toggleClass('in');
-	}
-	$(".dropdown").on("click", function (e) {
-		$(this).toggleClass('open');
-	});
-	
 	</script>

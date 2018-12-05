@@ -25,17 +25,33 @@ get_header(); ?>
 	<div class="row">
 	  <div class="col-sm-8 col-sm-offset-2">
 		<div class="box perform-inspection-box">
-		  <h2 class="page-title-body">Perform Inspection</h2>
+		  <h2 class="page-title-body">Completed Inspections</h2>
 		<?php
 			global $wpdb;
 			$user_id = get_current_user_id();
+			
+			$parrent_user = esc_attr( get_the_author_meta( 'parrent_user', $user_id ) );
+			if(empty($parrent_user)) $parrent_user = $user_id;
+			$users = get_users(array(
+				'meta_key'     => 'parrent_user',
+				'meta_value'   => $parrent_user,
+				'meta_compare' => '=',
+			));
+			$user_all[] = $parrent_user;
+			if(!empty($users)){
+				foreach($users as $user){
+					$user_all[] = $user->ID;
+				}
+			}
+			$selected_user = implode(',',$user_all);
+			
 			$table_inspection = $wpdb->prefix . 'inspection';
 			$inspectionReportDetail = $wpdb->prefix . 'inspectionreportdetail';
 			$user = wp_get_current_user();
 			if(!empty($user) && $user->roles[0] == 'administrator'){
 				$get_inspection = $wpdb->get_results( "SELECT ins.id,ins.company,ins.template_id,ins.report_identification,ins.prepared_for,ins.inpection_date,ird.id as ird_id FROM $table_inspection as ins JOIN $inspectionReportDetail as ird ON ird.inspectionId=ins.id", OBJECT );
 			} else {
-				$get_inspection = $wpdb->get_results( "SELECT ins.id,ins.company,ins.template_id,ins.report_identification,ins.prepared_for,ins.inpection_date,ird.id as ird_id FROM $table_inspection as ins JOIN $inspectionReportDetail as ird ON ird.inspectionId=ins.id WHERE ins.user_id=$user_id", OBJECT );
+				$get_inspection = $wpdb->get_results( "SELECT ins.id,ins.company,ins.template_id,ins.report_identification,ins.prepared_for,ins.inpection_date,ird.id as ird_id FROM $table_inspection as ins JOIN $inspectionReportDetail as ird ON ird.inspectionId=ins.id WHERE ins.user_id IN ($selected_user)", OBJECT );
 			}
 		?>
 		<div class="panel-body table-responsive">

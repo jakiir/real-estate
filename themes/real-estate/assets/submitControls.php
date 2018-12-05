@@ -46,13 +46,13 @@
       </div>
 </div>
 <!-- text -->
-<div class="formcontrol text" ng-if="control.type=='label'">
+<div class="formcontrol text text_label" ng-if="control.type=='label'">
   <div class="labelfield">
       {{control.label}}
   </div>
 </div>
 <!-- text -->
-<div class="formcontrol text" ng-if="control.type=='text'">
+<div class="formcontrol text text_box" ng-if="control.type=='text'">
   <textarea class="textinput" placeholder="{{control.default}}">{{control.default}}</textarea>
 </div>
 <!-- Section -->
@@ -79,10 +79,10 @@
 </div>
 <!--Check box-->
 <div class="formcontrol checkbox inline-checkbox-view" ng-if="control.type=='checkbox'">
-  <input type="checkbox" ng-model="control.value" ng-checked="{{control.value}}" ng-click="getLebelTxtVal($event,control.htmlName)" class="{{control.htmlName}}"> {{control.label}}
+  <input type="checkbox" ng-model="control.value" ng-checked="{{control.value}}" ng-click="getLebelTxtVal($event,control.htmlName)" class="{{control.htmlName}}" id="{{control.htmlName}}"> <label for="{{control.htmlName}}">{{control.label}}</label>
 </div>
 <!-- Image -->
-<div class="formcontrol image imgdrop add_comment_{{control.withComment}}" ng-if="control.type=='image'" ng-drop="imageDrop($event,$parent.$parent.$index,$parent.$index,$index)">
+<div class="formcontrol image imgdrop add_comment_{{control.withComment}} not_required_{{control.notRequired}}" ng-if="control.type=='image'" ng-drop="imageDrop($event,$parent.$parent.$index,$parent.$index,$index)">
 <?php 
 	$get_att_url = '';
 	if($att){
@@ -101,7 +101,7 @@
 	<span class="invisible fileinp"></span>
     <i class="fa fa-folder-open"></i>
   </div>
-  <div class="commentprompt"><input type="checkbox" ng-model="control.withComment" ng-checked="{{control.withComment}}"> Add Comment</div>
+  <div class="commentprompt"><input type="checkbox" ng-model="control.withComment" ng-checked="{{control.withComment}}"> Add Comment <input type="checkbox" ng-model="control.notRequired"> NOT REQUIRED</div>
   <div ng-bind-html="control.data" class="printShow"></div>
   <div class="imgcomment" ng-show="control.withComment">
     <textarea ui-tinymce="tinymceOptions" ng-model="control.data"></textarea>
