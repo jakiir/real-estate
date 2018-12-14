@@ -268,14 +268,18 @@ function send_agent_email(){
 		 $expSelectedTitle = explode(',',$getSelectedTitle);
 		 $expSelectedCompany = explode(',',$getSelectedCompany);
 		 $expSelectedPrep = explode(',',$getSelectedPrep);
-		 $user_id = get_current_user_id();
+		 $user = wp_get_current_user();
 		 $agentViewer = home_url('/agent-form-viewer/');
 
 		require get_template_directory() . '/emailQue/mail_setting.php';
-			 
-		$mail->From = 'notification@mail.clearagain.net';
-		//$email_to = 'jakir44.du@gmail.com';
-		$mail->FromName = 'clearagain.net';
+		$fromEmail = !empty($user->user_email) ? $user->user_email : 'notification@mail.clearagain.net';
+		//$mail->SetFrom($fromEmail, 'clearagain.net');
+		//$mail->FromName = 'clearagain.net';
+		//$mail->From = 'notification@mail.clearagain.net';
+		
+		$mail->AddReplyTo($fromEmail, $user->display_name);
+		$mail->SetFrom('notification@mail.clearagain.net', $fromEmail);
+		//$email_to = 'jakir44.du@gmail.com';		
 		//$mail->addAddress('joe@example.net', 'Joe User');     // Add a recipient
 		$expEmail = explode(',',$agentEmailAddress);
 		if(!empty($expEmail[1])){
@@ -324,7 +328,8 @@ function send_agent_email(){
 					 'template_id' => $each_data,
 					 'report_id' => $expSelectedReport[$key],
 					 'saved_id' => $expSelectedSaved[$key],
-					 'email_by' => $user_id,
+					 'email_by' => $user->id,
+					 'email_from' => $user->user_email,
 					 'expires_in' => $expires_in
 				 );		 
 			 $wpdb->insert($agent_email_log, 

@@ -219,6 +219,8 @@ jQuery(function($){
 				var template_id = jQuery('#template_id').find('option:selected').val();
 				var company = jQuery('#company').val();
 				var inpection_date = jQuery('#inpection_date').val();
+				var inpection_date_arr = inpection_date.split("/");
+				var inpection_date_new = inpection_date_arr[2] + "-" + inpection_date_arr[0] + "-" + inpection_date_arr[1];
 				var report_identification = jQuery('#report_identification').val();	
 				var building_orientation = jQuery('#building_orientation').val();				
 				//var weather_conditions = jQuery('input[name=weather_conditions]:checked').val();
@@ -245,7 +247,7 @@ jQuery(function($){
 				form_data.append('action', 'perform_inspections');
 				form_data.append('template_id', template_id);				
 				form_data.append('company', company);
-				form_data.append('inpection_date', inpection_date);
+				form_data.append('inpection_date', inpection_date_new);
 				form_data.append('report_identification', report_identification);
 				form_data.append('building_orientation', building_orientation);
 				form_data.append('weather_conditions', weather_conditions);

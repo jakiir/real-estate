@@ -48,10 +48,25 @@ get_header(); ?>
 			$table_inspection = $wpdb->prefix . 'inspection';
 			$inspectionReportDetail = $wpdb->prefix . 'inspectionreportdetail';
 			$user = wp_get_current_user();
+			$getShowData = (isset($_GET['show']) ? $_GET['show'] : '');
+			$whereAdd = '';
+			if($getShowData == 'year'){
+				$thisYear = date('Y');
+				$whereAdd = " YEAR(inpection_date) = $thisYear";
+			}
+			if($getShowData == 'month'){
+				$whereAdd = " inpection_date BETWEEN CURDATE() - INTERVAL 30 DAY AND CURDATE()";
+			}
 			if(!empty($user) && $user->roles[0] == 'administrator'){
-				$get_inspection = $wpdb->get_results( "SELECT ins.id,ins.company,ins.template_id,ins.report_identification,ins.prepared_for,ins.inpection_date,ird.id as ird_id FROM $table_inspection as ins JOIN $inspectionReportDetail as ird ON ird.inspectionId=ins.id", OBJECT );
+				if(!empty($whereAdd))
+				$whereAdd = ' WHERE '.$whereAdd;
+			
+				$get_inspection = $wpdb->get_results( "SELECT ins.id,ins.company,ins.template_id,ins.report_identification,ins.prepared_for,ins.inpection_date,ird.id as ird_id FROM $table_inspection as ins JOIN $inspectionReportDetail as ird ON ird.inspectionId=ins.id $whereAdd", OBJECT );
 			} else {
-				$get_inspection = $wpdb->get_results( "SELECT ins.id,ins.company,ins.template_id,ins.report_identification,ins.prepared_for,ins.inpection_date,ird.id as ird_id FROM $table_inspection as ins JOIN $inspectionReportDetail as ird ON ird.inspectionId=ins.id WHERE ins.user_id IN ($selected_user)", OBJECT );
+				if(!empty($whereAdd))
+				$whereAdd = ' AND '.$whereAdd;
+			
+				$get_inspection = $wpdb->get_results( "SELECT ins.id,ins.company,ins.template_id,ins.report_identification,ins.prepared_for,ins.inpection_date,ird.id as ird_id FROM $table_inspection as ins JOIN $inspectionReportDetail as ird ON ird.inspectionId=ins.id WHERE ins.user_id IN ($selected_user) $whereAdd", OBJECT );
 			}
 		?>
 		<div class="panel-body table-responsive">
@@ -88,7 +103,7 @@ get_header(); ?>
 							<td><input type="checkbox" onClick="eachSelect(this)" name="report_box[]" data-report="<?php echo $inspection->id; ?>" data-saved="<?php echo $inspection->ird_id; ?>" data-url="link-<?php echo $inc; ?>" data-title="<?php echo $inspection->report_identification; ?>" data-company="<?php echo $inspection->company; ?>" data-prepared_for="<?php echo $inspection->prepared_for; ?>" value="<?php echo $inspection->template_id; ?>" data-print-url="<?php echo home_url('/template-print-page/?template='.$inspection->template_id.'&reportId='.$inspection->id.'&savedId='.$inspection->ird_id); ?>"/></td>
 							<td><a target="_blank" href="<?php echo home_url('/form-viewer/?item='.$inspection->template_id.'&report='.$inspection->id.'&saved='.$inspection->ird_id); ?>" class="link-<?php echo $inc; ?>" title="<?php echo $inspection->report_identification; ?>"><?php echo $inspection->report_identification; ?></a></td>
 							<td><?php echo $inspection->prepared_for; ?></td>
-							<td><?php echo $inspection->inpection_date; ?></td>
+							<td><?php echo date('m/d/Y', strtotime($inspection->inpection_date)); ?></td>
 						</tr>
 					<?php $inc++; }} ?>
 				</tbody>
