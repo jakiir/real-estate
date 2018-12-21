@@ -132,6 +132,24 @@ angular.module('submitForm',['ui.tinymce'])
   }
   var temp_dt = new Date();
   $scope.formBlueprint.prepared_date = temp_dt.toString();
+  
+  
+$scope.getImgMeta = function(imgInfo,varA,varB){
+	if (typeof varB !== 'undefined') {
+	   //alert(varA + ' width ' + varB + ' height');
+	   var wWidth = $(window).width();
+	   var imgWidth = ((varA / wWidth) * 100)+'%';
+	   var imgHeight = ((varB / wWidth) * 200)+'px';
+	   $('#img_'+imgInfo.hash).css({width: imgWidth, height: imgHeight });
+	} else {
+	   var img = new Image();
+	   img.src = imgInfo.url;
+	   img.onload = function() {
+		   $scope.getImgMeta(imgInfo,this.width, this.height);
+	   }
+	}
+}
+  
   var setSubmitData = '';
   savedIdForItem = saved;
   $scope.submitData = function(thisItem=3,goToUrl='',targetUrl=''){

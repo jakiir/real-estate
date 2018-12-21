@@ -94,18 +94,18 @@ get_header('template-print-page'); ?>
 	<div class="report-table"><br/><br/><br/></div>*/ ?>
     <form class="theform">
       <div ng-repeat="section in form" class="mainSection">
-	  <div ng-if="section.children[1] ? true : false" ng-bind-html="section.children[0][0][0].data" class="commentBoxItem"></div>
-	  <div ng-repeat="child in section.children" ng-if="!section.children[0].subsection" class="commentBoxItem">
+	  <?php /* ?><div ng-if="section.children[1] ? true : false" ng-bind-html="section.children[0][0][0].data" class="commentBoxItem"></div>
+		<div ng-repeat="child in section.children" ng-if="!section.children[0].subsection" class="commentBoxItem">
 			<div class="">
 				<div class="row" ng-repeat="child in section.children">
 				  <div class="col" ng-repeat="controls in child">
 					<div ng-repeat="control in controls">
-					  <div ng-include="'<?php echo esc_url( home_url('/submition-controls/?report='.$report_id.'&saved='.$saved.'&item='.$template_id.'&att='.$att.'&hash='.$hash_id) ); ?>'"></div>
+					  <div ng-include="'<?php echo esc_url( home_url('/submition-controls/?report='.$report_id.'&saved='.$saved.'&item='.$template_id.'&att='.$att.'&hash='.$hash_id.'&print=yes') ); ?>'"></div>
 					</div>
 				  </div>
 				</div>
 			</div>
-		</div>
+		</div><?php */ ?>
 	  <div ng-repeat="child in section.children" ng-if="section.children[1] ? false : true" class="commentBoxItem">
 			<div class="">
 				<div class="row" ng-repeat="child in section.children">
@@ -151,6 +151,17 @@ get_header('template-print-page'); ?>
 							  </div>
 							</div>
 						  </div>
+					</div>
+					<div class="formcontrol" ng-if="control.type=='report_form'">
+						<div class="row">
+							<div class="col">
+								<p align="center" style="text-align: center;">
+									<div style="font-size:18px;color:#000;display:block;margin-bottom:20px;">Report Identification: </div>
+									<div style="font-size:16px;color:#000;display:block;">Inspection Time In: <?php echo $get_inspection[0]->time_in; ?> Time Out: <?php echo $get_inspection[0]->time_out; ?> Property was: <?php echo $get_inspection[0]->inspection_status; ?><br/>Building Orientation (For The Purpose Of This Report, the Front Faces): {{formBlueprint.building_orientation}}<br/>Weather conditions During Inspection: {{formBlueprint.parties_present_sunny ? 'Sunny' : ''}}{{formBlueprint.parties_present_raining ? ', Raining' : ''}}{{formBlueprint.parties_present_cloudy ? ', Cloudy' : ''}}{{formBlueprint.parties_present_ice ? ', Snow/Ice' : ''}} Temp: {{formBlueprint.temperature}}<br/>Parties present at inspection: 
+									{{formBlueprint.parties_present_client ? 'Client' : ''}}{{formBlueprint.parties_present_realtor ? ', Buyer’s Realtor' : ''}}{{formBlueprint.parties_present_builder ? ', Builder' : ''}}{{formBlueprint.parties_present_seller ? ', Seller' : ''}}{{formBlueprint.parties_present_none ? ', None' : ''}}</div>
+								</p>
+							</div>		
+						</div>
 					</div>
 					<!-- text -->
 					<div class="formcontrol text" ng-if="control.type=='label'">

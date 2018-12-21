@@ -46,14 +46,58 @@
       </div>
 </div>
 <div class="formcontrol" ng-if="control.type=='report_form'">
-	<div class="row">
-		<div class="col">
-			<p align="center" style="text-align: center;">
-				<div style="font-size:18px;color:#000;display:block;margin-bottom:20px;">Report Identification: </div>
-				<div style="font-size:16px;color:#000;display:block;">Inspection Time In: <?php echo $get_inspection[0]->time_in; ?> Time Out: <?php echo $get_inspection[0]->time_out; ?> Property was: <?php echo $get_inspection[0]->inspection_status; ?><br/>Building Orientation (For The Purpose Of This Report, the Front Faces): {{formBlueprint.building_orientation}}<br/>Weather conditions During Inspection: {{formBlueprint.weather_conditions}} Temp: {{formBlueprint.temperature}}<br/>Parties present at inspection: {{formBlueprint.parties_present}}</div>
-			</p>
-		</div>		
+	<?php 
+		$getPrint = (isset($_GET['print']) && $_GET['print'] != '' ? 'yes' : '' );
+		if($getPrint != 'yes'){
+	?>
+	<div class="stdreportf">
+		<div class="controlholder">
+		  <div class="row">
+			<div class="col">
+			  <p>Building Orientation</p>
+			  <input type="text" id="building_orientation" ng-model="formBlueprint.building_orientation" placeholder="Building Orientation">
+			</div>
+			<div class="col">
+				<p>Weather Conditions</p>
+				<div class="share-checkbox">
+				  <input type="checkbox" ng-model="formBlueprint.parties_present_sunny" value="formBlueprint.parties_present_sunny" ng-checked="{{formBlueprint.parties_present_sunny}}" id="checkbox-sunny"><label for="checkbox-sunny">Sunny</label>
+				  <input type="checkbox" ng-model="formBlueprint.parties_present_raining" value="formBlueprint.parties_present_raining" ng-checked="{{formBlueprint.parties_present_raining}}" id="checkbox-raining"><label for="checkbox-raining">Raining</label>
+				  <input type="checkbox" ng-model="formBlueprint.parties_present_cloudy" value="formBlueprint.parties_present_cloudy" ng-checked="{{formBlueprint.parties_present_cloudy}}" id="checkbox-cloudy"><label for="checkbox-cloudy">Cloudy</label>
+				  <input type="checkbox" ng-model="formBlueprint.parties_present_ice" value="formBlueprint.parties_present_ice" ng-checked="{{formBlueprint.parties_present_ice}}" id="checkbox-Snow-Ice"><label for="checkbox-Snow-Ice">Snow/Ice</label>
+				</div>
+			</div>			
+		  </div>
+		  <div class="row">
+			<div class="col">			 
+			  <p>Temperature</p>
+			  <input type="text" id="temperature" ng-model="formBlueprint.temperature" placeholder="Temperature">
+			</div>
+			<div class="col">
+			  <p>Parties Present</p>
+			  <div class="share-checkbox">
+				  <input type="checkbox" ng-model="formBlueprint.parties_present_client" value="formBlueprint.parties_present_client" ng-checked="{{formBlueprint.parties_present_client}}" id="checkbox-client">
+				  <label for="checkbox-client">Client</label>
+				  <input type="checkbox" ng-model="formBlueprint.parties_present_realtor" value="formBlueprint.parties_present_realtor" ng-checked="{{formBlueprint.parties_present_realtor}}" id="checkbox-buyer-realtor">
+				  <label for="checkbox-buyer-realtor">Buyer’s Realtor</label>
+				  <input type="checkbox" ng-model="formBlueprint.parties_present_builder" value="formBlueprint.parties_present_builder" ng-checked="{{formBlueprint.parties_present_builder}}" id="checkbox-builder"><label for="checkbox-builder">Builder</label>
+				  <input type="checkbox" ng-model="formBlueprint.parties_present_seller" value="formBlueprint.parties_present_seller" ng-checked="{{formBlueprint.parties_present_seller}}" id="checkbox-seller"><label for="checkbox-seller">Seller</label>
+				  <input type="checkbox" ng-model="formBlueprint.parties_present_none" value="formBlueprint.parties_present_none" ng-checked="{{formBlueprint.parties_present_none}}" id="checkbox-none"><label for="checkbox-none">None</label>
+				</div>
+			</div>
+		  </div>
+		</div>
 	</div>
+		<?php } else { ?>
+		<div class="row">
+			<div class="col">
+				<p align="center" style="text-align: center;">
+					<div style="font-size:18px;color:#000;display:block;margin-bottom:20px;">Report Identification: </div>
+					<div style="font-size:16px;color:#000;display:block;">Inspection Time In: <?php echo $get_inspection[0]->time_in; ?> Time Out: <?php echo $get_inspection[0]->time_out; ?> Property was: <?php echo $get_inspection[0]->inspection_status; ?><br/>Building Orientation (For The Purpose Of This Report, the Front Faces): {{formBlueprint.building_orientation}}<br/>Weather conditions During Inspection: {{formBlueprint.parties_present_sunny ? 'Sunny' : ''}}{{formBlueprint.parties_present_raining ? ', Raining' : ''}}{{formBlueprint.parties_present_cloudy ? ', Cloudy' : ''}}{{formBlueprint.parties_present_ice ? ', Snow/Ice' : ''}} Temp: {{formBlueprint.temperature}}<br/>Parties present at inspection: 
+					{{formBlueprint.parties_present_client ? 'Client' : ''}}{{formBlueprint.parties_present_realtor ? ', Buyer’s Realtor' : ''}}{{formBlueprint.parties_present_builder ? ', Builder' : ''}}{{formBlueprint.parties_present_seller ? ', Seller' : ''}}{{formBlueprint.parties_present_none ? ', None' : ''}}</div>
+				</p>
+			</div>		
+		</div>
+		<?php } ?>
 </div>
 <!-- text -->
 <div class="formcontrol text text_label" ng-if="control.type=='label'">

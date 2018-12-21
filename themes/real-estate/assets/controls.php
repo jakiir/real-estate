@@ -117,22 +117,35 @@
 		<div class="controlholder">
 		  <div class="row">
 			<div class="col">
-			  <p>Weather Conditions</p>
-			  <input type="text" ng-model="data.weather_conditions" placeholder="Weather Conditions">
+			  <p>Building Orientation</p>
+			  <input type="text" id="building_orientation" ng-model="data.building_orientation" placeholder="Building Orientation">
 			</div>
 			<div class="col">
-			  <p>Temperature</p>
-			  <input type="text" ng-model="data.temperature" placeholder="Temperature">
-			</div>
+				<p>Weather Conditions</p>
+				<div class="share-checkbox">
+				  <input type="checkbox" ng-model="data.parties_present_sunny" value="data.parties_present_sunny" ng-checked="{{data.parties_present_sunny}}" id="checkbox-sunny"><label for="checkbox-sunny">Sunny</label>
+				  <input type="checkbox" ng-model="data.parties_present_raining" value="data.parties_present_raining" ng-checked="{{data.parties_present_raining}}" id="checkbox-raining"><label for="checkbox-raining">Raining</label>
+				  <input type="checkbox" ng-model="data.parties_present_cloudy" value="data.parties_present_cloudy" ng-checked="{{data.parties_present_cloudy}}" id="checkbox-cloudy"><label for="checkbox-cloudy">Cloudy</label>
+				  <input type="checkbox" ng-model="data.parties_present_ice" value="data.parties_present_ice" ng-checked="{{data.parties_present_ice}}" id="checkbox-Snow-Ice"><label for="checkbox-Snow-Ice">Snow/Ice</label>
+				</div>
+			</div>			
 		  </div>
 		  <div class="row">
-			<div class="col">
-			  <p>Building Orientation</p>
-			  <input type="text" ng-model="data.building_orientation" placeholder="Building Orientation">
+			<div class="col">			 
+			  <p>Temperature</p>
+			  <input type="text" id="temperature" ng-model="data.temperature" placeholder="Temperature">
 			</div>
 			<div class="col">
 			  <p>Parties Present</p>
-			  <input type="text" ng-model="data.parties_present" placeholder="Parties Present">
+			  <div class="share-checkbox">
+				  <input type="checkbox" ng-model="data.parties_present_client" value="data.parties_present_client" ng-checked="{{data.parties_present_client}}" id="checkbox-client">
+				  <label for="checkbox-client">Client</label>
+				  <input type="checkbox" ng-model="data.parties_present_realtor" value="data.parties_present_realtor" ng-checked="{{data.parties_present_realtor}}" id="checkbox-buyer-realtor">
+				  <label for="checkbox-buyer-realtor">Buyer’s Realtor</label>
+				  <input type="checkbox" ng-model="data.parties_present_builder" value="data.parties_present_builder" ng-checked="{{data.parties_present_builder}}" id="checkbox-builder"><label for="checkbox-builder">Builder</label>
+				  <input type="checkbox" ng-model="data.parties_present_seller" value="data.parties_present_seller" ng-checked="{{data.parties_present_seller}}" id="checkbox-seller"><label for="checkbox-seller">Seller</label>
+				  <input type="checkbox" ng-model="data.parties_present_none" value="data.parties_present_none" ng-checked="{{data.parties_present_none}}" id="checkbox-none"><label for="checkbox-none">None</label>
+				</div>
 			</div>
 		  </div>
 		</div>

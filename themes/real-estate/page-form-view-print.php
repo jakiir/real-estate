@@ -108,18 +108,18 @@ get_header('viewer-print'); ?>
 	<div class="report-table-"><br/><br/><br/></div>*/ ?>
     <form class="theform">
       <div ng-repeat="section in form" class="mainSection">
-	  <div ng-if="section.children[1] ? true : false" ng-bind-html="section.children[0][0][0].data" class="commentBoxItem"></div>
+	  <?php /* ?><div ng-if="section.children[1] ? true : false" ng-bind-html="section.children[0][0][0].data" class="commentBoxItem"></div>
 	  <div ng-repeat="child in section.children" ng-if="!section.children[0].subsection" class="commentBoxItem">
 			<div class="">
 				<div class="row" ng-repeat="child in section.children">
 				  <div class="col" ng-repeat="controls in child">
 					<div ng-repeat="control in controls">
-					  <div ng-include="'<?php echo esc_url( home_url('/submition-controls/?report='.$report_id.'&saved='.$saved.'&item='.$template_id.'&att='.$att.'&hash='.$hash_id) ); ?>'"></div>
+					  <div ng-include="'<?php echo esc_url( home_url('/submition-controls/?report='.$report_id.'&saved='.$saved.'&item='.$template_id.'&att='.$att.'&hash='.$hash_id.'&print=yes') ); ?>'"></div>
 					</div>
 				  </div>
 				</div>
 			</div>
-		</div>
+		</div><?php */ ?>
 	  <div ng-repeat="child in section.children" ng-if="section.children[1] ? false : true" class="commentBoxItem">
 			<div class="">
 				<div class="row" ng-repeat="child in section.children">
@@ -166,6 +166,17 @@ get_header('viewer-print'); ?>
 							</div>
 						  </div>
 					</div>
+					<div class="formcontrol" ng-if="control.type=='report_form'">
+						<div class="row">
+							<div class="col">
+								<p align="center" style="text-align: center;">
+									<div style="font-size:18px;color:#000;display:block;margin-bottom:20px;">Report Identification: </div>
+									<div style="font-size:16px;color:#000;display:block;">Inspection Time In: <?php echo $get_inspection[0]->time_in; ?> Time Out: <?php echo $get_inspection[0]->time_out; ?> Property was: <?php echo $get_inspection[0]->inspection_status; ?><br/>Building Orientation (For The Purpose Of This Report, the Front Faces): {{formBlueprint.building_orientation}}<br/>Weather conditions During Inspection: {{formBlueprint.parties_present_sunny ? 'Sunny' : ''}}{{formBlueprint.parties_present_raining ? ', Raining' : ''}}{{formBlueprint.parties_present_cloudy ? ', Cloudy' : ''}}{{formBlueprint.parties_present_ice ? ', Snow/Ice' : ''}} Temp: {{formBlueprint.temperature}}<br/>Parties present at inspection: 
+									{{formBlueprint.parties_present_client ? 'Client' : ''}}{{formBlueprint.parties_present_realtor ? ', Buyer’s Realtor' : ''}}{{formBlueprint.parties_present_builder ? ', Builder' : ''}}{{formBlueprint.parties_present_seller ? ', Seller' : ''}}{{formBlueprint.parties_present_none ? ', None' : ''}}</div>
+								</p>
+							</div>		
+						</div>
+					</div>
 					<!-- text -->
 					<div class="formcontrol text" ng-if="control.type=='label'">
 					  <div class="labelfield">
@@ -205,7 +216,7 @@ get_header('viewer-print'); ?>
 					<!-- Image -->
 					<div class="formcontrol image imgdrop" ng-if="control.type=='image'" ng-drop="imageDrop($event,$parent.$parent.$index,$parent.$index,$index)">
 					  <input type="hidden" class="updatedUrl" value="{{control.url}}"/>
-					  <img class="imggap fa" ng-src="{{control.url}}" alt="Image Placeholder">  
+					  <img class="imggap fa" ng-src="{{control.url}}" ng-init="getImgMeta(control)" id="img_{{control.hash}}" alt="Image Placeholder">  
 					  <div class="commentprompt"><input type="checkbox" ng-model="control.withComment" ng-checked="{{control.withComment}}"> Add Comment</div>
 					  <div ng-bind-html="control.data"></div>
 					</div>
@@ -315,6 +326,17 @@ get_header('viewer-print'); ?>
 										</div>
 									  </div>
 								</div>
+								<div class="formcontrol" ng-if="control.type=='report_form'">
+									<div class="row">
+										<div class="col">
+											<p align="center" style="text-align: center;">
+												<div style="font-size:18px;color:#000;display:block;margin-bottom:20px;">Report Identification: </div>
+												<div style="font-size:16px;color:#000;display:block;">Inspection Time In: <?php echo $get_inspection[0]->time_in; ?> Time Out: <?php echo $get_inspection[0]->time_out; ?> Property was: <?php echo $get_inspection[0]->inspection_status; ?><br/>Building Orientation (For The Purpose Of This Report, the Front Faces): {{formBlueprint.building_orientation}}<br/>Weather conditions During Inspection: {{formBlueprint.parties_present_sunny ? 'Sunny' : ''}}{{formBlueprint.parties_present_raining ? ', Raining' : ''}}{{formBlueprint.parties_present_cloudy ? ', Cloudy' : ''}}{{formBlueprint.parties_present_ice ? ', Snow/Ice' : ''}} Temp: {{formBlueprint.temperature}}<br/>Parties present at inspection: 
+												{{formBlueprint.parties_present_client ? 'Client' : ''}}{{formBlueprint.parties_present_realtor ? ', Buyer’s Realtor' : ''}}{{formBlueprint.parties_present_builder ? ', Builder' : ''}}{{formBlueprint.parties_present_seller ? ', Seller' : ''}}{{formBlueprint.parties_present_none ? ', None' : ''}}</div>
+											</p>
+										</div>		
+									</div>
+								</div>
 								<!-- text -->
 								<div class="formcontrol text" ng-if="control.type=='label'">
 								  <div class="labelfield">
@@ -354,7 +376,7 @@ get_header('viewer-print'); ?>
 								<!-- Image -->
 								<div class="formcontrol image imgdrop" ng-if="control.type=='image'" ng-drop="imageDrop($event,$parent.$parent.$index,$parent.$index,$index)">
 								  <input type="hidden" class="updatedUrl" value="{{control.url}}"/>
-								  <img class="imggap fa" ng-src="{{control.url}}" alt="Image Placeholder">  
+								  <img class="imggap fa" ng-src="{{control.url}}" ng-init="getImgMeta(control)" id="img_{{control.hash}}" alt="Image Placeholder">  
 								  <div class="commentprompt"><input type="checkbox" ng-model="control.withComment" ng-checked="{{control.withComment}}"> Add Comment</div>
 								  <div ng-bind-html="control.data"></div>
 								</div>
@@ -500,12 +522,27 @@ var specialElementHandlers = {
 			doc.fromHTML(tinymceToJSPDFHTML, 5, 5, {
 				'width': 170,
 				'elementHandlers': specialElementHandlers
-			},function(bla){doc.save('<?php echo $get_template_name; ?>.pdf');},margin);
+			},function(bla){doc.save('<?php echo $get_inspection[0]->report_identification; ?>.pdf');},margin);
 			//doc.save('<?php echo $get_template_name; ?>.pdf');
 			setTimeout(function(){
 				thisItem.find('.fa').removeClass('fa-refresh fa-spin').addClass('fa-file');
 			},1000);
 		}
+		
+		/*function getImgMeta(imgId,varA, varB) {
+			if (typeof varB !== 'undefined') {
+			   //alert(varA + ' width ' + varB + ' height');
+			   $('#img_'+imgId).css({ height: varB+'px' });
+			   console.log(varB);
+			} else {
+			   var img = new Image();
+			   img.src = varA;
+			   img.onload = function() {
+				   getMeta(imgId,this.width, this.height);
+			   }
+			}
+		}*/
+		
 	$(document).ready(function () {
 		setTimeout(function(){
 			//saveAsPdf();
