@@ -200,7 +200,7 @@ angular.module('submitForm',['ui.tinymce'])
 	return saveToDb;
     //ToDo: Run AJAX submit for fd
   }
-  setSubmitData = setTimeout($scope.submitData, 15000);
+  //setSubmitData = setTimeout($scope.submitData, 15000);
   $scope.submitData(3,'','');
   $scope.fileBrowse = function(control){
     var fi = document.querySelector('.fileinp-new');

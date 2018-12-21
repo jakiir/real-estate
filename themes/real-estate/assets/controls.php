@@ -111,6 +111,33 @@
 		</div>
 	</div>
 </div>
+<!-- report Form field -->
+<div class="formcontrol- report" ng-if="control.type=='report_form'">
+	<div class="stdreportf">
+		<div class="controlholder">
+		  <div class="row">
+			<div class="col">
+			  <p>Weather Conditions</p>
+			  <input type="text" ng-model="data.weather_conditions" placeholder="Weather Conditions">
+			</div>
+			<div class="col">
+			  <p>Temperature</p>
+			  <input type="text" ng-model="data.temperature" placeholder="Temperature">
+			</div>
+		  </div>
+		  <div class="row">
+			<div class="col">
+			  <p>Building Orientation</p>
+			  <input type="text" ng-model="data.building_orientation" placeholder="Building Orientation">
+			</div>
+			<div class="col">
+			  <p>Parties Present</p>
+			  <input type="text" ng-model="data.parties_present" placeholder="Parties Present">
+			</div>
+		  </div>
+		</div>
+	</div>
+</div>
 <!-- Page Break -->
 <div class="formcontrol break" ng-if="control.type=='break'">
   <div class="pagebreak"></div>

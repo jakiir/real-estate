@@ -97,7 +97,7 @@ get_header('form-agent-viewer');
 		</tr>
 		</table>
 		<div class="report-table" style="border:none;">
-			<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+			<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 		</div>
 		<table class="report-table" style="border:none;">
 		<tr>
@@ -112,18 +112,25 @@ get_header('form-agent-viewer');
 				</div>
 			</th>
 		</tr>
+		<tr>
+			<th align="center" colspan="6" style="padding-bottom:10px;border:none;">
+				<div>
+					<img src="<?php echo !empty($form_data[0]->logo_url) ? $form_data[0]->logo_url : '/wp-content/themes/real-estate/images/cover_photo.jpg'; ?>" class="avatar img-responsive" alt="avatar">
+				</div>
+			</th>
+		</tr>
 	</table>
 	<div class="page-break">&nbsp;</div>
-	<div class="report-table"><br/><br/><br/><br/><br/></div>
+	<?php /*<div class="report-table"><br/><br/><br/><br/><br/></div>
 	<table class="report-table report-info" style="border:none;">
 		<tr>
 			<td style="border:none;">
 				<div style="font-size:18px;color:#000;display:block;margin-bottom:20px;">Report Identification: </div>
-				<div style="font-size:16px;color:#000;display:block;">Inspection Time In: <?php echo $get_inspection[0]->time_in; ?> Time Out: <?php echo $get_inspection[0]->time_out; ?> Property was: <?php echo $get_inspection[0]->inspection_status; ?><br/>Building Orientation (For The Purpose Of This Report, the Front Faces): <?php echo $get_inspection[0]->building_orientation; ?><br/>Weather conditions During Inspection: <?php echo $get_inspection[0]->weather_conditions; ?> Temp: <?php echo $get_inspection[0]->temperature; ?><br/>Parties present at inspection: <?php echo $get_inspection[0]->parties_present; ?></div>			
+				<div style="font-size:16px;color:#000;display:block;">Inspection Time In: <?php echo $get_inspection[0]->time_in; ?> Time Out: <?php echo $get_inspection[0]->time_out; ?> Property was: <?php echo $get_inspection[0]->inspection_status; ?> Building Orientation (For The Purpose Of This Report, the Front Faces): <?php echo $get_inspection[0]->building_orientation; ?> Weather conditions During Inspection: <?php echo $get_inspection[0]->weather_conditions; ?> Temp: <?php echo $get_inspection[0]->temperature; ?> Parties present at inspection: <?php echo $get_inspection[0]->parties_present; ?></div>			
 			</td>			
 		</tr>
 	</table>
-	<div class="report-table"><br/><br/><br/></div>
+	<div class="report-table"><br/><br/><br/></div>*/ ?>
 	<p class="agent_info sectionhead" style="background-color:#9d1c1f;color:#fff;">
 		This is a shared report.  You can click to expand each section to see the deficiencies identified.  Click the checkbox next to each deficiency you wish to share and then click print report or save as PDF at the bottom to generate the deficiencies report.
 	</p>

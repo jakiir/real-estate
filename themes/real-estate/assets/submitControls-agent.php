@@ -45,6 +45,16 @@
         </div>
       </div>
 </div>
+<div class="formcontrol" ng-if="control.type=='report_form'">
+	<div class="row">
+		<div class="col">
+			<p align="center" style="text-align: center;">
+				<div style="font-size:18px;color:#000;display:block;margin-bottom:20px;">Report Identification: </div>
+				<div style="font-size:16px;color:#000;display:block;">Inspection Time In: <?php echo $get_inspection[0]->time_in; ?> Time Out: <?php echo $get_inspection[0]->time_out; ?> Property was: <?php echo $get_inspection[0]->inspection_status; ?><br/>Building Orientation (For The Purpose Of This Report, the Front Faces): {{formBlueprint.building_orientation}}<br/>Weather conditions During Inspection: {{formBlueprint.weather_conditions}} Temp: {{formBlueprint.temperature}}<br/>Parties present at inspection: {{formBlueprint.parties_present}}</div>
+			</p>
+		</div>		
+	</div>
+</div>
 <!-- text -->
 <div ng-show="false" class="formcontrol text" ng-if="control.type=='label'">
   <div class="labelfield">

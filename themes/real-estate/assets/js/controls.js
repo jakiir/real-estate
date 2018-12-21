@@ -44,6 +44,14 @@ formControls.reportfield={
   single:true
 }
 
+formControls.reportformfield={
+  title:"Report Form",
+  type:'report_form',
+  label:"Report Form field",
+  icon:"fa-file",
+  single:true
+}
+
 formControls.label={
   title:"Label",
   type:'label',

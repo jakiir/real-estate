@@ -69,7 +69,7 @@ get_header('form-viewer'); ?>
 		</tr>
 		</table>
 		<div class="report-table" style="border:none;">
-			<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+			<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 		</div>
 		<table class="report-table" style="border:none;">
 		<tr>
@@ -84,9 +84,16 @@ get_header('form-viewer'); ?>
 				</div>
 			</th>
 		</tr>
+		<tr>
+			<th align="center" colspan="6" style="padding-bottom:10px;border:none;">
+				<div>
+					<img src="<?php echo !empty($form_data[0]->logo_url) ? $form_data[0]->logo_url : '/wp-content/themes/real-estate/images/cover_photo.jpg'; ?>" class="avatar img-responsive" alt="avatar">
+				</div>
+			</th>
+		</tr>
 	</table>
 	<div class="page-break">&nbsp;</div>
-	<div class="report-table"><br/><br/><br/><br/><br/></div>
+	<?php /*<div class="report-table"><br/><br/><br/><br/><br/></div>
 	<table class="report-table report-info" style="border:none;">
 		<tr>
 			<td style="border:none;">
@@ -95,14 +102,14 @@ get_header('form-viewer'); ?>
 			</td>			
 		</tr>
 	</table>
-	<div class="report-table"><br/><br/><br/></div>
+	<div class="report-table"><br/><br/><br/></div>*/ ?>
     <form class="theform formcontrol">
       <div ng-repeat="section in form" class="mainSection">
 	  <?php /*?><div ng-show="!section.children[0].subsection" ng-bind-html="section.children[0][0][0].data" class="commentBoxItem"></div><?php */?>
 	  <div ng-repeat="child in section.children" ng-if="!section.children[0].subsection" class="commentBoxItem">
 			<div class="">
 				<div class="row" ng-repeat="child in section.children">
-				  <div class="col" ng-repeat="controls in child">
+				  <div class="col-" ng-repeat="controls in child">
 					<div ng-repeat="control in controls">
 					  <div ng-include="'<?php echo esc_url( home_url('/submition-controls/?report='.$report_id.'&saved='.$saved.'&item='.$template_id.'&att='.$att.'&hash='.$hash_id) ); ?>'"></div>
 					</div>
@@ -135,7 +142,7 @@ get_header('form-viewer'); ?>
 					  </div>
 					</div>
 					<div class="row" ng-repeat="controls in child.children">
-						<div class="col" ng-repeat="subcontrol in controls">
+						<div class="col-" ng-repeat="subcontrol in controls">
 							<div ng-repeat="control in subcontrol">
 								<div ng-include="'<?php echo esc_url( home_url('/submition-controls/?report='.$report_id.'&saved='.$saved.'&item='.$template_id.'&att='.$att.'&hash='.$hash_id) ); ?>'"></div>
 							</div>

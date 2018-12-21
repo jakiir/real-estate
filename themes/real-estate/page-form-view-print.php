@@ -57,45 +57,55 @@ get_header('viewer-print'); ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/submitform_controls.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/custom.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/css/responsive.css">
-	<table class="report-table">
-		<tr>
-			<th align="right" colspan="6" style="padding-bottom:10px;border:none;">
-				<img src="<?php echo !empty($get_inspection[0]->cover_photo) ? $get_inspection[0]->cover_photo : '/wp-content/themes/real-estate/images/cover_photo.jpg'; ?>" class="avatar img-responsive" alt="avatar" style="width:100%;">
-				<br/>
-				<div style="text-transform:capitalize;text-align:center;font-size:25px;">
-				<?php echo $get_inspection[0]->report_identification; ?></div>
-				<?php //echo $form_data[0]->name.' Report'; ?>
-			</th>
-		</tr>
-		</table>
-		<div class="report-table" style="border:none;">
-			<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+
+	<div class="row">
+		<div class="col">
+			<img src="<?php echo !empty($get_inspection[0]->cover_photo) ? $get_inspection[0]->cover_photo : '/wp-content/themes/real-estate/images/cover_photo.jpg'; ?>" alt="avatar" style="width:100%;">
 		</div>
-		<table class="report-table" style="border:none;">
-		<tr>
-			<th align="right" colspan="6" style="padding-bottom:10px;border:none;">
-				<div style="text-align:center;font-size:18px;font-weight:normal;">
+	</div>
+	<div class="row">
+		<div class="col">
+			<p style="text-transform:capitalize;font-size:25px;margin-top:100px;" align="center">
+				<?php echo $get_inspection[0]->report_identification; ?>
+			</p>
+		</div>
+	</div>
+	<?php //echo $form_data[0]->name.' Report'; ?>
+		<div class="report-table-" style="border:none;">
+			<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+		</div>
+		<div class="row">
+			<div class="col">
+				<p style="font-size:18px;font-weight:normal;">
 					<?php 
 						$originalDate = $get_inspection[0]->inpection_date;
 						$newDate = date("F d, Y", strtotime($originalDate));
-						echo '<div style="font-size:18px;font-weight:bold;">'.$newDate.'</div>';
-						echo '<div style="width:250px;margin:0 auto;">'.$form_data[0]->footer_html.'</div>';
+						echo '<div align="center" style="width:250px;margin:0 auto;font-size:18px;font-weight:bold;">'.$newDate.'</div>';
+						echo '<div align="center" style="width:250px;margin:0 auto;">'.$form_data[0]->footer_html.'</div>';
 					?>
-				</div>
-			</th>
-		</tr>
-	</table>
+				</p>
+			</div>
+		</div>
+		<div class="report-table-"><br/><br/></div>
+		<div class="row">
+			<div class="col">
+				<p style="width:120px;display:table;margin:0 auto;vertical-align: middle;" align="center">
+					<img src="<?php echo !empty($form_data[0]->logo_url) ? $form_data[0]->logo_url : '/wp-content/themes/real-estate/images/cover_photo.jpg'; ?>" alt="avatar" style="width:120px;">
+				</p>
+			</div>
+		</div>
+		
 	<div class="page-break">&nbsp;</div>
-	<div class="report-table"><br/><br/><br/><br/><br/></div>
-	<table class="report-table report-info" style="border:none;">
-		<tr>
-			<td style="border:none;">
+	<?php /*<div class="report-table-"><br/><br/><br/><br/><br/></div>
+	<div class="row">
+		<div class="col">
+			<p align="center" style="text-align: center;">
 				<div style="font-size:18px;color:#000;display:block;margin-bottom:20px;">Report Identification: </div>
-				<div style="font-size:16px;color:#000;display:block;">Inspection Time In: <?php echo $get_inspection[0]->time_in; ?> Time Out: <?php echo $get_inspection[0]->time_out; ?> Property was: <?php echo $get_inspection[0]->inspection_status; ?><br/>Building Orientation (For The Purpose Of This Report, the Front Faces): <?php echo $get_inspection[0]->building_orientation; ?><br/>Weather conditions During Inspection: <?php echo $get_inspection[0]->weather_conditions; ?> Temp: <?php echo $get_inspection[0]->temperature; ?><br/>Parties present at inspection: <?php echo $get_inspection[0]->parties_present; ?></div>			
-			</td>			
-		</tr>
-	</table>
-	<div class="report-table"><br/><br/><br/></div>
+				<div style="font-size:16px;color:#000;display:block;">Inspection Time In: <?php echo $get_inspection[0]->time_in; ?> Time Out: <?php echo $get_inspection[0]->time_out; ?> Property was: <?php echo $get_inspection[0]->inspection_status; ?><br/>Building Orientation (For The Purpose Of This Report, the Front Faces): <?php echo $get_inspection[0]->building_orientation; ?><br/>Weather conditions During Inspection: <?php echo $get_inspection[0]->weather_conditions; ?> Temp: <?php echo $get_inspection[0]->temperature; ?><br/>Parties present at inspection: <?php echo $get_inspection[0]->parties_present; ?></div>
+			</p>
+		</div>		
+	</div>
+	<div class="report-table-"><br/><br/><br/></div>*/ ?>
     <form class="theform">
       <div ng-repeat="section in form" class="mainSection">
 	  <div ng-if="section.children[1] ? true : false" ng-bind-html="section.children[0][0][0].data" class="commentBoxItem"></div>
@@ -391,12 +401,19 @@ get_header('viewer-print'); ?>
       </div>
     </form>
 	
-	<div class="print_pdf_footer">
+	<div class="print_pdf_footer-" align="center">
 		<div style="text-decoration:underline;">INSPECTOR</div>
 		<div>
-			<?php echo $display_name; ?> – <?php echo $licence_number; ?>
-			<br/>
-			<?php echo $form_data[0]->footer_html; ?>
+			<div class="row">
+				<div class="col">
+					<?php echo $display_name; ?> – <?php echo $licence_number; ?>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<?php echo $form_data[0]->footer_html; ?>
+				</div>
+			</div>
 		</div>
 	</div>
 	
@@ -415,6 +432,7 @@ get_header('viewer-print'); ?>
 		</style>
 	<?php } ?>
   </div>
+  <div id="editor"></div>
 <?php get_footer('viewer'); ?>
 
 <?php 
@@ -447,13 +465,22 @@ get_header('viewer-print'); ?>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/angular.min.js"></script>
 <script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/bower_components/angular-ui-tinymce/src/tinymce.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/submitapp.js"></script>
+<script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/printThis.js"></script>
 	<script type="text/javascript">
+var doc = new jsPDF();
+var specialElementHandlers = {
+    '#editor': function (element, renderer) {
+        return true;
+    }
+};
+
 	function saveAsPdf(){
+			$('.report-table').css('display','block');
 			//e.preventDefault();
 			var thisItem = $("#printTemplateBtn");
 			thisItem.find('.fa').removeClass('fa-file').addClass('fa-refresh fa-spin');
-			$("#templateViewer").printThis({
+			/*$("#templateViewer").printThis({
 				importStyle: false,         // import style tags
 				printContainer: true,
 				loadCSS: "<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/print.css",
@@ -461,14 +488,27 @@ get_header('viewer-print'); ?>
 				copyTagClasses: false,
 				printDelay: 500,
 				debug:false
-			});
+			});*/
+			var margin = {
+			  top: 5,
+			  left: 0,
+			  right: 5,
+			  bottom: 5
+			};
+
+			var tinymceToJSPDFHTML = $("#templateViewer").html();
+			doc.fromHTML(tinymceToJSPDFHTML, 5, 5, {
+				'width': 170,
+				'elementHandlers': specialElementHandlers
+			},function(bla){doc.save('<?php echo $get_template_name; ?>.pdf');},margin);
+			//doc.save('<?php echo $get_template_name; ?>.pdf');
 			setTimeout(function(){
 				thisItem.find('.fa').removeClass('fa-refresh fa-spin').addClass('fa-file');
 			},1000);
 		}
 	$(document).ready(function () {
 		setTimeout(function(){
-			saveAsPdf();
-		},5000);	
+			//saveAsPdf();
+		},25000);	
 	});
 	</script>
