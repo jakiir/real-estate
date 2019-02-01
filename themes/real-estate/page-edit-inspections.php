@@ -1,19 +1,4 @@
 <?php
-/**
- * Template Name: Perform inspection
- * This is the template that displays all pages by default.
- * Please note that this is the WordPress construct of pages
- * and that other 'pages' on your WordPress site may use a
- * different template.
- *
- * @link https://codex.wordpress.org/Template_Hierarchy
- *
- * @package WordPress
- * @subpackage Twenty_Seventeen
- * @since 1.0
- * @version 1.0
- */
-
 get_header(); ?>
 <?php 
 	if (!is_user_logged_in()) {
@@ -33,14 +18,16 @@ get_header(); ?>
 	global $wpdb;
 	$user_id = get_current_user_id();
 	$user = wp_get_current_user();
-	$table_inspection = $wpdb->prefix . 'inspection';			
-	$get_inspection = $wpdb->get_row( "SELECT * FROM $table_inspection WHERE user_id=$user_id ORDER BY id DESC LIMIT 1");
-	
+	$inspectionId = (isset($_GET['ins_id']) ? $_GET['ins_id'] : 0);
+	if($inspectionId == 0) die('No inspections');
+	$table_inspection = $wpdb->prefix . 'inspection';
+	$get_inspection = $wpdb->get_row( "SELECT * FROM $table_inspection WHERE id=$inspectionId ORDER BY id DESC LIMIT 1");
 	$company_name = get_user_meta( $user_id, 'company_name', true );
 	if(empty($company_name)){
 		$parent_company_id = get_user_meta( $user_id, 'parrent_user', true );
 		$company_name = get_user_meta( $parent_company_id, 'company_name', true );
 	}
+	$company = (!empty($get_inspection->company) ? $get_inspection->company : $company_name);
 ?>
 <article class="container">
         <div class="row">
@@ -48,7 +35,8 @@ get_header(); ?>
             <div class="box perform-inspection-box">
               <h2 class="page-title-body">Perform Inspection</h2>
               <form class="perform-inspection-form" id="inspection_form" action="" enctype="multipart/form-data" method="post">
-                <div class="row">
+                <input type="hidden" value="<?php echo $get_inspection->id; ?>" name="inspection_id" id="inspection_id"/>
+				<div class="row">
 					<div class="col-sm-12">
 					<?php 
 					if(!empty($user) && $user->roles[0] != 'administrator'){
@@ -74,39 +62,40 @@ get_header(); ?>
 					}
 					?>
                     <label for="template_id">Template</label>
-					<select id="template_id" name="template_id" class="form-control required" >
+					<select style="pointer-events: none;-webkit-appearance: none;appearance: none;" id="template_id" name="template_id" class="form-control required" >
 					  <option value="">List of Template</option>
 					  <?php if(!empty($get_share_templages)){
 							foreach($get_share_templages as $template){
+								$selected = ($get_inspection->template_id == $template->id ? 'selected="selected"' : null);
 							?>
-							<option value="<?php echo $template->id; ?>"><?php echo $template->name; ?></option>
+							<option <?php echo $selected; ?> value="<?php echo $template->id; ?>"><?php echo $template->name; ?></option>
 						<?php } } ?>
 					</select>
                   </div>
                   <!-- End of col -->
                   <div class="col-sm-6">
                     <label for="company">Company</label>
-                    <input type="text" class="form-control required" name="company" id="company" value="<?php echo $company_name; ?>" <?php if(!empty($user) && $user->roles[0] != 'administrator'){ ?>readonly="readonly" <?php } ?> placeholder="">
+                    <input type="text" class="form-control required" name="company" id="company" value="<?php echo $company; ?>" <?php if(!empty($user) && $user->roles[0] != 'administrator'){ ?>readonly="readonly" <?php } ?> placeholder="">
                   </div>
                   <!-- End of col -->
                   <div class="col-sm-6">
                     <label for="inpection_date">Date</label>
-                    <input type="text" class="form-control datepicker required" name="inpection_date" id="inpection_date" placeholder="">
+                    <input type="text" value="<?php echo date('m/d/Y', strtotime($get_inspection->inpection_date)); ?>" class="form-control datepicker required" name="inpection_date" id="inpection_date" placeholder="">
                   </div>
                   <!-- End of col -->
                   <div class="col-sm-12">
                     <label for="report_identification">Property Address</label>
-                    <input type="text" class="form-control required" name="report_identification" id="report_identification" placeholder="">
+                    <input type="text" value="<?php echo $get_inspection->report_identification; ?>" class="form-control required" name="report_identification" id="report_identification" placeholder="">
                   </div>
 				  <!-- End of col -->
                   <div class="col-sm-12">
                     <label for="inspection_city">City</label>
-                    <input type="text" class="form-control required" name="inspection_city" id="inspection_city" placeholder="">
+                    <input type="text" value="<?php echo $get_inspection->inspection_city; ?>" class="form-control required" name="inspection_city" id="inspection_city" placeholder="">
                   </div>
 				  <!-- End of col -->
                   <div class="col-sm-12">
                     <label for="zip_code">Zip Code</label>
-                    <input type="text" class="form-control required" name="zip_code" id="zip_code" placeholder="">
+                    <input type="text" value="<?php echo $get_inspection->zip_code; ?>" class="form-control required" name="zip_code" id="zip_code" placeholder="">
                   </div>
                   <!-- End of col -->
 				  <?php /*?><div class="col-sm-12">
@@ -147,12 +136,12 @@ get_header(); ?>
                   <!-- End of col -->                  
                   <div class="col-sm-12">
                     <label for="prepared_for">Prepared for</label>
-                    <input type="text" class="form-control required" name="prepared_for" id="prepared_for" placeholder="">
+                    <input type="text" value="<?php echo $get_inspection->prepared_for; ?>" class="form-control required" name="prepared_for" id="prepared_for" placeholder="">
                   </div>
                   <!-- End of col -->
                   <div class="col-sm-4">
                     <label for="prepared_by">Prepared By</label>
-                    <input type="text" class="form-control required" name="prepared_by" id="prepared_by" readonly="readonly" value="<?php echo $user->display_name; ?>">
+                    <input type="text" value="<?php echo $get_inspection->prepared_by; ?>" class="form-control required" name="prepared_by" id="prepared_by" readonly="readonly" value="<?php echo $user->display_name; ?>">
                   </div>
 				  <div class="col-sm-4">
                     <label for="licence_number">Lic #</label>
@@ -167,28 +156,31 @@ get_header(); ?>
                   <!-- End of col -->
                   <div class="col-sm-6">
                     <label for="time_in">Time In</label>
-                    <input type="text" class="form-control required timepicker" name="time_in" id="time_in" placeholder="">
+                    <input type="text" value="<?php echo $get_inspection->time_in; ?>" class="form-control required timepicker" name="time_in" id="time_in" placeholder="">
                   </div>
                   <!-- End of col -->
                   <div class="col-sm-6">
                     <label for="time_out">Time Out</label>
-                    <input type="text" class="form-control required timepicker" name="time_out" id="time_out" placeholder="">
+                    <input type="text" value="<?php echo $get_inspection->time_out; ?>" class="form-control required timepicker" name="time_out" id="time_out" placeholder="">
                   </div>
                   <!-- End of col -->
                   <div class="col-sm-12">
                     <div class="status-radios">
-                      <input type="radio" id="radio-occupied" name="inspection_status" value="occupied"><label for="radio-occupied">occupied</label>
-                      <input type="radio" id="radio-vacant" name="inspection_status" value="vacant"><label for="radio-vacant">Vacant</label>
+                      <input type="radio" <?php echo ($get_inspection->inspection_status == 'occupied' ? 'checked="checked"' : null); ?> id="radio-occupied" name="inspection_status" value="occupied"><label for="radio-occupied">occupied</label>
+                      <input type="radio" <?php echo ($get_inspection->inspection_status == 'vacant' ? 'checked="checked"' : null); ?> id="radio-vacant" name="inspection_status" value="vacant"><label for="radio-vacant">Vacant</label>
                     </div>
                     <!-- End of status-radios -->
                   </div>
 				  <div class="col-sm-12">
 					<div class="edit-cover-img" id="hsc_std_photo">
-					  <?php $defaultImage = esc_url( get_template_directory_uri() ).'/images/edit-template-default.png'; ?>
+					  <?php $defaultImage = (!empty($get_inspection->cover_photo) ? $get_inspection->cover_photo : esc_url( get_template_directory_uri() ).'/images/edit-template-default.png');
+					  ?>
                       <img alt="img" src="<?php echo $defaultImage; ?>" class="avatar img-responsive" id="preview_image" style="height:208px;">
+					  <img id="profilePicRemover" src="<?php echo esc_url( get_template_directory_uri() ).'/images/remove.png'; ?>" alt="delete">
                     </div>
                     <label class="btn-file-upload" for="template_cover_logo" style="margin-top:5px;margin-bottom:30px;">Upload Cover Photo</label>
-                    <input type="file" name="photo" "="" id="template_cover_logo" onchange="instantPhotoUpload(this)">
+                    <input type="file" name="photo" id="template_cover_logo" onchange="instantPhotoUpload(this)">
+					<input type="hidden" name="exist_img" id="exist_img" value="<?php echo (!empty($get_inspection->cover_photo) ? $get_inspection->cover_photo : ''); ?>"/>
                   </div>
                   <!-- End of col -->
                   <div class="col-sm-12">
@@ -227,6 +219,7 @@ jQuery(function($){
 				$('.msg_show').html('<span style="color:red">required field must be fill up!</span>');				
 			} else {
 				var template_id = jQuery('#template_id').find('option:selected').val();
+				var inspection_id = jQuery('#inspection_id').val();
 				var company = jQuery('#company').val();
 				var inpection_date = jQuery('#inpection_date').val();
 				var inpection_date_arr = inpection_date.split("/");
@@ -251,12 +244,14 @@ jQuery(function($){
 				var prepared_for = jQuery('#prepared_for').val();				
 				var prepared_by = jQuery('#prepared_by').val();				
 				var time_in = jQuery('#time_in').val();				
-				var time_out = jQuery('#time_out').val();				
+				var time_out = jQuery('#time_out').val();
+				var exist_img = jQuery('#exist_img').val();
 				var inspection_status = $('input[name=inspection_status]:checked').val();
 				var file_data = $('#template_cover_logo').prop('files')[0];				
 				var form_data = new FormData();
 				
 				form_data.append('action', 'perform_inspections');
+				form_data.append('inspection_id', inspection_id);
 				form_data.append('template_id', template_id);				
 				form_data.append('company', company);
 				form_data.append('inpection_date', inpection_date_new);
@@ -272,6 +267,7 @@ jQuery(function($){
 				form_data.append('time_in', time_in);				
 				form_data.append('time_out', time_out);				
 				form_data.append('inspection_status', inspection_status);
+				form_data.append('exist_img', exist_img);
 				form_data.append('cover_photo', file_data);
 				
 				$.ajax({					
@@ -285,7 +281,7 @@ jQuery(function($){
 					  if(parsedJson.success == true){						  
 						  $('.msg_show').html('');
 						  $('.msg_show').html('<span class="font_icon success_icon">'+parsedJson.mess+'</span>');
-						  window.location.href = "<?php echo home_url('/form-viewer/?item='); ?>"+template_id+'&report='+parsedJson.report_id;
+						  window.location.href = "<?php echo home_url('/form-viewer/?item='); ?>"+template_id+'&report='+parsedJson.report_id+'&saved='+parsedJson.saved;
 					  } else {
 						  $('.msg_show').html('');
 						$('.msg_show').html('<span style="color:red">'+parsedJson.mess+'</span>');
@@ -300,6 +296,12 @@ jQuery(function($){
 			return false;
 			
 		});
+		var default_img = '<?php echo esc_url( get_template_directory_uri() ).'/images/edit-template-default.png'; ?>';
+		$(document).on("click", "#profilePicRemover", function(e) {
+			$('#preview_image').attr('src', default_img);
+			$('#profilePicRemover').remove();
+			$('#exist_img').val('');
+		});
 	
 });
 
@@ -313,7 +315,7 @@ jQuery(function($){
 			reader.onload = imageIsLoaded;
 			reader.readAsDataURL(THIS.files[0]);
 			$("#hsc_std_photo").append($("<img/>", {id: 'profilePicRemover', src: '<?php echo esc_url( get_template_directory_uri() ); ?>/images/remove.png', alt: 'delete'}).click(function() {
-				$('#preview_image').attr('src', '<?php echo $defaultImage; ?>');
+				$('#preview_image').attr('src', default_img);
 				$('#profilePicRemover').remove();
 			}));
 		}

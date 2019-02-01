@@ -61,12 +61,12 @@ get_header(); ?>
 				if(!empty($whereAdd))
 				$whereAdd = ' WHERE '.$whereAdd;
 			
-				$get_inspection = $wpdb->get_results( "SELECT ins.id,ins.company,ins.template_id,ins.report_identification,ins.prepared_for,ins.inpection_date,ird.id as ird_id FROM $table_inspection as ins JOIN $inspectionReportDetail as ird ON ird.inspectionId=ins.id $whereAdd", OBJECT );
+				$get_inspection = $wpdb->get_results( "SELECT ins.id,ins.company,ins.template_id,ins.report_identification,ins.prepared_for,ins.inpection_date,ird.id as ird_id FROM $table_inspection as ins JOIN $inspectionReportDetail as ird ON ird.inspectionId=ins.id $whereAdd ORDER BY ins.inpection_date DESC", OBJECT );
 			} else {
 				if(!empty($whereAdd))
 				$whereAdd = ' AND '.$whereAdd;
 			
-				$get_inspection = $wpdb->get_results( "SELECT ins.id,ins.company,ins.template_id,ins.report_identification,ins.prepared_for,ins.inpection_date,ird.id as ird_id FROM $table_inspection as ins JOIN $inspectionReportDetail as ird ON ird.inspectionId=ins.id WHERE ins.user_id IN ($selected_user) $whereAdd", OBJECT );
+				$get_inspection = $wpdb->get_results( "SELECT ins.id,ins.company,ins.template_id,ins.report_identification,ins.prepared_for,ins.inpection_date,ird.id as ird_id FROM $table_inspection as ins JOIN $inspectionReportDetail as ird ON ird.inspectionId=ins.id WHERE ins.user_id IN ($selected_user) $whereAdd ORDER BY ins.inpection_date DESC", OBJECT );
 			}
 		?>
 		<div class="panel-body table-responsive">
@@ -91,6 +91,7 @@ get_header(); ?>
 						<th>Report Id</th>
 						<th>Prepared For</th>
 						<th>Date</th>
+						<th>#</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -104,6 +105,7 @@ get_header(); ?>
 							<td><a target="_blank" href="<?php echo home_url('/form-viewer/?item='.$inspection->template_id.'&report='.$inspection->id.'&saved='.$inspection->ird_id); ?>" class="link-<?php echo $inc; ?>" title="<?php echo $inspection->report_identification; ?>"><?php echo $inspection->report_identification; ?></a></td>
 							<td><?php echo $inspection->prepared_for; ?></td>
 							<td><?php echo date('m/d/Y', strtotime($inspection->inpection_date)); ?></td>
+							<td><a target="_blank" href="<?php echo home_url('/edit-inspections/?ins_id='.$inspection->id); ?>" class="link-<?php echo $inc; ?>" title="<?php echo $inspection->report_identification; ?>"><i class="fa fa-edit"></i></a></td>
 						</tr>
 					<?php $inc++; }} ?>
 				</tbody>
@@ -177,7 +179,7 @@ $(document).ready(function() {
 	// Set up your table
 	table = $('#devTable').DataTable({
 		"iDisplayLength": 10,
-		"order": [[ 3, "desc" ]]
+		//"order": [[ 3, "asc" ]]
 	});
 
 	// Extend dataTables search

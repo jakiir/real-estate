@@ -170,13 +170,17 @@ get_header('form-viewer'); ?>
 	  <div class="msg_show form-view-msg" style="display:inline-block;"></div>
 	  <a href="javascript:void(0)" style="margin-bottom:10px;" class="btn-taptap saveChanges" ng-click="submitData(1,'','')">
         <i class="fa fa-floppy-o" aria-hidden="true"></i> Save Changes
-      </a>	  
+      </a>
+	  <?php if(!empty($form_data[0]->share_btn) && $form_data[0]->share_btn == 'true'){ ?>
 	  <a href="javascript:void(0)" class="btn-taptap checkBoxSlected" data-toggle="modal" data-target="#shareFormView" disabled="disabled"><i class="fa fa-share"></i> Share this
       </a>
-	  <a target="_blank" href="<?php echo home_url('/form-viewer-print/?item='.$template_id.'&report='.$report_id.'&saved='.$saved.''); ?>" class="btn-taptap">
+	  <?php } ?>
+	  <?php /* ?><a target="_blank" href="<?php echo home_url('/form-viewer-print/?item='.$template_id.'&report='.$report_id.'&saved='.$saved.''); ?>" class="btn-taptap">
         <i class="fa fa-file"></i> Save as PDF
-      </a>
-	  <?php /* ?><a href="javascript:void(0)" id="printTemplateBtn" class="btn-taptap"><i class="fa fa-print" aria-hidden="true"></i> Print</a><?php */?>
+      </a><?php */?>
+	  <?php if(!empty($form_data[0]->print_btn) && $form_data[0]->print_btn == 'true'){ ?>
+	  <a target="_blank" href="<?php echo home_url('/template-print-page/?template='.$template_id.'&reportId='.$report_id.'&savedId='.$saved.'&print=1'); ?>" id="printTemplateBtn-" class="btn-taptap"><i class="fa fa-print" aria-hidden="true"></i> Print</a>
+	  <?php } ?>
     </div>
 	<?php } else { ?>
 		<style>
@@ -215,11 +219,14 @@ get_header('form-viewer'); ?>
 		$table_template_detail = $wpdb->prefix . 'template_detail';
 		$get_template_detail = $wpdb->get_results( "SELECT * FROM $table_template_detail WHERE template_id=$template_id", OBJECT );
 		$form_info = (!empty($get_template_detail[0]->field_text_html) ? $get_template_detail[0]->field_text_html : '{"name":"Untitled Form 1","logo":null,"tree":[]}');
+		$form_info = shortcode_wdi($form_info);
 	} else {
 		$inspectionreportdetail = $wpdb->prefix . 'inspectionreportdetail';
 		$get_inspectionreportdetail = $wpdb->get_results( "SELECT * FROM $inspectionreportdetail WHERE id=$saved AND inspectionId=$report_id", OBJECT );
 		$form_info = (!empty($get_inspectionreportdetail[0]->fieldTextHtml) ? $get_inspectionreportdetail[0]->fieldTextHtml : '{"name":"Untitled Form 1","logo":null,"tree":[]}');
+		$form_info = shortcode_wdi($form_info);
 	}
+	$form_data = shortcode_wdi($form_data);
 	$get_template_name = (!empty($form_data[0]->name) ? $form_data[0]->name : '');
 ?>
 <script type="text/javascript">

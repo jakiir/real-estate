@@ -22,6 +22,7 @@
   width:100%;
   color:rgba(0,0,0,0);
   margin-right: 10px;
+  height: 250px;
 }
 .formcontrol img[alt]::before{
   content:"\f03e";
@@ -156,6 +157,9 @@ textarea.fcontrol.longtext{
 .formcontrol.editor{
   position:relative;
 }
+.formcontrol.editor h4{
+  margin-right: 106px;
+}
 .editor .editbutton{
   position:absolute;
   right:0px;
@@ -193,3 +197,7 @@ textarea.fcontrol.longtext{
 }
 .shareOption-false{display:none !important;}
 .inline-checkbox-view{margin-left:20px;}
+.mce-container, .mce-container *, .mce-widget, .mce-widget *, .mce-reset{
+	white-space:inherit !important;
+}
+.mce-flow-layout-item{display:inline;}

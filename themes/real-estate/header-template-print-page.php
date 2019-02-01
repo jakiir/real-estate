@@ -51,17 +51,17 @@
 				<?php } else { ?>
 					<li><a class="<?php if(is_page('template')) echo 'active'; ?>" href="<?php echo home_url('/template/'); ?>">Back</a></li>
 				<?php } ?>
-				<li><a href="javascript:void(0)" id="printTemplateBtn" class="btn-taptap"><i class="fa fa-print" aria-hidden="true"></i> PRINT INSPECTIONS REPORT</a></li>
+				<li><a href="javascript:void(0)" id="printTemplateBtn" onclick="printTemplateBtn()" class="btn-taptap"><i class="fa fa-print" aria-hidden="true"></i> PRINT INSPECTIONS REPORT</a></li>
 				<?php } ?>
 			  
             </ul>
             <!-- End of nav -->
           </div>
           <!--End of main-nav-->
-          <div class="user-options">
+          <?php /*?><div class="user-options">
 			<a href="javascript:void(0)" id="fullPrintTemplateBtn" class="btn-taptap"><i class="fa fa-print" aria-hidden="true"></i> PRINT FULL TEMPLATE</a>
             <!-- End of dropdown -->
-          </div>
+          </div><?php */ ?>
           <!-- End of user-options -->
         </article>
         <!--End of container-->

@@ -79,6 +79,12 @@
     <div class="button tbmargin get-right" ng-click="control.editMode=false">Save</div>
   </div>
 </div>
+<!-- textarea -->
+<div class="formcontrol textarea" ng-if="control.type=='textarea'">
+  <div class="textarea">
+    <textarea ng-model="control.data"></textarea>
+  </div>
+</div>
 <!-- Static Text -->
 <div class="formcontrol static" ng-if="control.type=='static'">
   <div class="instruction">

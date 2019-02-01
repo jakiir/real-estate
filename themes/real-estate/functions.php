@@ -363,6 +363,8 @@ function editTemplateAction(){
 		 $table_template = $wpdb->prefix . 'template';
 		 $template_name = !empty($_POST['template_name']) ? $_POST['template_name'] : '';
 		 $template_share = !empty($_POST['template_share']) ? $_POST['template_share'] : 'off';
+		 $share_btn = !empty($_POST['share_btn']) ? $_POST['share_btn'] : 'off';
+		 $print_btn = !empty($_POST['print_btn']) ? $_POST['print_btn'] : 'off';
 		 $template_state = !empty($_POST['template_state']) ? $_POST['template_state'] : '';
 		 $template_state_id = !empty($_POST['template_state_id']) ? $_POST['template_state_id'] : '';
 		 $template_date = !empty($_POST['template_date']) ? $_POST['template_date'] : '';
@@ -373,6 +375,8 @@ function editTemplateAction(){
 		$wpdb->query($wpdb->prepare("UPDATE $table_template 
 		 SET name='".$template_name."',
 		 shared_flag='".$template_share."',
+		 share_btn='".$share_btn."',
+		 print_btn='".$print_btn."',
 		 state='".$template_state."',
 		 state_form='".$template_state_id."',
 		 companyId='".$template_company."',
@@ -530,8 +534,11 @@ function perform_inspections(){
 		 global $wpdb;
 		 $table_inspection = $wpdb->prefix . 'inspection';
 		 $company = !empty($_POST['company']) ? $_POST['company'] : '';
+		 $inspection_id = !empty($_POST['inspection_id']) ? $_POST['inspection_id'] : '';
 		 $inpection_date = !empty($_POST['inpection_date']) ? $_POST['inpection_date'] : '';
 		 $report_identification = !empty($_POST['report_identification']) ? $_POST['report_identification'] : '';
+		 $inspection_city = !empty($_POST['inspection_city']) ? $_POST['inspection_city'] : '';
+		 $zip_code = !empty($_POST['zip_code']) ? $_POST['zip_code'] : '';
 		 $building_orientation = !empty($_POST['building_orientation']) ? $_POST['building_orientation'] : '';
 		 $weather_conditions = !empty($_POST['weather_conditions']) ? $_POST['weather_conditions'] : '';
 		 $temperature = !empty($_POST['temperature']) ? $_POST['temperature'] : '';
@@ -543,15 +550,21 @@ function perform_inspections(){
 		 $time_out = !empty($_POST['time_out']) ? $_POST['time_out'] : '';
 		 $inspection_status = !empty($_POST['inspection_status']) ? $_POST['inspection_status'] : '';
 		 $user_id = get_current_user_id();
-		 //$get_inspection = $wpdb->get_results( "SELECT * FROM $table_inspection WHERE user_id=$user_id AND template_id=$template_id", OBJECT );
 		 $get_inspection = '';
+		 //$get_inspection = $wpdb->get_results( "SELECT * FROM $table_inspection WHERE user_id=$user_id AND template_id=$template_id", OBJECT );
+		 $get_inspection = $wpdb->get_row( "SELECT * FROM $table_inspection WHERE id=$inspection_id ORDER BY id DESC LIMIT 1");
+		 
 		if(!empty($get_inspection)){
+			$inspectionReportDetail = $wpdb->prefix . 'inspectionreportdetail';
+			$get_inspection_details = $wpdb->get_row( "SELECT id FROM $inspectionReportDetail WHERE inspectionId=$inspection_id ORDER BY id DESC LIMIT 1");
 			 $wpdb->update(
 				$table_inspection, 
-				array( 
-					'company' => $company,
+				array(
+					 'company' => $company,
 					 'inpection_date' => $inpection_date,
 					 'report_identification' => $report_identification,
+					 'inspection_city' => $inspection_city,
+					 'zip_code' => $zip_code,
 					 'building_orientation' => $building_orientation,
 					 'weather_conditions' => $weather_conditions,
 					 'temperature' => $temperature,
@@ -560,22 +573,59 @@ function perform_inspections(){
 					 'prepared_by' => $prepared_by,
 					 'time_in' => $time_in,
 					 'time_out' => $time_out,
-					 'inspection_status' => $inspection_status					 
-				), 
-				array( 'user_id' => $user_id,'template_id' => $template_id )
+					 'inspection_status' => $inspection_status
+				 ), 
+				array( 'id' => $inspection_id )
 			);
+			
+			 if(!empty($inspection_id)){
+				if (!function_exists('wp_handle_upload')) {
+					require_once(ABSPATH . 'wp-admin/includes/file.php');
+				}
+				  // echo $_FILES["upload"]["name"];
+				  $uploadedfile = $_FILES['cover_photo'];
+				  if(!empty($uploadedfile)){
+					  $upload_overrides = array('test_form' => false);
+					  $movefile = wp_handle_upload($uploadedfile, $upload_overrides);
+
+					// echo $movefile['url'];
+					if ($movefile && !isset($movefile['error'])) {
+						  $imageUrl = $movefile['url'];
+						  $wpdb->query($wpdb->prepare("UPDATE $table_inspection SET cover_photo='".$imageUrl."' WHERE id=$inspection_id"));
+					} else {
+						 $results = array(
+							'success' => false,
+							'mess' => $movefile['error']
+						 );			
+					}	
+				  } else {
+					  $exist_img = !empty($_POST['exist_img']) ? $_POST['exist_img'] : '';
+					  $wpdb->query($wpdb->prepare("UPDATE $table_inspection SET cover_photo='".$exist_img."' WHERE id=$inspection_id"));
+				  }
+			 }
+			 if(empty($results)){
+				 $results = array(
+					'success' => true,
+					'mess' => '<i class="fa fa-check-circle"></i>',
+					'report_id'=>$inspection_id,
+					'template_id' => $template_id,
+					'saved'=>$get_inspection_details->id
+				 );
+			 }
 			 
-			 $results = array(
+			 /*$results = array(
 				'success' => true,
 				'mess' => '<i class="fa fa-check-circle"></i>',
 				'template_id' => $template_id
-			 );	
+			 );*/
 		} else {
 			 $wpdb->insert($table_inspection, 
 				 array(
 					 'company' => $company,
 					 'inpection_date' => $inpection_date,
 					 'report_identification' => $report_identification,
+					 'inspection_city' => $inspection_city,
+					 'zip_code' => $zip_code,
 					 'building_orientation' => $building_orientation,
 					 'weather_conditions' => $weather_conditions,
 					 'temperature' => $temperature,
@@ -1499,4 +1549,38 @@ function isMobile() {
 		$is_mobile=false;
 	}
 	return $is_mobile;
+}
+//add_shortcode( 'inspector', 'shortcode_inspector' );
+//add_action( 'wp_ajax_nopriv_shortcode_wdi', 'shortcode_wdi', 85);
+//add_action( 'wp_ajax_shortcode_wdi', 'shortcode_wdi', 85 );
+function shortcode_wdi($content){
+	global $wpdb;					
+	$template_id = !empty($_GET['item']) ? $_GET['item'] : '';
+	$inspectors = '';
+	$inpection_date = '';
+	$report_identification = '';
+	$inspection_city = '';
+	$zip_code = '';
+	if(!empty($template_id)){
+		$table_template = $wpdb->prefix . 'template';
+		$get_templages = $wpdb->get_row( "SELECT companyId FROM $table_template WHERE id=$template_id ORDER BY id DESC LIMIT 1");
+		$inspectors = "<span class='every_span'><div class='under_line'>".$get_templages->companyId."</div>Name of Inspection Company</span>";
+		$report_id = !empty($_GET['report']) ? $_GET['report'] : '';
+		if(!empty($report_id)){
+			$table_inspection = $wpdb->prefix . 'inspection';
+			$get_inspection = $wpdb->get_row( "SELECT report_identification,inspection_city,zip_code,inpection_date FROM $table_inspection WHERE id=$report_id ORDER BY id DESC LIMIT 1");
+			$inpection_date = "<span class='every_span'><div class='under_line'>".$$get_inspection->inpection_date."</div>Date of inspected</span>";
+			$report_identification = $get_inspection->report_identification.'<br>Inspected Address';
+			$inspection_city = $get_inspection->inspection_city.'<br>City';
+			$zip_code = $get_inspection->zip_code.'<br>Zip Code';
+		}
+	}
+	$user = wp_get_current_user();
+	$licence_number = "<span class='every_span'><div class='under_line'>".get_user_meta($user->ID,  'licence_number', true )."</div>SPCB Business License Number</span>";
+	$email_address = "<span class='every_span'><div class='under_line'>".get_user_meta($user->ID,  'user_email', true )."</div></span>";
+	$phone_number = "<span class='every_span'><div class='under_line'>".get_user_meta($user->ID,  'phone_number', true )."</div>Telephone No</span>";
+	$healthy = array("[inspector]","[email_address]","[phone_no]", "[license_number]", "[inspection_date]","[inspection_address]","[city]","[zip_code]");
+	$yummy   = array($inspectors,$email_address,$phone_number, $licence_number, $inpection_date,$report_identification,$inspection_city,$zip_code);
+	$newphrase = str_replace($healthy, $yummy, $content);
+	return $newphrase;
 }

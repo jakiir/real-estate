@@ -69,6 +69,7 @@ get_header(); ?>
                     <div class="share-checkbox">
                       <input type="checkbox" name="template_share" id="template_share" <?php echo !empty($get_templages[0]->shared_flag) && $get_templages[0]->shared_flag == 'true' ? 'checked' : ''; ?> ><label for="template_share">Share</label>
                     </div>
+					<div class="clearfix" style="clear:both;">&nbsp;</div>
                     <label for="template_state">State</label>
 					<select id="template_state" name="template_state" class="form-control required" >
 					  <option value="texas">Texas</option>
@@ -84,6 +85,15 @@ get_header(); ?>
                     <label for="template_company">Company</label>
                     <input type="text" class="form-control required" name="template_company" id="template_company" value="<?php echo !empty($get_templages[0]->companyId) ? $get_templages[0]->companyId : ''; ?>" placeholder="Company">
                   </div>
+				<div class="col-sm-12">
+					<div class="share-checkbox">
+					  <input type="checkbox" name="share_btn" id="share_btn" <?php echo !empty($get_templages[0]->share_btn) && $get_templages[0]->share_btn == 'true' ? 'checked' : ''; ?> ><label for="share_btn">Enable share this</label>
+					</div>
+					<div class="share-checkbox">
+					  <input type="checkbox" name="print_btn" id="print_btn" <?php echo !empty($get_templages[0]->print_btn) && $get_templages[0]->print_btn == 'true' ? 'checked' : ''; ?> ><label for="print_btn">Enable Print</label>
+					</div>
+				</div>
+				<div class="clearfix" style="clear:both;">&nbsp;</div>
                   <!-- End of col -->
                   <div class="col-sm-12">
                     <label for="footer_template">Footer</label>
@@ -132,6 +142,8 @@ get_header(); ?>
 				var template_id = jQuery('#template_id').val();
 				var template_name = jQuery('#template_name').val();
 				var template_share= jQuery('#template_share').is(':checked');
+				var share_btn= jQuery('#share_btn').is(':checked');
+				var print_btn= jQuery('#print_btn').is(':checked');
 				var template_state = $('#template_state').find('option:selected').val();				
 				var template_state_id = jQuery('#template_state_id').val();				
 				var template_date = jQuery('#template_date').val();				
@@ -144,6 +156,8 @@ get_header(); ?>
 				form_data.append('template_id', template_id);				
 				form_data.append('template_name', template_name);
 				form_data.append('template_share', template_share);
+				form_data.append('share_btn', share_btn);
+				form_data.append('print_btn', print_btn);
 				form_data.append('template_state', template_state);
 				form_data.append('template_state_id', template_state_id);
 				form_data.append('template_date', template_date);

@@ -32,7 +32,9 @@ table.table-bordered tbody td.course-field {
 .print_pdf_footer,.viewHide,#fullReportPrint{display:block!important;}
 .report-table{width:100%;display:table!important;}
 .mainSection:first-child{display:block!important;}
-.ng-empty,.showing-true{display:none!important;}
+.ng-empty,.showing-false{display:none!important;}
+.ng-empty + label{display:none!important;}
+.chk-label-,.chk-label-false{display:none!important;}
 .top-ins.ng-empty{display:inline-block!important;}
 /*.ng-empty + label{display:none;}*/
 .ng-binding.ng-hide{display:none;}

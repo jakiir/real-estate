@@ -196,14 +196,14 @@ get_header('template-print-page'); ?>
 					  </div>
 					</div>
 					<!--Check box-->
-					<div class="formcontrol checkbox" ng-if="control.type=='checkbox'">
+					<div class="formcontrol checkbox chk-label-{{control.value}}" ng-if="control.type=='checkbox'">
 					  <input type="checkbox" ng-model="control.value" ng-checked="{{control.value}}"> {{control.label}}
 					</div>
 					<!-- Image -->
 					<div class="formcontrol image imgdrop" ng-if="control.type=='image'" ng-drop="imageDrop($event,$parent.$parent.$index,$parent.$index,$index)">
 					  <input type="hidden" class="updatedUrl" value="{{control.url}}"/>
-					  <img class="imggap fa" ng-src="{{control.url}}" alt="Image Placeholder">  
-					  <div class="commentprompt"><input type="checkbox" ng-model="control.withComment" ng-checked="{{control.withComment}}"> Add Comment</div>
+					  <img class="imggap fa" ng-src="{{control.url}}" alt="Image Placeholder"> 						  
+					  <div class="commentprompt"><input type="checkbox" ng-model="control.withComment" id="{{control.hash}}" ng-checked="{{control.withComment}}"> <label for="{{control.hash}}">Display Image & Add Comment (If Any)</label></div>
 					  <div ng-bind-html="control.data"></div>
 					</div>
 					<!-- wysiwyg -->
@@ -211,12 +211,16 @@ get_header('template-print-page'); ?>
 					  <div ng-bind-html="control.data"></div>
 					</div>
 					<!-- wysiwyg -->
-					<div class="formcontrol editor" ng-if="control.type=='comment'">
-					  <h4><input type="checkbox" id="{{control.htmlName}}" ng-click="commentListIsVisible=!commentListIsVisible" ng-model="control.comment1" value="control.comment1" ng-checked="control.comment1"> <label for="{{control.htmlName}}">{{control.label}}</label></h4>
+					<div class="formcontrol editor chk-label-{{control.comment1}}" ng-if="control.type=='comment'">
+					  <h4><input type="checkbox" id="{{control.htmlName}}" ng-click="commentListIsVisible=!commentListIsVisible" ng-model="control.comment1" value="control.comment1" ng-checked="{{control.comment1}}"> <label for="{{control.htmlName}}">{{control.label}}</label></h4>
 					  <div ng-bind-html="control.data" class="showing-{{commentListIsVisible}}"></div>
 					</div>
 					<!-- advertisment -->
 					<div class="formcontrol editor" ng-if="control.type=='advertisement'">  
+					  <div ng-bind-html="control.data"></div>  
+					</div>
+					<!-- textarea -->
+					<div class="formcontrol textarea" ng-if="control.type=='textarea'">  
 					  <div ng-bind-html="control.data"></div>  
 					</div>
 					<!-- Static Text -->
@@ -345,14 +349,14 @@ get_header('template-print-page'); ?>
 								  </div>
 								</div>
 								<!--Check box-->
-								<div class="formcontrol checkbox" ng-if="control.type=='checkbox'">
-								  <input type="checkbox" ng-model="control.value" ng-checked="{{control.value}}"> {{control.label}}
+								<div class="formcontrol checkbox chk-label-{{control.value}}" ng-if="control.type=='checkbox'">
+								  <input type="checkbox" ng-model="control.value" id="checkbox-{{control.hash}}" checked="{{control.value ? 'checked' : false}}"> <label for="checkbox-{{control.hash}}" class="chk-label-{{control.value}}">{{control.label}}</label>
 								</div>
 								<!-- Image -->
 								<div class="formcontrol image imgdrop" ng-if="control.type=='image'" ng-drop="imageDrop($event,$parent.$parent.$index,$parent.$index,$index)">
 								  <input type="hidden" class="updatedUrl" value="{{control.url}}"/>
 								  <img class="imggap fa" ng-src="{{control.url}}" alt="Image Placeholder">  
-								  <div class="commentprompt"><input type="checkbox" ng-model="control.withComment" ng-checked="{{control.withComment}}"> Add Comment</div>
+								  <div class="commentprompt"><input type="checkbox" ng-model="control.withComment" id="{{control.hash}}" ng-checked="{{control.withComment}}"> <label for="{{control.hash}}">Display Image & Add Comment (If Any)</label></div>
 								  <div ng-bind-html="control.data"></div>
 								</div>
 								<!-- wysiwyg -->
@@ -360,7 +364,7 @@ get_header('template-print-page'); ?>
 								  <div ng-bind-html="control.data"></div>
 								</div>
 								<!-- wysiwyg -->
-								<div class="formcontrol editor" ng-if="control.type=='comment'">
+								<div class="formcontrol editor chk-label-{{control.comment1}}" ng-if="control.type=='comment'">
 								  <h4><input type="checkbox" id="{{control.htmlName}}" ng-click="commentListIsVisible=!commentListIsVisible" ng-model="control.comment1" value="control.comment1" ng-checked="control.comment1" checked="control.comment1"> <label for="{{control.htmlName}}">{{control.label}}</label></h4>
 								  <div ng-bind-html="control.data" class="showing-{{commentListIsVisible}} second-showing"></div>
 								</div>
@@ -443,9 +447,10 @@ get_header('template-print-page'); ?>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/submitapp.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/printThis.js"></script>
 	<script type="text/javascript">
-	$(document).ready(function () {
-		$("#printTemplateBtn").on("click", function (e) {
-			e.preventDefault();
+		function printTemplateBtn(){
+			//e.preventDefault();
+			$('.ng-not-empty').parent('.commentprompt').parent().removeClass('not_required_true');
+			$('.ng-empty').parent('.commentprompt').parent().addClass('not_required_true');
 			var thisItem = $("#printTemplateBtn");
 			thisItem.find('.fa').removeClass('fa-print').addClass('fa-refresh fa-spin');
 			$("#templateViewer").printThis({
@@ -460,7 +465,9 @@ get_header('template-print-page'); ?>
 			setTimeout(function(){
 				thisItem.find('.fa').removeClass('fa-refresh fa-spin').addClass('fa-print');
 			},1000);
-		});
+		}
+	$(document).ready(function () {
+		
 		
 		$("#fullPrintTemplateBtn").on("click", function (e) {
 			e.preventDefault();
@@ -481,7 +488,9 @@ get_header('template-print-page'); ?>
 		});
 		
 		<?php if(isset($_GET['print'])){ ?>
-			//$( "a#printTemplateBtn" ).click();
+			setTimeout(function(){
+				printTemplateBtn();
+			},5000);
 		<?php } ?>
 		
 	});
@@ -493,3 +502,6 @@ get_header('template-print-page'); ?>
 	});
 	
 	</script>
+	<style>
+		label{font-weight:normal;margin:0;padding-left:0px;}
+	</style>

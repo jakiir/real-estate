@@ -20,7 +20,7 @@ formControls.text={
   title:"Text",
   type:'text',
   //placeholder:"Enter Value",
-  icon:"fa-font",
+  icon:"fa-text-height",
   htmlName:"txt",
   default:"Default Value",
   data:""
@@ -40,7 +40,7 @@ formControls.reportfield={
   title:"Report",
   type:'report',
   label:"Report field",
-  icon:"fa-font",
+  icon:"fa-file-o",
   single:true
 }
 
@@ -132,4 +132,12 @@ formControls.advertisement={
   htmlName:"cmt",
   editMode:true,
   data:"<h5>THIS BOX FOR ADVERTISEMENT. KEEP BLANK IF NO ADVERTISEMENT</h5>"
+}
+formControls.textarea={
+  title:"Textarea",
+  type:'textarea',
+  icon:"fa-text-width",
+  htmlName:"txt",
+  editMode:true,
+  data:""
 }

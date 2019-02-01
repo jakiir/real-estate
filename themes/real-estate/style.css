@@ -866,3 +866,13 @@ object {
     margin: 0 auto;
 }
 .printShow{visibility:hidden;}
+.every_span{
+	margin-right: 20px;
+    float: left;
+}
+.under_line{border-bottom: 2px solid #000;}
+.shortcode_show_list{
+	color: brown;
+    font-size: 15px;
+    font-weight: bold;
+}

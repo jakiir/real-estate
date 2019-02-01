@@ -216,8 +216,8 @@ get_header('viewer-print'); ?>
 					<!-- Image -->
 					<div class="formcontrol image imgdrop" ng-if="control.type=='image'" ng-drop="imageDrop($event,$parent.$parent.$index,$parent.$index,$index)">
 					  <input type="hidden" class="updatedUrl" value="{{control.url}}"/>
-					  <img class="imggap fa" ng-src="{{control.url}}" ng-init="getImgMeta(control)" id="img_{{control.hash}}" alt="Image Placeholder">  
-					  <div class="commentprompt"><input type="checkbox" ng-model="control.withComment" ng-checked="{{control.withComment}}"> Add Comment</div>
+					  <img class="imggap fa" ng-src="{{control.url}}" <?php /* ?>ng-init="getImgMeta(control)" <?php */?> id="img_{{control.hash}}" alt="Image Placeholder">  
+					  <div class="commentprompt"><input type="checkbox" ng-model="control.withComment" ng-checked="{{control.withComment}}"> Display Image & Add Comment (If Any)</div>
 					  <div ng-bind-html="control.data"></div>
 					</div>
 					<!-- wysiwyg -->
@@ -231,6 +231,10 @@ get_header('viewer-print'); ?>
 					</div>
 					<!-- advertisment -->
 					<div class="formcontrol editor" ng-if="control.type=='advertisement'">  
+					  <div ng-bind-html="control.data"></div>  
+					</div>
+					<!-- textarea -->
+					<div class="formcontrol textarea" ng-if="control.type=='textarea'">  
 					  <div ng-bind-html="control.data"></div>  
 					</div>
 					<!-- Static Text -->
@@ -376,8 +380,8 @@ get_header('viewer-print'); ?>
 								<!-- Image -->
 								<div class="formcontrol image imgdrop" ng-if="control.type=='image'" ng-drop="imageDrop($event,$parent.$parent.$index,$parent.$index,$index)">
 								  <input type="hidden" class="updatedUrl" value="{{control.url}}"/>
-								  <img class="imggap fa" ng-src="{{control.url}}" ng-init="getImgMeta(control)" id="img_{{control.hash}}" alt="Image Placeholder">  
-								  <div class="commentprompt"><input type="checkbox" ng-model="control.withComment" ng-checked="{{control.withComment}}"> Add Comment</div>
+								  <img class="imggap fa" ng-src="{{control.url}}" <?php /*?>ng-init="getImgMeta(control)" <?php */?> id="img_{{control.hash}}" alt="Image Placeholder">  
+								  <div class="commentprompt"><input type="checkbox" ng-model="control.withComment" ng-checked="{{control.withComment}}"> Display Image & Add Comment (If Any)</div>
 								  <div ng-bind-html="control.data"></div>
 								</div>
 								<!-- wysiwyg -->
@@ -442,10 +446,10 @@ get_header('viewer-print'); ?>
 </div>
 	<?php if($report_id){ ?>
     <div class="actions">
-	  <a href="javascript:void(0)" onclick="saveAsPdf()" id="printTemplateBtn" class="btn-taptap">
+	  <?php /* ?><a href="javascript:void(0)" onclick="saveAsPdf()" id="printTemplateBtn" class="btn-taptap">
         <i class="fa fa-file"></i> Save as PDF
-      </a>
-	  <?php /* ?><a href="javascript:void(0)" id="printTemplateBtn" class="btn-taptap"><i class="fa fa-print" aria-hidden="true"></i> Print</a><?php */?>
+      </a><?php */?>
+	  <a href="javascript:void(0)" onclick="saveAsPdf()" id="printTemplateBtn" class="btn-taptap"><i class="fa fa-print" aria-hidden="true"></i> Print</a>
     </div>
 	<?php } else { ?>
 		<style>
@@ -487,22 +491,22 @@ get_header('viewer-print'); ?>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/angular.min.js"></script>
 <script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/bower_components/angular-ui-tinymce/src/tinymce.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/submitapp.js"></script>
-<script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
+<!--<script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>-->
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/printThis.js"></script>
 	<script type="text/javascript">
-var doc = new jsPDF();
+/*var doc = new jsPDF();
 var specialElementHandlers = {
     '#editor': function (element, renderer) {
         return true;
     }
-};
+};*/
 
 	function saveAsPdf(){
 			$('.report-table').css('display','block');
 			//e.preventDefault();
 			var thisItem = $("#printTemplateBtn");
-			thisItem.find('.fa').removeClass('fa-file').addClass('fa-refresh fa-spin');
-			/*$("#templateViewer").printThis({
+			thisItem.find('.fa').removeClass('fa-print').addClass('fa-refresh fa-spin');
+			$("#templateViewer").printThis({
 				importStyle: false,         // import style tags
 				printContainer: true,
 				loadCSS: "<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/print.css",
@@ -510,8 +514,8 @@ var specialElementHandlers = {
 				copyTagClasses: false,
 				printDelay: 500,
 				debug:false
-			});*/
-			var margin = {
+			});
+			/*var margin = {
 			  top: 5,
 			  left: 0,
 			  right: 5,
@@ -523,9 +527,9 @@ var specialElementHandlers = {
 				'width': 170,
 				'elementHandlers': specialElementHandlers
 			},function(bla){doc.save('<?php echo $get_inspection[0]->report_identification; ?>.pdf');},margin);
-			//doc.save('<?php echo $get_template_name; ?>.pdf');
+			//doc.save('<?php echo $get_template_name; ?>.pdf');*/
 			setTimeout(function(){
-				thisItem.find('.fa').removeClass('fa-refresh fa-spin').addClass('fa-file');
+				thisItem.find('.fa').removeClass('fa-refresh fa-spin').addClass('fa-print');
 			},1000);
 		}
 		

@@ -44,6 +44,8 @@ get_header('form-builder'); ?>
 	  <div class="msg_show"></div>
       <i class="fa fa-floppy-o" id="save_to_database" title="save"></i>
       <a href="<?php echo home_url('/form-viewer/?item='.$template_id); ?>" target="_blank" title="Preview"><i class="fa fa-eye" title="Preview"></i></a>
+	  <i class="fa fa-code" id="show_shortcod_list" title="shortcod"></i>
+	  
       <!--<i class="fa fa-upload" title="Export"></i>
       <i class="fa fa-ban" title="Discard"></i>-->
     </div>
@@ -219,6 +221,10 @@ get_header('form-builder'); ?>
 
 <script type="text/javascript">
   document.title = '<?php echo $get_template_name; ?>';
+  document.getElementById('show_shortcod_list').addEventListener('click', function() {
+	  $('.msg_show').show().html("<div class='shortcode_show_list'>[inspector], [email_address], [phone_no], [license_number], [inspection_date], [inspection_address], [city], [zip_code]</div>");
+	  $('.msg_show').delay(10000).fadeOut('slow');
+  });
   document.getElementById('save_to_database').addEventListener('click', function() {
 	$('.msg_show').show().html('<span class="font_icon"><i class="fa fa-refresh fa-spin" aria-hidden="true"></i></span>');
     var form_data = new FormData();

@@ -155,7 +155,7 @@
 	<span class="invisible fileinp"></span>
     <i class="fa fa-folder-open"></i>
   </div>
-  <div class="commentprompt"><input type="checkbox" ng-model="control.withComment" ng-checked="{{control.withComment}}"> Add Comment <input type="checkbox" ng-model="control.notRequired"> NOT REQUIRED</div>
+  <div class="commentprompt"><input type="checkbox" ng-model="control.withComment" ng-checked="{{control.withComment}}"> Display Image & Add Comment (If Any) <input type="checkbox" ng-model="control.notRequired"> NOT REQUIRED</div>
   <div ng-bind-html="control.data" class="printShow"></div>
   <div class="imgcomment" ng-show="control.withComment">
     <textarea ui-tinymce="tinymceOptions" ng-model="control.data"></textarea>
@@ -188,6 +188,10 @@
     <textarea ui-tinymce="tinymceOptions" ng-model="control.data"></textarea>
     <div class="button tbmargin get-right" ng-click="control.editMode=false">Save</div>
   </div>  
+</div>
+<!-- textarea -->
+<div class="formcontrol textarea" ng-if="control.type=='textarea'">
+	<div ng-bind-html="control.data"></div>
 </div>
 <!-- Static Text -->
 <div class="formcontrol static" ng-if="control.type=='static'">
