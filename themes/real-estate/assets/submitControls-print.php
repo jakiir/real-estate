@@ -81,12 +81,12 @@
   </div>
 </div>
 <!-- Paragraph -->
-<div class="formcontrol paragraph" ng-if="control.type=='textarea'">
+<?php /* ?><div class="formcontrol paragraph" ng-if="control.type=='textarea'">
   <p>{{control.label}}</p>
   <div class="inputpretend paragraph">
     {{control.placeholder}}
   </div>
-</div>
+</div><?php */ ?>
 <!--Check box-->
 <div class="formcontrol checkbox inline-checkbox-view" ng-if="control.type=='checkbox'">
   <input type="checkbox" ng-model="control.value" ng-checked="{{control.value}}"> {{control.label}}
@@ -133,6 +133,10 @@
     <textarea ui-tinymce="tinymceOptions" ng-model="control.data"></textarea>
     <div class="button tbmargin get-right" ng-click="control.editMode=false">Save</div>
   </div><?php */ ?>
+</div>
+<!-- textarea -->
+<div class="formcontrol textarea" ng-if="control.type=='textarea'">
+	<div ng-bind-html="control.data"></div>
 </div>
 <!-- Static Text -->
 <div class="formcontrol static" ng-if="control.type=='static'">

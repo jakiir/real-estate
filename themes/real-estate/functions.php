@@ -1569,7 +1569,7 @@ function shortcode_wdi($content){
 		if(!empty($report_id)){
 			$table_inspection = $wpdb->prefix . 'inspection';
 			$get_inspection = $wpdb->get_row( "SELECT report_identification,inspection_city,zip_code,inpection_date FROM $table_inspection WHERE id=$report_id ORDER BY id DESC LIMIT 1");
-			$inpection_date = "<span class='every_span'><div class='under_line'>".$$get_inspection->inpection_date."</div>Date of inspected</span>";
+			$inpection_date = "<span class='every_span'><div class='under_line'>".$get_inspection->inpection_date."</div>Date of inspected</span>";
 			$report_identification = $get_inspection->report_identification.'<br>Inspected Address';
 			$inspection_city = $get_inspection->inspection_city.'<br>City';
 			$zip_code = $get_inspection->zip_code.'<br>Zip Code';

@@ -125,12 +125,12 @@
   </div>
 </div>
 <!-- Paragraph -->
-<div class="formcontrol paragraph" ng-if="control.type=='textarea'">
+<?php /* ?><div class="formcontrol paragraph" ng-if="control.type=='textarea'">
   <p>{{control.label}}</p>
   <div class="inputpretend paragraph">
     {{control.placeholder}}
   </div>
-</div>
+</div><?php */ ?>
 <!--Check box-->
 <div class="formcontrol checkbox inline-checkbox-view" ng-if="control.type=='checkbox'">
   <input type="checkbox" ng-model="control.value" ng-checked="{{control.value}}" ng-click="getLebelTxtVal($event,control.htmlName)" class="{{control.htmlName}}" id="{{control.htmlName}}"> <label for="{{control.htmlName}}">{{control.label}}</label>

@@ -28,12 +28,12 @@
   </div>
 </div>
 <!-- Paragraph -->
-<div class="formcontrol paragraph" ng-if="control.type=='textarea'">
+<?php /* ?><div class="formcontrol paragraph" ng-if="control.type=='textarea'">
   <p>{{control.label}}</p>
   <div class="inputpretend paragraph">
     {{control.placeholder}}
   </div>
-</div>
+</div><?php */ ?>
 <!--Check box-->
 <div class="formcontrol checkbox" ng-if="control.type=='checkbox'">
   <input type="checkbox"> {{control.label}}

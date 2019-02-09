@@ -219,8 +219,8 @@ get_header('template-print-page'); ?>
 					<div class="formcontrol editor" ng-if="control.type=='advertisement'">  
 					  <div ng-bind-html="control.data"></div>  
 					</div>
-					<!-- textarea -->
-					<div class="formcontrol textarea" ng-if="control.type=='textarea'">  
+					<!-- shortcode -->
+					<div class="formcontrol shortcode" ng-if="control.type=='shortcode'">  
 					  <div ng-bind-html="control.data"></div>  
 					</div>
 					<!-- Static Text -->
