@@ -362,11 +362,14 @@ function editTemplateAction(){
 		 global $wpdb;
 		 $table_template = $wpdb->prefix . 'template';
 		 $template_name = !empty($_POST['template_name']) ? $_POST['template_name'] : '';
-		 $template_share = !empty($_POST['template_share']) ? $_POST['template_share'] : 'off';
-		 $share_btn = !empty($_POST['share_btn']) ? $_POST['share_btn'] : 'off';
-		 $print_btn = !empty($_POST['print_btn']) ? $_POST['print_btn'] : 'off';
+		 $template_share = !empty($_POST['template_share']) ? $_POST['template_share'] : 'false';
+		 $share_btn = !empty($_POST['share_btn']) ? $_POST['share_btn'] : 'false';
+		 $print_btn = !empty($_POST['print_btn']) ? $_POST['print_btn'] : 'false';
+		 $wood_inspection = !empty($_POST['wood_inspection']) ? $_POST['wood_inspection'] : 'false';
+		 $is_cover = !empty($_POST['is_cover']) ? $_POST['is_cover'] : 'false';
 		 $template_state = !empty($_POST['template_state']) ? $_POST['template_state'] : '';
 		 $template_state_id = !empty($_POST['template_state_id']) ? $_POST['template_state_id'] : '';
+		 $template_city = !empty($_POST['template_city']) ? $_POST['template_city'] : '';
 		 $template_date = !empty($_POST['template_date']) ? $_POST['template_date'] : '';
 		 $template_company = !empty($_POST['template_company']) ? $_POST['template_company'] : '';
 		 $footer_template = !empty($_POST['footer_template']) ? $_POST['footer_template'] : '';
@@ -377,8 +380,11 @@ function editTemplateAction(){
 		 shared_flag='".$template_share."',
 		 share_btn='".$share_btn."',
 		 print_btn='".$print_btn."',
+		 wood_inspection='".$wood_inspection."',
+		 is_cover='".$is_cover."',
 		 state='".$template_state."',
 		 state_form='".$template_state_id."',
+		 template_city='".$template_city."',
 		 companyId='".$template_company."',
 		 footer_html='".$footer_template."',
 		 template_date='".$template_date."',
@@ -1556,31 +1562,34 @@ function isMobile() {
 function shortcode_wdi($content){
 	global $wpdb;					
 	$template_id = !empty($_GET['item']) ? $_GET['item'] : '';
-	$inspectors = '';
+	$inspector_name = '';
+	$inspection_company = '';
 	$inpection_date = '';
-	$report_identification = '';
+	$inspected_address = '';
 	$inspection_city = '';
-	$zip_code = '';
+	$inspected_address_zip = '';
 	if(!empty($template_id)){
 		$table_template = $wpdb->prefix . 'template';
 		$get_templages = $wpdb->get_row( "SELECT companyId FROM $table_template WHERE id=$template_id ORDER BY id DESC LIMIT 1");
-		$inspectors = "<span class='every_span'><div class='under_line'>".$get_templages->companyId."</div>Name of Inspection Company</span>";
+		$inspection_company = "<span class='every_span'><div class='under_line'>".$get_templages->companyId."</div>Name of Inspection Company</span>";
 		$report_id = !empty($_GET['report']) ? $_GET['report'] : '';
 		if(!empty($report_id)){
 			$table_inspection = $wpdb->prefix . 'inspection';
 			$get_inspection = $wpdb->get_row( "SELECT report_identification,inspection_city,zip_code,inpection_date FROM $table_inspection WHERE id=$report_id ORDER BY id DESC LIMIT 1");
 			$inpection_date = "<span class='every_span'><div class='under_line'>".$get_inspection->inpection_date."</div>Date of inspected</span>";
-			$report_identification = $get_inspection->report_identification.'<br>Inspected Address';
+			$inspected_address = $get_inspection->report_identification.'<br>Inspected Address';
 			$inspection_city = $get_inspection->inspection_city.'<br>City';
-			$zip_code = $get_inspection->zip_code.'<br>Zip Code';
+			$inspected_address_zip = $get_inspection->zip_code.'<br>Zip Code';
 		}
 	}
 	$user = wp_get_current_user();
+	$inspector_name = $user->display_name;
 	$licence_number = "<span class='every_span'><div class='under_line'>".get_user_meta($user->ID,  'licence_number', true )."</div>SPCB Business License Number</span>";
 	$email_address = "<span class='every_span'><div class='under_line'>".get_user_meta($user->ID,  'user_email', true )."</div></span>";
 	$phone_number = "<span class='every_span'><div class='under_line'>".get_user_meta($user->ID,  'phone_number', true )."</div>Telephone No</span>";
-	$healthy = array("[inspector]","[email_address]","[phone_no]", "[license_number]", "[inspection_date]","[inspection_address]","[city]","[zip_code]");
-	$yummy   = array($inspectors,$email_address,$phone_number, $licence_number, $inpection_date,$report_identification,$inspection_city,$zip_code);
+	$inspector_type = "<input type='checkbox' name='certified_applicator' id='certified_applicator' ng-model='control.inspected_type1' value='control.inspected_type1' ng-checked='{{control.inspected_type1}}'><label for='certified_applicator'>Certified Applicator</label><br><input type='checkbox' name='technician' id='technician' ng-model='control.inspected_type2' value='control.inspected_type2' ng-checked='{{control.inspected_type2}}'><label for='technician'>Technician</label>";
+	$healthy = array("[inspector_name]","[inspection_company]","[email_address]","[phone_no]", "[license_number]", "[inspection_date]","[inspected_address]","[inspected_address_city]","[inspected_address_zip]","[inspector_type]");
+	$yummy   = array($inspector_name,$inspection_company,$email_address,$phone_number, $licence_number, $inpection_date,$inspected_address,$inspection_city,$inspected_address_zip,$inspector_type);
 	$newphrase = str_replace($healthy, $yummy, $content);
 	return $newphrase;
 }

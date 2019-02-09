@@ -80,6 +80,8 @@ get_header(); ?>
 					</select>
                     <label for="template_state_id">State ID</label>
                     <input type="text" class="form-control required" name="template_state_id" id="template_state_id" value="<?php echo !empty($get_templages[0]->state_form) ? $get_templages[0]->state_form : ''; ?>" placeholder="AK">
+					<label for="template_city">City</label>
+                    <input type="text" class="form-control required" name="template_city" id="template_city" value="<?php echo !empty($get_templages[0]->template_city) ? $get_templages[0]->template_city : ''; ?>" placeholder="AK">
                     <label for="template_date">Date</label>
                     <input type="text" class="form-control datepicker required" name="template_date" id="template_date" value="<?php echo !empty($get_templages[0]->template_date) ? $get_templages[0]->template_date : ''; ?>" placeholder="Date">
                     <label for="template_company">Company</label>
@@ -92,6 +94,13 @@ get_header(); ?>
 					<div class="share-checkbox">
 					  <input type="checkbox" name="print_btn" id="print_btn" <?php echo !empty($get_templages[0]->print_btn) && $get_templages[0]->print_btn == 'true' ? 'checked' : ''; ?> ><label for="print_btn">Enable Print</label>
 					</div>
+					<div class="share-checkbox">
+					  <input type="checkbox" name="wood_inspection" id="wood_inspection" <?php echo !empty($get_templages[0]->wood_inspection) && $get_templages[0]->wood_inspection == 'true' ? 'checked' : ''; ?> ><label for="wood_inspection">Wood Inspection</label>
+					</div>
+					<div class="share-checkbox">
+					  <input type="checkbox" name="is_cover" id="is_cover" <?php echo !empty($get_templages[0]->is_cover) && $get_templages[0]->is_cover == 'true' ? 'checked' : ''; ?> ><label for="is_cover">Is Cover Image</label>
+					</div>
+					
 				</div>
 				<div class="clearfix" style="clear:both;">&nbsp;</div>
                   <!-- End of col -->
@@ -144,8 +153,11 @@ get_header(); ?>
 				var template_share= jQuery('#template_share').is(':checked');
 				var share_btn= jQuery('#share_btn').is(':checked');
 				var print_btn= jQuery('#print_btn').is(':checked');
+				var wood_inspection= jQuery('#wood_inspection').is(':checked');
+				var is_cover= jQuery('#is_cover').is(':checked');
 				var template_state = $('#template_state').find('option:selected').val();				
-				var template_state_id = jQuery('#template_state_id').val();				
+				var template_state_id = jQuery('#template_state_id').val();
+				var template_city = jQuery('#template_city').val();					
 				var template_date = jQuery('#template_date').val();				
 				var template_company = jQuery('#template_company').val();
 				var footer_template = jQuery('#footer_template').val();				
@@ -158,8 +170,11 @@ get_header(); ?>
 				form_data.append('template_share', template_share);
 				form_data.append('share_btn', share_btn);
 				form_data.append('print_btn', print_btn);
+				form_data.append('wood_inspection', wood_inspection);
+				form_data.append('is_cover', is_cover);
 				form_data.append('template_state', template_state);
 				form_data.append('template_state_id', template_state_id);
+				form_data.append('template_city', template_city);
 				form_data.append('template_date', template_date);
 				form_data.append('template_company', template_company);
 				form_data.append('footer_template', footer_template);

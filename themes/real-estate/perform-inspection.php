@@ -79,10 +79,58 @@ get_header(); ?>
 					  <?php if(!empty($get_share_templages)){
 							foreach($get_share_templages as $template){
 							?>
-							<option value="<?php echo $template->id; ?>"><?php echo $template->name; ?></option>
+							<option data-wood="<?php echo $template->wood_inspection; ?>" value="<?php echo $template->id; ?>"><?php echo $template->name; ?></option>
 						<?php } } ?>
 					</select>
                   </div>
+				  <div id="wood_field" style="display:none;">
+					  <div class="col-sm-12">
+						<label for="inspector_type">Inspector Type</label>
+						<div class="share-checkbox">
+						  <input type="checkbox" id="checkbox-technician" name="inspector_type" value="Technician"><label for="checkbox-technician">Technician</label>
+						  <input type="checkbox" id="checkbox-certified" name="inspector_type" value="Certified Applicator"><label for="checkbox-certified">Certified Applicator</label>
+						</div>
+					  </div>
+					  <div class="col-sm-12">
+						<label for="case_number">Case Number</label>
+						<div class="share-checkbox">
+						  <input type="checkbox" id="checkbox-va" name="case_number" value="VA"><label for="checkbox-va">VA</label>
+						  <input type="checkbox" id="checkbox-fha" name="case_number" value="FHA"><label for="checkbox-fha">FHA</label>
+						  <input type="checkbox" id="checkbox-other" name="case_number" value="Other"><label for="checkbox-other">Other</label>
+						</div>
+					  </div>
+					  <div class="col-sm-12">
+						<label for="inspection_buyer_name">Inspection Buyer Name</label>
+						<input type="text" class="form-control" name="inspection_buyer_name" id="inspection_buyer_name">
+					  </div>
+					  <div class="col-sm-12">
+						<label for="inspection_buyer_type">Inspection Buyer Type</label>
+						<div class="share-checkbox">
+						  <input type="checkbox" id="buyer-checkbox-seller" name="inspection_buyer_type" value="Seller"><label for="buyer-checkbox-seller">Seller</label>
+						  <input type="checkbox" id="buyer-checkbox-agent" name="inspection_buyer_type" value="Agent"><label for="buyer-checkbox-agent">Agent</label>
+						  <input type="checkbox" id="buyer-checkbox-buyer" name="inspection_buyer_type" value="Buyer"><label for="buyer-checkbox-buyer">Buyer</label>
+						  <input type="checkbox" id="buyer-checkbox-management_co" name="inspection_buyer_type" value="Management Co"><label for="buyer-checkbox-management_co">Management Co</label>
+						  <input type="checkbox" id="buyer-checkbox-other" name="inspection_buyer_type" value="Other"><label for="buyer-checkbox-other">Other</label>
+						</div>
+					  </div>
+					  <div class="col-sm-12">
+						<label for="owner_type">Owner Type</label>
+						<div class="share-checkbox">
+						  <input type="checkbox" id="owner-checkbox-seller" name="owner_type" value="Seller"><label for="owner-checkbox-seller">Seller</label>
+						  <input type="checkbox" id="owner-checkbox-owner" name="owner_type" value="Owner"><label for="owner-checkbox-owner">Owner</label>
+						</div>
+					  </div>
+					  <div class="col-sm-12">
+						<label for="report_forwarded_to">Report Forwarded To</label>
+						<div class="share-checkbox">
+						  <input type="checkbox" id="forwarded-checkbox-mortgage" name="report_forwarded_to" value="Title Company or Mortgage"><label for="forwarded-checkbox-mortgage">Title Company or Mortgage</label>
+						  <input type="checkbox" id="forwarded-checkbox-purchaser" name="report_forwarded_to" value="Purchaser of Service"><label for="forwarded-checkbox-purchaser">Purchaser of Service</label>
+						  <input type="checkbox" id="forwarded-checkbox-seller" name="report_forwarded_to" value="Seller"><label for="forwarded-checkbox-seller">Seller</label>
+						  <input type="checkbox" id="forwarded-checkbox-agent" name="report_forwarded_to" value="Agent"><label for="forwarded-checkbox-agent">Agent</label>
+						  <input type="checkbox" id="forwarded-checkbox-buyer" name="report_forwarded_to" value="Buyer"><label for="forwarded-checkbox-buyer">Buyer</label>
+						</div>
+					  </div>
+				  </div>
                   <!-- End of col -->
                   <div class="col-sm-6">
                     <label for="company">Company</label>
@@ -210,6 +258,15 @@ get_header(); ?>
       <!--End of container-->
 <script type="text/javascript">
 jQuery(function($){
+	
+	$('select#template_id').on('change', function() {
+		var woodIns = $('option:selected', this).attr('data-wood');
+		$('#wood_field').hide();
+		if(woodIns == 'true'){
+			$('#wood_field').show();
+		}
+	});
+	
 	$('.datepicker').datetimepicker({
 		format: 'MM/DD/YYYY'
 	});

@@ -222,7 +222,7 @@ get_header('form-builder'); ?>
 <script type="text/javascript">
   document.title = '<?php echo $get_template_name; ?>';
   document.getElementById('show_shortcod_list').addEventListener('click', function() {
-	  $('.msg_show').show().html("<div class='shortcode_show_list'>[inspector], [email_address], [phone_no], [license_number], [inspection_date], [inspection_address], [city], [zip_code]</div>");
+	  $('.msg_show').show().html("<div class='shortcode_show_list'>[inspector_name], [email_address], [phone_no], [license_number], [inspection_date], [inspection_address], [city], [zip_code]</div>");
 	  $('.msg_show').delay(10000).fadeOut('slow');
   });
   document.getElementById('save_to_database').addEventListener('click', function() {

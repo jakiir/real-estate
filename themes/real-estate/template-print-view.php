@@ -49,7 +49,9 @@ get_header('template-print-page'); ?>
 	<table class="report-table">
 		<tr>
 			<th align="right" colspan="6" style="padding-bottom:10px;border:none;">
+				<?php if($form_data[0]->is_cover == 'true'){ ?>
 				<img src="<?php echo !empty($get_inspection[0]->cover_photo) ? $get_inspection[0]->cover_photo : '/wp-content/themes/real-estate/images/cover_photo.jpg'; ?>" class="avatar img-responsive" alt="avatar" style="width:100%;">
+				<?php } ?>
 				<br/>
 				<div style="text-transform:capitalize;text-align:center;font-size:25px;">
 				<?php echo $get_inspection[0]->report_identification; ?></div>

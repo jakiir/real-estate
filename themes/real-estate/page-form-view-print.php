@@ -57,12 +57,13 @@ get_header('viewer-print'); ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/submitform_controls.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/custom.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/css/responsive.css">
-
+	<?php if($form_data[0]->is_cover == 'true'){ ?>
 	<div class="row">
-		<div class="col">
+		<div class="col">		
 			<img src="<?php echo !empty($get_inspection[0]->cover_photo) ? $get_inspection[0]->cover_photo : '/wp-content/themes/real-estate/images/cover_photo.jpg'; ?>" alt="avatar" style="width:100%;">
 		</div>
 	</div>
+	<?php } ?>
 	<div class="row">
 		<div class="col">
 			<p style="text-transform:capitalize;font-size:25px;margin-top:100px;" align="center">

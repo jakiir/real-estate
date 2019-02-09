@@ -68,7 +68,7 @@ get_header(); ?>
 							foreach($get_share_templages as $template){
 								$selected = ($get_inspection->template_id == $template->id ? 'selected="selected"' : null);
 							?>
-							<option <?php echo $selected; ?> value="<?php echo $template->id; ?>"><?php echo $template->name; ?></option>
+							<option data-wood="<?php echo $template->wood_inspection; ?>" <?php echo $selected; ?> value="<?php echo $template->id; ?>"><?php echo $template->name; ?></option>
 						<?php } } ?>
 					</select>
                   </div>
@@ -202,6 +202,11 @@ get_header(); ?>
       <!--End of container-->
 <script type="text/javascript">
 jQuery(function($){
+	
+	$('select#template_id').on('change', function() {
+		var woodIns = $('option:selected', this).attr('data-wood');
+	});
+	
 	$('.datepicker').datetimepicker({
 		format: 'MM/DD/YYYY'
 	});
