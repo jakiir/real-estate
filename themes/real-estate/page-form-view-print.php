@@ -57,13 +57,12 @@ get_header('viewer-print'); ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/submitform_controls.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/custom.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/css/responsive.css">
-	<?php if($form_data[0]->is_cover == 'true'){ ?>
+	
 	<div class="row">
 		<div class="col">		
 			<img src="<?php echo !empty($get_inspection[0]->cover_photo) ? $get_inspection[0]->cover_photo : '/wp-content/themes/real-estate/images/cover_photo.jpg'; ?>" alt="avatar" style="width:100%;">
 		</div>
-	</div>
-	<?php } ?>
+	</div>	
 	<div class="row">
 		<div class="col">
 			<p style="text-transform:capitalize;font-size:25px;margin-top:100px;" align="center">
@@ -88,6 +87,7 @@ get_header('viewer-print'); ?>
 			</div>
 		</div>
 		<div class="report-table-"><br/><br/></div>
+		<?php if($form_data[0]->is_cover == 'true'){ ?>
 		<div class="row">
 			<div class="col">
 				<p style="width:120px;display:table;margin:0 auto;vertical-align: middle;" align="center">
@@ -95,7 +95,7 @@ get_header('viewer-print'); ?>
 				</p>
 			</div>
 		</div>
-		
+		<?php } ?>
 	<div class="page-break">&nbsp;</div>
 	<?php /*<div class="report-table-"><br/><br/><br/><br/><br/></div>
 	<div class="row">
@@ -382,7 +382,7 @@ get_header('viewer-print'); ?>
 								<div class="formcontrol image imgdrop" ng-if="control.type=='image'" ng-drop="imageDrop($event,$parent.$parent.$index,$parent.$index,$index)">
 								  <input type="hidden" class="updatedUrl" value="{{control.url}}"/>
 								  <img class="imggap fa" ng-src="{{control.url}}" <?php /*?>ng-init="getImgMeta(control)" <?php */?> id="img_{{control.hash}}" alt="Image Placeholder">  
-								  <div class="commentprompt"><input type="checkbox" ng-model="control.withComment" ng-checked="{{control.withComment}}"> Display Image & Add Comment (If Any)</div>
+								  <div class="commentprompt display-checkbox"><input type="checkbox" ng-model="control.withComment" ng-checked="{{control.withComment}}"> Display Image & Add Comment (If Any)</div>
 								  <div ng-bind-html="control.data"></div>
 								</div>
 								<!-- wysiwyg -->

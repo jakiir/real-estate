@@ -40,6 +40,7 @@ table.table-bordered tbody td.course-field {
 .ng-binding.ng-hide{display:none;}
 /*.add_comment_false img.imggap{display:none;}*/
 .not_required_true, .not_required_true img.imggap{display:none;}
+.display-checkbox{display:none;}
 /*for chrome*/
 @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) {
     #drlistDivTbl,#printAreaDiv {

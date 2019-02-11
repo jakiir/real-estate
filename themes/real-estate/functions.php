@@ -272,13 +272,13 @@ function send_agent_email(){
 		 $agentViewer = home_url('/agent-form-viewer/');
 
 		require get_template_directory() . '/emailQue/mail_setting.php';
-		$fromEmail = !empty($user->user_email) ? $user->user_email : 'notification@mail.clearagain.net';
+		$fromEmail = !empty($user->user_email) ? $user->user_email : 'notifications@mail.contentfirst.marketing';
 		//$mail->SetFrom($fromEmail, 'clearagain.net');
 		//$mail->FromName = 'clearagain.net';
 		//$mail->From = 'notification@mail.clearagain.net';
 		
 		$mail->AddReplyTo($fromEmail, $user->display_name);
-		$mail->SetFrom('notification@mail.clearagain.net', $fromEmail);
+		$mail->SetFrom('notifications@mail.contentfirst.marketing', $fromEmail);
 		//$email_to = 'jakir44.du@gmail.com';		
 		//$mail->addAddress('joe@example.net', 'Joe User');     // Add a recipient
 		$expEmail = explode(',',$agentEmailAddress);
@@ -373,6 +373,9 @@ function editTemplateAction(){
 		 $template_date = !empty($_POST['template_date']) ? $_POST['template_date'] : '';
 		 $template_company = !empty($_POST['template_company']) ? $_POST['template_company'] : '';
 		 $footer_template = !empty($_POST['footer_template']) ? $_POST['footer_template'] : '';
+		 $company_email = !empty($_POST['company_email']) ? $_POST['company_email'] : '';
+		 $company_address = !empty($_POST['company_address']) ? $_POST['company_address'] : '';
+		 $company_phone = !empty($_POST['company_phone']) ? $_POST['company_phone'] : '';
 		 $shareTem=0;
 		 if($template_share == 'true') $shareTem=1;
 		$wpdb->query($wpdb->prepare("UPDATE $table_template 
@@ -382,6 +385,9 @@ function editTemplateAction(){
 		 print_btn='".$print_btn."',
 		 wood_inspection='".$wood_inspection."',
 		 is_cover='".$is_cover."',
+		 company_email='".$company_email."',
+		 company_address='".$company_address."',
+		 company_phone='".$company_phone."',
 		 state='".$template_state."',
 		 state_form='".$template_state_id."',
 		 template_city='".$template_city."',
@@ -555,6 +561,16 @@ function perform_inspections(){
 		 $time_in = !empty($_POST['time_in']) ? $_POST['time_in'] : '';
 		 $time_out = !empty($_POST['time_out']) ? $_POST['time_out'] : '';
 		 $inspection_status = !empty($_POST['inspection_status']) ? $_POST['inspection_status'] : '';
+		 
+		 $inspector_type = !empty($_POST['inspector_type']) ? $_POST['inspector_type'] : '';
+		 $case_number = !empty($_POST['case_number']) ? $_POST['case_number'] : '';
+		 $inspection_buyer_type = !empty($_POST['inspection_buyer_type']) ? $_POST['inspection_buyer_type'] : '';
+		 $owner_type = !empty($_POST['owner_type']) ? $_POST['owner_type'] : '';
+		 $report_forwarded_to = !empty($_POST['report_forwarded_to']) ? $_POST['report_forwarded_to'] : '';
+		 $notice_inspection = !empty($_POST['notice_inspection']) ? $_POST['notice_inspection'] : '';
+		 $inspection_buyer_name = !empty($_POST['inspection_buyer_name']) ? $_POST['inspection_buyer_name'] : '';
+		 $list_structure = !empty($_POST['list_structure']) ? $_POST['list_structure'] : '';
+		 
 		 $user_id = get_current_user_id();
 		 $get_inspection = '';
 		 //$get_inspection = $wpdb->get_results( "SELECT * FROM $table_inspection WHERE user_id=$user_id AND template_id=$template_id", OBJECT );
@@ -579,7 +595,15 @@ function perform_inspections(){
 					 'prepared_by' => $prepared_by,
 					 'time_in' => $time_in,
 					 'time_out' => $time_out,
-					 'inspection_status' => $inspection_status
+					 'inspection_status' => $inspection_status,
+					 'inspector_type' => $inspector_type,
+					 'case_number' => $case_number,
+					 'inspection_buyer_type' => $inspection_buyer_type,
+					 'owner_type' => $owner_type,
+					 'report_forwarded_to' => $report_forwarded_to,
+					 'notice_inspection' => $notice_inspection,
+					 'inspection_buyer_name' => $inspection_buyer_name,
+					 'list_structure' => $list_structure
 				 ), 
 				array( 'id' => $inspection_id )
 			);
@@ -642,6 +666,14 @@ function perform_inspections(){
 					 'time_in' => $time_in,
 					 'time_out' => $time_out,
 					 'inspection_status' => $inspection_status,
+					 'inspector_type' => $inspector_type,
+					 'case_number' => $case_number,
+					 'inspection_buyer_type' => $inspection_buyer_type,
+					 'owner_type' => $owner_type,
+					 'report_forwarded_to' => $report_forwarded_to,
+					 'notice_inspection' => $notice_inspection,
+					 'inspection_buyer_name' => $inspection_buyer_name,
+					 'list_structure' => $list_structure,
 					 'user_id' => $user_id
 				 )
 			 );
@@ -1568,18 +1600,49 @@ function shortcode_wdi($content){
 	$inspected_address = '';
 	$inspection_city = '';
 	$inspected_address_zip = '';
+	$inspection_email = '';
+	$company_address = '';
+	$inspection_email = '';
+	$inspector_type = '';
+	$case_number = '';
+	$buyer_type = '';
+	$inspection_buyer_name = '';
+	$owner_type = '';
+	$report_forwarded = '';
+	$list_structures = '';
+	$inspection_posting = '';
 	if(!empty($template_id)){
 		$table_template = $wpdb->prefix . 'template';
-		$get_templages = $wpdb->get_row( "SELECT companyId FROM $table_template WHERE id=$template_id ORDER BY id DESC LIMIT 1");
+		$get_templages = $wpdb->get_row( "SELECT companyId,company_email,company_address,company_phone,template_city FROM $table_template WHERE id=$template_id ORDER BY id DESC LIMIT 1");
 		$inspection_company = "<span class='every_span'><div class='under_line'>".$get_templages->companyId."</div>Name of Inspection Company</span>";
+		$inspection_email = "<span class='every_span'><div class='under_line'>".$get_templages->company_email."</div></span>";
+		$company_address = "<span class='every_span'><div class='under_line'>".$get_templages->company_address."</div></span>";
+		$company_phone = "<span class='every_span'><div class='under_line'>".$get_templages->company_phone."</div></span>";
+		$template_city = "<span class='every_span'><div class='under_line'>".$get_templages->template_city."</div></span>";
+		$state = "<span class='every_span'><div class='under_line'>".$get_templages->state."</div></span>";
 		$report_id = !empty($_GET['report']) ? $_GET['report'] : '';
 		if(!empty($report_id)){
 			$table_inspection = $wpdb->prefix . 'inspection';
-			$get_inspection = $wpdb->get_row( "SELECT report_identification,inspection_city,zip_code,inpection_date FROM $table_inspection WHERE id=$report_id ORDER BY id DESC LIMIT 1");
+			$get_inspection = $wpdb->get_row( "SELECT * FROM $table_inspection WHERE id=$report_id ORDER BY id DESC LIMIT 1");
 			$inpection_date = "<span class='every_span'><div class='under_line'>".$get_inspection->inpection_date."</div>Date of inspected</span>";
 			$inspected_address = $get_inspection->report_identification.'<br>Inspected Address';
 			$inspection_city = $get_inspection->inspection_city.'<br>City';
 			$inspected_address_zip = $get_inspection->zip_code.'<br>Zip Code';
+			$inspector_types = (!empty($get_inspection->inspector_type) ? explode(',',$get_inspection->inspector_type) : []);
+			$inspector_type = "<div class='inspector_type'><label for='certified_applicator'>Certified Applicator</label> <input type='checkbox' ".(in_array('Certified Applicator', $inspector_types) ? 'checked=checked' : null)." name='certified_applicator' id='certified_applicator' ng-model='control.inspected_type1' value='control.inspected_type1' ng-checked='{{control.inspected_type1}}'><br><label for='technician'>Technician</label> <input type='checkbox' ".(in_array('Technician', $inspector_types) ? 'checked=checked' : null)." name='technician' id='technician' ng-model='control.inspected_type2' value='control.inspected_type2' ng-checked='{{control.inspected_type2}}'></div>";
+			$case_number = "<span class='every_span'><div class='under_line'>".$get_inspection->case_number."</div>Case Number (VA/FHA/Other)</span>";
+			
+			$inspection_buyer_types = (!empty($get_inspection->inspection_buyer_type) ? explode(',',$get_inspection->inspection_buyer_type) : []);
+			$buyer_type = "<div class='inspection_buyer' style='clear:both;'><span><label for='buyer-seller'>Seller</label> <input type='checkbox' ".(in_array('Seller', $inspection_buyer_types) ? 'checked=checked' : null)." name='buyer-seller' id='buyer-seller' ng-model='control.inspection_buyer_types1' value='control.inspection_buyer_types1' ng-checked='{{control.inspection_buyer_types1}}'></span><span><label for='buyer-agent'>Agent</label> <input type='checkbox' ".(in_array('Agent', $inspection_buyer_types) ? 'checked=checked' : null)." name='buyer-agent' id='buyer-agent' ng-model='control.inspection_buyer_types2' value='control.inspection_buyer_types2' ng-checked='{{control.inspection_buyer_types2}}'></span><span><label for='buyer-buyer'>Buyer</label> <input type='checkbox' ".(in_array('Buyer', $inspection_buyer_types) ? 'checked=checked' : null)." name='buyer-buyer' id='buyer-buyer' ng-model='control.inspection_buyer_types3' value='control.inspection_buyer_types3' ng-checked='{{control.inspection_buyer_types3}}'></span><span><label for='buyer-management_co'>Management Co</label> <input type='checkbox' ".(in_array('Management Co', $inspection_buyer_types) ? 'checked=checked' : null)." name='buyer-management_co' id='buyer-management_co' ng-model='control.inspection_buyer_types4' value='control.inspection_buyer_types4' ng-checked='{{control.inspection_buyer_types4}}'></span><span><label for='buyer-other'>Other</label> <input type='checkbox' ".(in_array('Other', $inspection_buyer_types) ? 'checked=checked' : null)." name='buyer-other' id='buyer-other' ng-model='control.inspection_buyer_types5' value='control.inspection_buyer_types5' ng-checked='{{control.inspection_buyer_types5}}'></span></div>";
+			
+			$inspection_buyer_name = "<span class='every_span'><div class='under_line'>".$get_inspection->inspection_buyer_name."</div>Name of Person Purchasing Inspection</span>";
+			
+			$owner_type = "<span class='every_span'><div class='under_line'>".$get_inspection->owner_type."</div>Owner/Seller</span>";
+			$report_forwarded_to = (!empty($get_inspection->report_forwarded_to) ? explode(',',$get_inspection->report_forwarded_to) : []);
+			$report_forwarded = "<div class='inspection_buyer' style='clear:both;'><span><label for='forwarded-mortgage'>Title Company or Mortgage</label> <input type='checkbox' ".(in_array('Title Company or Mortgage', $report_forwarded_to) ? 'checked=checked' : null)." name='forwarded-mortgage' id='forwarded-mortgage' ng-model='control.report_forwarded_to1' value='control.report_forwarded_to1' ng-checked='{{control.report_forwarded_to1}}'></span><span><label for='forwarded-purchaser'>Purchaser of Service</label> <input type='checkbox' ".(in_array('Purchaser of Service', $report_forwarded_to) ? 'checked=checked' : null)." name='forwarded-purchaser' id='forwarded-purchaser' ng-model='control.report_forwarded_to2' value='control.report_forwarded_to2' ng-checked='{{control.report_forwarded_to2}}'></span><span><label for='forwarded-seller'>Seller</label> <input type='checkbox' ".(in_array('Seller', $report_forwarded_to) ? 'checked=checked' : null)." name='forwarded-seller' id='forwarded-seller' ng-model='control.report_forwarded_to3' value='control.report_forwarded_to3' ng-checked='{{control.report_forwarded_to3}}'></span><span><label for='forwarded-agent'>Agent</label> <input type='checkbox' ".(in_array('Agent', $report_forwarded_to) ? 'checked=checked' : null)." name='forwarded-agent' id='forwarded-agent' ng-model='control.report_forwarded_to4' value='control.report_forwarded_to4' ng-checked='{{control.report_forwarded_to4}}'></span><span><label for='forwarded-buyer'>Buyer</label> <input type='checkbox' ".(in_array('Buyer', $report_forwarded_to) ? 'checked=checked' : null)." name='forwarded-buyer' id='forwarded-buyer' ng-model='control.report_forwarded_to5' value='control.report_forwarded_to5' ng-checked='{{control.report_forwarded_to5}}'></span></div>";
+			$list_structures = "<span class='every_span'>".$get_inspection->list_structure."</span>";
+			$notice_inspection = (!empty($get_inspection->notice_inspection) ? explode(',',$get_inspection->notice_inspection) : []);
+			$inspection_posting = "<div class='inspection_buyer' style='clear:both;'><span><label for='notice-electric'>Electric Breaker Box</label> <input type='checkbox' ".(in_array('Electric Breaker Box', $notice_inspection) ? 'checked=checked' : null)." name='notice-electric' id='forwnotice-electric' ng-model='control.notice_inspection1' value='control.notice_inspection1' ng-checked='{{control.notice_inspection1}}'></span><span><label for='notice-beneath'>Water Heater Closet Beneath</label> <input type='checkbox' ".(in_array('Water Heater Closet Beneath', $notice_inspection) ? 'checked=checked' : null)." name='notice-beneath' id='notice-beneath' ng-model='control.notice_inspection2' value='control.notice_inspection2' ng-checked='{{control.notice_inspection2}}'></span><span><label for='notice-access'>Bath Trap Access</label> <input type='checkbox' ".(in_array('Bath Trap Access', $notice_inspection) ? 'checked=checked' : null)." name='notice-access' id='notice-access' ng-model='control.notice_inspection3' value='control.notice_inspection3' ng-checked='{{control.notice_inspection3}}'></span><span><label for='notice-kitchen'>Beneath the Kitchen Sink</label> <input type='checkbox' ".(in_array('Beneath the Kitchen Sink', $notice_inspection) ? 'checked=checked' : null)." name='notice-kitchen' id='notice-kitchen' ng-model='control.notice_inspection4' value='control.notice_inspection4' ng-checked='{{control.notice_inspection4}}'></span></div>";
 		}
 	}
 	$user = wp_get_current_user();
@@ -1587,9 +1650,19 @@ function shortcode_wdi($content){
 	$licence_number = "<span class='every_span'><div class='under_line'>".get_user_meta($user->ID,  'licence_number', true )."</div>SPCB Business License Number</span>";
 	$email_address = "<span class='every_span'><div class='under_line'>".get_user_meta($user->ID,  'user_email', true )."</div></span>";
 	$phone_number = "<span class='every_span'><div class='under_line'>".get_user_meta($user->ID,  'phone_number', true )."</div>Telephone No</span>";
-	$inspector_type = "<input type='checkbox' name='certified_applicator' id='certified_applicator' ng-model='control.inspected_type1' value='control.inspected_type1' ng-checked='{{control.inspected_type1}}'><label for='certified_applicator'>Certified Applicator</label><br><input type='checkbox' name='technician' id='technician' ng-model='control.inspected_type2' value='control.inspected_type2' ng-checked='{{control.inspected_type2}}'><label for='technician'>Technician</label>";
-	$healthy = array("[inspector_name]","[inspection_company]","[email_address]","[phone_no]", "[license_number]", "[inspection_date]","[inspected_address]","[inspected_address_city]","[inspected_address_zip]","[inspector_type]");
-	$yummy   = array($inspector_name,$inspection_company,$email_address,$phone_number, $licence_number, $inpection_date,$inspected_address,$inspection_city,$inspected_address_zip,$inspector_type);
+	
+	$healthy = array("[inspector_name]","[inspection_company]","[email_address]","[phone_no]", "[license_number]", "[inspection_date]","[inspected_address]","[inspected_address_city]","[inspected_address_zip]","[inspector_type]","[inspection_email]","[inspection_company_address]","[inspection_company_phone]","[inspection_company_city]","[inspection_company_state]","[case_number]","[buyer_type]","[inspection_buyer_name]","[owner_type]","[report_forwarded]","[list_structures]","[inspection_posting]");
+	$yummy   = array($inspector_name,$inspection_company,$email_address,$phone_number, $licence_number, $inpection_date,$inspected_address,$inspection_city,$inspected_address_zip,$inspector_type,$inspection_email,$company_address,$company_phone,$template_city,$state,$case_number,$buyer_type,$inspection_buyer_name,$owner_type,$report_forwarded,$list_structures,$inspection_posting);
 	$newphrase = str_replace($healthy, $yummy, $content);
+	
+	/*'inspector_type' => $inspector_type,
+					 'case_number' => $case_number,
+					 'inspection_buyer_type' => $inspection_buyer_type,
+					 'owner_type' => $owner_type,
+					 'report_forwarded_to' => $report_forwarded_to,
+					 'notice_inspection' => $notice_inspection,
+					 'inspection_buyer_name' => $inspection_buyer_name,
+					 'list_structure' => $list_structure,*/
+	
 	return $newphrase;
 }

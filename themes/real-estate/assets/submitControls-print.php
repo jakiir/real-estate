@@ -111,7 +111,7 @@
 	<span class="invisible fileinp"></span>
     <i class="fa fa-folder-open"></i>
   </div><?php */ ?>
-  <div class="commentprompt"><input type="checkbox" ng-model="control.withComment" ng-checked="{{control.withComment}}"> Display Image & Add Comment (If Any) <input type="checkbox" ng-model="control.notRequired"> NOT REQUIRED</div>
+  <div class="commentprompt display-checkbox"><input type="checkbox" ng-model="control.withComment" ng-checked="{{control.withComment}}"> Display Image & Add Comment (If Any) <input type="checkbox" ng-model="control.notRequired"> NOT REQUIRED</div>
   <div ng-bind-html="control.data"></div>
   <?php /*?><div class="imgcomment" ng-show="control.withComment">
     <textarea ui-tinymce="tinymceOptions" ng-model="control.data"></textarea>

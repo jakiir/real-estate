@@ -130,6 +130,20 @@ get_header(); ?>
 						  <input type="checkbox" id="forwarded-checkbox-buyer" name="report_forwarded_to" value="Buyer"><label for="forwarded-checkbox-buyer">Buyer</label>
 						</div>
 					  </div>
+					  
+					  <div class="col-sm-12">
+						<label for="notice_inspection">Notice of Inspection Was Posted At or Near</label>
+						<div class="share-checkbox">
+						  <input type="checkbox" id="notice-checkbox-electric" name="notice_inspection" value="Electric Breaker Box"><label for="notice-checkbox-electric">Electric Breaker Box</label>
+						  <input type="checkbox" id="notice-checkbox-beneath" name="notice_inspection" value="Water Heater Closet Beneath"><label for="notice-checkbox-beneath">Water Heater Closet Beneath</label>
+						  <input type="checkbox" id="notice-checkbox-access" name="notice_inspection" value="Bath Trap Access"><label for="notice-checkbox-access">Bath Trap Access</label>
+						  <input type="checkbox" id="notice-checkbox-kitchen" name="notice_inspection" value="Beneath the Kitchen Sink"><label for="notice-checkbox-kitchen">Beneath the Kitchen Sink</label>
+						</div>
+					  </div>
+					  <div class="col-sm-12">
+						<label for="list_structure">List structure(s) </label>
+						<textarea class="form-control" rows="2" name="list_structure" id="list_structure"></textarea>
+					  </div>
 				  </div>
                   <!-- End of col -->
                   <div class="col-sm-6">
@@ -310,6 +324,46 @@ jQuery(function($){
 				var time_in = jQuery('#time_in').val();				
 				var time_out = jQuery('#time_out').val();				
 				var inspection_status = $('input[name=inspection_status]:checked').val();
+				
+				var inspector_types = [];
+				$.each($("input[name='inspector_type']:checked"), function(){            
+					inspector_types.push($(this).val());
+				});
+				var inspector_type = inspector_types.join(",");
+				
+				var case_numbers = [];
+				$.each($("input[name='case_number']:checked"), function(){            
+					case_numbers.push($(this).val());
+				});
+				var case_number = case_numbers.join(",");
+				
+				var inspection_buyer_types = [];
+				$.each($("input[name='inspection_buyer_type']:checked"), function(){            
+					inspection_buyer_types.push($(this).val());
+				});
+				var inspection_buyer_type = inspection_buyer_types.join(",");
+				
+				var owner_types = [];
+				$.each($("input[name='owner_type']:checked"), function(){            
+					owner_types.push($(this).val());
+				});
+				var owner_type = owner_types.join(",");
+				
+				var report_forwardeds = [];
+				$.each($("input[name='report_forwarded_to']:checked"), function(){            
+					report_forwardeds.push($(this).val());
+				});
+				var report_forwarded_to = report_forwardeds.join(",");
+				
+				var notice_inspections = [];
+				$.each($("input[name='notice_inspection']:checked"), function(){            
+					notice_inspections.push($(this).val());
+				});
+				var notice_inspection = notice_inspections.join(",");
+				var inspection_buyer_name = jQuery('#inspection_buyer_name').val();
+				var list_structure = $('textarea#list_structure').val();
+				
+				
 				var file_data = $('#template_cover_logo').prop('files')[0];				
 				var form_data = new FormData();
 				
@@ -329,6 +383,16 @@ jQuery(function($){
 				form_data.append('time_in', time_in);				
 				form_data.append('time_out', time_out);				
 				form_data.append('inspection_status', inspection_status);
+				
+				form_data.append('inspector_type', inspector_type);
+				form_data.append('case_number', case_number);
+				form_data.append('inspection_buyer_type', inspection_buyer_type);
+				form_data.append('owner_type', owner_type);
+				form_data.append('report_forwarded_to', report_forwarded_to);
+				form_data.append('notice_inspection', notice_inspection);
+				form_data.append('inspection_buyer_name', inspection_buyer_name);
+				form_data.append('list_structure', list_structure);
+				
 				form_data.append('cover_photo', file_data);
 				
 				$.ajax({					

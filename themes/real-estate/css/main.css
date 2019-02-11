@@ -867,6 +867,12 @@ line-height: 1.428571429;
 color: #999;
 }
 
+.inspector_type label{
+	min-width: 149px;
+    margin: 0;
+    display: inline-block;
+}
+
 /* font-family: 'Raleway', sans-serif; */
 
 @media (max-width: 1199px) {

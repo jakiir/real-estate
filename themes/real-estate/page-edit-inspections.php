@@ -28,6 +28,7 @@ get_header(); ?>
 		$company_name = get_user_meta( $parent_company_id, 'company_name', true );
 	}
 	$company = (!empty($get_inspection->company) ? $get_inspection->company : $company_name);
+	$template_id = $get_inspection->template_id;
 ?>
 <article class="container">
         <div class="row">
@@ -39,6 +40,7 @@ get_header(); ?>
 				<div class="row">
 					<div class="col-sm-12">
 					<?php 
+					$table_template = $wpdb->prefix . 'template';
 					if(!empty($user) && $user->roles[0] != 'administrator'){
 						$parrent_user = get_the_author_meta( 'parrent_user', $user_id );						
 						if(empty($parrent_user)) $parrent_user = $user_id;
@@ -53,25 +55,92 @@ get_header(); ?>
 								$user_all[] = $company_user->ID;
 							}
 						}
-						$selected_user = implode(',',$user_all);
-						$table_template = $wpdb->prefix . 'template';						
-						$get_share_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE user_id IN ($selected_user) AND your_template=1  ORDER BY created_time ASC", OBJECT );
-					} else {
-						$table_template = $wpdb->prefix . 'template';
-						$get_share_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE your_template=1  ORDER BY created_time ASC", OBJECT );
+						$selected_user = implode(',',$user_all);												
+						$get_share_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE user_id IN ($selected_user) AND your_template=1 ORDER BY created_time ASC", OBJECT );
+					} else {						
+						$get_share_templages = $wpdb->get_results( "SELECT * FROM $table_template WHERE your_template=1 ORDER BY created_time ASC", OBJECT );
 					}
+					$get_template_info = $wpdb->get_row( "SELECT * FROM $table_template WHERE id=$template_id ORDER BY id DESC LIMIT 1" );
 					?>
                     <label for="template_id">Template</label>
 					<select style="pointer-events: none;-webkit-appearance: none;appearance: none;" id="template_id" name="template_id" class="form-control required" >
 					  <option value="">List of Template</option>
 					  <?php if(!empty($get_share_templages)){
 							foreach($get_share_templages as $template){
-								$selected = ($get_inspection->template_id == $template->id ? 'selected="selected"' : null);
+								$selected = ($template_id == $template->id ? 'selected="selected"' : null);
 							?>
 							<option data-wood="<?php echo $template->wood_inspection; ?>" <?php echo $selected; ?> value="<?php echo $template->id; ?>"><?php echo $template->name; ?></option>
 						<?php } } ?>
 					</select>
                   </div>
+				  <div id="wood_field" style="display:<?php echo ($get_template_info->wood_inspection == 'true' ? 'block' : 'none'); ?>">
+					  <div class="col-sm-12">
+						<label for="inspector_type">Inspector Type</label>
+						<div class="share-checkbox">
+						<?php $inspector_types = (!empty($get_inspection->inspector_type) ? explode(',',$get_inspection->inspector_type) : []); ?>						  
+						  <input type="checkbox" <?php echo (in_array("Certified Applicator", $inspector_types) ? 'checked="checked"' : null); ?> id="checkbox-certified" name="inspector_type" value="Certified Applicator"><label for="checkbox-certified">Certified Applicator</label>
+						  <input type="checkbox" <?php echo (in_array("Technician", $inspector_types) ? 'checked="checked"' : null); ?> id="checkbox-technician" name="inspector_type" value="Technician"><label for="checkbox-technician">Technician</label>
+						</div>
+					  </div>
+					  <div class="col-sm-12">
+						<label for="case_number">Case Number</label>
+						<div class="share-checkbox">
+						<?php $case_number = (!empty($get_inspection->case_number) ? explode(',',$get_inspection->case_number) : []); ?>
+						  <input type="checkbox" <?php echo (in_array("VA", $case_number) ? 'checked="checked"' : null); ?> id="checkbox-va" name="case_number" value="VA"><label for="checkbox-va">VA</label>
+						  <input type="checkbox" <?php echo (in_array("FHA", $case_number) ? 'checked="checked"' : null); ?> id="checkbox-fha" name="case_number" value="FHA"><label for="checkbox-fha">FHA</label>
+						  <input type="checkbox" <?php echo (in_array("Other", $case_number) ? 'checked="checked"' : null); ?> id="checkbox-other" name="case_number" value="Other"><label for="checkbox-other">Other</label>
+						</div>
+					  </div>
+					  <div class="col-sm-12">
+						<label for="inspection_buyer_name">Inspection Buyer Name</label>
+						<input type="text" class="form-control" name="inspection_buyer_name" id="inspection_buyer_name" value="<?php echo $get_inspection->inspection_buyer_name; ?>">
+					  </div>
+					  <div class="col-sm-12">
+						<label for="inspection_buyer_type">Inspection Buyer Type</label>
+						<div class="share-checkbox">
+						<?php $inspection_buyer_type = (!empty($get_inspection->inspection_buyer_type) ? explode(',',$get_inspection->inspection_buyer_type) : []); ?>
+						  <input type="checkbox" <?php echo (in_array("Seller", $inspection_buyer_type) ? 'checked="checked"' : null); ?> id="buyer-checkbox-seller" name="inspection_buyer_type" value="Seller"><label for="buyer-checkbox-seller">Seller</label>
+						  <input type="checkbox" <?php echo (in_array("Agent", $inspection_buyer_type) ? 'checked="checked"' : null); ?> id="buyer-checkbox-agent" name="inspection_buyer_type" value="Agent"><label for="buyer-checkbox-agent">Agent</label>
+						  <input type="checkbox" <?php echo (in_array("Buyer", $inspection_buyer_type) ? 'checked="checked"' : null); ?> id="buyer-checkbox-buyer" name="inspection_buyer_type" value="Buyer"><label for="buyer-checkbox-buyer">Buyer</label>
+						  <input type="checkbox" <?php echo (in_array("Management Co", $inspection_buyer_type) ? 'checked="checked"' : null); ?> id="buyer-checkbox-management_co" name="inspection_buyer_type" value="Management Co"><label for="buyer-checkbox-management_co">Management Co</label>
+						  <input type="checkbox" <?php echo (in_array("Other", $inspection_buyer_type) ? 'checked="checked"' : null); ?> id="buyer-checkbox-other" name="inspection_buyer_type" value="Other"><label for="buyer-checkbox-other">Other</label>
+						</div>
+					  </div>
+					  <div class="col-sm-12">
+						<label for="owner_type">Owner Type</label>
+						<div class="share-checkbox">
+						<?php $owner_type = (!empty($get_inspection->owner_type) ? explode(',',$get_inspection->owner_type) : []); ?>
+						  <input type="checkbox" <?php echo (in_array("Seller", $owner_type) ? 'checked="checked"' : null); ?> id="owner-checkbox-seller" name="owner_type" value="Seller"><label for="owner-checkbox-seller">Seller</label>
+						  <input type="checkbox" <?php echo (in_array("Owner", $owner_type) ? 'checked="checked"' : null); ?> id="owner-checkbox-owner" name="owner_type" value="Owner"><label for="owner-checkbox-owner">Owner</label>
+						</div>
+					  </div>
+					  <div class="col-sm-12">
+						<label for="report_forwarded_to">Report Forwarded To</label>
+						<div class="share-checkbox">
+						<?php $report_forwarded_to = (!empty($get_inspection->report_forwarded_to) ? explode(',',$get_inspection->report_forwarded_to) : []); ?>
+						  <input type="checkbox" <?php echo (in_array("Title Company or Mortgage", $report_forwarded_to) ? 'checked="checked"' : null); ?> id="forwarded-checkbox-mortgage" name="report_forwarded_to" value="Title Company or Mortgage"><label for="forwarded-checkbox-mortgage">Title Company or Mortgage</label>
+						  <input type="checkbox" <?php echo (in_array("Purchaser of Service", $report_forwarded_to) ? 'checked="checked"' : null); ?> id="forwarded-checkbox-purchaser" name="report_forwarded_to" value="Purchaser of Service"><label for="forwarded-checkbox-purchaser">Purchaser of Service</label>
+						  <input type="checkbox" <?php echo (in_array("Seller", $report_forwarded_to) ? 'checked="checked"' : null); ?> id="forwarded-checkbox-seller" name="report_forwarded_to" value="Seller"><label for="forwarded-checkbox-seller">Seller</label>
+						  <input type="checkbox" <?php echo (in_array("Agent", $report_forwarded_to) ? 'checked="checked"' : null); ?> id="forwarded-checkbox-agent" name="report_forwarded_to" value="Agent"><label for="forwarded-checkbox-agent">Agent</label>
+						  <input type="checkbox" <?php echo (in_array("Buyer", $report_forwarded_to) ? 'checked="checked"' : null); ?> id="forwarded-checkbox-buyer" name="report_forwarded_to" value="Buyer"><label for="forwarded-checkbox-buyer">Buyer</label>
+						</div>
+					  </div>
+					  
+					  <div class="col-sm-12">
+						<label for="notice_inspection">Notice of Inspection Was Posted At or Near</label>
+						<div class="share-checkbox">
+						<?php $notice_inspection = (!empty($get_inspection->notice_inspection) ? explode(',',$get_inspection->notice_inspection) : []); ?>
+						  <input type="checkbox" <?php echo (in_array("Electric Breaker Box", $notice_inspection) ? 'checked="checked"' : null); ?> id="notice-checkbox-electric" name="notice_inspection" value="Electric Breaker Box"><label for="notice-checkbox-electric">Electric Breaker Box</label>
+						  <input type="checkbox" <?php echo (in_array("Water Heater Closet Beneath", $notice_inspection) ? 'checked="checked"' : null); ?> id="notice-checkbox-beneath" name="notice_inspection" value="Water Heater Closet Beneath"><label for="notice-checkbox-beneath">Water Heater Closet Beneath</label>
+						  <input type="checkbox" <?php echo (in_array("Bath Trap Access", $notice_inspection) ? 'checked="checked"' : null); ?> id="notice-checkbox-access" name="notice_inspection" value="Bath Trap Access"><label for="notice-checkbox-access">Bath Trap Access</label>
+						  <input type="checkbox" <?php echo (in_array("Beneath the Kitchen Sink", $notice_inspection) ? 'checked="checked"' : null); ?> id="notice-checkbox-kitchen" name="notice_inspection" value="Beneath the Kitchen Sink"><label for="notice-checkbox-kitchen">Beneath the Kitchen Sink</label>
+						</div>
+					  </div>
+					  <div class="col-sm-12">
+						<label for="list_structure">List structure(s) </label>
+						<textarea class="form-control" rows="2" name="list_structure" id="list_structure"><?php echo $get_inspection->list_structure; ?></textarea>
+					  </div>
+				  </div>
                   <!-- End of col -->
                   <div class="col-sm-6">
                     <label for="company">Company</label>
@@ -203,10 +272,6 @@ get_header(); ?>
 <script type="text/javascript">
 jQuery(function($){
 	
-	$('select#template_id').on('change', function() {
-		var woodIns = $('option:selected', this).attr('data-wood');
-	});
-	
 	$('.datepicker').datetimepicker({
 		format: 'MM/DD/YYYY'
 	});
@@ -252,6 +317,43 @@ jQuery(function($){
 				var time_out = jQuery('#time_out').val();
 				var exist_img = jQuery('#exist_img').val();
 				var inspection_status = $('input[name=inspection_status]:checked').val();
+				var inspector_types = [];
+				$.each($("input[name='inspector_type']:checked"), function(){            
+					inspector_types.push($(this).val());
+				});
+				var inspector_type = inspector_types.join(",");
+				
+				var case_numbers = [];
+				$.each($("input[name='case_number']:checked"), function(){            
+					case_numbers.push($(this).val());
+				});
+				var case_number = case_numbers.join(",");
+				
+				var inspection_buyer_types = [];
+				$.each($("input[name='inspection_buyer_type']:checked"), function(){            
+					inspection_buyer_types.push($(this).val());
+				});
+				var inspection_buyer_type = inspection_buyer_types.join(",");
+				
+				var owner_types = [];
+				$.each($("input[name='owner_type']:checked"), function(){            
+					owner_types.push($(this).val());
+				});
+				var owner_type = owner_types.join(",");
+				
+				var report_forwardeds = [];
+				$.each($("input[name='report_forwarded_to']:checked"), function(){            
+					report_forwardeds.push($(this).val());
+				});
+				var report_forwarded_to = report_forwardeds.join(",");
+				
+				var notice_inspections = [];
+				$.each($("input[name='notice_inspection']:checked"), function(){            
+					notice_inspections.push($(this).val());
+				});
+				var notice_inspection = notice_inspections.join(",");
+				var inspection_buyer_name = jQuery('#inspection_buyer_name').val();
+				var list_structure = $('textarea#list_structure').val();
 				var file_data = $('#template_cover_logo').prop('files')[0];				
 				var form_data = new FormData();
 				
@@ -272,6 +374,16 @@ jQuery(function($){
 				form_data.append('time_in', time_in);				
 				form_data.append('time_out', time_out);				
 				form_data.append('inspection_status', inspection_status);
+				
+				form_data.append('inspector_type', inspector_type);
+				form_data.append('case_number', case_number);
+				form_data.append('inspection_buyer_type', inspection_buyer_type);
+				form_data.append('owner_type', owner_type);
+				form_data.append('report_forwarded_to', report_forwarded_to);
+				form_data.append('notice_inspection', notice_inspection);
+				form_data.append('inspection_buyer_name', inspection_buyer_name);
+				form_data.append('list_structure', list_structure);
+				
 				form_data.append('exist_img', exist_img);
 				form_data.append('cover_photo', file_data);
 				
