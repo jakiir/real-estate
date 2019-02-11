@@ -1099,7 +1099,7 @@ function get_templates_output(){
 							<td><?php echo $get_users[0]->display_name.' [ '.$get_users[0]->user_email.' ]'; ?></td>
 							<td>
 								<a style="text-decoration: none;" href="<?php echo home_url('/form-builder/?item='.$each_template->id); ?>" alt="Template" target="_blank"><span class="dashicons dashicons-external"></span></a>
-								<a style="text-decoration: none;" href="javascript:void(0)" alt="Remove Template" target="_self" class="trigger_popup_fricc" data-template="<?php echo esc_attr($each_template->id); ?>"><span class="dashicons dashicons-trash"></span></a>
+								<a style="text-decoration: none;" href="javascript:void(0)" alt="Remove Template" target="_self" class="trigger_popup_fricc" onClick="trigger_popup_fricc(this)" data-template="<?php echo esc_attr($each_template->id); ?>"><span class="dashicons dashicons-trash"></span></a>
 							</td>
 						</tr>
 					<?php $inc++; endforeach; ?>
