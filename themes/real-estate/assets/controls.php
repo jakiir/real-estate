@@ -85,6 +85,11 @@
     <textarea ng-model="control.data"></textarea>
   </div>
 </div>
+<div class="formcontrol textarea" ng-if="control.type=='shortcode'">
+  <div class="textarea">
+    <textarea ng-model="control.data"></textarea>
+  </div>
+</div>
 <!-- Static Text -->
 <div class="formcontrol static" ng-if="control.type=='static'">
   <div class="instruction">

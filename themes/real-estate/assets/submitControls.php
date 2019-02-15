@@ -191,6 +191,9 @@
 </div>
 <!-- textarea -->
 <div class="formcontrol textarea" ng-if="control.type=='textarea'">
+	<textarea ng-model="control.data"></textarea>
+</div>
+<div class="formcontrol textarea" ng-if="control.type=='shortcode'">
 	<div ng-bind-html="control.data"></div>
 </div>
 <!-- Static Text -->

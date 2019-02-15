@@ -222,8 +222,8 @@ get_header('form-builder'); ?>
 <script type="text/javascript">
   document.title = '<?php echo $get_template_name; ?>';
   document.getElementById('show_shortcod_list').addEventListener('click', function() {
-	  $('.msg_show').show().html("<div class='shortcode_show_list'>[inspector_name], [email_address], [phone_no], [license_number], [inspection_date], [inspection_address], [city], [zip_code]</div>");
-	  $('.msg_show').delay(10000).fadeOut('slow');
+	  $('.msg_show').show().html("<div class='shortcode_show_list'>[inspector_name],[inspection_company],[email_address],[phone_no],[license_number], [inspection_date],[inspected_address],[inspected_address_city],[inspected_address_zip],[inspector_type],[inspection_email],[inspection_company_address],[inspection_company_phone],[inspection_company_city],[inspection_company_state],[case_number],[buyer_type],[inspection_buyer_name],[owner_type],[report_forwarded],[list_structures],[inspection_posting]</div>");
+	  $('.msg_show').delay(20000).fadeOut('slow');
   });
   document.getElementById('save_to_database').addEventListener('click', function() {
 	$('.msg_show').show().html('<span class="font_icon"><i class="fa fa-refresh fa-spin" aria-hidden="true"></i></span>');

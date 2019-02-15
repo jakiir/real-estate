@@ -46,6 +46,7 @@ get_header('template-print-page'); ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/submitform_controls.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/custom.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/css/responsive.css">
+<?php if($form_data[0]->is_cover == 'true'){ ?>
 	<table class="report-table">
 		<tr>
 			<th align="right" colspan="6" style="padding-bottom:10px;border:none;">				
@@ -73,7 +74,7 @@ get_header('template-print-page'); ?>
 				</div>
 			</th>
 		</tr>
-		<?php if($form_data[0]->is_cover == 'true'){ ?>
+		
 		<tr>
 			<th align="center" colspan="6" style="padding-bottom:10px;border:none;">
 				<div>
@@ -81,9 +82,9 @@ get_header('template-print-page'); ?>
 				</div>
 			</th>
 		</tr>
-		<?php } ?>
 	</table>
 	<div class="page-break">&nbsp;</div>
+	<?php } ?>
 	<?php /*<div class="report-table"><br/><br/><br/><br/><br/></div>
 	<table class="report-table report-info" style="border:none;">
 		<tr>
@@ -191,12 +192,12 @@ get_header('template-print-page'); ?>
 					  </div>
 					</div>
 					<!-- Paragraph -->
-					<div class="formcontrol paragraph" ng-if="control.type=='textarea'">
+					<?php /* ?><div class="formcontrol paragraph" ng-if="control.type=='textarea'">
 					  <p>{{control.label}}</p>
 					  <div class="inputpretend paragraph">
 						{{control.placeholder}}
 					  </div>
-					</div>
+					</div><?php */ ?>
 					<!--Check box-->
 					<div class="formcontrol checkbox chk-label-{{control.value}}" ng-if="control.type=='checkbox'">
 					  <input type="checkbox" ng-model="control.value" ng-checked="{{control.value}}"> {{control.label}}
@@ -344,12 +345,12 @@ get_header('template-print-page'); ?>
 								  </div>
 								</div>
 								<!-- Paragraph -->
-								<div class="formcontrol paragraph" ng-if="control.type=='textarea'">
+								<?php /* ?><div class="formcontrol paragraph" ng-if="control.type=='textarea'">
 								  <p>{{control.label}}</p>
 								  <div class="inputpretend paragraph">
 									{{control.placeholder}}
 								  </div>
-								</div>
+								</div><?php */?>
 								<!--Check box-->
 								<div class="formcontrol checkbox chk-label-{{control.value}}" ng-if="control.type=='checkbox'">
 								  <input type="checkbox" ng-model="control.value" id="checkbox-{{control.hash}}" checked="{{control.value ? 'checked' : false}}"> <label for="checkbox-{{control.hash}}" class="chk-label-{{control.value}}">{{control.label}}</label>

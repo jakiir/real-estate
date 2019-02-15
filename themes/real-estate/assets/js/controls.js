@@ -141,3 +141,11 @@ formControls.textarea={
   editMode:true,
   data:""
 }
+formControls.shortcode={
+  title:"Shortcode",
+  type:'textarea',
+  icon:"fa-text-width",
+  htmlName:"txt",
+  editMode:true,
+  data:""
+}

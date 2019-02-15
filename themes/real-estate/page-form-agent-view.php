@@ -231,12 +231,12 @@ get_header('form-agent-viewer');
 							  </div>
 							</div>
 							<!-- Paragraph -->
-							<div ng-show="false" class="formcontrol paragraph" ng-if="control.type=='textarea'">
+							<?php /* ?><div ng-show="false" class="formcontrol paragraph" ng-if="control.type=='textarea'">
 							  <p>{{control.label}}</p>
 							  <div class="inputpretend paragraph">
 								{{control.placeholder}}
 							  </div>
-							</div>
+							</div><?php */ ?>
 							<!--Check box-->
 							<div ng-show="control.value" class="formcontrol checkbox" ng-if="control.type=='checkbox'">
 							  <input type="checkbox" ng-model="control.value"> {{control.label}}
@@ -426,12 +426,12 @@ get_header('form-agent-viewer');
 					  </div>
 					</div>
 					<!-- Paragraph -->
-					<div class="formcontrol paragraph" ng-if="control.type=='textarea'">
+					<?php /* ?><div class="formcontrol paragraph" ng-if="control.type=='textarea'">
 					  <p>{{control.label}}</p>
 					  <div class="inputpretend paragraph">
 						{{control.placeholder}}
 					  </div>
-					</div>
+					</div><?php */?>
 					<!--Check box-->
 					<div class="formcontrol checkbox" ng-if="control.type=='checkbox'">
 					  <input type="checkbox" ng-model="control.value" ng-checked="{{control.value}}"> {{control.label}}
@@ -583,12 +583,12 @@ get_header('form-agent-viewer');
 							  </div>
 							</div>
 							<!-- Paragraph -->
-							<div class="formcontrol paragraph" ng-if="control.type=='textarea'">
+							<?php /* ?><div class="formcontrol paragraph" ng-if="control.type=='textarea'">
 							  <p>{{control.label}}</p>
 							  <div class="inputpretend paragraph">
 								{{control.placeholder}}
 							  </div>
-							</div>
+							</div><?php */ ?>
 							<!--Check box-->
 							<div class="formcontrol checkbox" ng-if="control.type=='checkbox'">
 							  <input type="checkbox" ng-model="control.value" ng-checked="{{control.value}}"> {{control.label}}
@@ -624,6 +624,17 @@ get_header('form-agent-viewer');
 							  <div class="instruction">
 								<i class="fa fa-info-circle"></i> {{control.label}}
 							  </div>
+							</div>
+							<!-- advertisment -->
+							<div class="formcontrol editor" ng-if="control.type=='advertisement'">  
+							  <div ng-bind-html="control.data"></div>  
+							</div>
+							<!-- textarea -->
+							<div class="formcontrol textarea" ng-if="control.type=='textarea'">  
+							  <div ng-bind-html="control.data"></div>  
+							</div>
+							<div class="formcontrol textarea" ng-if="control.type=='shortcode'">
+								<div ng-bind-html="control.data"></div>
 							</div>
 							<!-- Page Break -->
 							<div class="formcontrol break" ng-if="control.type=='break'">

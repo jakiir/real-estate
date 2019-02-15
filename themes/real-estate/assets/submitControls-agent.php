@@ -134,8 +134,15 @@
     <div class="button tbmargin get-right" ng-click="control.editMode=false">Save</div>
   </div><?php */ ?>
 </div>
+<!-- advertisment -->
+<div class="formcontrol" ng-if="control.type=='advertisement'">  
+  <div ng-bind-html="control.data"></div> 
+</div>
 <!-- textarea -->
 <div class="formcontrol textarea" ng-if="control.type=='textarea'">
+	<div ng-bind-html="control.data"></div>
+</div>
+<div class="formcontrol textarea" ng-if="control.type=='shortcode'">
 	<div ng-bind-html="control.data"></div>
 </div>
 <!-- Static Text -->

@@ -57,7 +57,7 @@ get_header('viewer-print'); ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/submitform_controls.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/custom.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/css/responsive.css">
-	
+	<?php if($form_data[0]->is_cover == 'true'){ ?>
 	<div class="row">
 		<div class="col">		
 			<img src="<?php echo !empty($get_inspection[0]->cover_photo) ? $get_inspection[0]->cover_photo : '/wp-content/themes/real-estate/images/cover_photo.jpg'; ?>" alt="avatar" style="width:100%;">
@@ -87,7 +87,6 @@ get_header('viewer-print'); ?>
 			</div>
 		</div>
 		<div class="report-table-"><br/><br/></div>
-		<?php if($form_data[0]->is_cover == 'true'){ ?>
 		<div class="row">
 			<div class="col">
 				<p style="width:120px;display:table;margin:0 auto;vertical-align: middle;" align="center">
@@ -95,8 +94,8 @@ get_header('viewer-print'); ?>
 				</p>
 			</div>
 		</div>
-		<?php } ?>
 	<div class="page-break">&nbsp;</div>
+	<?php } ?>
 	<?php /*<div class="report-table-"><br/><br/><br/><br/><br/></div>
 	<div class="row">
 		<div class="col">
@@ -204,12 +203,12 @@ get_header('viewer-print'); ?>
 					  </div>
 					</div>
 					<!-- Paragraph -->
-					<div class="formcontrol paragraph" ng-if="control.type=='textarea'">
+					<?php /* ?><div class="formcontrol paragraph" ng-if="control.type=='textarea'">
 					  <p>{{control.label}}</p>
 					  <div class="inputpretend paragraph">
 						{{control.placeholder}}
 					  </div>
-					</div>
+					</div><?php */ ?>
 					<!--Check box-->
 					<div class="formcontrol checkbox" ng-if="control.type=='checkbox'">
 					  <input type="checkbox" ng-model="control.value" ng-checked="{{control.value}}"> {{control.label}}
@@ -237,6 +236,9 @@ get_header('viewer-print'); ?>
 					<!-- textarea -->
 					<div class="formcontrol textarea" ng-if="control.type=='textarea'">  
 					  <div ng-bind-html="control.data"></div>  
+					</div>
+					<div class="formcontrol textarea" ng-if="control.type=='shortcode'">
+						<div ng-bind-html="control.data"></div>
 					</div>
 					<!-- Static Text -->
 					<div class="formcontrol static" ng-if="control.type=='static'">
@@ -368,12 +370,12 @@ get_header('viewer-print'); ?>
 								  </div>
 								</div>
 								<!-- Paragraph -->
-								<div class="formcontrol paragraph" ng-if="control.type=='textarea'">
+								<?php /* ?><div class="formcontrol paragraph" ng-if="control.type=='textarea'">
 								  <p>{{control.label}}</p>
 								  <div class="inputpretend paragraph">
 									{{control.placeholder}}
 								  </div>
-								</div>
+								</div><?php */ ?>
 								<!--Check box-->
 								<div class="formcontrol checkbox" ng-if="control.type=='checkbox'">
 								  <input type="checkbox" ng-model="control.value" ng-checked="{{control.value}}"> {{control.label}}

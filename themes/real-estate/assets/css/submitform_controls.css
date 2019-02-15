@@ -17,7 +17,13 @@
 .inputpretend.paragraph{
   height:6em;
 }
-.formcontrol img,.mce-content-body img{
+.formcontrol img{
+  display:inline-block;
+  width:100%;
+  color:rgba(0,0,0,0);
+  margin-right: 10px;
+}
+.mce-content-body img{
   display:inline-block;
   width:100%;
   color:rgba(0,0,0,0);
