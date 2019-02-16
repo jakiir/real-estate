@@ -57,7 +57,7 @@ get_header('viewer-print'); ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/submitform_controls.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/custom.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/css/responsive.css">
-	<?php if($form_data[0]->is_cover == 'true'){ ?>
+	<?php if($form_data[0]->no_cover != 'true'){ ?>
 	<div class="row">
 		<div class="col">		
 			<img src="<?php echo !empty($get_inspection[0]->cover_photo) ? $get_inspection[0]->cover_photo : '/wp-content/themes/real-estate/images/cover_photo.jpg'; ?>" alt="avatar" style="width:100%;">
@@ -428,24 +428,7 @@ get_header('viewer-print'); ?>
           </div> 
         </div>
       </div>
-    </form>
-	
-	<div class="print_pdf_footer-" align="center">
-		<div style="text-decoration:underline;">INSPECTOR</div>
-		<div>
-			<div class="row">
-				<div class="col">
-					<?php echo $display_name; ?> – <?php echo $licence_number; ?>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col">
-					<?php echo $form_data[0]->footer_html; ?>
-				</div>
-			</div>
-		</div>
-	</div>
-	
+    </form>	
 </div>
 	<?php if($report_id){ ?>
     <div class="actions">

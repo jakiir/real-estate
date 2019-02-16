@@ -867,10 +867,10 @@ object {
 }
 .printShow{visibility:hidden;}
 .every_span{
-	margin-right: 20px;
-    float: left;
+    display:inline-grid;
 }
-.under_line{border-bottom: 2px solid #000;}
+.under_line{border-bottom:2px solid #000;font-weight:bold;color:#000;
+}
 .shortcode_show_list{
 	color: brown;
     font-size: 15px;

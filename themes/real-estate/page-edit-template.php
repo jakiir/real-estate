@@ -104,7 +104,7 @@ get_header(); ?>
 					  <input type="checkbox" name="wood_inspection" id="wood_inspection" <?php echo !empty($get_templages[0]->wood_inspection) && $get_templages[0]->wood_inspection == 'true' ? 'checked' : ''; ?> ><label for="wood_inspection">Wood Inspection</label>
 					</div>
 					<div class="share-checkbox">
-					  <input type="checkbox" name="is_cover" id="is_cover" <?php echo !empty($get_templages[0]->is_cover) && $get_templages[0]->is_cover == 'true' ? 'checked' : ''; ?> ><label for="is_cover">No Cover Page Required</label>
+					  <input type="checkbox" name="no_cover" id="no_cover" <?php echo !empty($get_templages[0]->no_cover) && $get_templages[0]->no_cover == 'true' ? 'checked' : ''; ?> ><label for="no_cover">No Cover Page Required</label>
 					</div>
 					
 				</div>
@@ -160,7 +160,7 @@ get_header(); ?>
 				var share_btn= jQuery('#share_btn').is(':checked');
 				var print_btn= jQuery('#print_btn').is(':checked');
 				var wood_inspection= jQuery('#wood_inspection').is(':checked');
-				var is_cover= jQuery('#is_cover').is(':checked');
+				var no_cover= jQuery('#no_cover').is(':checked');
 				var template_state = $('#template_state').find('option:selected').val();				
 				var template_state_id = jQuery('#template_state_id').val();
 				var template_city = jQuery('#template_city').val();					
@@ -180,7 +180,7 @@ get_header(); ?>
 				form_data.append('share_btn', share_btn);
 				form_data.append('print_btn', print_btn);
 				form_data.append('wood_inspection', wood_inspection);
-				form_data.append('is_cover', is_cover);
+				form_data.append('no_cover', no_cover);
 				form_data.append('template_state', template_state);
 				form_data.append('template_state_id', template_state_id);
 				form_data.append('template_city', template_city);

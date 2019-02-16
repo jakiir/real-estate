@@ -46,7 +46,7 @@ get_header('template-print-page'); ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/submitform_controls.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/custom.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/css/responsive.css">
-<?php if($form_data[0]->is_cover == 'true'){ ?>
+<?php if($form_data[0]->no_cover != 'true'){ ?>
 	<table class="report-table">
 		<tr>
 			<th align="right" colspan="6" style="padding-bottom:10px;border:none;">				
@@ -403,17 +403,7 @@ get_header('template-print-page'); ?>
           </div> 
         </div>
       </div>
-    </form>
-	
-	<div class="print_pdf_footer">
-		<div style="text-decoration:underline;">INSPECTOR</div>
-		<div>
-			<?php echo $display_name; ?> – <?php echo $licence_number; ?>
-			<br/>
-			<?php echo $form_data[0]->footer_html; ?>
-		</div>
-	</div>
-	
+    </form>	
 </div>
   </div>
 <?php get_footer('template-print'); ?>
