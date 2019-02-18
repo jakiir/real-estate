@@ -136,16 +136,17 @@ formControls.advertisement={
 formControls.textarea={
   title:"Textarea",
   type:'textarea',
-  icon:"fa-text-width",
-  htmlName:"txt",
-  editMode:true,
-  data:""
+  //placeholder:"Enter Value",
+  icon:"fa-text-height",
+  htmlName:"textarea",
+  default:"Default Value",
+  data:""  
 }
 formControls.shortcode={
   title:"Shortcode",
   type:'shortcode',
   icon:"fa-text-width",
-  htmlName:"txt",
+  htmlName:"shortcode",
   editMode:true,
   data:""
 }

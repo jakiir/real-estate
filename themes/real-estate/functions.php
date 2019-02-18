@@ -297,6 +297,12 @@ function send_agent_email(){
 		$bodyText = '';
 		$inc=1;
 		$identificationNo = '';
+		$bodyText .= "An inspection has been shared with you.  Use this to see the deficiencies identified by ";
+		foreach($expSelected as $key=>$template){
+			 $identified[$expSelectedCompany[$key]] = $expSelectedCompany[$key];
+		}
+		$identifiedd = implode(' and ',$identified);
+		$bodyText .= "{$identifiedd}. Click below template links to see the details :<ul>";
 		foreach($expSelected as $key=>$template){
 			 $template_id = safe_b64encode($template);
 			 $report_id = safe_b64encode($expSelectedReport[$key]);
@@ -304,12 +310,12 @@ function send_agent_email(){
 			 $emailAddress = safe_b64encode($agentEmailAddress);
 			 $identificationNo = $expSelectedTitle[$key];
 			 $get_template = $wpdb->get_results( "SELECT name FROM $template_table WHERE id=$template", OBJECT );
-			 
 			 /*$bodyText .= "{$get_template[0]->name} has been inspected for {$expSelectedCompany[$key]} company and prepared for : {$expSelectedPrep[$key]} Please click the report <a href='".$agentViewer."?item=".$template_id."&report=".$report_id."&saved=".$saved_id."&token=".$emailAddress."'> {$identificationNo}</a> to get details.<br/>Thanks.<br/>";*/
 			 
-			 $bodyText .= "An inspection has been shared with you.  Use this to see the deficiencies identified by {$expSelectedCompany[$key]}.  <a href='".$agentViewer."?item=".$template_id."&report=".$report_id."&saved=".$saved_id."&token=".$emailAddress."'>Click {$get_template[0]->name}</a> to see the details.";
+			 $bodyText .= "<li><a href='".$agentViewer."?item=".$template_id."&report=".$report_id."&saved=".$saved_id."&token=".$emailAddress."'>{$get_template[0]->name}</a></li>";
 			 $inc++;
 		}
+		$bodyText .= "</ul>";
 		$mail->Subject = "Report: {$identificationNo} has been shared with you.";
 		$mail->Body    = $bodyText;
 		$mail->AltBody = $bodyText;
@@ -1351,6 +1357,7 @@ $parrent_user = esc_attr( get_the_author_meta( 'parrent_user', $user->ID ) );
         <td>
 		<select name="parrent_user" id="parrent_user">
 		<?php
+			echo '<option value="">Select one</option>';
 			foreach ( $users as $user ) {
 				$selected = ($parrent_user==$user->ID ? 'selected="selected"' : '');
 				echo '<option '.$selected.' value="'.esc_attr($user->ID).'">' . esc_html( $user->display_name ) . ' [' . esc_html( $user->user_login ) . ']</option>';
@@ -1592,8 +1599,9 @@ function isMobile() {
 //add_action( 'wp_ajax_nopriv_shortcode_wdi', 'shortcode_wdi', 85);
 //add_action( 'wp_ajax_shortcode_wdi', 'shortcode_wdi', 85 );
 function shortcode_wdi($content){
-	global $wpdb;					
-	$template_id = !empty($_GET['item']) ? $_GET['item'] : '';
+	global $wpdb;
+	$templateId = !empty($_GET['template']) ? $_GET['template'] : '';
+	$template_id = !empty($_GET['item']) ? $_GET['item'] : $templateId;
 	$inspector_name = '';
 	$inspection_company = '';
 	$inpection_date = '';
@@ -1613,18 +1621,19 @@ function shortcode_wdi($content){
 	$inspection_posting = '';
 	$company_footer = '';
 	$user = wp_get_current_user();
-	$inspector_name = "<span class='every_span'>".$user->display_name."</span>";
+	$inspector_name = "<span class='every_span'>".get_user_meta($user->ID,  'first_name', true )." ".get_user_meta($user->ID,  'last_name', true )."</span>";
 	if(!empty($template_id)){
 		$table_template = $wpdb->prefix . 'template';
-		$get_templages = $wpdb->get_row( "SELECT companyId,company_email,company_address,company_phone,template_city FROM $table_template WHERE id=$template_id ORDER BY id DESC LIMIT 1");
+		$get_templages = $wpdb->get_row( "SELECT companyId,company_email,company_address,company_phone,template_city,footer_html FROM $table_template WHERE id=$template_id ORDER BY id DESC LIMIT 1");
 		$inspection_company = "<span class='every_span'><div class='under_line'>".$get_templages->companyId."</div>Name of Inspection Company</span>";
 		$inspection_email = "<span class='every_span'><div style='border-bottom: 2px solid #337ab7;'><a href='mailto:".$get_templages->company_email."'>".$get_templages->company_email."</a></div>&nbsp;&nbsp;&nbsp;&nbsp;</span>";
 		$company_address = "<span class='every_span'><div class='under_line'>".$get_templages->company_address."</div>Address of Inspection Company</span>";		
-		$company_footer = "<div class='print_pdf_footer'><div style='text-decoration:underline;'>INSPECTOR</div><div>".$inspector_name." – ".get_user_meta($user->ID,  'licence_number', true )."<br/>". $get_templages->footer_html."</div></div>";		
+		$company_footer = "<div class='print_pdf_footer'><div style='text-decoration:underline;'>INSPECTOR</div><div>".$inspector_name." – ".get_user_meta($user->ID,  'licence_number', true )."<br/>".$get_templages->footer_html."</div></div>";		
 		$company_phone = "<span class='every_span'><div class='under_line'>".$get_templages->company_phone."</div></span>";
 		$template_city = "<span class='every_span'><div class='under_line'>".$get_templages->template_city."</div></span>";
 		$state = "<span class='every_span'><div class='under_line'>".$get_templages->state."</div></span>";
-		$report_id = !empty($_GET['report']) ? $_GET['report'] : '';
+		$reportId = !empty($_GET['reportId']) ? $_GET['reportId'] : '';
+		$report_id = !empty($_GET['report']) ? $_GET['report'] : $reportId;
 		if(!empty($report_id)){
 			$table_inspection = $wpdb->prefix . 'inspection';
 			$get_inspection = $wpdb->get_row( "SELECT * FROM $table_inspection WHERE id=$report_id ORDER BY id DESC LIMIT 1");

@@ -142,7 +142,7 @@
 <div class="formcontrol textarea" ng-if="control.type=='textarea'">
 	<div ng-bind-html="control.data"></div>
 </div>
-<div class="formcontrol textarea" ng-if="control.type=='shortcode'">
+<div class="formcontrol shortcode" ng-if="control.type=='shortcode'">
 	<div ng-bind-html="control.data"></div>
 </div>
 <!-- Static Text -->

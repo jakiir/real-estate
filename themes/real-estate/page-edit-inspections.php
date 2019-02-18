@@ -126,7 +126,7 @@ get_header(); ?>
 						</div>
 					  </div>
 					  
-					  <div class="col-sm-12">
+					  <?php /* ?><div class="col-sm-12">
 						<label for="notice_inspection">Notice of Inspection Was Posted At or Near</label>
 						<div class="share-checkbox">
 						<?php $notice_inspection = (!empty($get_inspection->notice_inspection) ? explode(',',$get_inspection->notice_inspection) : []); ?>
@@ -135,7 +135,7 @@ get_header(); ?>
 						  <input type="checkbox" <?php echo (in_array("Bath Trap Access", $notice_inspection) ? 'checked="checked"' : null); ?> id="notice-checkbox-access" name="notice_inspection" value="Bath Trap Access"><label for="notice-checkbox-access">Bath Trap Access</label>
 						  <input type="checkbox" <?php echo (in_array("Beneath the Kitchen Sink", $notice_inspection) ? 'checked="checked"' : null); ?> id="notice-checkbox-kitchen" name="notice_inspection" value="Beneath the Kitchen Sink"><label for="notice-checkbox-kitchen">Beneath the Kitchen Sink</label>
 						</div>
-					  </div>
+					  </div><?php */ ?>
 					  <div class="col-sm-12">
 						<label for="list_structure">List structure(s) </label>
 						<textarea class="form-control" rows="2" name="list_structure" id="list_structure"><?php echo $get_inspection->list_structure; ?></textarea>

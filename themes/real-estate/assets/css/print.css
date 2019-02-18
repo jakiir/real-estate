@@ -38,6 +38,21 @@ table.table-bordered tbody td.course-field {
 .not_required_true, .not_required_true img.imggap{display:none;}
 .display-checkbox{display:none;}
 /*for chrome*/
+.under_line {
+    border-bottom: 2px solid #000;
+    font-weight: bold;
+    color: #000;
+}
+.every_span {
+    display: inline-grid;
+}
+.inspector_type label {
+    min-width: 149px;
+    margin: 0;
+    display: inline-block;
+}
+.print_pdf_footer{width:250px;margin:15px auto;font-size:18px;display:none;}
+.mainSection:nth-child(2) .shortcode{text-align:center;}
 @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) {
     #drlistDivTbl,#printAreaDiv {
         margin-left: 20px;

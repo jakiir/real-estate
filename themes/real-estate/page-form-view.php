@@ -109,7 +109,7 @@ get_header('form-viewer'); ?>
 	  <div ng-repeat="child in section.children" ng-if="!section.children[0].subsection" class="commentBoxItem">
 			<div class="">
 				<div class="row" ng-repeat="child in section.children">
-				  <div class="col-" ng-repeat="controls in child">
+				  <div class="col" ng-repeat="controls in child">
 					<div ng-repeat="control in controls">
 					  <div ng-include="'<?php echo esc_url( home_url('/submition-controls/?report='.$report_id.'&saved='.$saved.'&item='.$template_id.'&att='.$att.'&hash='.$hash_id) ); ?>'"></div>
 					</div>
@@ -155,14 +155,14 @@ get_header('form-viewer'); ?>
       </div>
     </form>
 	
-	<div class="print_pdf_footer">
+	<?php /* ?><div class="print_pdf_footer">
 		<div style="text-decoration:underline;">INSPECTOR</div>
 		<div>
 			<?php echo $display_name; ?> – <?php echo $licence_number; ?>
 			<br/>
 			<?php echo $form_data[0]->footer_html; ?>
 		</div>
-	</div>
+	</div><?php */ ?>
 	
 </div>
 	<?php if($report_id){ ?>
