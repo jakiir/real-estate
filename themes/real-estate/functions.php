@@ -256,6 +256,7 @@ function send_agent_email(){
 		 global $wpdb;
 		 $agent_email_log = $wpdb->prefix . 'agent_email_log';
 		 $template_table = $wpdb->prefix . 'template';
+		 $inspection_table = $wpdb->prefix . 'inspection';
 		 $getSelected = !empty($_POST['getSelected']) ? $_POST['getSelected'] : [];
 		 $getSelectedReport = !empty($_POST['getSelectedReport']) ? $_POST['getSelectedReport'] : [];
 		 $getSelectedSaved = !empty($_POST['getSelectedSaved']) ? $_POST['getSelectedSaved'] : [];
@@ -304,15 +305,17 @@ function send_agent_email(){
 		$identifiedd = implode(' and ',$identified);
 		$bodyText .= "{$identifiedd}. Click below template links to see the details :<ul>";
 		foreach($expSelected as $key=>$template){
+			$get_report_id = $expSelectedReport[$key];
 			 $template_id = safe_b64encode($template);
-			 $report_id = safe_b64encode($expSelectedReport[$key]);
+			 $report_id = safe_b64encode($get_report_id);
 			 $saved_id = safe_b64encode($expSelectedSaved[$key]);
 			 $emailAddress = safe_b64encode($agentEmailAddress);
 			 $identificationNo = $expSelectedTitle[$key];
-			 $get_template = $wpdb->get_results( "SELECT name FROM $template_table WHERE id=$template", OBJECT );
+			 /*$get_template = $wpdb->get_results( "SELECT name FROM $template_table WHERE id=$template", OBJECT );*/
+			 $get_inspection = $wpdb->get_results( "SELECT report_identification FROM $inspection_table WHERE id=$get_report_id", OBJECT );
 			 /*$bodyText .= "{$get_template[0]->name} has been inspected for {$expSelectedCompany[$key]} company and prepared for : {$expSelectedPrep[$key]} Please click the report <a href='".$agentViewer."?item=".$template_id."&report=".$report_id."&saved=".$saved_id."&token=".$emailAddress."'> {$identificationNo}</a> to get details.<br/>Thanks.<br/>";*/
 			 
-			 $bodyText .= "<li><a href='".$agentViewer."?item=".$template_id."&report=".$report_id."&saved=".$saved_id."&token=".$emailAddress."'>{$get_template[0]->name}</a></li>";
+			 $bodyText .= "<li><a href='".$agentViewer."?item=".$template_id."&report=".$report_id."&saved=".$saved_id."&token=".$emailAddress."'>{$get_inspection[0]->report_identification}</a></li>";
 			 $inc++;
 		}
 		$bodyText .= "</ul>";
@@ -1603,35 +1606,44 @@ function shortcode_wdi($content){
 	$templateId = !empty($_GET['template']) ? $_GET['template'] : '';
 	$template_id = !empty($_GET['item']) ? $_GET['item'] : $templateId;
 	$inspector_name = '';
-	$inspection_company = '';
-	$inpection_date = '';
-	$inspected_address = '';
-	$inspection_city = '';
-	$inspected_address_zip = '';
-	$inspection_email = '';
-	$company_address = '';
-	$inspection_email = '';
+	$inspection_company = "<span class='every_span'><div class='under_line'>N/A</div>Name of Inspection Company</span>";
+	$inpection_date = "<span class='every_span'><div class='under_line'>N/A</div>Date of inspected</span>";
+	$inspected_address = "<span class='every_span'>N/A<br>Inspected Address</span>";
+	$inspection_city = "<span class='every_span'>N/A<br>City</span>";
+	$inspected_address_zip = "<span class='every_span'><div class='under_line'>N/A</div>Zip Code</span>";
+	$company_address = "<span class='every_span'><div class='under_line'>N/A</div>Address of Inspection Company</span>";
+	$inspection_email = "<span class='every_span'><div style='border-bottom: 2px solid #337ab7;'>N/A</div>&nbsp;&nbsp;&nbsp;&nbsp;</span>";;
 	$inspector_type = '';
-	$case_number = '';
+	$case_number = "<span class='every_span'><div class='under_line'>N/A</div>Case Number (VA/FHA/Other)</span></span>";
 	$buyer_type = '';
-	$inspection_buyer_name = '';
-	$owner_type = '';
+	$inspection_buyer_name = "<span class='every_span'><div class='under_line'>N/A</div>Name of Person Purchasing Inspection</span>";
+	$owner_type = "<span class='every_span'><div class='under_line'>N/A</div>Owner/Seller</span>";
 	$report_forwarded = '';
-	$list_structures = '';
+	$list_structures = "<span class='every_span'>N/A</span>";
 	$inspection_posting = '';
-	$company_footer = '';
+	$company_footer = "<div class='print_pdf_footer'><div style='text-decoration:underline;'>INSPECTOR</div><div>N/A</div></div>";;
 	$user = wp_get_current_user();
-	$inspector_name = "<span class='every_span'>".get_user_meta($user->ID,  'first_name', true )." ".get_user_meta($user->ID,  'last_name', true )."</span>";
+	if(!empty($user->ID)){
+		$inspector_name = "<span class='every_span'><div class='under_line'>".get_user_meta($user->ID,  'first_name', true )." ".get_user_meta($user->ID,  'last_name', true )."</div>Name of Inspector (Please Print)</span>";
+		$email_address = "<span class='every_span'><div class='under_line_blue'><a href='mailto:".$user->user_email."'>".$user->user_email."</a></div></span>";
+		$licence_number = "<span class='every_span'><div class='under_line'>".get_user_meta($user->ID,  'licence_number', true )."</div>SPCB Business License Number</span>";
+		$phone_number = "<span class='every_span'><div class='under_line'>".get_user_meta($user->ID,  'phone_number', true )."</div>Telephone No</span>";
+	} else {
+		$inspector_name = "<span class='every_span'>N/A</span>";
+		$email_address = "<span class='every_span'><div class='under_line'>N/A</div></span>";
+		$licence_number = "<span class='every_span'><div class='under_line'>N/A</div>SPCB Business License Number</span>";
+		$phone_number = "<span class='every_span'><div class='under_line'>N/A</div>Telephone No</span>";
+	}
 	if(!empty($template_id)){
 		$table_template = $wpdb->prefix . 'template';
-		$get_templages = $wpdb->get_row( "SELECT companyId,company_email,company_address,company_phone,template_city,footer_html FROM $table_template WHERE id=$template_id ORDER BY id DESC LIMIT 1");
+		$get_templages = $wpdb->get_row( "SELECT companyId,company_email,company_address,company_phone,template_city,state,footer_html FROM $table_template WHERE id=$template_id ORDER BY id DESC LIMIT 1");
 		$inspection_company = "<span class='every_span'><div class='under_line'>".$get_templages->companyId."</div>Name of Inspection Company</span>";
 		$inspection_email = "<span class='every_span'><div style='border-bottom: 2px solid #337ab7;'><a href='mailto:".$get_templages->company_email."'>".$get_templages->company_email."</a></div>&nbsp;&nbsp;&nbsp;&nbsp;</span>";
 		$company_address = "<span class='every_span'><div class='under_line'>".$get_templages->company_address."</div>Address of Inspection Company</span>";		
 		$company_footer = "<div class='print_pdf_footer'><div style='text-decoration:underline;'>INSPECTOR</div><div>".$inspector_name." – ".get_user_meta($user->ID,  'licence_number', true )."<br/>".$get_templages->footer_html."</div></div>";		
-		$company_phone = "<span class='every_span'><div class='under_line'>".$get_templages->company_phone."</div></span>";
-		$template_city = "<span class='every_span'><div class='under_line'>".$get_templages->template_city."</div></span>";
-		$state = "<span class='every_span'><div class='under_line'>".$get_templages->state."</div></span>";
+		$company_phone = "<span class='every_span'><div class='under_line'>".$get_templages->company_phone."</div>Telephone No.</span>";
+		$template_city = "<span class='every_span'><div class='under_line'>".$get_templages->template_city."</div>City</span>";
+		$state = "<span class='every_span'><div class='under_line'>".$get_templages->state."</div>State</span>";
 		$reportId = !empty($_GET['reportId']) ? $_GET['reportId'] : '';
 		$report_id = !empty($_GET['report']) ? $_GET['report'] : $reportId;
 		if(!empty($report_id)){
@@ -1640,9 +1652,9 @@ function shortcode_wdi($content){
 			$inpection_date = "<span class='every_span'><div class='under_line'>".$get_inspection->inpection_date."</div>Date of inspected</span>";
 			$inspected_address = "<span class='every_span'>".$get_inspection->report_identification.'<br>Inspected Address</span>';
 			$inspection_city = "<span class='every_span'>".$get_inspection->inspection_city.'<br>City</span>';
-			$inspected_address_zip = "<span class='every_span'>".$get_inspection->zip_code.'<br>Zip Code</span>';
+			$inspected_address_zip = "<span class='every_span'><div class='under_line'>".$get_inspection->zip_code.'</div>Zip Code</span>';
 			$inspector_types = (!empty($get_inspection->inspector_type) ? explode(',',$get_inspection->inspector_type) : []);
-			$inspector_type = "<span class='every_span'><div class='inspector_type'><label for='certified_applicator'>Certified Applicator</label> <input type='checkbox' ".(in_array('Certified Applicator', $inspector_types) ? 'checked=checked' : null)." name='certified_applicator' id='certified_applicator' ng-model='control.inspected_type1' value='control.inspected_type1' ng-checked='{{control.inspected_type1}}'><br><label for='technician'>Technician</label> <input type='checkbox' ".(in_array('Technician', $inspector_types) ? 'checked=checked' : null)." name='technician' id='technician' ng-model='control.inspected_type2' value='control.inspected_type2' ng-checked='{{control.inspected_type2}}'></div>";
+			$inspector_type = "<span class='every_span'><div class='inspector_type'><label for='certified_applicator'>Certified Applicator</label> <input type='checkbox' ".(in_array('Certified Applicator', $inspector_types) ? 'checked=checked' : null)." name='certified_applicator' id='certified_applicator' ng-model='control.inspected_type1' value='control.inspected_type1' ng-checked='{{control.inspected_type1}}'> &nbsp;&nbsp;&nbsp;&nbsp;(check one)<br><label for='technician'>Technician</label> <input type='checkbox' ".(in_array('Technician', $inspector_types) ? 'checked=checked' : null)." name='technician' id='technician' ng-model='control.inspected_type2' value='control.inspected_type2' ng-checked='{{control.inspected_type2}}'></div>";
 			$case_number = "<span class='every_span'><div class='under_line'>".$get_inspection->case_number."</div>Case Number (VA/FHA/Other)</span></span>";
 			
 			$inspection_buyer_types = (!empty($get_inspection->inspection_buyer_type) ? explode(',',$get_inspection->inspection_buyer_type) : []);
@@ -1658,10 +1670,6 @@ function shortcode_wdi($content){
 			$inspection_posting = "<span class='every_span'><div class='inspection_buyer' style='clear:both;'><span><label for='notice-electric'>Electric Breaker Box</label> <input type='checkbox' ".(in_array('Electric Breaker Box', $notice_inspection) ? 'checked=checked' : null)." name='notice-electric' id='forwnotice-electric' ng-model='control.notice_inspection1' value='control.notice_inspection1' ng-checked='{{control.notice_inspection1}}'></span><span><label for='notice-beneath'>Water Heater Closet Beneath</label> <input type='checkbox' ".(in_array('Water Heater Closet Beneath', $notice_inspection) ? 'checked=checked' : null)." name='notice-beneath' id='notice-beneath' ng-model='control.notice_inspection2' value='control.notice_inspection2' ng-checked='{{control.notice_inspection2}}'></span><span><label for='notice-access'>Bath Trap Access</label> <input type='checkbox' ".(in_array('Bath Trap Access', $notice_inspection) ? 'checked=checked' : null)." name='notice-access' id='notice-access' ng-model='control.notice_inspection3' value='control.notice_inspection3' ng-checked='{{control.notice_inspection3}}'></span><span><label for='notice-kitchen'>Beneath the Kitchen Sink</label> <input type='checkbox' ".(in_array('Beneath the Kitchen Sink', $notice_inspection) ? 'checked=checked' : null)." name='notice-kitchen' id='notice-kitchen' ng-model='control.notice_inspection4' value='control.notice_inspection4' ng-checked='{{control.notice_inspection4}}'></span></div></span>";
 		}
 	}
-	
-	$licence_number = "<span class='every_span'><div class='under_line'>".get_user_meta($user->ID,  'licence_number', true )."</div>SPCB Business License Number</span>";
-	$email_address = "<span class='every_span'><div class='under_line'>".get_user_meta($user->ID,  'user_email', true )."</div></span>";
-	$phone_number = "<span class='every_span'><div class='under_line'>".get_user_meta($user->ID,  'phone_number', true )."</div>Telephone No</span>";
 	
 	$healthy = array("[inspector_name]","[inspection_company]","[email_address]","[phone_no]", "[licence_number]", "[inspection_date]","[inspected_address]","[inspected_address_city]","[inspected_address_zip]","[inspector_type]","[inspection_email]","[inspection_company_address]","[inspection_company_phone]","[inspection_company_city]","[inspection_company_state]","[case_number]","[buyer_type]","[inspection_buyer_name]","[owner_type]","[report_forwarded]","[list_structures]","[inspection_posting]","[company_footer]");
 	$yummy   = array($inspector_name,$inspection_company,$email_address,$phone_number, $licence_number, $inpection_date,$inspected_address,$inspection_city,$inspected_address_zip,$inspector_type,$inspection_email,$company_address,$company_phone,$template_city,$state,$case_number,$buyer_type,$inspection_buyer_name,$owner_type,$report_forwarded,$list_structures,$inspection_posting,$company_footer);

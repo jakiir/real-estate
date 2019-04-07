@@ -185,7 +185,7 @@ get_header('viewer-print'); ?>
 					</div>
 					<!-- text -->
 					<div class="formcontrol text" ng-if="control.type=='text'">
-					  <textarea class="textinput" placeholder="{{control.placeholder}}"></textarea>
+					  <div ng-bind-html="control.data"></div>
 					</div>
 					<!-- Section -->
 					<div class="formcontrol number" ng-if="control.type=='section'">
@@ -352,7 +352,7 @@ get_header('viewer-print'); ?>
 								</div>
 								<!-- text -->
 								<div class="formcontrol text" ng-if="control.type=='text'">
-								  <textarea class="textinput" placeholder="{{control.placeholder}}"></textarea>
+								  <div ng-bind-html="control.data"></div>
 								</div>
 								<!-- Section -->
 								<div class="formcontrol number" ng-if="control.type=='section'">

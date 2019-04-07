@@ -7,7 +7,7 @@ body {
 @page {
     size: auto;   /* auto is the initial value */
     margin: 0;  /* this affects the margin in the printer settings */
-    margin-top: 20px;
+    margin-top: 30px;
 	margin-bottom:50px;
 }
 
@@ -54,6 +54,12 @@ table.table-bordered tbody td.course-field {
     min-width: 149px;
     margin: 0;
     display: inline-block;
+}
+.formcontrol p {
+    margin: 0px 0px 5px 0px;
+}
+.row {
+    padding: 0 5px 10px 5px;
 }
 .print_pdf_footer{width:250px;margin:15px auto;font-size:18px;display:none;}
 .mainSection:nth-child(2) .shortcode{text-align:center;}

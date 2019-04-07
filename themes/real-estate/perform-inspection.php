@@ -227,32 +227,35 @@ get_header(); ?>
                     <input type="text" class="form-control" name="phone_number" id="phone_number" readonly="readonly" value="<?php echo $phone_number; ?>">
                   </div>
                   <!-- End of col -->
-                  <div class="col-sm-6">
-                    <label for="time_in">Time In</label>
-                    <input type="text" class="form-control required timepicker" name="time_in" id="time_in" placeholder="">
-                  </div>
-                  <!-- End of col -->
-                  <div class="col-sm-6">
-                    <label for="time_out">Time Out</label>
-                    <input type="text" class="form-control required timepicker" name="time_out" id="time_out" placeholder="">
-                  </div>
-                  <!-- End of col -->
-                  <div class="col-sm-12">
-                    <div class="status-radios">
-                      <input type="radio" id="radio-occupied" name="inspection_status" value="occupied"><label for="radio-occupied">occupied</label>
-                      <input type="radio" id="radio-vacant" name="inspection_status" value="vacant"><label for="radio-vacant">Vacant</label>
-                    </div>
-                    <!-- End of status-radios -->
-                  </div>
-				  <div class="col-sm-12">
-					<div class="edit-cover-img" id="hsc_std_photo">
-					  <?php $defaultImage = esc_url( get_template_directory_uri() ).'/images/edit-template-default.png'; ?>
-                      <img alt="img" src="<?php echo $defaultImage; ?>" class="avatar img-responsive" id="preview_image" style="height:208px;">
-                    </div>
-                    <label class="btn-file-upload" for="template_cover_logo" style="margin-top:5px;margin-bottom:30px;">Upload Cover Photo</label>
-                    <input type="file" name="photo" "="" id="template_cover_logo" onchange="instantPhotoUpload(this)">
-                  </div>
-                  <!-- End of col -->
+				  <div id="not_wood_field">
+					  <div class="col-sm-6">
+						<label for="time_in">Time In</label>
+						<input type="text" class="form-control required timepicker" name="time_in" id="time_in" placeholder="">
+					  </div>
+					  <!-- End of col -->
+					  <div class="col-sm-6">
+						<label for="time_out">Time Out</label>
+						<input type="text" class="form-control required timepicker" name="time_out" id="time_out" placeholder="">
+					  </div>
+					  <!-- End of col -->
+					  <div class="col-sm-12">
+						<div class="status-radios">
+						  <input type="radio" id="radio-occupied" name="inspection_status" value="occupied"><label for="radio-occupied">occupied</label>
+						  <input type="radio" id="radio-vacant" name="inspection_status" value="vacant"><label for="radio-vacant">Vacant</label>
+						</div>
+						<!-- End of status-radios -->
+					  </div>				  
+					  <div class="col-sm-12">
+						<div class="edit-cover-img" id="hsc_std_photo">
+						  <?php $defaultImage = esc_url( get_template_directory_uri() ).'/images/edit-template-default.png'; ?>
+						  <img alt="img" src="<?php echo $defaultImage; ?>" class="avatar img-responsive" id="preview_image" style="height:208px;">
+						</div>
+						<label class="btn-file-upload" for="template_cover_logo" style="margin-top:5px;margin-bottom:30px;">Upload Cover Photo</label>
+						<input type="file" name="photo" "="" id="template_cover_logo" onchange="instantPhotoUpload(this)">
+					  </div>
+					  <!-- End of col -->
+				  </div>
+				  <div class="col-sm-12">&nbsp;</div>
                   <div class="col-sm-12">
                     <div class="text-center">
                       <input type="submit" name="order_type" class="btn-taptap" value="Next">
@@ -276,8 +279,10 @@ jQuery(function($){
 	$('select#template_id').on('change', function() {
 		var woodIns = $('option:selected', this).attr('data-wood');
 		$('#wood_field').hide();
+		$('#not_wood_field').show();
 		if(woodIns == 'true'){
 			$('#wood_field').show();
+			$('#not_wood_field').hide();
 		}
 	});
 	

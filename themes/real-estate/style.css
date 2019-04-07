@@ -869,8 +869,9 @@ object {
 .every_span{
     display:inline-grid;
 }
-.under_line{border-bottom:2px solid #000;font-weight:bold;color:#000;
-}
+.under_line{border-bottom:2px solid #000;font-weight:bold;color:#000;}
+.under_line_blue{border-bottom:2px solid #337ab7;font-weight:bold;color:#337ab7;}
+.shortcode{margin-left: 57px;}
 .shortcode_show_list{
 	color: brown;
     font-size: 15px;

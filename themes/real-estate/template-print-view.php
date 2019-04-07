@@ -174,7 +174,7 @@ get_header('template-print-page'); ?>
 					</div>
 					<!-- text -->
 					<div class="formcontrol text" ng-if="control.type=='text'">
-					  <textarea class="textinput" placeholder="{{control.placeholder}}"></textarea>
+					  <div ng-bind-html="control.data"></div>
 					</div>
 					<!-- Section -->
 					<div class="formcontrol number" ng-if="control.type=='section'">
@@ -221,6 +221,9 @@ get_header('template-print-page'); ?>
 					<!-- advertisment -->
 					<div class="formcontrol editor" ng-if="control.type=='advertisement'">  
 					  <div ng-bind-html="control.data"></div>  
+					</div>
+					<div class="formcontrol textarea" ng-if="control.type=='textarea'">
+						<div ng-bind-html="control.data"></div>
 					</div>
 					<!-- shortcode -->
 					<div class="formcontrol shortcode" ng-if="control.type=='shortcode'">  
@@ -326,8 +329,8 @@ get_header('template-print-page'); ?>
 								  </div>
 								</div>
 								<!-- text -->
-								<div class="formcontrol text" ng-if="control.type=='text'">
-								  <textarea class="textinput" placeholder="{{control.placeholder}}"></textarea>
+								<div class="formcontrol text" ng-if="control.type=='text'">								  
+								  <div ng-bind-html="control.data"></div>
 								</div>
 								<!-- Section -->
 								<div class="formcontrol number" ng-if="control.type=='section'">

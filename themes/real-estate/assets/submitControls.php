@@ -107,7 +107,7 @@
 </div>
 <!-- text -->
 <div class="formcontrol text text_box" ng-if="control.type=='text'">
-  <textarea class="textinput" ng-model="control.data" placeholder="{{control.default}}"></textarea>
+  <textarea class="textinput" ng-model="control.data"></textarea>
 </div>
 <!-- Section -->
 <div class="formcontrol number" ng-if="control.type=='section'">

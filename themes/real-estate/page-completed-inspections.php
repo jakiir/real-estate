@@ -44,7 +44,7 @@ get_header(); ?>
 				}
 			}
 			$selected_user = implode(',',$user_all);
-			
+			$template_table = $wpdb->prefix . 'template';
 			$table_inspection = $wpdb->prefix . 'inspection';
 			$inspectionReportDetail = $wpdb->prefix . 'inspectionreportdetail';
 			$user = wp_get_current_user();
@@ -89,6 +89,7 @@ get_header(); ?>
 					<tr>
 						<th>#</th>
 						<th>Report Id</th>
+						<th>Template</th>
 						<th>Prepared For</th>
 						<th>Date</th>
 						<th>#</th>
@@ -97,12 +98,15 @@ get_header(); ?>
 				<tbody>
 					<?php 
 						if(!empty($get_inspection)) {
-						$inc=1;
+						$inc=1;						
 						foreach($get_inspection as $inspection){
+							$templateId = $inspection->template_id;
+							$get_template = $wpdb->get_results( "SELECT name FROM $template_table WHERE id=$templateId", OBJECT );
 					?>
 						<tr>
 							<td><input type="checkbox" onClick="eachSelect(this)" name="report_box[]" data-report="<?php echo $inspection->id; ?>" data-saved="<?php echo $inspection->ird_id; ?>" data-url="link-<?php echo $inc; ?>" data-title="<?php echo $inspection->report_identification; ?>" data-company="<?php echo $inspection->company; ?>" data-prepared_for="<?php echo $inspection->prepared_for; ?>" value="<?php echo $inspection->template_id; ?>" data-print-url="<?php echo home_url('/template-print-page/?template='.$inspection->template_id.'&reportId='.$inspection->id.'&savedId='.$inspection->ird_id); ?>"/></td>
 							<td><a target="_blank" href="<?php echo home_url('/form-viewer/?item='.$inspection->template_id.'&report='.$inspection->id.'&saved='.$inspection->ird_id); ?>" class="link-<?php echo $inc; ?>" title="<?php echo $inspection->report_identification; ?>"><?php echo $inspection->report_identification; ?></a></td>
+							<td><?php echo $get_template[0]->name; ?></td>
 							<td><?php echo $inspection->prepared_for; ?></td>
 							<td><?php echo date('m/d/Y', strtotime($inspection->inpection_date)); ?></td>
 							<td><a target="_blank" href="<?php echo home_url('/edit-inspections/?ins_id='.$inspection->id); ?>" class="link-<?php echo $inc; ?>" title="<?php echo $inspection->report_identification; ?>"><i class="fa fa-edit"></i></a></td>

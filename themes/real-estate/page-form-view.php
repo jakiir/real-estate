@@ -106,6 +106,19 @@ get_header('form-viewer'); ?>
     <form class="theform formcontrol">
       <div ng-repeat="section in form" class="mainSection">
 	  <?php /*?><div ng-show="!section.children[0].subsection" ng-bind-html="section.children[0][0][0].data" class="commentBoxItem"></div><?php */?>
+	  <?php if($form_data[0]->wood_inspection == 'true'){ ?>
+	  <div ng-repeat="child in section.children" ng-if="!section.children[0].subsection" class="commentBoxItem">
+			<div class="">
+				<div class="row" ng-repeat="child in section.children">
+				  <div class="col" ng-repeat="controls in child">
+					<div ng-repeat="control in controls">
+					  <div ng-include="'<?php echo esc_url( home_url('/submition-controls/?report='.$report_id.'&saved='.$saved.'&item='.$template_id.'&att='.$att.'&hash='.$hash_id) ); ?>'"></div>
+					</div>
+				  </div>
+				</div>
+			</div>
+		</div>
+	  <?php } else { ?>
 	  <div ng-repeat="child in section.children" ng-if="!section.children[0].subsection" class="commentBoxItem">
 			<div class="">
 				<div class="row" ng-repeat="child in section.children">
@@ -152,6 +165,7 @@ get_header('form-viewer'); ?>
             </div>
           </div> 
         </div>
+	  <?php } ?>
       </div>
     </form>
 	
@@ -179,7 +193,7 @@ get_header('form-viewer'); ?>
         <i class="fa fa-file"></i> Save as PDF
       </a><?php */?>
 	  <?php if(!empty($form_data[0]->print_btn) && $form_data[0]->print_btn == 'true'){ ?>
-	  <a target="_blank" href="<?php echo home_url('/template-print-page/?template='.$template_id.'&reportId='.$report_id.'&savedId='.$saved.'&print=1'); ?>" id="printTemplateBtn-" class="btn-taptap"><i class="fa fa-print" aria-hidden="true"></i> Print</a>
+	  <a target="_blank" href="<?php echo home_url('/template-print-page/?template='.$template_id.'&reportId='.$report_id.'&savedId='.$saved.'&print=1'); ?>" id="printTemplateBtn-" class="btn-taptap"><i class="fa fa-print" aria-hidden="true"></i> Print / Save to PDF</a>
 	  <?php } ?>
     </div>
 	<?php } else { ?>

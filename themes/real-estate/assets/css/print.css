@@ -51,6 +51,9 @@ table.table-bordered tbody td.course-field {
     margin: 0;
     display: inline-block;
 }
+.formcontrol{padding:4px!important;}
+.formcontrol p {margin: 0px 0px 6px 0px;}
+.row{padding: 0 5px 10px 5px;}
 .print_pdf_footer{width:250px;margin:15px auto;font-size:18px;display:none;}
 .mainSection:nth-child(2) .shortcode{text-align:center;}
 @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) {

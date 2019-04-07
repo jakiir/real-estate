@@ -1,9 +1,9 @@
 .formcontrol{
-  padding:8px;
+  padding:4px;
   position: relative;
 }
 .formcontrol p{
-  margin:0px 0px 15px 0px;
+  margin:0px 0px 5px 0px;
 }
 .inputpretend{
   border:2px solid #aaa;

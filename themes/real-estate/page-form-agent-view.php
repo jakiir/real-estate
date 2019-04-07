@@ -84,7 +84,7 @@ get_header('form-agent-viewer');
           </div>
         </div>
       </div>
-    </header><?php */ ?>
+    </header><?php */ /* ?>
 	<table class="report-table">
 		<tr>
 			<th align="right" colspan="6" style="padding-bottom:10px;border:none;">
@@ -120,7 +120,7 @@ get_header('form-agent-viewer');
 			</th>
 		</tr>
 	</table>
-	<div class="page-break">&nbsp;</div>
+	<div class="page-break">&nbsp;</div><?php */ ?>
 	<?php /*<div class="report-table"><br/><br/><br/><br/><br/></div>
 	<table class="report-table report-info" style="border:none;">
 		<tr>
@@ -131,7 +131,7 @@ get_header('form-agent-viewer');
 		</tr>
 	</table>
 	<div class="report-table"><br/><br/><br/></div>*/ ?>
-	<p class="agent_info sectionhead" style="background-color:#9d1c1f;color:#fff;">
+	<p class="agent_info sectionhead section-false" style="background-color:#9d1c1f;color:#fff;">
 		This is a shared report.  You can click to expand each section to see the deficiencies identified.  Click the checkbox next to each deficiency you wish to share and then click print report or save as PDF at the bottom to generate the deficiencies report.
 	</p>
     <form class="theform formcontrol">		
@@ -281,13 +281,13 @@ get_header('form-agent-viewer');
         </div>
       </div>
     </form>
-	<div class="print_pdf_footer">
+	<?php /* ?><div class="print_pdf_footer">
 		Elite Inspection Group, LLC<br>
 		Administrative office and mailing address<br>
 		PO Box 2205 Frisco, TX 75034<br>
 		469-818-5500<br>
 		<a href="mailto:admin@eiginspection.com">admin@eiginspection.com</a> <a href="www.eigdallas.com">www.eigdallas.com</a>
-	</div>
+	</div><?php */ ?>
 </div>
 	<?php if($report_id){ ?>
     <div class="actions">
@@ -710,6 +710,7 @@ get_header('form-agent-viewer');
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/printThis.js"></script>
 	<script type="text/javascript">
 	$(document).ready(function () {
+		$(".commentBoxItem.ng-hide").parent('.mainSection').remove();
 		$(".printDrBtn").on("click", function (e) {
 			e.preventDefault();
 			var thisItem = $(this);

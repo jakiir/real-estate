@@ -15,9 +15,8 @@ body {
     margin-left: 20px;
     margin-right: 20px;
 }
-.page-break{page-break-after: always;}
-
-
+/*.page-break{page-break-after: always;}*/
+.theform{margin:0!important;}
 table.table-bordered tbody td.course-field {
     border-top: 0;
 }
