@@ -1,0 +1,175 @@
+area{
+  width: 100%;
+  float: left;
+}
+body{
+  font-size: 14px;
+  line-height: 20px;
+  color: #000000;
+  font-weight: normal;
+}
+.pl-25 {
+	padding-left: 25px;
+}
+.input__no.d__block.m-0,
+.m-0 {
+	margin: 0;
+}
+
+.tap__form-title {
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: bold;
+}
+.tap__address {
+  padding: 0 150px;
+}
+.tap__address p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 20px;
+  display: inline-block;
+  text-align: center;
+}
+.tap__address p span {
+  display: block;
+  font-size: 12px;
+}
+.tap__scope_instruction {
+  padding: 10px 0;
+}
+.tap__scope_instruction h2 {
+  margin: 0 0 5px 0;
+  font-size: 14px;
+  line-height: 18px;
+  text-decoration: underline;
+  font-weight: bold;
+}
+.tap__scope_instruction ol {
+	margin: 0;
+	padding-left: 20px;
+}
+.tap__scope_instruction ol li {
+  padding-left: 25px;
+}
+.tap__scope_instruction ol li span {
+  color: red;
+}
+.tap__input_set {
+	margin: 5px 0;
+}
+.input__no {
+  display: inline-block;
+  float: left;
+}
+.tap__input_field {
+  padding: 0 0 0 30px;
+}
+.input_control {
+  width: 100%;
+  padding: 0 15px;
+  border: none;
+  border-bottom: 1px solid #000;
+  box-shadow: none;
+  outline: none;
+}
+.tap__input_field label {
+  padding: 0 15px;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.tap__input_field.checkbox {
+  margin: 0;
+}
+.tap__input_field.checkbox [type="checkbox"] {
+  display: none;
+}
+.tap__input_field.checkbox label {
+  display: inline-block;
+  width: 100%;
+  position: relative;
+  min-height: unset;
+}
+.tap__input_field.checkbox label::after {
+  content: "";
+  width: 13px;
+  height: 13px;
+  border: 1px solid #000000;
+  position: absolute;
+  top: 0;
+  right: 60%;
+}
+.tap__input_field.checkbox label::before {
+  content: "X";
+  position: absolute;
+  top: 0;
+  right: 60.5%;
+  font-size: 10px;
+  line-height: 12px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s linear;
+}
+.tap__input_field.checkbox input[type="checkbox"]:checked + label::before {
+  opacity: 1;
+  visibility: visible;
+}
+.tap__input_field.checkbox.inline-checkbox {
+	margin: 3px 0 0;
+	display: inline-block;
+	padding: 0;
+}
+.tap__input_field.checkbox.inline-checkbox label {
+	width: auto;
+	padding: 0 20px 0 0;
+	float: left;
+	margin-left: 25px;
+}
+.tap__input_field.checkbox.inline-checkbox label::before {
+  right: 3px;
+}
+.tap__input_field.checkbox.inline-checkbox label::after {
+  right: 0;
+}
+.tap__input_field .note {
+	font-size: 12px;
+	line-height: 16px;
+	display: inline-block;
+	padding-left: 15px;
+	position: relative;
+	top: -3px;
+}
+.input__no.d__block {
+	width: 100%;
+	margin: 0 0 5px;
+}
+.grid_checkbox_layout .tap__input_field.checkbox {
+	padding: 0 0 0 10px;
+}
+.grid_checkbox_layout .tap__input_field.checkbox label::before{
+  right: 3px;
+}
+.grid_checkbox_layout .tap__input_field.checkbox label::after{
+  right: 0;
+}
+.tap__input_set.inline__input_field .input_control {
+	width: auto;
+}
+.diagram_img {
+	margin: 15px 0;
+}
+.address_block h4, .address_block p {
+	margin: 0;
+}
+.address_block {
+	margin: 40px 0 0;
+}
+.tap__raw_form_body {
+	padding-bottom: 50px;
+}
+
+
+
+/*  */

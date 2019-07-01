@@ -22,7 +22,7 @@ get_header(); ?>
 	}
 ?>
 <style>
-	#profilePicRemover{
+	.profilePicRemover{
 		position: absolute;
 		top: 2px;
 		right: 22px;
@@ -99,10 +99,10 @@ get_header(); ?>
 						  <input type="checkbox" id="checkbox-other" name="case_number" value="Other"><label for="checkbox-other">Other</label>
 						</div>
 					  </div>
-					  <div class="col-sm-12">
+					  <?php /*?><div class="col-sm-6">
 						<label for="inspection_buyer_name">Inspection Buyer Name</label>
 						<input type="text" class="form-control" name="inspection_buyer_name" id="inspection_buyer_name">
-					  </div>
+					  </div><?php */ ?>
 					  <div class="col-sm-12">
 						<label for="inspection_buyer_type">Inspection Buyer Type</label>
 						<div class="share-checkbox">
@@ -244,14 +244,22 @@ get_header(); ?>
 						  <input type="radio" id="radio-vacant" name="inspection_status" value="vacant"><label for="radio-vacant">Vacant</label>
 						</div>
 						<!-- End of status-radios -->
-					  </div>				  
-					  <div class="col-sm-12">
+					  </div>
+						<div class="col-sm-6">
+						<div class="edit-cover-img" id="hsc_header_photo">
+						  <?php $defaultImage = esc_url( get_template_directory_uri() ).'/images/edit-template-default.png'; ?>
+						  <img alt="img" src="<?php echo $defaultImage; ?>" class="avatar img-responsive preview_image" id="preview_image_header" style="height:208px;">
+						</div>
+						<label class="btn-file-upload" for="template_header_img" style="margin-top:5px;margin-bottom:30px;">Upload Header Image</label>
+						<input type="file" name="header_photo" style="display:none;" id="template_header_img" onchange="instantPhotoUpload(this,'hsc_header_photo')">
+					  </div>					  
+					  <div class="col-sm-6">
 						<div class="edit-cover-img" id="hsc_std_photo">
 						  <?php $defaultImage = esc_url( get_template_directory_uri() ).'/images/edit-template-default.png'; ?>
-						  <img alt="img" src="<?php echo $defaultImage; ?>" class="avatar img-responsive" id="preview_image" style="height:208px;">
+						  <img alt="img" src="<?php echo $defaultImage; ?>" class="avatar img-responsive preview_image" id="preview_image" style="height:208px;">
 						</div>
 						<label class="btn-file-upload" for="template_cover_logo" style="margin-top:5px;margin-bottom:30px;">Upload Cover Photo</label>
-						<input type="file" name="photo" "="" id="template_cover_logo" onchange="instantPhotoUpload(this)">
+						<input type="file" name="photo" id="template_cover_logo" onchange="instantPhotoUpload(this,'hsc_std_photo')">
 					  </div>
 					  <!-- End of col -->
 				  </div>
@@ -365,11 +373,12 @@ jQuery(function($){
 					notice_inspections.push($(this).val());
 				});
 				var notice_inspection = notice_inspections.join(",");
-				var inspection_buyer_name = jQuery('#inspection_buyer_name').val();
+				var inspection_buyer_name = '';//jQuery('#inspection_buyer_name').val();
 				var list_structure = $('textarea#list_structure').val();
 				
 				
-				var file_data = $('#template_cover_logo').prop('files')[0];				
+				var file_data = $('#template_cover_logo').prop('files')[0];	
+				var header_image = $('#template_header_img').prop('files')[0];				
 				var form_data = new FormData();
 				
 				form_data.append('action', 'perform_inspections');
@@ -399,6 +408,7 @@ jQuery(function($){
 				form_data.append('list_structure', list_structure);
 				
 				form_data.append('cover_photo', file_data);
+				form_data.append('header_image', header_image);
 				
 				$.ajax({					
 					url: '<?php echo admin_url('admin-ajax.php'); ?>',
@@ -430,22 +440,22 @@ jQuery(function($){
 });
 
 	var abc = 0; 
-	function instantPhotoUpload(THIS){
+	function instantPhotoUpload(THIS,selfId){
 		if (THIS.files && THIS.files[0]) {
-			$('#profilePicRemover').remove();
+			$('#'+selfId+' .profilePicRemover').remove();
 			 abc += 1; //increementing global variable by 1		
 			var z = abc - 1;
 			var reader = new FileReader();
-			reader.onload = imageIsLoaded;
+			reader.onload = function(reader){
+                var dataURI = reader.target.result;
+				$('#'+selfId+' .preview_image').attr('src', dataURI);
+            };
 			reader.readAsDataURL(THIS.files[0]);
-			$("#hsc_std_photo").append($("<img/>", {id: 'profilePicRemover', src: '<?php echo esc_url( get_template_directory_uri() ); ?>/images/remove.png', alt: 'delete'}).click(function() {
-				$('#preview_image').attr('src', '<?php echo $defaultImage; ?>');
-				$('#profilePicRemover').remove();
+			$("#"+selfId).append($("<img/>", {class: 'profilePicRemover', src: '<?php echo esc_url( get_template_directory_uri() ); ?>/images/remove.png', alt: 'delete'}).click(function() {
+				$('#'+selfId+' .preview_image').attr('src', '<?php echo $defaultImage; ?>');
+				$('#'+selfId+' .profilePicRemover').remove();
 			}));
 		}
-	}
-	function imageIsLoaded(e) {
-		$('#preview_image').attr('src', e.target.result);
 	}
 
 </script>

@@ -641,6 +641,26 @@ function perform_inspections(){
 					  $exist_img = !empty($_POST['exist_img']) ? $_POST['exist_img'] : '';
 					  $wpdb->query($wpdb->prepare("UPDATE $table_inspection SET cover_photo='".$exist_img."' WHERE id=$inspection_id"));
 				  }
+				  
+				  $header_image = $_FILES['header_image'];
+				  if(!empty($header_image)){
+					  $upload_overrides = array('test_form' => false);
+					  $header_image_file = wp_handle_upload($header_image, $upload_overrides);
+					// echo $movefile['url'];
+					if ($header_image_file && !isset($header_image_file['error'])) {
+						  $header_image_url = $header_image_file['url'];
+						  $wpdb->query($wpdb->prepare("UPDATE $table_inspection SET header_image='".$header_image_url."' WHERE id=$inspection_id"));
+					} else {
+						 $results = array(
+							'success' => false,
+							'mess' => $header_image_file['error']
+						 );			
+					}	
+				  } else {
+					  $exist_header_img = !empty($_POST['exist_header_img']) ? $_POST['exist_header_img'] : '';
+					  $wpdb->query($wpdb->prepare("UPDATE $table_inspection SET header_image='".$exist_header_img."' WHERE id=$inspection_id"));
+				  }
+				  
 			 }
 			 if(empty($results)){
 				 $results = array(
@@ -705,6 +725,23 @@ function perform_inspections(){
 						 $results = array(
 							'success' => false,
 							'mess' => $movefile['error']
+						 );			
+					}	
+				  }
+				  
+				  $header_image = $_FILES['header_image'];
+				  if(!empty($header_image)){
+					  $upload_overrides = array('test_form' => false);
+					  $header_image_file = wp_handle_upload($header_image, $upload_overrides);
+
+					// echo $movefile['url'];
+					if ($header_image_file && !isset($header_image_file['error'])) {
+						  $header_image_url = $header_image_file['url'];
+						  $wpdb->query($wpdb->prepare("UPDATE $table_inspection SET header_image='".$header_image_url."' WHERE id=$lastid"));
+					} else {
+						 $results = array(
+							'success' => false,
+							'mess' => $header_image_file['error']
 						 );			
 					}	
 				  }
@@ -1655,14 +1692,14 @@ function shortcode_wdi($content){
 			$inspected_address_zip = "<span class='every_span'><div class='under_line'>".$get_inspection->zip_code.'</div>Zip Code</span>';
 			$inspector_types = (!empty($get_inspection->inspector_type) ? explode(',',$get_inspection->inspector_type) : []);
 			$inspector_type = "<span class='every_span'><div class='inspector_type'><label for='certified_applicator'>Certified Applicator</label> <input type='checkbox' ".(in_array('Certified Applicator', $inspector_types) ? 'checked=checked' : null)." name='certified_applicator' id='certified_applicator' ng-model='control.inspected_type1' value='control.inspected_type1' ng-checked='{{control.inspected_type1}}'> &nbsp;&nbsp;&nbsp;&nbsp;(check one)<br><label for='technician'>Technician</label> <input type='checkbox' ".(in_array('Technician', $inspector_types) ? 'checked=checked' : null)." name='technician' id='technician' ng-model='control.inspected_type2' value='control.inspected_type2' ng-checked='{{control.inspected_type2}}'></div>";
-			$case_number = "<span class='every_span'><div class='under_line'>".$get_inspection->case_number."</div>Case Number (VA/FHA/Other)</span></span>";
+			$case_number = "<span class='every_span'><div class='under_line'>".(!empty($get_inspection->case_number) ? $get_inspection->case_number : 'N/A')."</div>Case Number (VA/FHA/Other)</span></span>";
 			
 			$inspection_buyer_types = (!empty($get_inspection->inspection_buyer_type) ? explode(',',$get_inspection->inspection_buyer_type) : []);
 			$buyer_type = "<span class='every_span'><div class='inspection_buyer' style='clear:both;'><span><label for='buyer-seller'>Seller</label> <input type='checkbox' ".(in_array('Seller', $inspection_buyer_types) ? 'checked=checked' : null)." name='buyer-seller' id='buyer-seller' ng-model='control.inspection_buyer_types1' value='control.inspection_buyer_types1' ng-checked='{{control.inspection_buyer_types1}}'></span><span><label for='buyer-agent'>Agent</label> <input type='checkbox' ".(in_array('Agent', $inspection_buyer_types) ? 'checked=checked' : null)." name='buyer-agent' id='buyer-agent' ng-model='control.inspection_buyer_types2' value='control.inspection_buyer_types2' ng-checked='{{control.inspection_buyer_types2}}'></span><span><label for='buyer-buyer'>Buyer</label> <input type='checkbox' ".(in_array('Buyer', $inspection_buyer_types) ? 'checked=checked' : null)." name='buyer-buyer' id='buyer-buyer' ng-model='control.inspection_buyer_types3' value='control.inspection_buyer_types3' ng-checked='{{control.inspection_buyer_types3}}'></span><span><label for='buyer-management_co'>Management Co</label> <input type='checkbox' ".(in_array('Management Co', $inspection_buyer_types) ? 'checked=checked' : null)." name='buyer-management_co' id='buyer-management_co' ng-model='control.inspection_buyer_types4' value='control.inspection_buyer_types4' ng-checked='{{control.inspection_buyer_types4}}'></span><span><label for='buyer-other'>Other</label> <input type='checkbox' ".(in_array('Other', $inspection_buyer_types) ? 'checked=checked' : null)." name='buyer-other' id='buyer-other' ng-model='control.inspection_buyer_types5' value='control.inspection_buyer_types5' ng-checked='{{control.inspection_buyer_types5}}'></span></div></span>";
 			
-			$inspection_buyer_name = "<span class='every_span'><div class='under_line'>".$get_inspection->inspection_buyer_name."</div>Name of Person Purchasing Inspection</span>";
+			$inspection_buyer_name = "<span class='every_span'><div class='under_line'>".$get_inspection->prepared_for."</div>Name of Person Purchasing Inspection</span>";
 			
-			$owner_type = "<span class='every_span'><div class='under_line'>".$get_inspection->owner_type."</div>Owner/Seller</span>";
+			$owner_type = "<span class='every_span'><div class='under_line'>".(!empty($get_inspection->owner_type) ? $get_inspection->owner_type : 'N/A')."</div>Owner/Seller</span>";
 			$report_forwarded_to = (!empty($get_inspection->report_forwarded_to) ? explode(',',$get_inspection->report_forwarded_to) : []);
 			$report_forwarded = "<span class='every_span'><div class='inspection_buyer' style='clear:both;'><span><label for='forwarded-mortgage'>Title Company or Mortgage</label> <input type='checkbox' ".(in_array('Title Company or Mortgage', $report_forwarded_to) ? 'checked=checked' : null)." name='forwarded-mortgage' id='forwarded-mortgage' ng-model='control.report_forwarded_to1' value='control.report_forwarded_to1' ng-checked='{{control.report_forwarded_to1}}'></span><span><label for='forwarded-purchaser'>Purchaser of Service</label> <input type='checkbox' ".(in_array('Purchaser of Service', $report_forwarded_to) ? 'checked=checked' : null)." name='forwarded-purchaser' id='forwarded-purchaser' ng-model='control.report_forwarded_to2' value='control.report_forwarded_to2' ng-checked='{{control.report_forwarded_to2}}'></span><span><label for='forwarded-seller'>Seller</label> <input type='checkbox' ".(in_array('Seller', $report_forwarded_to) ? 'checked=checked' : null)." name='forwarded-seller' id='forwarded-seller' ng-model='control.report_forwarded_to3' value='control.report_forwarded_to3' ng-checked='{{control.report_forwarded_to3}}'></span><span><label for='forwarded-agent'>Agent</label> <input type='checkbox' ".(in_array('Agent', $report_forwarded_to) ? 'checked=checked' : null)." name='forwarded-agent' id='forwarded-agent' ng-model='control.report_forwarded_to4' value='control.report_forwarded_to4' ng-checked='{{control.report_forwarded_to4}}'></span><span><label for='forwarded-buyer'>Buyer</label> <input type='checkbox' ".(in_array('Buyer', $report_forwarded_to) ? 'checked=checked' : null)." name='forwarded-buyer' id='forwarded-buyer' ng-model='control.report_forwarded_to5' value='control.report_forwarded_to5' ng-checked='{{control.report_forwarded_to5}}'></span></div></span>";
 			$list_structures = "<span class='every_span'>".$get_inspection->list_structure."</span>";

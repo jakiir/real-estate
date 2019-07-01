@@ -1,0 +1,180 @@
+body {
+	padding: 0;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 9px;
+}
+@page {
+	size: auto;   /* auto is the initial value */
+	margin:0;  /* this affects the margin in the printer settings */
+	margin-top:10px;
+	margin-bottom:10px;
+	margin-left:15px;
+	margin-right:15px;
+	size: Letter Portrait;
+}
+@media print {
+  body {
+    width: 8.5in;
+    height: 11in;
+  }
+  /* etc */
+}
+@page:right{
+    @bottom-left {
+        margin: 10pt 0 10pt 0;
+        border-top: .25pt solid #666;
+        content: "Our Cats";
+        color: #333;
+    }
+    @bottom-right {
+        margin: 10pt 0 10pt 0;
+        border-top: .25pt solid #666;
+        content: counter(page);
+    }
+    @top-right {
+        content:  string(doctitle);
+        margin: 10pt 0 10pt 0;
+        color: #333;
+    }
+}
+@page:first {
+    @bottom-right {
+        content: normal;
+        margin: 0;
+    }
+    @bottom-left {
+        content: normal;
+        margin: 0;
+    }
+}
+@page:left {
+    @bottom-right {
+        margin: 10pt 0 30pt 0;
+        border-top: .25pt solid #666;
+        content: "Our Cats";
+        color: #333;
+    }
+    @bottom-left {
+        margin: 10pt 0 30pt 0;
+        border-top: .25pt solid #666;
+        content: counter(page);
+    }
+}
+#drlistDivTbl,#printAreaDiv {
+    margin-left:5px;
+    margin-right:5px;
+}
+.page-break{page-break-after: always;}
+
+
+table.table-bordered tbody td.course-field {
+    border-top: 0;
+}
+.actions{width:0;height:0;}
+/*.documentHides{display:none;width:0;height:0;margin: 0;}
+.fa{display:none;}
+.wysiwygpretend,.imgcomment{display:none;}
+.section-false{display:none;}
+.section-.ng-hide,.commentBoxItem.ng-hide,.commentCheckbox{display:none;}
+.ng-empty,.showing-false{display:none!important;}
+.ng-empty + label{display:none!important;}
+.chk-label-,.chk-label-false{display:none!important;}
+.ng-binding.ng-hide{display:none;}
+.not_required_true, .not_required_true img.imggap{display:none;}
+.display-checkbox{display:none;}
+.print_pdf_footer{display:none;}
+*/
+.not_required_true, .not_required_true img.imggap{display:none;}
+.imgdrop .hovereffect{display:none;}
+.wysiwygpretend,.imgcomment,.fileinput{display:none;}
+.printShow{visibility:visible;}
+/*input[type='checkbox'] {display:none;}*/
+.print_pdf_footer,.viewHide,#fullReportPrint{display:block!important;}
+.report-table{width:100%;display:table!important;}
+.mainSection:first-child{display:block!important;}
+.top-ins.ng-empty{display:inline-block!important;}
+/*.ng-empty + label{display:none;}*/
+.add_comment_false img.imggap{display:none;}
+/*for chrome*/
+.under_line {
+    border-bottom: 2px solid #000;
+    font-weight: bold;
+    color: #000;
+}
+.every_span {
+    display: inline-grid;
+}
+.inspector_type label {
+    min-width: 149px;
+    margin: 0;
+    display: inline-block;
+}
+.formcontrol p {
+    margin: 0;
+}
+.col {
+    padding: 1px 5px !important;
+}
+.row {
+    padding:0;
+	line-height: 12px!important;
+	margin-right: -15px;
+    margin-left: -15px;
+}
+.print_pdf_footer{width:250px;margin:8px auto;font-size:18px;}
+.mainSection:nth-child(2) .shortcode{text-align:center;}
+.wood_inspection ul, .wood_inspection ol{margin:0;padding:0;}
+/*.wood_inspection .formcontrol.text_label,.wood_inspection .formcontrol.static,.wood_inspection .formcontrol.comment,.wood_inspection .formcontrol.textarea,.wood_inspection .formcontrol.image,.wood_inspection .formcontrol.text{margin-left:15px;}
+.wood_inspection .formcontrol.checkbox{margin-left:15px;}
+.wood_inspection .formcontrol.editor{margin-left:25px;}
+.shortcode{margin-left:15px;}
+.checkbox-label{margin-right:12px;}
+*/
+#pagefooter{display:block;}
+textarea {
+    border: none;
+    overflow: auto;
+    outline: none;
+
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+
+    resize: none; /*remove the resize handle on the bottom right*/
+}
+.wood_inspection .formcontrol.checkbox {margin-left:0px;margin:0;}
+.inline-checkbox-view label{
+    padding-left:0;
+    margin-bottom: 0;
+    font-weight:normal;
+	margin-top:0;
+	font-size:7.8px!important;
+	color:#000!important;
+	line-height:12px!important;
+}
+.wood_inspection .inline-checkbox-view input[type=checkbox]{margin-left:5px;width: 11px;}
+.wood_inspection .commentBoxItem{margin-left:15px;margin-right:10px;}
+.wood_inspection .formcontrol img{display: block;width: 36%;margin: 0 auto;}
+.wood_inspection .formcontrol img{display: block;width: 36%;margin: 0 auto;}
+.wood_inspection .section-1526328932939 .inline-checkbox-view,
+.wood_inspection .section-1526329365584 .inline-checkbox-view,
+.wood_inspection .section-1526329486413 .inline-checkbox-view,
+.wood_inspection .section-1526329535555 .inline-checkbox-view,
+.wood_inspection .section-1526329605298 .inline-checkbox-view,
+.wood_inspection .section-1526330256903 .inline-checkbox-view
+{float:left;}
+.wood_inspection .section-1526328932939 .inline-checkbox-view input[type=checkbox],
+.wood_inspection .section-1526329365584 .inline-checkbox-view input[type=checkbox],
+.wood_inspection .section-1526329486413 .inline-checkbox-view input[type=checkbox],
+.wood_inspection .section-1526329535555 .inline-checkbox-view input[type=checkbox],
+.wood_inspection .section-1526329605298 .inline-checkbox-view input[type=checkbox],
+.wood_inspection .section-1526330256903 .inline-checkbox-view input[type=checkbox]
+{position:relative;}
+.formcontrol{padding:0 4px !important;}
+@media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) {
+    #drlistDivTbl,#printAreaDiv {
+        margin-left: 20px;
+        margin-right: 20px;
+        padding-left: 0;
+    }
+}

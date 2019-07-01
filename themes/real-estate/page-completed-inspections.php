@@ -28,8 +28,7 @@ get_header(); ?>
 		  <h2 class="page-title-body">Completed Inspections</h2>
 		<?php
 			global $wpdb;
-			$user_id = get_current_user_id();
-			
+			$user_id = get_current_user_id();			
 			$parrent_user = esc_attr( get_the_author_meta( 'parrent_user', $user_id ) );
 			if(empty($parrent_user)) $parrent_user = $user_id;
 			$users = get_users(array(
@@ -42,7 +41,7 @@ get_header(); ?>
 				foreach($users as $user){
 					$user_all[] = $user->ID;
 				}
-			}
+			}			
 			$selected_user = implode(',',$user_all);
 			$template_table = $wpdb->prefix . 'template';
 			$table_inspection = $wpdb->prefix . 'inspection';
@@ -57,6 +56,7 @@ get_header(); ?>
 			if($getShowData == 'month'){
 				$whereAdd = " inpection_date BETWEEN CURDATE() - INTERVAL 30 DAY AND CURDATE()";
 			}
+			
 			if(!empty($user) && $user->roles[0] == 'administrator'){
 				if(!empty($whereAdd))
 				$whereAdd = ' WHERE '.$whereAdd;
@@ -101,10 +101,11 @@ get_header(); ?>
 						$inc=1;						
 						foreach($get_inspection as $inspection){
 							$templateId = $inspection->template_id;
-							$get_template = $wpdb->get_results( "SELECT name FROM $template_table WHERE id=$templateId", OBJECT );
+							$get_template = $wpdb->get_results( "SELECT name,wood_inspection FROM $template_table WHERE id=$templateId", OBJECT );
+							$wood_inspection = $get_template[0]->wood_inspection;
 					?>
 						<tr>
-							<td><input type="checkbox" onClick="eachSelect(this)" name="report_box[]" data-report="<?php echo $inspection->id; ?>" data-saved="<?php echo $inspection->ird_id; ?>" data-url="link-<?php echo $inc; ?>" data-title="<?php echo $inspection->report_identification; ?>" data-company="<?php echo $inspection->company; ?>" data-prepared_for="<?php echo $inspection->prepared_for; ?>" value="<?php echo $inspection->template_id; ?>" data-print-url="<?php echo home_url('/template-print-page/?template='.$inspection->template_id.'&reportId='.$inspection->id.'&savedId='.$inspection->ird_id); ?>"/></td>
+							<td><input type="checkbox" onClick="eachSelect(this,<?php echo $wood_inspection; ?>)" name="report_box[]" data-report="<?php echo $inspection->id; ?>" data-saved="<?php echo $inspection->ird_id; ?>" data-url="link-<?php echo $inc; ?>" data-title="<?php echo $inspection->report_identification; ?>" data-company="<?php echo $inspection->company; ?>" data-prepared_for="<?php echo $inspection->prepared_for; ?>" value="<?php echo $inspection->template_id; ?>" data-print-url="<?php echo home_url('/template-print-page/?template='.$inspection->template_id.'&reportId='.$inspection->id.'&savedId='.$inspection->ird_id); ?>"/></td>
 							<td><a target="_blank" href="<?php echo home_url('/form-viewer/?item='.$inspection->template_id.'&report='.$inspection->id.'&saved='.$inspection->ird_id); ?>" class="link-<?php echo $inc; ?>" title="<?php echo $inspection->report_identification; ?>"><?php echo $inspection->report_identification; ?></a></td>
 							<td><?php echo $get_template[0]->name; ?></td>
 							<td><?php echo $inspection->prepared_for; ?></td>
@@ -293,7 +294,12 @@ $(document).ready(function() {
 	
 });
 
-function eachSelect(source){
+function eachSelect(source,templateType){
+	if(templateType == true){
+		alert('This template is not shareable!');
+		$(source).prop('checked', false);
+		return false;
+	}
 	var checkedboxesCount = document.querySelectorAll('input[name="report_box[]"]:checked').length;
 	if(checkedboxesCount > 0){
 		$('.checkBoxSlected').prop('disabled',false);

@@ -49,17 +49,22 @@ get_header('template-print-page'); ?>
 <?php if($form_data[0]->no_cover != 'true'){ ?>
 	<table class="report-table">
 		<tr>
-			<th align="right" colspan="6" style="padding-bottom:10px;border:none;">				
-				<img src="<?php echo !empty($get_inspection[0]->cover_photo) ? $get_inspection[0]->cover_photo : '/wp-content/themes/real-estate/images/cover_photo.jpg'; ?>" class="avatar img-responsive" alt="avatar" style="width:100%;">				
+			<th align="center" colspan="6" style="padding-bottom:10px;border:none;">	
+				<?php if(!empty($get_inspection[0]->header_image)){ ?>
+				<img src="<?php echo !empty($get_inspection[0]->header_image) ? $get_inspection[0]->header_image : '/wp-content/themes/real-estate/images/cover_photo.jpg'; ?>" class="avatar img-responsive" alt="avatar" style="width:100%;margin:0 auto;">
+				<?php } ?>
 				<br/>
 				<div style="text-transform:capitalize;text-align:center;font-size:25px;">
 				<?php echo $get_inspection[0]->report_identification; ?></div>
+				<br/>
+				<img src="<?php echo !empty($get_inspection[0]->cover_photo) ? $get_inspection[0]->cover_photo : '/wp-content/themes/real-estate/images/cover_photo.jpg'; ?>" class="avatar img-responsive" alt="avatar" style="width:100%;max-height:350px;margin:0 auto;">				
+				
 				<?php //echo $form_data[0]->name.' Report'; ?>
 			</th>
 		</tr>
 		</table>
 		<div class="report-table" style="border:none;">
-			<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+			<br/><br/>
 		</div>
 		<table class="report-table" style="border:none;">
 		<tr>
@@ -96,19 +101,23 @@ get_header('template-print-page'); ?>
 	</table>
 	<div class="report-table"><br/><br/><br/></div>*/ ?>
     <form class="theform">
-      <div ng-repeat="section in form" class="mainSection">
-	  <?php /* ?><div ng-if="section.children[1] ? true : false" ng-bind-html="section.children[0][0][0].data" class="commentBoxItem"></div>
-		<div ng-repeat="child in section.children" ng-if="!section.children[0].subsection" class="commentBoxItem">
-			<div class="">
-				<div class="row" ng-repeat="child in section.children">
-				  <div class="col" ng-repeat="controls in child">
-					<div ng-repeat="control in controls">
-					  <div ng-include="'<?php echo esc_url( home_url('/submition-controls/?report='.$report_id.'&saved='.$saved.'&item='.$template_id.'&att='.$att.'&hash='.$hash_id.'&print=yes') ); ?>'"></div>
+      <div ng-repeat="section in form" class="mainSection">	  
+	  <?php /*?><div ng-if="section.children[1] ? true : false" ng-bind-html="section.children[0][0][0].data" class="commentBoxItem"></div><?php */?>
+	  <?php if($form_data[0]->wood_inspection == 'true'){ ?>
+		<div class="wood_inspection">		
+			<div ng-repeat="child in section.children" ng-if="!section.children[0].subsection" class="commentBoxItem section-{{section.children[0][0][0].hash}}">
+				<div class="">
+					<div class="row" ng-repeat="child in section.children">
+					  <div class="col" ng-repeat="controls in child">
+						<div ng-repeat="control in controls">
+						  <div ng-include="'<?php echo esc_url( home_url('/submit-controls-wood/?report='.$report_id.'&saved='.$saved.'&item='.$template_id.'&att='.$att.'&hash='.$hash_id.'&print=yes') ); ?>'"></div>
+						</div>
+					  </div>
 					</div>
-				  </div>
 				</div>
 			</div>
-		</div><?php */ ?>
+		</div>
+	<?php } else { ?>
 	  <div ng-repeat="child in section.children" ng-if="section.children[1] ? false : true" class="commentBoxItem">
 			<div class="">
 				<div class="row" ng-repeat="child in section.children">
@@ -405,7 +414,15 @@ get_header('template-print-page'); ?>
             </div>
           </div> 
         </div>
+		 <?php } ?>
       </div>
+		<?php if($form_data[0]->wood_inspection == 'true'){ ?>
+			<div id="pagefooter" style="color:#7E7E7E;font-size:14px;text-align: center;">
+				Licensed and Regulated by the Texas Department of Agriculture<br/>
+				P.O. Box 12847, Austin, Texas 78711-2847<br/>
+				Phone 866-918-4481, Fax 888-232-2567
+			</div>
+		<?php } ?>
     </form>	
 </div>
   </div>
@@ -445,22 +462,49 @@ get_header('template-print-page'); ?>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/jq.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/submitapp.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/printThis.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jQuery.print.js"></script>
 	<script type="text/javascript">
+		<?php if($form_data[0]->wood_inspection == 'true'){ ?>
+			var cssUrl = "<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/print-wood-inspection.css";
+		<?php } else { ?>
+			var cssUrl = "<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/print-templete-print.css";
+		<?php } ?>
 		function printTemplateBtn(){
 			//e.preventDefault();
-			$('.ng-not-empty').parent('.commentprompt').parent().removeClass('not_required_true');
-			$('.ng-empty').parent('.commentprompt').parent().addClass('not_required_true');
+			//$('.ng-not-empty').parent('.commentprompt').parent().removeClass('not_required_true');
+			//$('.ng-empty').parent('.commentprompt').parent().addClass('not_required_true');
 			var thisItem = $("#printTemplateBtn");
 			thisItem.find('.fa').removeClass('fa-print').addClass('fa-refresh fa-spin');
-			$("#templateViewer").printThis({
+			$("#templateViewer").print({
+                    //Use Global styles
+                    globalStyles : false,
+                    //Add link with attrbute media=print
+                    mediaPrint : false,
+                    //Custom stylesheet
+                    stylesheet : cssUrl,
+                    //Print in a hidden iframe
+                    iframe : false,
+                    //Don't print this
+                    noPrintSelector : ".avoid-this",
+                    //Add this at top
+                    prepend : "",
+                    //Add this on bottom
+                    append : "",
+                    //Log to console when printing is done via a deffered callback
+                    deferred: $.Deferred().done(function() { console.log('Printing done', arguments); })
+                });
+			/*$("#templateViewer").printThis({
 				importStyle: false,         // import style tags
 				printContainer: true,
-				loadCSS: "<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/print-templete-print.css",
+				//footer: $('#pagefooter'),
+				loadCSS: cssUrl,
 				importCSS: false,
-				copyTagClasses: false,
+				copyTagClasses: true,
 				printDelay: 500,
-				debug:false
-			});
+				debug:false,
+				header: null,               // prefix to html
+				footer: null,               // postfix to html
+			});*/
 			setTimeout(function(){
 				thisItem.find('.fa').removeClass('fa-refresh fa-spin').addClass('fa-print');
 			},1000);
@@ -468,7 +512,7 @@ get_header('template-print-page'); ?>
 	$(document).ready(function () {
 		
 		
-		$("#fullPrintTemplateBtn").on("click", function (e) {
+		/*$("#fullPrintTemplateBtn").on("click", function (e) {
 			e.preventDefault();
 			var thisItem = $("#fullPrintTemplateBtn");
 			thisItem.find('.fa').removeClass('fa-print').addClass('fa-refresh fa-spin');
@@ -484,7 +528,7 @@ get_header('template-print-page'); ?>
 			setTimeout(function(){
 				thisItem.find('.fa').removeClass('fa-refresh fa-spin').addClass('fa-print');
 			},1000);
-		});
+		});*/
 		
 		<?php if(isset($_GET['print'])){ ?>
 			setTimeout(function(){
@@ -493,12 +537,34 @@ get_header('template-print-page'); ?>
 		<?php } ?>
 		
 	});
-	function expand_nav_menu() {
-		$('#navbar').toggleClass('in');
-	}
-	$(".dropdown").on("click", function (e) {
-		$(this).toggleClass('open');
-	});
+	
+	/*jQuery(function($) { 'use strict';
+            
+            $("#printTemplateBtn").on('click', function() {
+				var thisItem = $("#printTemplateBtn");
+				thisItem.find('.fa').removeClass('fa-print').addClass('fa-refresh fa-spin');
+                //Print ele4 with custom options
+                $("#templateViewer").print({
+                    //Use Global styles
+                    globalStyles : false,
+                    //Add link with attrbute media=print
+                    mediaPrint : false,
+                    //Custom stylesheet
+                    stylesheet : cssUrl,
+                    //Print in a hidden iframe
+                    iframe : false,
+                    //Don't print this
+                    noPrintSelector : ".avoid-this",
+                    //Add this at top
+                    prepend : "Hello World!!!<br/>",
+                    //Add this on bottom
+                    append : "<span><br/>Buh Bye!</span>",
+                    //Log to console when printing is done via a deffered callback
+                    deferred: $.Deferred().done(function() { console.log('Printing done', arguments); })
+                });
+            });
+            // Fork https://github.com/sathvikp/jQuery.print for the full list of options
+        });*/
 	
 	</script>
 	<style>

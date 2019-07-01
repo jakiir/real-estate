@@ -166,7 +166,7 @@
   <div ng-bind-html="control.data"></div>
 </div>
 <!-- wysiwyg -->
-<div class="formcontrol editor" ng-if="control.type=='comment'">
+<div class="formcontrol comment" ng-if="control.type=='comment'">
   <h4><input type="checkbox" id="{{control.htmlName}}" ng-click="commentListIsVisible=!commentListIsVisible" ng-model="control.comment1" value="control.comment1" ng-checked="{{control.comment1}}" class="commentCheckbox"> <label for="{{control.htmlName}}">{{control.label}}</label></h4>
 	<label class="switch" ng-show="commentListIsVisible=control.comment1">
 		<input type="checkbox" ng-init="control.shareicon=control.shareicon !== false || control.shareicon === true ? true : false" ng-model="control.shareicon" value="{{control.shareicon}}" ng-checked="{{control.shareicon}}">
@@ -182,7 +182,7 @@
   </div>
 </div>
 <!-- advertisment -->
-<div class="formcontrol editor" ng-if="control.type=='advertisement'">  
+<div class="formcontrol advertisement" ng-if="control.type=='advertisement'">  
   <div ng-bind-html="control.data"></div>
   <div class="wysiwygpretend">
     <textarea ui-tinymce="tinymceOptions" ng-model="control.data"></textarea>

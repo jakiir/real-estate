@@ -209,6 +209,32 @@ input:checked + .slider:before {
     font-weight:normal;
     cursor: pointer;
 	margin-top:0;
-	font-size: 14px;
+	font-size: 11px;
+	display:inline-block;
+	max-width: 255px;
 }
+.wood_inspection .inline-checkbox-view input[type=checkbox]{position:relative;right:0;top:4px;margin-left:5px;width: 11px;}
+.checkbox-label{margin-right:0px;margin-left:0;}
 .text_label{line-height:32px;}
+.wood_inspection .commentBoxItem{margin-left:15px;margin-right:10px;}
+.wood_inspection .section-1526328932939 .inline-checkbox-view,
+.wood_inspection .section-1526329365584 .inline-checkbox-view,
+.wood_inspection .section-1526329486413 .inline-checkbox-view,
+.wood_inspection .section-1526329535555 .inline-checkbox-view,
+.wood_inspection .section-1526329605298 .inline-checkbox-view,
+.wood_inspection .section-1526330256903 .inline-checkbox-view
+{float:left;}
+.wood_inspection .section-1526328932939 .inline-checkbox-view input[type=checkbox],
+.wood_inspection .section-1526329365584 .inline-checkbox-view input[type=checkbox],
+.wood_inspection .section-1526329486413 .inline-checkbox-view input[type=checkbox],
+.wood_inspection .section-1526329535555 .inline-checkbox-view input[type=checkbox],
+.wood_inspection .section-1526329605298 .inline-checkbox-view input[type=checkbox],
+.wood_inspection .section-1526330256903 .inline-checkbox-view input[type=checkbox]
+{position:relative;}
+.formcontrol{padding:0.5px 4px;}
+.formcontrol p {
+    margin: 0;
+}
+.col {
+    padding: 4px 5px !important;
+}
