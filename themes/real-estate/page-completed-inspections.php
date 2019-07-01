@@ -25,17 +25,48 @@ get_header(); ?>
 	<div class="row">
 	  <div class="col-sm-8 col-sm-offset-2">
 		<div class="box perform-inspection-box">
-		  <h2 class="page-title-body">Perform Inspection</h2>
+		  <h2 class="page-title-body">Completed Inspections</h2>
 		<?php
 			global $wpdb;
-			$user_id = get_current_user_id();
+			$user_id = get_current_user_id();			
+			$parrent_user = esc_attr( get_the_author_meta( 'parrent_user', $user_id ) );
+			if(empty($parrent_user)) $parrent_user = $user_id;
+			$users = get_users(array(
+				'meta_key'     => 'parrent_user',
+				'meta_value'   => $parrent_user,
+				'meta_compare' => '=',
+			));
+			$user_all[] = $parrent_user;
+			if(!empty($users)){
+				foreach($users as $user){
+					$user_all[] = $user->ID;
+				}
+			}			
+			$selected_user = implode(',',$user_all);
+			$template_table = $wpdb->prefix . 'template';
 			$table_inspection = $wpdb->prefix . 'inspection';
 			$inspectionReportDetail = $wpdb->prefix . 'inspectionreportdetail';
 			$user = wp_get_current_user();
+			$getShowData = (isset($_GET['show']) ? $_GET['show'] : '');
+			$whereAdd = '';
+			if($getShowData == 'year'){
+				$thisYear = date('Y');
+				$whereAdd = " YEAR(inpection_date) = $thisYear";
+			}
+			if($getShowData == 'month'){
+				$whereAdd = " inpection_date BETWEEN CURDATE() - INTERVAL 30 DAY AND CURDATE()";
+			}
+			
 			if(!empty($user) && $user->roles[0] == 'administrator'){
-				$get_inspection = $wpdb->get_results( "SELECT ins.id,ins.company,ins.template_id,ins.report_identification,ins.prepared_for,ins.inpection_date,ird.id as ird_id FROM $table_inspection as ins JOIN $inspectionReportDetail as ird ON ird.inspectionId=ins.id", OBJECT );
+				if(!empty($whereAdd))
+				$whereAdd = ' WHERE '.$whereAdd;
+			
+				$get_inspection = $wpdb->get_results( "SELECT ins.id,ins.company,ins.template_id,ins.report_identification,ins.prepared_for,ins.inpection_date,ird.id as ird_id FROM $table_inspection as ins JOIN $inspectionReportDetail as ird ON ird.inspectionId=ins.id $whereAdd ORDER BY ins.inpection_date DESC", OBJECT );
 			} else {
-				$get_inspection = $wpdb->get_results( "SELECT ins.id,ins.company,ins.template_id,ins.report_identification,ins.prepared_for,ins.inpection_date,ird.id as ird_id FROM $table_inspection as ins JOIN $inspectionReportDetail as ird ON ird.inspectionId=ins.id WHERE ins.user_id=$user_id", OBJECT );
+				if(!empty($whereAdd))
+				$whereAdd = ' AND '.$whereAdd;
+			
+				$get_inspection = $wpdb->get_results( "SELECT ins.id,ins.company,ins.template_id,ins.report_identification,ins.prepared_for,ins.inpection_date,ird.id as ird_id FROM $table_inspection as ins JOIN $inspectionReportDetail as ird ON ird.inspectionId=ins.id WHERE ins.user_id IN ($selected_user) $whereAdd ORDER BY ins.inpection_date DESC", OBJECT );
 			}
 		?>
 		<div class="panel-body table-responsive">
@@ -58,21 +89,28 @@ get_header(); ?>
 					<tr>
 						<th>#</th>
 						<th>Report Id</th>
+						<th>Template</th>
 						<th>Prepared For</th>
 						<th>Date</th>
+						<th>#</th>
 					</tr>
 				</thead>
 				<tbody>
 					<?php 
 						if(!empty($get_inspection)) {
-						$inc=1;
+						$inc=1;						
 						foreach($get_inspection as $inspection){
+							$templateId = $inspection->template_id;
+							$get_template = $wpdb->get_results( "SELECT name,wood_inspection FROM $template_table WHERE id=$templateId", OBJECT );
+							$wood_inspection = $get_template[0]->wood_inspection;
 					?>
 						<tr>
-							<td><input type="checkbox" onClick="eachSelect(this)" name="report_box[]" data-report="<?php echo $inspection->id; ?>" data-saved="<?php echo $inspection->ird_id; ?>" data-url="link-<?php echo $inc; ?>" data-title="<?php echo $inspection->report_identification; ?>" data-company="<?php echo $inspection->company; ?>" data-prepared_for="<?php echo $inspection->prepared_for; ?>" value="<?php echo $inspection->template_id; ?>" data-print-url="<?php echo home_url('/form-print-view/?item='.$inspection->template_id.'&report='.$inspection->id.'&saved='.$inspection->ird_id); ?>"/></td>
+							<td><input type="checkbox" onClick="eachSelect(this,<?php echo $wood_inspection; ?>)" name="report_box[]" data-report="<?php echo $inspection->id; ?>" data-saved="<?php echo $inspection->ird_id; ?>" data-url="link-<?php echo $inc; ?>" data-title="<?php echo $inspection->report_identification; ?>" data-company="<?php echo $inspection->company; ?>" data-prepared_for="<?php echo $inspection->prepared_for; ?>" value="<?php echo $inspection->template_id; ?>" data-print-url="<?php echo home_url('/template-print-page/?template='.$inspection->template_id.'&reportId='.$inspection->id.'&savedId='.$inspection->ird_id); ?>"/></td>
 							<td><a target="_blank" href="<?php echo home_url('/form-viewer/?item='.$inspection->template_id.'&report='.$inspection->id.'&saved='.$inspection->ird_id); ?>" class="link-<?php echo $inc; ?>" title="<?php echo $inspection->report_identification; ?>"><?php echo $inspection->report_identification; ?></a></td>
+							<td><?php echo $get_template[0]->name; ?></td>
 							<td><?php echo $inspection->prepared_for; ?></td>
-							<td><?php echo $inspection->inpection_date; ?></td>
+							<td><?php echo date('m/d/Y', strtotime($inspection->inpection_date)); ?></td>
+							<td><a target="_blank" href="<?php echo home_url('/edit-inspections/?ins_id='.$inspection->id); ?>" class="link-<?php echo $inc; ?>" title="<?php echo $inspection->report_identification; ?>"><i class="fa fa-edit"></i></a></td>
 						</tr>
 					<?php $inc++; }} ?>
 				</tbody>
@@ -107,13 +145,14 @@ get_header(); ?>
     <div class="modal-content">
       <div class="modal-header taptap-modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Please enter agent’s email adress</h4>
+        <h4 class="modal-title">Enter an email address to share the inspection.</h4>
       </div>
       <div class="modal-body taptap-modal-body">
 		<form action="#" id="shareForm">
+			<p>Share the inspection deficiencies with Real Estate Agents and others here.  Enter an email address to share the inspection.</p>
 			<p><input class="form-control required" type="text" name="agentEmailAddress" id="agentEmailAddress" value=""></p>
 			<p class="msg_show"></p>
-			<p><button type="submit" class="btn-taptap checkBoxSlected" disabled="disabled"><i class="fa fa-share"></i> Share</button></p>
+			<p><button type="submit" class="btn-taptap checkBoxSlected" disabled="disabled"><i class="fa fa-share"></i> SHARE REPORT</button></p>
 		</form>
       </div>
     </div>
@@ -145,7 +184,7 @@ $(document).ready(function() {
 	// Set up your table
 	table = $('#devTable').DataTable({
 		"iDisplayLength": 10,
-		"order": [[ 3, "desc" ]]
+		//"order": [[ 3, "asc" ]]
 	});
 
 	// Extend dataTables search
@@ -255,7 +294,12 @@ $(document).ready(function() {
 	
 });
 
-function eachSelect(source){
+function eachSelect(source,templateType){
+	if(templateType == true){
+		alert('This template is not shareable!');
+		$(source).prop('checked', false);
+		return false;
+	}
 	var checkedboxesCount = document.querySelectorAll('input[name="report_box[]"]:checked').length;
 	if(checkedboxesCount > 0){
 		$('.checkBoxSlected').prop('disabled',false);

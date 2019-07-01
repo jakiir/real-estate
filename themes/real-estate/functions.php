@@ -256,6 +256,7 @@ function send_agent_email(){
 		 global $wpdb;
 		 $agent_email_log = $wpdb->prefix . 'agent_email_log';
 		 $template_table = $wpdb->prefix . 'template';
+		 $inspection_table = $wpdb->prefix . 'inspection';
 		 $getSelected = !empty($_POST['getSelected']) ? $_POST['getSelected'] : [];
 		 $getSelectedReport = !empty($_POST['getSelectedReport']) ? $_POST['getSelectedReport'] : [];
 		 $getSelectedSaved = !empty($_POST['getSelectedSaved']) ? $_POST['getSelectedSaved'] : [];
@@ -268,14 +269,18 @@ function send_agent_email(){
 		 $expSelectedTitle = explode(',',$getSelectedTitle);
 		 $expSelectedCompany = explode(',',$getSelectedCompany);
 		 $expSelectedPrep = explode(',',$getSelectedPrep);
-		 $user_id = get_current_user_id();
+		 $user = wp_get_current_user();
 		 $agentViewer = home_url('/agent-form-viewer/');
 
 		require get_template_directory() . '/emailQue/mail_setting.php';
-			 
-		$mail->From = 'notification@mail.clearagain.net';
-		//$email_to = 'jakir44.du@gmail.com';
-		$mail->FromName = 'clearagain.net';
+		$fromEmail = !empty($user->user_email) ? $user->user_email : 'notifications@mail.contentfirst.marketing';
+		//$mail->SetFrom($fromEmail, 'clearagain.net');
+		//$mail->FromName = 'clearagain.net';
+		//$mail->From = 'notification@mail.clearagain.net';
+		
+		$mail->AddReplyTo($fromEmail, $user->display_name);
+		$mail->SetFrom('notifications@mail.contentfirst.marketing', $fromEmail);
+		//$email_to = 'jakir44.du@gmail.com';		
 		//$mail->addAddress('joe@example.net', 'Joe User');     // Add a recipient
 		$expEmail = explode(',',$agentEmailAddress);
 		if(!empty($expEmail[1])){
@@ -293,18 +298,28 @@ function send_agent_email(){
 		$bodyText = '';
 		$inc=1;
 		$identificationNo = '';
+		$bodyText .= "An inspection has been shared with you.  Use this to see the deficiencies identified by ";
 		foreach($expSelected as $key=>$template){
+			 $identified[$expSelectedCompany[$key]] = $expSelectedCompany[$key];
+		}
+		$identifiedd = implode(' and ',$identified);
+		$bodyText .= "{$identifiedd}. Click below template links to see the details :<ul>";
+		foreach($expSelected as $key=>$template){
+			$get_report_id = $expSelectedReport[$key];
 			 $template_id = safe_b64encode($template);
-			 $report_id = safe_b64encode($expSelectedReport[$key]);
+			 $report_id = safe_b64encode($get_report_id);
 			 $saved_id = safe_b64encode($expSelectedSaved[$key]);
 			 $emailAddress = safe_b64encode($agentEmailAddress);
 			 $identificationNo = $expSelectedTitle[$key];
-			 $get_template = $wpdb->get_results( "SELECT name FROM $template_table WHERE id=$template", OBJECT );
+			 /*$get_template = $wpdb->get_results( "SELECT name FROM $template_table WHERE id=$template", OBJECT );*/
+			 $get_inspection = $wpdb->get_results( "SELECT report_identification FROM $inspection_table WHERE id=$get_report_id", OBJECT );
+			 /*$bodyText .= "{$get_template[0]->name} has been inspected for {$expSelectedCompany[$key]} company and prepared for : {$expSelectedPrep[$key]} Please click the report <a href='".$agentViewer."?item=".$template_id."&report=".$report_id."&saved=".$saved_id."&token=".$emailAddress."'> {$identificationNo}</a> to get details.<br/>Thanks.<br/>";*/
 			 
-			 $bodyText .= "{$get_template[0]->name} has been inspected for {$expSelectedCompany[$key]} company and prepared for : {$expSelectedPrep[$key]} Please click the report <a href='".$agentViewer."?item=".$template_id."&report=".$report_id."&saved=".$saved_id."&token=".$emailAddress."'> {$identificationNo}</a> to get details.<br/>Thanks.<br/>";
+			 $bodyText .= "<li><a href='".$agentViewer."?item=".$template_id."&report=".$report_id."&saved=".$saved_id."&token=".$emailAddress."'>{$get_inspection[0]->report_identification}</a></li>";
 			 $inc++;
 		}
-		$mail->Subject = "Report: {$identificationNo} has been shared to you.";
+		$bodyText .= "</ul>";
+		$mail->Subject = "Report: {$identificationNo} has been shared with you.";
 		$mail->Body    = $bodyText;
 		$mail->AltBody = $bodyText;
 
@@ -322,7 +337,8 @@ function send_agent_email(){
 					 'template_id' => $each_data,
 					 'report_id' => $expSelectedReport[$key],
 					 'saved_id' => $expSelectedSaved[$key],
-					 'email_by' => $user_id,
+					 'email_by' => $user->id,
+					 'email_from' => $user->user_email,
 					 'expires_in' => $expires_in
 				 );		 
 			 $wpdb->insert($agent_email_log, 
@@ -355,19 +371,35 @@ function editTemplateAction(){
 		 global $wpdb;
 		 $table_template = $wpdb->prefix . 'template';
 		 $template_name = !empty($_POST['template_name']) ? $_POST['template_name'] : '';
-		 $template_share = !empty($_POST['template_share']) ? $_POST['template_share'] : 'off';
+		 $template_share = !empty($_POST['template_share']) ? $_POST['template_share'] : 'false';
+		 $share_btn = !empty($_POST['share_btn']) ? $_POST['share_btn'] : 'false';
+		 $print_btn = !empty($_POST['print_btn']) ? $_POST['print_btn'] : 'false';
+		 $wood_inspection = !empty($_POST['wood_inspection']) ? $_POST['wood_inspection'] : 'false';
+		 $no_cover = !empty($_POST['no_cover']) ? $_POST['no_cover'] : 'false';
 		 $template_state = !empty($_POST['template_state']) ? $_POST['template_state'] : '';
 		 $template_state_id = !empty($_POST['template_state_id']) ? $_POST['template_state_id'] : '';
+		 $template_city = !empty($_POST['template_city']) ? $_POST['template_city'] : '';
 		 $template_date = !empty($_POST['template_date']) ? $_POST['template_date'] : '';
 		 $template_company = !empty($_POST['template_company']) ? $_POST['template_company'] : '';
 		 $footer_template = !empty($_POST['footer_template']) ? $_POST['footer_template'] : '';
+		 $company_email = !empty($_POST['company_email']) ? $_POST['company_email'] : '';
+		 $company_address = !empty($_POST['company_address']) ? $_POST['company_address'] : '';
+		 $company_phone = !empty($_POST['company_phone']) ? $_POST['company_phone'] : '';
 		 $shareTem=0;
 		 if($template_share == 'true') $shareTem=1;
 		$wpdb->query($wpdb->prepare("UPDATE $table_template 
 		 SET name='".$template_name."',
 		 shared_flag='".$template_share."',
+		 share_btn='".$share_btn."',
+		 print_btn='".$print_btn."',
+		 wood_inspection='".$wood_inspection."',
+		 no_cover='".$no_cover."',
+		 company_email='".$company_email."',
+		 company_address='".$company_address."',
+		 company_phone='".$company_phone."',
 		 state='".$template_state."',
 		 state_form='".$template_state_id."',
+		 template_city='".$template_city."',
 		 companyId='".$template_company."',
 		 footer_html='".$footer_template."',
 		 template_date='".$template_date."',
@@ -523,8 +555,11 @@ function perform_inspections(){
 		 global $wpdb;
 		 $table_inspection = $wpdb->prefix . 'inspection';
 		 $company = !empty($_POST['company']) ? $_POST['company'] : '';
+		 $inspection_id = !empty($_POST['inspection_id']) ? $_POST['inspection_id'] : '';
 		 $inpection_date = !empty($_POST['inpection_date']) ? $_POST['inpection_date'] : '';
 		 $report_identification = !empty($_POST['report_identification']) ? $_POST['report_identification'] : '';
+		 $inspection_city = !empty($_POST['inspection_city']) ? $_POST['inspection_city'] : '';
+		 $zip_code = !empty($_POST['zip_code']) ? $_POST['zip_code'] : '';
 		 $building_orientation = !empty($_POST['building_orientation']) ? $_POST['building_orientation'] : '';
 		 $weather_conditions = !empty($_POST['weather_conditions']) ? $_POST['weather_conditions'] : '';
 		 $temperature = !empty($_POST['temperature']) ? $_POST['temperature'] : '';
@@ -535,16 +570,32 @@ function perform_inspections(){
 		 $time_in = !empty($_POST['time_in']) ? $_POST['time_in'] : '';
 		 $time_out = !empty($_POST['time_out']) ? $_POST['time_out'] : '';
 		 $inspection_status = !empty($_POST['inspection_status']) ? $_POST['inspection_status'] : '';
+		 
+		 $inspector_type = !empty($_POST['inspector_type']) ? $_POST['inspector_type'] : '';
+		 $case_number = !empty($_POST['case_number']) ? $_POST['case_number'] : '';
+		 $inspection_buyer_type = !empty($_POST['inspection_buyer_type']) ? $_POST['inspection_buyer_type'] : '';
+		 $owner_type = !empty($_POST['owner_type']) ? $_POST['owner_type'] : '';
+		 $report_forwarded_to = !empty($_POST['report_forwarded_to']) ? $_POST['report_forwarded_to'] : '';
+		 $notice_inspection = !empty($_POST['notice_inspection']) ? $_POST['notice_inspection'] : '';
+		 $inspection_buyer_name = !empty($_POST['inspection_buyer_name']) ? $_POST['inspection_buyer_name'] : '';
+		 $list_structure = !empty($_POST['list_structure']) ? $_POST['list_structure'] : '';
+		 
 		 $user_id = get_current_user_id();
-		 //$get_inspection = $wpdb->get_results( "SELECT * FROM $table_inspection WHERE user_id=$user_id AND template_id=$template_id", OBJECT );
 		 $get_inspection = '';
+		 //$get_inspection = $wpdb->get_results( "SELECT * FROM $table_inspection WHERE user_id=$user_id AND template_id=$template_id", OBJECT );
+		 $get_inspection = $wpdb->get_row( "SELECT * FROM $table_inspection WHERE id=$inspection_id ORDER BY id DESC LIMIT 1");
+		 
 		if(!empty($get_inspection)){
+			$inspectionReportDetail = $wpdb->prefix . 'inspectionreportdetail';
+			$get_inspection_details = $wpdb->get_row( "SELECT id FROM $inspectionReportDetail WHERE inspectionId=$inspection_id ORDER BY id DESC LIMIT 1");
 			 $wpdb->update(
 				$table_inspection, 
-				array( 
-					'company' => $company,
+				array(
+					 'company' => $company,
 					 'inpection_date' => $inpection_date,
 					 'report_identification' => $report_identification,
+					 'inspection_city' => $inspection_city,
+					 'zip_code' => $zip_code,
 					 'building_orientation' => $building_orientation,
 					 'weather_conditions' => $weather_conditions,
 					 'temperature' => $temperature,
@@ -553,22 +604,87 @@ function perform_inspections(){
 					 'prepared_by' => $prepared_by,
 					 'time_in' => $time_in,
 					 'time_out' => $time_out,
-					 'inspection_status' => $inspection_status					 
-				), 
-				array( 'user_id' => $user_id,'template_id' => $template_id )
+					 'inspection_status' => $inspection_status,
+					 'inspector_type' => $inspector_type,
+					 'case_number' => $case_number,
+					 'inspection_buyer_type' => $inspection_buyer_type,
+					 'owner_type' => $owner_type,
+					 'report_forwarded_to' => $report_forwarded_to,
+					 'notice_inspection' => $notice_inspection,
+					 'inspection_buyer_name' => $inspection_buyer_name,
+					 'list_structure' => $list_structure
+				 ), 
+				array( 'id' => $inspection_id )
 			);
+			
+			 if(!empty($inspection_id)){
+				if (!function_exists('wp_handle_upload')) {
+					require_once(ABSPATH . 'wp-admin/includes/file.php');
+				}
+				  // echo $_FILES["upload"]["name"];
+				  $uploadedfile = $_FILES['cover_photo'];
+				  if(!empty($uploadedfile)){
+					  $upload_overrides = array('test_form' => false);
+					  $movefile = wp_handle_upload($uploadedfile, $upload_overrides);
+
+					// echo $movefile['url'];
+					if ($movefile && !isset($movefile['error'])) {
+						  $imageUrl = $movefile['url'];
+						  $wpdb->query($wpdb->prepare("UPDATE $table_inspection SET cover_photo='".$imageUrl."' WHERE id=$inspection_id"));
+					} else {
+						 $results = array(
+							'success' => false,
+							'mess' => $movefile['error']
+						 );			
+					}	
+				  } else {
+					  $exist_img = !empty($_POST['exist_img']) ? $_POST['exist_img'] : '';
+					  $wpdb->query($wpdb->prepare("UPDATE $table_inspection SET cover_photo='".$exist_img."' WHERE id=$inspection_id"));
+				  }
+				  
+				  $header_image = $_FILES['header_image'];
+				  if(!empty($header_image)){
+					  $upload_overrides = array('test_form' => false);
+					  $header_image_file = wp_handle_upload($header_image, $upload_overrides);
+					// echo $movefile['url'];
+					if ($header_image_file && !isset($header_image_file['error'])) {
+						  $header_image_url = $header_image_file['url'];
+						  $wpdb->query($wpdb->prepare("UPDATE $table_inspection SET header_image='".$header_image_url."' WHERE id=$inspection_id"));
+					} else {
+						 $results = array(
+							'success' => false,
+							'mess' => $header_image_file['error']
+						 );			
+					}	
+				  } else {
+					  $exist_header_img = !empty($_POST['exist_header_img']) ? $_POST['exist_header_img'] : '';
+					  $wpdb->query($wpdb->prepare("UPDATE $table_inspection SET header_image='".$exist_header_img."' WHERE id=$inspection_id"));
+				  }
+				  
+			 }
+			 if(empty($results)){
+				 $results = array(
+					'success' => true,
+					'mess' => '<i class="fa fa-check-circle"></i>',
+					'report_id'=>$inspection_id,
+					'template_id' => $template_id,
+					'saved'=>$get_inspection_details->id
+				 );
+			 }
 			 
-			 $results = array(
+			 /*$results = array(
 				'success' => true,
 				'mess' => '<i class="fa fa-check-circle"></i>',
 				'template_id' => $template_id
-			 );	
+			 );*/
 		} else {
 			 $wpdb->insert($table_inspection, 
 				 array(
 					 'company' => $company,
 					 'inpection_date' => $inpection_date,
 					 'report_identification' => $report_identification,
+					 'inspection_city' => $inspection_city,
+					 'zip_code' => $zip_code,
 					 'building_orientation' => $building_orientation,
 					 'weather_conditions' => $weather_conditions,
 					 'temperature' => $temperature,
@@ -579,16 +695,65 @@ function perform_inspections(){
 					 'time_in' => $time_in,
 					 'time_out' => $time_out,
 					 'inspection_status' => $inspection_status,
+					 'inspector_type' => $inspector_type,
+					 'case_number' => $case_number,
+					 'inspection_buyer_type' => $inspection_buyer_type,
+					 'owner_type' => $owner_type,
+					 'report_forwarded_to' => $report_forwarded_to,
+					 'notice_inspection' => $notice_inspection,
+					 'inspection_buyer_name' => $inspection_buyer_name,
+					 'list_structure' => $list_structure,
 					 'user_id' => $user_id
 				 )
 			 );
 			 $lastid = $wpdb->insert_id;
-			 $results = array(
-				'success' => true,
-				'mess' => '<i class="fa fa-check-circle"></i>',
-				'report_id'=>$lastid,
-				'template_id' => $template_id
-			 );	
+			 if(!empty($lastid)){
+				if (!function_exists('wp_handle_upload')) {
+					require_once(ABSPATH . 'wp-admin/includes/file.php');
+				}
+				  // echo $_FILES["upload"]["name"];
+				  $uploadedfile = $_FILES['cover_photo'];
+				  if(!empty($uploadedfile)){
+					  $upload_overrides = array('test_form' => false);
+					  $movefile = wp_handle_upload($uploadedfile, $upload_overrides);
+
+					// echo $movefile['url'];
+					if ($movefile && !isset($movefile['error'])) {
+						  $imageUrl = $movefile['url'];
+						  $wpdb->query($wpdb->prepare("UPDATE $table_inspection SET cover_photo='".$imageUrl."' WHERE id=$lastid"));
+					} else {
+						 $results = array(
+							'success' => false,
+							'mess' => $movefile['error']
+						 );			
+					}	
+				  }
+				  
+				  $header_image = $_FILES['header_image'];
+				  if(!empty($header_image)){
+					  $upload_overrides = array('test_form' => false);
+					  $header_image_file = wp_handle_upload($header_image, $upload_overrides);
+
+					// echo $movefile['url'];
+					if ($header_image_file && !isset($header_image_file['error'])) {
+						  $header_image_url = $header_image_file['url'];
+						  $wpdb->query($wpdb->prepare("UPDATE $table_inspection SET header_image='".$header_image_url."' WHERE id=$lastid"));
+					} else {
+						 $results = array(
+							'success' => false,
+							'mess' => $header_image_file['error']
+						 );			
+					}	
+				  }
+			 }
+			 if(empty($results)){
+				 $results = array(
+					'success' => true,
+					'mess' => '<i class="fa fa-check-circle"></i>',
+					'report_id'=>$lastid,
+					'template_id' => $template_id
+				 );
+			 }
 		}
 	 } else {
 		 $results = array(
@@ -813,15 +978,20 @@ function saveDynamicFormReport(){
 	 $results = array();
 	 if($inspection_id){
 		 global $wpdb;
-		 $saved = $_POST['saved'];
+		 $saved = $_POST['saved'];		 
 		 $inspectionReportDetail = $wpdb->prefix . 'inspectionreportdetail';
 		 $formJsonData = !empty($_POST['formJsonData']) ? $_POST['formJsonData'] : '';
-		 if(empty($saved) || $saved===0){
-			$wpdb->insert($inspectionReportDetail, array('inspectionId' => $inspection_id));
-			$lastid = $wpdb->insert_id;
-		 } else {
-			 $lastid = $saved;
-		 }
+		 //if(empty($saved) || $saved===0){
+			 $getinsDetails = $wpdb->get_results( "SELECT id FROM $inspectionReportDetail WHERE inspectionId=$inspection_id", OBJECT );
+			 if(empty($getinsDetails)){
+				$wpdb->insert($inspectionReportDetail, array('inspectionId' => $inspection_id));
+				$lastid = $wpdb->insert_id;
+			 } else {
+				 $lastid = $getinsDetails[0]->id;
+			 }
+		 //} else {
+			 //$lastid = $saved;
+		 //}
 		$wpdb->query($wpdb->prepare("UPDATE $inspectionReportDetail 
 		 SET fieldTextHtml='".$formJsonData."'
 		 WHERE id=$lastid"));
@@ -975,7 +1145,7 @@ function get_templates_output(){
 							<td><?php echo $get_users[0]->display_name.' [ '.$get_users[0]->user_email.' ]'; ?></td>
 							<td>
 								<a style="text-decoration: none;" href="<?php echo home_url('/form-builder/?item='.$each_template->id); ?>" alt="Template" target="_blank"><span class="dashicons dashicons-external"></span></a>
-								<a style="text-decoration: none;" href="javascript:void(0)" alt="Remove Template" target="_self" class="trigger_popup_fricc" data-template="<?php echo esc_attr($each_template->id); ?>"><span class="dashicons dashicons-trash"></span></a>
+								<a style="text-decoration: none;" href="javascript:void(0)" alt="Remove Template" target="_self" class="trigger_popup_fricc" onClick="trigger_popup_fricc(this)" data-template="<?php echo esc_attr($each_template->id); ?>"><span class="dashicons dashicons-trash"></span></a>
 							</td>
 						</tr>
 					<?php $inc++; endforeach; ?>
@@ -1227,6 +1397,7 @@ $parrent_user = esc_attr( get_the_author_meta( 'parrent_user', $user->ID ) );
         <td>
 		<select name="parrent_user" id="parrent_user">
 		<?php
+			echo '<option value="">Select one</option>';
 			foreach ( $users as $user ) {
 				$selected = ($parrent_user==$user->ID ? 'selected="selected"' : '');
 				echo '<option '.$selected.' value="'.esc_attr($user->ID).'">' . esc_html( $user->display_name ) . ' [' . esc_html( $user->user_login ) . ']</option>';
@@ -1463,4 +1634,82 @@ function isMobile() {
 		$is_mobile=false;
 	}
 	return $is_mobile;
+}
+//add_shortcode( 'inspector', 'shortcode_inspector' );
+//add_action( 'wp_ajax_nopriv_shortcode_wdi', 'shortcode_wdi', 85);
+//add_action( 'wp_ajax_shortcode_wdi', 'shortcode_wdi', 85 );
+function shortcode_wdi($content){
+	global $wpdb;
+	$templateId = !empty($_GET['template']) ? $_GET['template'] : '';
+	$template_id = !empty($_GET['item']) ? $_GET['item'] : $templateId;
+	$inspector_name = '';
+	$inspection_company = "<span class='every_span'><div class='under_line'>N/A</div>Name of Inspection Company</span>";
+	$inpection_date = "<span class='every_span'><div class='under_line'>N/A</div>Date of inspected</span>";
+	$inspected_address = "<span class='every_span'>N/A<br>Inspected Address</span>";
+	$inspection_city = "<span class='every_span'>N/A<br>City</span>";
+	$inspected_address_zip = "<span class='every_span'><div class='under_line'>N/A</div>Zip Code</span>";
+	$company_address = "<span class='every_span'><div class='under_line'>N/A</div>Address of Inspection Company</span>";
+	$inspection_email = "<span class='every_span'><div style='border-bottom: 2px solid #337ab7;'>N/A</div>&nbsp;&nbsp;&nbsp;&nbsp;</span>";;
+	$inspector_type = '';
+	$case_number = "<span class='every_span'><div class='under_line'>N/A</div>Case Number (VA/FHA/Other)</span></span>";
+	$buyer_type = '';
+	$inspection_buyer_name = "<span class='every_span'><div class='under_line'>N/A</div>Name of Person Purchasing Inspection</span>";
+	$owner_type = "<span class='every_span'><div class='under_line'>N/A</div>Owner/Seller</span>";
+	$report_forwarded = '';
+	$list_structures = "<span class='every_span'>N/A</span>";
+	$inspection_posting = '';
+	$company_footer = "<div class='print_pdf_footer'><div style='text-decoration:underline;'>INSPECTOR</div><div>N/A</div></div>";;
+	$user = wp_get_current_user();
+	if(!empty($user->ID)){
+		$inspector_name = "<span class='every_span'><div class='under_line'>".get_user_meta($user->ID,  'first_name', true )." ".get_user_meta($user->ID,  'last_name', true )."</div>Name of Inspector (Please Print)</span>";
+		$email_address = "<span class='every_span'><div class='under_line_blue'><a href='mailto:".$user->user_email."'>".$user->user_email."</a></div></span>";
+		$licence_number = "<span class='every_span'><div class='under_line'>".get_user_meta($user->ID,  'licence_number', true )."</div>SPCB Business License Number</span>";
+		$phone_number = "<span class='every_span'><div class='under_line'>".get_user_meta($user->ID,  'phone_number', true )."</div>Telephone No</span>";
+	} else {
+		$inspector_name = "<span class='every_span'>N/A</span>";
+		$email_address = "<span class='every_span'><div class='under_line'>N/A</div></span>";
+		$licence_number = "<span class='every_span'><div class='under_line'>N/A</div>SPCB Business License Number</span>";
+		$phone_number = "<span class='every_span'><div class='under_line'>N/A</div>Telephone No</span>";
+	}
+	if(!empty($template_id)){
+		$table_template = $wpdb->prefix . 'template';
+		$get_templages = $wpdb->get_row( "SELECT companyId,company_email,company_address,company_phone,template_city,state,footer_html FROM $table_template WHERE id=$template_id ORDER BY id DESC LIMIT 1");
+		$inspection_company = "<span class='every_span'><div class='under_line'>".$get_templages->companyId."</div>Name of Inspection Company</span>";
+		$inspection_email = "<span class='every_span'><div style='border-bottom: 2px solid #337ab7;'><a href='mailto:".$get_templages->company_email."'>".$get_templages->company_email."</a></div>&nbsp;&nbsp;&nbsp;&nbsp;</span>";
+		$company_address = "<span class='every_span'><div class='under_line'>".$get_templages->company_address."</div>Address of Inspection Company</span>";		
+		$company_footer = "<div class='print_pdf_footer'><div style='text-decoration:underline;'>INSPECTOR</div><div>".$inspector_name." – ".get_user_meta($user->ID,  'licence_number', true )."<br/>".$get_templages->footer_html."</div></div>";		
+		$company_phone = "<span class='every_span'><div class='under_line'>".$get_templages->company_phone."</div>Telephone No.</span>";
+		$template_city = "<span class='every_span'><div class='under_line'>".$get_templages->template_city."</div>City</span>";
+		$state = "<span class='every_span'><div class='under_line'>".$get_templages->state."</div>State</span>";
+		$reportId = !empty($_GET['reportId']) ? $_GET['reportId'] : '';
+		$report_id = !empty($_GET['report']) ? $_GET['report'] : $reportId;
+		if(!empty($report_id)){
+			$table_inspection = $wpdb->prefix . 'inspection';
+			$get_inspection = $wpdb->get_row( "SELECT * FROM $table_inspection WHERE id=$report_id ORDER BY id DESC LIMIT 1");
+			$inpection_date = "<span class='every_span'><div class='under_line'>".$get_inspection->inpection_date."</div>Date of inspected</span>";
+			$inspected_address = "<span class='every_span'>".$get_inspection->report_identification.'<br>Inspected Address</span>';
+			$inspection_city = "<span class='every_span'>".$get_inspection->inspection_city.'<br>City</span>';
+			$inspected_address_zip = "<span class='every_span'><div class='under_line'>".$get_inspection->zip_code.'</div>Zip Code</span>';
+			$inspector_types = (!empty($get_inspection->inspector_type) ? explode(',',$get_inspection->inspector_type) : []);
+			$inspector_type = "<span class='every_span'><div class='inspector_type'><label for='certified_applicator'>Certified Applicator</label> <input type='checkbox' ".(in_array('Certified Applicator', $inspector_types) ? 'checked=checked' : null)." name='certified_applicator' id='certified_applicator' ng-model='control.inspected_type1' value='control.inspected_type1' ng-checked='{{control.inspected_type1}}'> &nbsp;&nbsp;&nbsp;&nbsp;(check one)<br><label for='technician'>Technician</label> <input type='checkbox' ".(in_array('Technician', $inspector_types) ? 'checked=checked' : null)." name='technician' id='technician' ng-model='control.inspected_type2' value='control.inspected_type2' ng-checked='{{control.inspected_type2}}'></div>";
+			$case_number = "<span class='every_span'><div class='under_line'>".(!empty($get_inspection->case_number) ? $get_inspection->case_number : 'N/A')."</div>Case Number (VA/FHA/Other)</span></span>";
+			
+			$inspection_buyer_types = (!empty($get_inspection->inspection_buyer_type) ? explode(',',$get_inspection->inspection_buyer_type) : []);
+			$buyer_type = "<span class='every_span'><div class='inspection_buyer' style='clear:both;'><span><label for='buyer-seller'>Seller</label> <input type='checkbox' ".(in_array('Seller', $inspection_buyer_types) ? 'checked=checked' : null)." name='buyer-seller' id='buyer-seller' ng-model='control.inspection_buyer_types1' value='control.inspection_buyer_types1' ng-checked='{{control.inspection_buyer_types1}}'></span><span><label for='buyer-agent'>Agent</label> <input type='checkbox' ".(in_array('Agent', $inspection_buyer_types) ? 'checked=checked' : null)." name='buyer-agent' id='buyer-agent' ng-model='control.inspection_buyer_types2' value='control.inspection_buyer_types2' ng-checked='{{control.inspection_buyer_types2}}'></span><span><label for='buyer-buyer'>Buyer</label> <input type='checkbox' ".(in_array('Buyer', $inspection_buyer_types) ? 'checked=checked' : null)." name='buyer-buyer' id='buyer-buyer' ng-model='control.inspection_buyer_types3' value='control.inspection_buyer_types3' ng-checked='{{control.inspection_buyer_types3}}'></span><span><label for='buyer-management_co'>Management Co</label> <input type='checkbox' ".(in_array('Management Co', $inspection_buyer_types) ? 'checked=checked' : null)." name='buyer-management_co' id='buyer-management_co' ng-model='control.inspection_buyer_types4' value='control.inspection_buyer_types4' ng-checked='{{control.inspection_buyer_types4}}'></span><span><label for='buyer-other'>Other</label> <input type='checkbox' ".(in_array('Other', $inspection_buyer_types) ? 'checked=checked' : null)." name='buyer-other' id='buyer-other' ng-model='control.inspection_buyer_types5' value='control.inspection_buyer_types5' ng-checked='{{control.inspection_buyer_types5}}'></span></div></span>";
+			
+			$inspection_buyer_name = "<span class='every_span'><div class='under_line'>".$get_inspection->prepared_for."</div>Name of Person Purchasing Inspection</span>";
+			
+			$owner_type = "<span class='every_span'><div class='under_line'>".(!empty($get_inspection->owner_type) ? $get_inspection->owner_type : 'N/A')."</div>Owner/Seller</span>";
+			$report_forwarded_to = (!empty($get_inspection->report_forwarded_to) ? explode(',',$get_inspection->report_forwarded_to) : []);
+			$report_forwarded = "<span class='every_span'><div class='inspection_buyer' style='clear:both;'><span><label for='forwarded-mortgage'>Title Company or Mortgage</label> <input type='checkbox' ".(in_array('Title Company or Mortgage', $report_forwarded_to) ? 'checked=checked' : null)." name='forwarded-mortgage' id='forwarded-mortgage' ng-model='control.report_forwarded_to1' value='control.report_forwarded_to1' ng-checked='{{control.report_forwarded_to1}}'></span><span><label for='forwarded-purchaser'>Purchaser of Service</label> <input type='checkbox' ".(in_array('Purchaser of Service', $report_forwarded_to) ? 'checked=checked' : null)." name='forwarded-purchaser' id='forwarded-purchaser' ng-model='control.report_forwarded_to2' value='control.report_forwarded_to2' ng-checked='{{control.report_forwarded_to2}}'></span><span><label for='forwarded-seller'>Seller</label> <input type='checkbox' ".(in_array('Seller', $report_forwarded_to) ? 'checked=checked' : null)." name='forwarded-seller' id='forwarded-seller' ng-model='control.report_forwarded_to3' value='control.report_forwarded_to3' ng-checked='{{control.report_forwarded_to3}}'></span><span><label for='forwarded-agent'>Agent</label> <input type='checkbox' ".(in_array('Agent', $report_forwarded_to) ? 'checked=checked' : null)." name='forwarded-agent' id='forwarded-agent' ng-model='control.report_forwarded_to4' value='control.report_forwarded_to4' ng-checked='{{control.report_forwarded_to4}}'></span><span><label for='forwarded-buyer'>Buyer</label> <input type='checkbox' ".(in_array('Buyer', $report_forwarded_to) ? 'checked=checked' : null)." name='forwarded-buyer' id='forwarded-buyer' ng-model='control.report_forwarded_to5' value='control.report_forwarded_to5' ng-checked='{{control.report_forwarded_to5}}'></span></div></span>";
+			$list_structures = "<span class='every_span'>".$get_inspection->list_structure."</span>";
+			$notice_inspection = (!empty($get_inspection->notice_inspection) ? explode(',',$get_inspection->notice_inspection) : []);
+			$inspection_posting = "<span class='every_span'><div class='inspection_buyer' style='clear:both;'><span><label for='notice-electric'>Electric Breaker Box</label> <input type='checkbox' ".(in_array('Electric Breaker Box', $notice_inspection) ? 'checked=checked' : null)." name='notice-electric' id='forwnotice-electric' ng-model='control.notice_inspection1' value='control.notice_inspection1' ng-checked='{{control.notice_inspection1}}'></span><span><label for='notice-beneath'>Water Heater Closet Beneath</label> <input type='checkbox' ".(in_array('Water Heater Closet Beneath', $notice_inspection) ? 'checked=checked' : null)." name='notice-beneath' id='notice-beneath' ng-model='control.notice_inspection2' value='control.notice_inspection2' ng-checked='{{control.notice_inspection2}}'></span><span><label for='notice-access'>Bath Trap Access</label> <input type='checkbox' ".(in_array('Bath Trap Access', $notice_inspection) ? 'checked=checked' : null)." name='notice-access' id='notice-access' ng-model='control.notice_inspection3' value='control.notice_inspection3' ng-checked='{{control.notice_inspection3}}'></span><span><label for='notice-kitchen'>Beneath the Kitchen Sink</label> <input type='checkbox' ".(in_array('Beneath the Kitchen Sink', $notice_inspection) ? 'checked=checked' : null)." name='notice-kitchen' id='notice-kitchen' ng-model='control.notice_inspection4' value='control.notice_inspection4' ng-checked='{{control.notice_inspection4}}'></span></div></span>";
+		}
+	}
+	
+	$healthy = array("[inspector_name]","[inspection_company]","[email_address]","[phone_no]", "[licence_number]", "[inspection_date]","[inspected_address]","[inspected_address_city]","[inspected_address_zip]","[inspector_type]","[inspection_email]","[inspection_company_address]","[inspection_company_phone]","[inspection_company_city]","[inspection_company_state]","[case_number]","[buyer_type]","[inspection_buyer_name]","[owner_type]","[report_forwarded]","[list_structures]","[inspection_posting]","[company_footer]");
+	$yummy   = array($inspector_name,$inspection_company,$email_address,$phone_number, $licence_number, $inpection_date,$inspected_address,$inspection_city,$inspected_address_zip,$inspector_type,$inspection_email,$company_address,$company_phone,$template_city,$state,$case_number,$buyer_type,$inspection_buyer_name,$owner_type,$report_forwarded,$list_structures,$inspection_posting,$company_footer);
+	$newphrase = str_replace($healthy, $yummy, $content);	
+	return $newphrase;
 }

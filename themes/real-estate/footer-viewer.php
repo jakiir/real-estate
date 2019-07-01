@@ -18,7 +18,7 @@
 <script>
 	window.setTimeout(function(){
 		$('#incipitContent').css({'display':'none','opacity':'0'});
-	}, 20000);	
+	}, 3000);	
 </script>
 
 </body>

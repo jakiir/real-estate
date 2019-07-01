@@ -84,74 +84,57 @@ get_header('form-agent-viewer');
           </div>
         </div>
       </div>
-    </header><?php */ ?>
+    </header><?php */ /* ?>
 	<table class="report-table">
 		<tr>
-			<th align="right" colspan="2" style="padding-bottom:10px;">
-				<img src="<?php echo !empty($form_data[0]->logo_url) ? $form_data[0]->logo_url : '//placehold.it/200'; ?>" class="avatar img-responsive" alt="avatar" style="width:150px;">
+			<th align="right" colspan="6" style="padding-bottom:10px;border:none;">
+				<img src="<?php echo !empty($get_inspection[0]->cover_photo) ? $get_inspection[0]->cover_photo : '/wp-content/themes/real-estate/images/cover_photo.jpg'; ?>" class="avatar img-responsive" alt="avatar" style="width:100%;">
+				<br/>
+				<div style="text-transform:capitalize;text-align:center;font-size:25px;">
+				<?php echo $get_inspection[0]->report_identification; ?></div>
+				<?php //echo $form_data[0]->name.' Report'; ?>
 			</th>
-			<td align="left" colspan="4" style="text-transform:uppercase;"><?php echo $form_data[0]->name; ?> Report</td>
+		</tr>
+		</table>
+		<div class="report-table" style="border:none;">
+			<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+		</div>
+		<table class="report-table" style="border:none;">
+		<tr>
+			<th align="right" colspan="6" style="padding-bottom:10px;border:none;">
+				<div style="text-align:center;font-size:18px;font-weight:normal;">
+					<?php 
+						$originalDate = $get_inspection[0]->inpection_date;
+						$newDate = date("F d, Y", strtotime($originalDate));
+						echo '<div style="font-size:18px;font-weight:bold;">'.$newDate.'</div>';
+						echo $form_data[0]->footer_html;
+					?>
+				</div>
+			</th>
+		</tr>
+		<tr>
+			<th align="center" colspan="6" style="padding-bottom:10px;border:none;">
+				<div>
+					<img src="<?php echo !empty($form_data[0]->logo_url) ? $form_data[0]->logo_url : '/wp-content/themes/real-estate/images/cover_photo.jpg'; ?>" class="avatar img-responsive" alt="avatar">
+				</div>
+			</th>
 		</tr>
 	</table>
-	<table class="report-table report-info">
+	<div class="page-break">&nbsp;</div><?php */ ?>
+	<?php /*<div class="report-table"><br/><br/><br/><br/><br/></div>
+	<table class="report-table report-info" style="border:none;">
 		<tr>
-			<th align="right" style="padding-top:10px;">Company </th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->company; ?></td>
-			<th align="right">Date</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->inpection_date; ?></td>
-		</tr>
-		<tr>
-			<th align="right">Property Address</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->report_identification; ?></td>
-			<th align="right">Template</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $form_data[0]->name; ?></td>
-		</tr>
-		<tr>
-			<th align="right">Prepared For</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->prepared_for; ?></td>
-			<th align="right">Prepared By</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $display_name; ?></td>
-		</tr>
-		<tr>
-			<th align="right">Lic #</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $licence_number; ?></td>
-			<th align="right">Phone Number</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $phone_number; ?></td>
-		</tr>
-		<tr>
-			<th align="right">Time In</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->time_in; ?></td>
-			<th align="right">Time Out</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->time_out; ?></td>
-		</tr>
-		<tr>
-			<th align="right" style="padding-bottom:10px;">Ocuppied or Vacant</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->inspection_status; ?></td>
-			<th align="right">Building Orientation</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->building_orientation; ?></td>
-		</tr>
-		<tr>
-			<th align="right">Weather Conditions</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->weather_conditions.' ['.$get_inspection[0]->temperature.']'; ?></td>
-			<th align="right">Parties Present</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->parties_present; ?></td>
+			<td style="border:none;">
+				<div style="font-size:18px;color:#000;display:block;margin-bottom:20px;">Report Identification: </div>
+				<div style="font-size:16px;color:#000;display:block;">Inspection Time In: <?php echo $get_inspection[0]->time_in; ?> Time Out: <?php echo $get_inspection[0]->time_out; ?> Property was: <?php echo $get_inspection[0]->inspection_status; ?> Building Orientation (For The Purpose Of This Report, the Front Faces): <?php echo $get_inspection[0]->building_orientation; ?> Weather conditions During Inspection: <?php echo $get_inspection[0]->weather_conditions; ?> Temp: <?php echo $get_inspection[0]->temperature; ?> Parties present at inspection: <?php echo $get_inspection[0]->parties_present; ?></div>			
+			</td>			
 		</tr>
 	</table>
-    <form class="theform formcontrol">
+	<div class="report-table"><br/><br/><br/></div>*/ ?>
+	<p class="agent_info sectionhead section-false" style="background-color:#9d1c1f;color:#fff;">
+		This is a shared report.  You can click to expand each section to see the deficiencies identified.  Click the checkbox next to each deficiency you wish to share and then click print report or save as PDF at the bottom to generate the deficiencies report.
+	</p>
+    <form class="theform formcontrol">		
       <div ng-repeat="section in form" class="mainSection">
 	  <div ng-show="section.children[1] ? true : false" ng-bind-html="section.children[0][0][0].data" class="repair-comment-false commentBoxItem"></div>
 	  <?php /* ?><div ng-repeat="child in section.children" ng-show="section.children[1] ? false : true" class="commentBoxItem sub_section_agent">
@@ -248,12 +231,12 @@ get_header('form-agent-viewer');
 							  </div>
 							</div>
 							<!-- Paragraph -->
-							<div ng-show="false" class="formcontrol paragraph" ng-if="control.type=='textarea'">
+							<?php /* ?><div ng-show="false" class="formcontrol paragraph" ng-if="control.type=='textarea'">
 							  <p>{{control.label}}</p>
 							  <div class="inputpretend paragraph">
 								{{control.placeholder}}
 							  </div>
-							</div>
+							</div><?php */ ?>
 							<!--Check box-->
 							<div ng-show="control.value" class="formcontrol checkbox" ng-if="control.type=='checkbox'">
 							  <input type="checkbox" ng-model="control.value"> {{control.label}}
@@ -266,7 +249,7 @@ get_header('form-agent-viewer');
 							  <div class="repair-comment-{{addCommentIsVisible}}" ng-bind-html="control.data"></div>
 							</div>
 							<!-- wysiwyg -->
-							<div ng-show="control.comment1" class="formcontrol editor commentBoxItem" ng-if="control.type=='comment'">
+							<div ng-show="control.comment1" class="formcontrol editor commentBoxItem shareOption-{{control.shareicon}}" ng-if="control.type=='comment'">
 							  <h4><input type="checkbox" id="{{control.htmlName}}" ng-click="commentListIsClb(commentListIsVisible=!commentListIsVisible,$event)" value="control.comment1" class="repair-print-{{commentListIsVisible}}"> <label class="repair-print-{{commentListIsVisible}}" for="{{control.htmlName}}">{{control.label}}</label></h4>
 							  <div class="repair-print-{{commentListIsVisible}}" ng-bind-html="control.data"></div>
 							</div>
@@ -298,13 +281,13 @@ get_header('form-agent-viewer');
         </div>
       </div>
     </form>
-	<div class="print_pdf_footer">
+	<?php /* ?><div class="print_pdf_footer">
 		Elite Inspection Group, LLC<br>
 		Administrative office and mailing address<br>
 		PO Box 2205 Frisco, TX 75034<br>
 		469-818-5500<br>
 		<a href="mailto:admin@eiginspection.com">admin@eiginspection.com</a> <a href="www.eigdallas.com">www.eigdallas.com</a>
-	</div>
+	</div><?php */ ?>
 </div>
 	<?php if($report_id){ ?>
     <div class="actions">
@@ -443,12 +426,12 @@ get_header('form-agent-viewer');
 					  </div>
 					</div>
 					<!-- Paragraph -->
-					<div class="formcontrol paragraph" ng-if="control.type=='textarea'">
+					<?php /* ?><div class="formcontrol paragraph" ng-if="control.type=='textarea'">
 					  <p>{{control.label}}</p>
 					  <div class="inputpretend paragraph">
 						{{control.placeholder}}
 					  </div>
-					</div>
+					</div><?php */?>
 					<!--Check box-->
 					<div class="formcontrol checkbox" ng-if="control.type=='checkbox'">
 					  <input type="checkbox" ng-model="control.value" ng-checked="{{control.value}}"> {{control.label}}
@@ -600,12 +583,12 @@ get_header('form-agent-viewer');
 							  </div>
 							</div>
 							<!-- Paragraph -->
-							<div class="formcontrol paragraph" ng-if="control.type=='textarea'">
+							<?php /* ?><div class="formcontrol paragraph" ng-if="control.type=='textarea'">
 							  <p>{{control.label}}</p>
 							  <div class="inputpretend paragraph">
 								{{control.placeholder}}
 							  </div>
-							</div>
+							</div><?php */ ?>
 							<!--Check box-->
 							<div class="formcontrol checkbox" ng-if="control.type=='checkbox'">
 							  <input type="checkbox" ng-model="control.value" ng-checked="{{control.value}}"> {{control.label}}
@@ -641,6 +624,17 @@ get_header('form-agent-viewer');
 							  <div class="instruction">
 								<i class="fa fa-info-circle"></i> {{control.label}}
 							  </div>
+							</div>
+							<!-- advertisment -->
+							<div class="formcontrol editor" ng-if="control.type=='advertisement'">  
+							  <div ng-bind-html="control.data"></div>  
+							</div>
+							<!-- textarea -->
+							<div class="formcontrol textarea" ng-if="control.type=='textarea'">  
+							  <div ng-bind-html="control.data"></div>  
+							</div>
+							<div class="formcontrol shortcode" ng-if="control.type=='shortcode'">
+								<div ng-bind-html="control.data"></div>
 							</div>
 							<!-- Page Break -->
 							<div class="formcontrol break" ng-if="control.type=='break'">
@@ -716,6 +710,7 @@ get_header('form-agent-viewer');
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/printThis.js"></script>
 	<script type="text/javascript">
 	$(document).ready(function () {
+		$(".commentBoxItem.ng-hide").parent('.mainSection').remove();
 		$(".printDrBtn").on("click", function (e) {
 			e.preventDefault();
 			var thisItem = $(this);

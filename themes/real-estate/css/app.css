@@ -655,7 +655,7 @@ fieldset[disabled] .btn-black.active {
   color: #1c2b36;
   background-color: #fff;
 }
-.btn-primary {
+/*.btn-primary {
   color: #fff !important;
   background-color: #00ff00;
   border-color: #00ff00;
@@ -695,7 +695,7 @@ fieldset[disabled] .btn-primary:active,
 fieldset[disabled] .btn-primary.active {
   background-color: #00ff00;
   border-color: #00ff00;
-}
+}*/
 .btn-primary .badge {
   color: #00ff00;
   background-color: #fff;

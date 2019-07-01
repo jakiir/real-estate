@@ -45,6 +45,16 @@
         </div>
       </div>
 </div>
+<div class="formcontrol" ng-if="control.type=='report_form'">
+	<div class="row">
+		<div class="col">
+			<p align="center" style="text-align: center;">
+				<div style="font-size:18px;color:#000;display:block;margin-bottom:20px;">Report Identification: </div>
+				<div style="font-size:16px;color:#000;display:block;">Inspection Time In: <?php echo $get_inspection[0]->time_in; ?> Time Out: <?php echo $get_inspection[0]->time_out; ?> Property was: <?php echo $get_inspection[0]->inspection_status; ?><br/>Building Orientation (For The Purpose Of This Report, the Front Faces): {{formBlueprint.building_orientation}}<br/>Weather conditions During Inspection: {{formBlueprint.weather_conditions}} Temp: {{formBlueprint.temperature}}<br/>Parties present at inspection: {{formBlueprint.parties_present}}</div>
+			</p>
+		</div>		
+	</div>
+</div>
 <!-- text -->
 <div ng-show="false" class="formcontrol text" ng-if="control.type=='label'">
   <div class="labelfield">
@@ -71,18 +81,18 @@
   </div>
 </div>
 <!-- Paragraph -->
-<div ng-show="false" class="formcontrol paragraph" ng-if="control.type=='textarea'">
+<?php /* ?><div class="formcontrol paragraph" ng-if="control.type=='textarea'">
   <p>{{control.label}}</p>
   <div class="inputpretend paragraph">
     {{control.placeholder}}
   </div>
-</div>
+</div><?php */ ?>
 <!--Check box-->
-<div ng-show="control.value" class="formcontrol checkbox" ng-if="control.type=='checkbox'">
+<div ng-show="control.value" class="formcontrol checkbox inline-checkbox-view" ng-if="control.type=='checkbox'">
   <input type="checkbox" ng-model="control.value"> {{control.label}}
 </div>
 <!-- Image -->
-<div ng-show="control.withComment" class="formcontrol image imgdrop repair-comment-{{addCommentIsVisible}}" ng-if="control.type=='image'" ng-drop="imageDrop($event,$parent.$parent.$index,$parent.$index,$index)">
+<div ng-show="control.withComment" class="formcontrol image imgdrop repair-comment-{{addCommentIsVisible}} not_required_{{control.notRequired}}" ng-if="control.type=='image'" ng-drop="imageDrop($event,$parent.$parent.$index,$parent.$index,$index)">
 <?php 
 	$get_att_url = '';
 	if($att){
@@ -101,7 +111,7 @@
 	<span class="invisible fileinp"></span>
     <i class="fa fa-folder-open"></i>
   </div><?php */?>
-  <div class="commentprompt repair-comment-{{addCommentIsVisible}}"><input type="checkbox" ng-click="addCommentIsVisible=!addCommentIsVisible"> Add Comment</div>
+  <div class="commentprompt repair-comment-{{addCommentIsVisible}}"><input type="checkbox" ng-click="addCommentIsVisible=!addCommentIsVisible"> Add Comment <input type="checkbox" ng-model="control.notRequired"> NOT REQUIRED</div>
   <div class="repair-comment-{{addCommentIsVisible}}" ng-bind-html="control.data"></div>
   <!--<div class="imgcomment" ng-show="control.withComment">
     <textarea ui-tinymce="tinymceOptions" ng-model="control.data"></textarea>
@@ -123,6 +133,17 @@
     <textarea ui-tinymce="tinymceOptions" ng-model="control.data"></textarea>
     <div class="button tbmargin get-right" ng-click="control.editMode=false">Save</div>
   </div><?php */ ?>
+</div>
+<!-- advertisment -->
+<div class="formcontrol" ng-if="control.type=='advertisement'">  
+  <div ng-bind-html="control.data"></div> 
+</div>
+<!-- textarea -->
+<div class="formcontrol textarea" ng-if="control.type=='textarea'">
+	<div ng-bind-html="control.data"></div>
+</div>
+<div class="formcontrol shortcode" ng-if="control.type=='shortcode'">
+	<div ng-bind-html="control.data"></div>
 </div>
 <!-- Static Text -->
 <div ng-show="false" class="formcontrol static" ng-if="control.type=='static'">

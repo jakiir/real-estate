@@ -1,9 +1,9 @@
 .formcontrol{
-  padding:8px;
+  padding:4px;
   position: relative;
 }
 .formcontrol p{
-  margin:0px 0px 15px 0px;
+  margin:0px 0px 5px 0px;
 }
 .inputpretend{
   border:2px solid #aaa;
@@ -17,11 +17,18 @@
 .inputpretend.paragraph{
   height:6em;
 }
-.formcontrol img,.mce-content-body img{
+.formcontrol img{
   display:inline-block;
   width:100%;
   color:rgba(0,0,0,0);
   margin-right: 10px;
+}
+.mce-content-body img{
+  display:inline-block;
+  width:100%;
+  color:rgba(0,0,0,0);
+  margin-right: 10px;
+  height: 250px;
 }
 .formcontrol img[alt]::before{
   content:"\f03e";
@@ -111,7 +118,7 @@ textarea.fcontrol.longtext{
   background:#e74c3c;
 }
 .col{
-  padding:10px !important;
+  padding:5px !important;
 }
 .sectionhead{
   padding:20px;
@@ -156,6 +163,9 @@ textarea.fcontrol.longtext{
 .formcontrol.editor{
   position:relative;
 }
+.formcontrol.editor h4{
+  margin-right: 106px;
+}
 .editor .editbutton{
   position:absolute;
   right:0px;
@@ -174,8 +184,9 @@ textarea.fcontrol.longtext{
   opacity:1;
 }
 .theform{
-  margin-bottom:150px;
+  margin-bottom:80px;
 }
+.formcontrol.checkbox{margin-left:20px;}
 .textinput{
   display:block;
   width:100%;
@@ -190,3 +201,9 @@ textarea.fcontrol.longtext{
 .imgcomment{
   margin-top:10px;
 }
+.shareOption-false{display:none !important;}
+.inline-checkbox-view{margin-left:20px;}
+.mce-container, .mce-container *, .mce-widget, .mce-widget *, .mce-reset{
+	white-space:inherit !important;
+}
+.mce-flow-layout-item{display:inline;}

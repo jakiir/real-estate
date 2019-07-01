@@ -20,7 +20,7 @@ formControls.text={
   title:"Text",
   type:'text',
   //placeholder:"Enter Value",
-  icon:"fa-font",
+  icon:"fa-text-height",
   htmlName:"txt",
   default:"Default Value",
   data:""
@@ -40,7 +40,15 @@ formControls.reportfield={
   title:"Report",
   type:'report',
   label:"Report field",
-  icon:"fa-font",
+  icon:"fa-file-o",
+  single:true
+}
+
+formControls.reportformfield={
+  title:"Report Form",
+  type:'report_form',
+  label:"Report Form field",
+  icon:"fa-file",
   single:true
 }
 
@@ -115,4 +123,30 @@ formControls.reason={
   type:'reason',
   icon:"fa-comment",
   reason:""
+}
+formControls.advertisement={
+  title:"Ad",
+  label:"advertisement",
+  type:'advertisement',
+  icon:"fa-edit",
+  htmlName:"cmt",
+  editMode:true,
+  data:"<h5>THIS BOX FOR ADVERTISEMENT. KEEP BLANK IF NO ADVERTISEMENT</h5>"
+}
+formControls.textarea={
+  title:"Textarea",
+  type:'textarea',
+  //placeholder:"Enter Value",
+  icon:"fa-text-height",
+  htmlName:"textarea",
+  default:"Default Value",
+  data:""  
+}
+formControls.shortcode={
+  title:"Shortcode",
+  type:'shortcode',
+  icon:"fa-text-width",
+  htmlName:"shortcode",
+  editMode:true,
+  data:""
 }

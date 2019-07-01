@@ -23,7 +23,7 @@ p{
 .tool.dragelement{
   padding:5px;
   border:1px solid #aaa;
-  margin:4px 0px;
+  margin:1px 0px;
   border-radius:3px;
 }
 .tool.dragelement .fa{
@@ -54,7 +54,7 @@ p{
 	display:none;
 	position: absolute;
     right: 0px;
-    bottom: -26px;
+    top: 56px;
     font-size: 14px;
     background: #eee;
     padding: 2px 10px;

@@ -45,6 +45,16 @@
         </div>
       </div>
 </div>
+<div class="formcontrol" ng-if="control.type=='report_form'">
+	<div class="row">
+		<div class="col">
+			<p align="center" style="text-align: center;">
+				<div style="font-size:18px;color:#000;display:block;margin-bottom:20px;">Report Identification: </div>
+				<div style="font-size:16px;color:#000;display:block;">Inspection Time In: <?php echo $get_inspection[0]->time_in; ?> Time Out: <?php echo $get_inspection[0]->time_out; ?> Property was: <?php echo $get_inspection[0]->inspection_status; ?><br/>Building Orientation (For The Purpose Of This Report, the Front Faces): {{formBlueprint.building_orientation}}<br/>Weather conditions During Inspection: {{formBlueprint.weather_conditions}} Temp: {{formBlueprint.temperature}}<br/>Parties present at inspection: {{formBlueprint.parties_present}}</div>
+			</p>
+		</div>		
+	</div>
+</div>
 <!-- text -->
 <div class="formcontrol text" ng-if="control.type=='label'">
   <div class="labelfield">
@@ -71,18 +81,18 @@
   </div>
 </div>
 <!-- Paragraph -->
-<div class="formcontrol paragraph" ng-if="control.type=='textarea'">
+<?php /* ?><div class="formcontrol paragraph" ng-if="control.type=='textarea'">
   <p>{{control.label}}</p>
   <div class="inputpretend paragraph">
     {{control.placeholder}}
   </div>
-</div>
+</div><?php */ ?>
 <!--Check box-->
-<div class="formcontrol checkbox" ng-if="control.type=='checkbox'">
+<div class="formcontrol checkbox inline-checkbox-view" ng-if="control.type=='checkbox'">
   <input type="checkbox" ng-model="control.value" ng-checked="{{control.value}}"> {{control.label}}
 </div>
 <!-- Image -->
-<div class="formcontrol image imgdrop" ng-if="control.type=='image'" ng-drop="imageDrop($event,$parent.$parent.$index,$parent.$index,$index)">
+<div class="formcontrol image imgdrop not_required_{{control.notRequired}}" ng-if="control.type=='image'" ng-drop="imageDrop($event,$parent.$parent.$index,$parent.$index,$index)">
 <?php 
 	$get_att_url = '';
 	if($att){
@@ -101,7 +111,7 @@
 	<span class="invisible fileinp"></span>
     <i class="fa fa-folder-open"></i>
   </div><?php */ ?>
-  <div class="commentprompt"><input type="checkbox" ng-model="control.withComment" ng-checked="{{control.withComment}}"> Add Comment</div>
+  <div class="commentprompt display-checkbox"><input type="checkbox" ng-model="control.withComment" ng-checked="{{control.withComment}}"> Display Image & Add Comment (If Any) <input type="checkbox" ng-model="control.notRequired"> NOT REQUIRED</div>
   <div ng-bind-html="control.data"></div>
   <?php /*?><div class="imgcomment" ng-show="control.withComment">
     <textarea ui-tinymce="tinymceOptions" ng-model="control.data"></textarea>
@@ -113,7 +123,7 @@
 </div><?php */?>
 <!-- wysiwyg -->
 <div class="formcontrol editor" ng-if="control.type=='comment'">
-  <h4><input type="checkbox" id="{{control.htmlName}}" ng-click="commentListIsVisible=!commentListIsVisible" ng-model="control.comment1" value="control.comment1" ng-checked="control.comment1"> <label for="{{control.htmlName}}">{{control.label}}</label></h4>
+  <h4><input type="checkbox" id="{{control.htmlName}}" ng-click="commentListIsClb(commentListIsVisible=!commentListIsVisible,$event)" class="repair-print-{{commentListIsVisible}}" ng-model="control.comment1" value="control.comment1" ng-checked="control.comment1"> <label class="repair-print-{{commentListIsVisible}}" for="{{control.htmlName}}">{{control.label}}</label></h4>
   <?php /* ng-checked="control.comment1" ?><div class="editbutton" ng-click="control.editMode=true" ng-show="commentListIsVisible=control.comment1">
     <i ng-click="" class="fa fa-pencil"></i>
   </div><?php */?>
@@ -123,6 +133,17 @@
     <textarea ui-tinymce="tinymceOptions" ng-model="control.data"></textarea>
     <div class="button tbmargin get-right" ng-click="control.editMode=false">Save</div>
   </div><?php */ ?>
+</div>
+<!-- advertisment -->
+<div class="formcontrol" ng-if="control.type=='advertisement'">  
+  <div ng-bind-html="control.data"></div> 
+</div>
+<!-- textarea -->
+<div class="formcontrol textarea" ng-if="control.type=='textarea'">
+	<div ng-bind-html="control.data"></div>
+</div>
+<div class="formcontrol shortcode" ng-if="control.type=='shortcode'">
+	<div ng-bind-html="control.data"></div>
 </div>
 <!-- Static Text -->
 <div class="formcontrol static" ng-if="control.type=='static'">

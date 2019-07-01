@@ -132,9 +132,34 @@ angular.module('submitForm',['ui.tinymce'])
   }
   var temp_dt = new Date();
   $scope.formBlueprint.prepared_date = temp_dt.toString();
+  
+  
+$scope.getImgMeta = function(imgInfo,varA,varB){
+	if (typeof varB !== 'undefined') {
+	   //alert(varA + ' width ' + varB + ' height');
+	   var wWidth = $(window).width();
+	   var imgWidth = ((varA / wWidth) * 100)+'%';
+	   var imgHeight = ((varB / wWidth) * 200)+'px';
+	   $('#img_'+imgInfo.hash).css({width: imgWidth, height: imgHeight });
+	} else {
+	   var img = new Image();
+	   img.src = imgInfo.url;
+	   img.onload = function() {
+		   $scope.getImgMeta(imgInfo,this.width, this.height);
+	   }
+	}
+}
+  
   var setSubmitData = '';
   savedIdForItem = saved;
   $scope.submitData = function(thisItem=3,goToUrl='',targetUrl=''){
+	  
+	  var pathArray = window.location.pathname.split( '/' );
+		var segment_1 = pathArray[1];
+		if(segment_1 !='form-viewer'){
+			return false;
+		}
+	  
 	  setSubmitData = setTimeout($scope.submitData, 15000);
     var saveToDb=false;
     //var fd = new FormData(document.forms.mainform);
@@ -157,7 +182,6 @@ angular.module('submitForm',['ui.tinymce'])
 	}
 	
     form_data.append('formJsonData', formJsonData);
-	
 	$.ajax({
 	  dataType : "json",
       url: ajax_url,
@@ -168,7 +192,7 @@ angular.module('submitForm',['ui.tinymce'])
       success: function (data) {		
         var parsedJson = data;
 		saveToDb = parsedJson.success;        
-        if(parsedJson.success == true){			
+        if(parsedJson.success == true){
 			$('.msg_show').show().html('<font class="font_icon success_icon">'+parsedJson.mess+'</span>');
 			if(thisItem==1){
 				window.location.href = site_url+"/form-viewer/?item="+template_id+'&report='+inspection_id+'&saved='+parsedJson.report_detail_id;
@@ -194,7 +218,7 @@ angular.module('submitForm',['ui.tinymce'])
 	return saveToDb;
     //ToDo: Run AJAX submit for fd
   }
-  setSubmitData = setTimeout($scope.submitData, 15000);
+  //setSubmitData = setTimeout($scope.submitData, 15000);
   $scope.submitData(3,'','');
   $scope.fileBrowse = function(control){
     var fi = document.querySelector('.fileinp-new');
@@ -215,6 +239,72 @@ angular.module('submitForm',['ui.tinymce'])
         //$scope.$apply();
       }
   }
+  
+  $scope.commentListIsClb = function(control,thisItem){
+		if(control){
+		  returnType = false;
+		} else {
+			returnType = true;
+		}
+		setTimeout(function() { 
+			var atLeastOneIsChecked = $(thisItem.target).parents('.sub_section_agent').find('input.repair-print-false').length;
+			if(atLeastOneIsChecked > 0){
+				$(thisItem.target).parents('.sub_section_agent').addClass('repair-print-active');
+			} else {
+				$(thisItem.target).parents('.sub_section_agent').removeClass('repair-print-active');
+			}
+		}, 1000);
+		
+			  
+	}
+	var controlTxtArr = [];
+	$scope.getLebelTxtVal = function(controlTxt,uniqHtmlName){
+		if(controlTxt.target.checked === true && uniqHtmlName === 'condition_yes_7a') {
+			controlTxtArr.push(controlTxt.target.checked);
+		}
+		if(controlTxt.target.checked === false && uniqHtmlName === 'condition_yes_7a') {
+			controlTxtArr = [];
+		}
+		if(jQuery.inArray(true, controlTxtArr) !== -1){
+			var checkedArray = {
+				condition_checkbox_7b_01:'Remove wood to ground contact', 
+				condition_checkbox_7b_02:'Remove form board(s)',
+				condition_checkbox_7b_03:'Improve drainage',
+				condition_checkbox_7b_04:'Remove debris', 
+				condition_checkbox_7b_05:'Lower soil',
+				condition_checkbox_7b_06:'Remove rotted wood',
+				condition_checkbox_7b_07:'Trim foliage', 
+				condition_checkbox_7b_08:'Remove planter box',
+				condition_checkbox_7b_09:'Remove wood pile',
+				condition_checkbox_7b_10:'Trim fence', 
+				condition_checkbox_7b_11:'Add ventilation',
+				condition_checkbox_7b_12:'Other (C)'
+			};
+			var editor_id = 'reason_referring_value_9b';
+			if(template_id == '56'){
+				editor_id = 'reason_referring_value_9b';
+			}
+			if(controlTxt.target.checked === true && typeof checkedArray[uniqHtmlName] !== 'undefined' && checkedArray[uniqHtmlName].length > 0) {
+				var new9Bitem = $('#'+editor_id).parent().parent().find(".mce-edit-area").find("iframe").contents().find('.mce-content-body').find('ul.new7Bitem');
+				if(new9Bitem.length === 0){
+					$('#'+editor_id).parent().parent().find(".mce-edit-area").find("iframe").contents().find('.mce-content-body').find("p").after().html('<p><ul class="new7Bitem"><li class="'+uniqHtmlName+'">'+checkedArray[uniqHtmlName]+'</li></ul></p>');
+				} else {
+					$('#'+editor_id).parent().parent().find(".mce-edit-area").find("iframe").contents().find('.mce-content-body').find('ul.new7Bitem').append('<li class="'+uniqHtmlName+'">'+checkedArray[uniqHtmlName]+'</li>');
+				}
+				$('#'+editor_id).parent().parent().find(".mce-edit-area").find("iframe").contents().find('.mce-content-body').focus();
+				$("body").click();
+			}
+			if(controlTxt.target.checked === false && typeof checkedArray[uniqHtmlName] !== 'undefined' && checkedArray[uniqHtmlName].length > 0) {
+				var new9Bitemm = $('#'+editor_id).parent().parent().find(".mce-edit-area").find("iframe").contents().find('.mce-content-body').find('ul.new7Bitem');
+				if(new9Bitemm.length > 0){
+					$('#'+editor_id).parent().parent().find(".mce-edit-area").find("iframe").contents().find('.mce-content-body').find("p").find('ul.new7Bitem').find('li.'+uniqHtmlName).remove();
+					$('#'+editor_id).parent().parent().find(".mce-edit-area").find("iframe").contents().find('.mce-content-body').focus();
+					$("body").click();
+				}
+			}
+		}
+		
+	}
   
   $scope.mediaUploderClb = function(control){
 	  

@@ -32,9 +32,34 @@ table.table-bordered tbody td.course-field {
 .print_pdf_footer,.viewHide,#fullReportPrint{display:block!important;}
 .report-table{width:100%;display:table!important;}
 .mainSection:first-child{display:block!important;}
-.ng-empty + label{display:none;}
-.ng-binding.ng-hide,.add_comment_false img.imggap{display:none;}
+/*.ng-empty + label{display:none;}*/
+.ng-binding.ng-hide{display:none;}
+/*.add_comment_false img.imggap{display:none;}*/
+.not_required_true, .not_required_true img.imggap{display:none;}
+.display-checkbox{display:none;}
 /*for chrome*/
+.under_line {
+    border-bottom: 2px solid #000;
+    font-weight: bold;
+    color: #000;
+}
+.every_span {
+    display: inline-grid;
+}
+.inspector_type label {
+    min-width: 149px;
+    margin: 0;
+    display: inline-block;
+}
+.formcontrol{padding:4px!important;}
+.formcontrol p {margin: 0px 0px 6px 0px;}
+.row{padding: 0 5px 10px 5px;}
+.print_pdf_footer{width:250px;margin:15px auto;font-size:18px;display:none;}
+.mainSection:nth-child(2) .shortcode{text-align:center;}
+.wood_inspection ul, .wood_inspection ol{margin:0;padding:0;}
+.wood_inspection .formcontrol.text_label,.wood_inspection .formcontrol.static,.wood_inspection .formcontrol.comment,.wood_inspection .formcontrol.textarea,.wood_inspection .formcontrol.image,.wood_inspection .formcontrol.text{margin-left:15px;}
+.wood_inspection .formcontrol.checkbox,.wood_inspection .formcontrol.editor{margin-left:15px;}
+.shortcode{margin-left:15px;}
 @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) {
     #drlistDivTbl,#printAreaDiv {
         margin-left: 20px;

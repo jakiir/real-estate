@@ -14,7 +14,7 @@
  * @version 1.0
  */
 
-get_header('form-viewer-print'); ?>
+get_header('viewer-print'); ?>
 <?php 
 	if (is_user_logged_in()) {
 		$user = wp_get_current_user();
@@ -30,6 +30,7 @@ get_header('form-viewer-print'); ?>
 	$template_id = !empty($_GET['item']) ? $_GET['item'] : '';
 	$report_id = !empty($_GET['report']) ? $_GET['report'] : 0;
 	$saved = !empty($_GET['saved']) ? $_GET['saved'] : 0;
+	$att = !empty($_GET['att']) ? $_GET['att'] : '';
 	$hash_id = !empty($_GET['hash']) ? $_GET['hash'] : '';
 
 	global $wpdb;
@@ -39,7 +40,6 @@ get_header('form-viewer-print'); ?>
 	
 	$table_template = $wpdb->prefix . 'template';	
 	$form_data = $wpdb->get_results( "SELECT * FROM $table_template WHERE id=$template_id", OBJECT );
-	
 	$display_name = '';
 	$licence_number = '';
 	$phone_number = '';
@@ -52,80 +52,75 @@ get_header('form-viewer-print'); ?>
 ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/fa/css/font-awesome.min.css">
 <div class="container" ng-controller="submissonForm">
-<div id="drlistDivTbl">
+<div id="templateViewer">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/form.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/submitform_controls.css">
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/custom.css">
-	<table class="report-table">
-		<tr>
-			<th align="right" colspan="2" style="padding-bottom:10px;">
-				<img src="<?php echo !empty($form_data[0]->logo_url) ? $form_data[0]->logo_url : '//placehold.it/200'; ?>" class="avatar img-responsive" alt="avatar" style="width:150px;">
-			</th>
-			<td align="left" colspan="4" style="text-transform:uppercase;"><?php echo $form_data[0]->name; ?> Report</td>
-		</tr>
-	</table>
-	<table class="report-table report-info">
-		<tr>
-			<th align="right" style="padding-top:10px;">Company </th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->company; ?></td>
-			<th align="right">Date</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->inpection_date; ?></td>
-		</tr>
-		<tr>
-			<th align="right">Property Address</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->report_identification; ?></td>
-			<th align="right">Template</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $form_data[0]->name; ?></td>
-		</tr>
-		<tr>
-			<th align="right">Prepared For</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->prepared_for; ?></td>
-			<th align="right">Prepared By</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $display_name; ?></td>
-		</tr>
-		<tr>
-			<th align="right">Lic #</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $licence_number; ?></td>
-			<th align="right">Phone Number</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $phone_number; ?></td>
-		</tr>
-		<tr>
-			<th align="right">Time In</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->time_in; ?></td>
-			<th align="right">Time Out</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->time_out; ?></td>
-		</tr>
-		<tr>
-			<th align="right" style="padding-bottom:10px;">Ocuppied or Vacant</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->inspection_status; ?></td>
-			<th align="right">Building Orientation</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->building_orientation; ?></td>
-		</tr>
-		<tr>
-			<th align="right">Weather Conditions</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->weather_conditions.' ['.$get_inspection[0]->temperature.']'; ?></td>
-			<th align="right">Parties Present</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->parties_present; ?></td>
-		</tr>
-	</table>
+<link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/css/responsive.css">
+	<?php if($form_data[0]->no_cover != 'true'){ ?>
+	<div class="row">
+		<div class="col">		
+			<img src="<?php echo !empty($get_inspection[0]->cover_photo) ? $get_inspection[0]->cover_photo : '/wp-content/themes/real-estate/images/cover_photo.jpg'; ?>" alt="avatar" style="width:100%;">
+		</div>
+	</div>	
+	<div class="row">
+		<div class="col">
+			<p style="text-transform:capitalize;font-size:25px;margin-top:100px;" align="center">
+				<?php echo $get_inspection[0]->report_identification; ?>
+			</p>
+		</div>
+	</div>
+	<?php //echo $form_data[0]->name.' Report'; ?>
+		<div class="report-table-" style="border:none;">
+			<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+		</div>
+		<div class="row">
+			<div class="col">
+				<p style="font-size:18px;font-weight:normal;">
+					<?php 
+						$originalDate = $get_inspection[0]->inpection_date;
+						$newDate = date("F d, Y", strtotime($originalDate));
+						echo '<div align="center" style="width:250px;margin:0 auto;font-size:18px;font-weight:bold;">'.$newDate.'</div>';
+						echo '<div align="center" style="width:250px;margin:0 auto;">'.$form_data[0]->footer_html.'</div>';
+					?>
+				</p>
+			</div>
+		</div>
+		<div class="report-table-"><br/><br/></div>
+		<div class="row">
+			<div class="col">
+				<p style="width:120px;display:table;margin:0 auto;vertical-align: middle;" align="center">
+					<img src="<?php echo !empty($form_data[0]->logo_url) ? $form_data[0]->logo_url : '/wp-content/themes/real-estate/images/cover_photo.jpg'; ?>" alt="avatar" style="width:120px;">
+				</p>
+			</div>
+		</div>
+	<div class="page-break">&nbsp;</div>
+	<?php } ?>
+	<?php /*<div class="report-table-"><br/><br/><br/><br/><br/></div>
+	<div class="row">
+		<div class="col">
+			<p align="center" style="text-align: center;">
+				<div style="font-size:18px;color:#000;display:block;margin-bottom:20px;">Report Identification: </div>
+				<div style="font-size:16px;color:#000;display:block;">Inspection Time In: <?php echo $get_inspection[0]->time_in; ?> Time Out: <?php echo $get_inspection[0]->time_out; ?> Property was: <?php echo $get_inspection[0]->inspection_status; ?><br/>Building Orientation (For The Purpose Of This Report, the Front Faces): <?php echo $get_inspection[0]->building_orientation; ?><br/>Weather conditions During Inspection: <?php echo $get_inspection[0]->weather_conditions; ?> Temp: <?php echo $get_inspection[0]->temperature; ?><br/>Parties present at inspection: <?php echo $get_inspection[0]->parties_present; ?></div>
+			</p>
+		</div>		
+	</div>
+	<div class="report-table-"><br/><br/><br/></div>*/ ?>
     <form class="theform">
       <div ng-repeat="section in form" class="mainSection">
-	  <div ng-show="section.children[1] ? true : false" ng-bind-html="section.children[0][0][0].data" class="commentBoxItem"></div>
-	  <div ng-repeat="child in section.children" ng-show="section.children[1] ? false : true" class="commentBoxItem">
+	  <?php /* ?><div ng-if="section.children[1] ? true : false" ng-bind-html="section.children[0][0][0].data" class="commentBoxItem"></div>
+	  <div ng-repeat="child in section.children" ng-if="!section.children[0].subsection" class="commentBoxItem">
+			<div class="">
+				<div class="row" ng-repeat="child in section.children">
+				  <div class="col" ng-repeat="controls in child">
+					<div ng-repeat="control in controls">
+					  <div ng-include="'<?php echo esc_url( home_url('/submition-controls/?report='.$report_id.'&saved='.$saved.'&item='.$template_id.'&att='.$att.'&hash='.$hash_id.'&print=yes') ); ?>'"></div>
+					</div>
+				  </div>
+				</div>
+			</div>
+		</div><?php */ ?>
+	  <div ng-repeat="child in section.children" ng-if="section.children[1] ? false : true" class="commentBoxItem">
 			<div class="">
 				<div class="row" ng-repeat="child in section.children">
 				  <div class="col" ng-repeat="controls in child">
@@ -171,6 +166,17 @@ get_header('form-viewer-print'); ?>
 							</div>
 						  </div>
 					</div>
+					<div class="formcontrol" ng-if="control.type=='report_form'">
+						<div class="row">
+							<div class="col">
+								<p align="center" style="text-align: center;">
+									<div style="font-size:18px;color:#000;display:block;margin-bottom:20px;">Report Identification: </div>
+									<div style="font-size:16px;color:#000;display:block;">Inspection Time In: <?php echo $get_inspection[0]->time_in; ?> Time Out: <?php echo $get_inspection[0]->time_out; ?> Property was: <?php echo $get_inspection[0]->inspection_status; ?><br/>Building Orientation (For The Purpose Of This Report, the Front Faces): {{formBlueprint.building_orientation}}<br/>Weather conditions During Inspection: {{formBlueprint.parties_present_sunny ? 'Sunny' : ''}}{{formBlueprint.parties_present_raining ? ', Raining' : ''}}{{formBlueprint.parties_present_cloudy ? ', Cloudy' : ''}}{{formBlueprint.parties_present_ice ? ', Snow/Ice' : ''}} Temp: {{formBlueprint.temperature}}<br/>Parties present at inspection: 
+									{{formBlueprint.parties_present_client ? 'Client' : ''}}{{formBlueprint.parties_present_realtor ? ', Buyer’s Realtor' : ''}}{{formBlueprint.parties_present_builder ? ', Builder' : ''}}{{formBlueprint.parties_present_seller ? ', Seller' : ''}}{{formBlueprint.parties_present_none ? ', None' : ''}}</div>
+								</p>
+							</div>		
+						</div>
+					</div>
 					<!-- text -->
 					<div class="formcontrol text" ng-if="control.type=='label'">
 					  <div class="labelfield">
@@ -179,7 +185,7 @@ get_header('form-viewer-print'); ?>
 					</div>
 					<!-- text -->
 					<div class="formcontrol text" ng-if="control.type=='text'">
-					  <textarea class="textinput" placeholder="{{control.placeholder}}"></textarea>
+					  <div ng-bind-html="control.data"></div>
 					</div>
 					<!-- Section -->
 					<div class="formcontrol number" ng-if="control.type=='section'">
@@ -197,12 +203,12 @@ get_header('form-viewer-print'); ?>
 					  </div>
 					</div>
 					<!-- Paragraph -->
-					<div class="formcontrol paragraph" ng-if="control.type=='textarea'">
+					<?php /* ?><div class="formcontrol paragraph" ng-if="control.type=='textarea'">
 					  <p>{{control.label}}</p>
 					  <div class="inputpretend paragraph">
 						{{control.placeholder}}
 					  </div>
-					</div>
+					</div><?php */ ?>
 					<!--Check box-->
 					<div class="formcontrol checkbox" ng-if="control.type=='checkbox'">
 					  <input type="checkbox" ng-model="control.value" ng-checked="{{control.value}}"> {{control.label}}
@@ -210,14 +216,29 @@ get_header('form-viewer-print'); ?>
 					<!-- Image -->
 					<div class="formcontrol image imgdrop" ng-if="control.type=='image'" ng-drop="imageDrop($event,$parent.$parent.$index,$parent.$index,$index)">
 					  <input type="hidden" class="updatedUrl" value="{{control.url}}"/>
-					  <img class="imggap fa" ng-src="{{control.url}}" alt="Image Placeholder">  
-					  <div class="commentprompt"><input type="checkbox" ng-model="control.withComment" ng-checked="{{control.withComment}}"> Add Comment</div>
+					  <img class="imggap fa" ng-src="{{control.url}}" <?php /* ?>ng-init="getImgMeta(control)" <?php */?> id="img_{{control.hash}}" alt="Image Placeholder">  
+					  <div class="commentprompt"><input type="checkbox" ng-model="control.withComment" ng-checked="{{control.withComment}}"> Display Image & Add Comment (If Any)</div>
+					  <div ng-bind-html="control.data"></div>
+					</div>
+					<!-- wysiwyg -->
+					<div class="formcontrol editor" ng-if="control.type=='wysiwyg'" ng-style="{'border':control.isInstruction?'1px solid black':'none'}">
 					  <div ng-bind-html="control.data"></div>
 					</div>
 					<!-- wysiwyg -->
 					<div class="formcontrol editor" ng-if="control.type=='comment'">
 					  <h4><input type="checkbox" id="{{control.htmlName}}" ng-click="commentListIsVisible=!commentListIsVisible" ng-model="control.comment1" value="control.comment1" ng-checked="control.comment1"> <label for="{{control.htmlName}}">{{control.label}}</label></h4>
-					  <div ng-bind-html="control.data"></div>
+					  <div ng-bind-html="control.data" class="showing-{{commentListIsVisible}}"></div>
+					</div>
+					<!-- advertisment -->
+					<div class="formcontrol editor" ng-if="control.type=='advertisement'">  
+					  <div ng-bind-html="control.data"></div>  
+					</div>
+					<!-- textarea -->
+					<div class="formcontrol textarea" ng-if="control.type=='textarea'">  
+					  <div ng-bind-html="control.data"></div>  
+					</div>
+					<div class="formcontrol shortcode" ng-if="control.type=='shortcode'">
+						<div ng-bind-html="control.data"></div>
 					</div>
 					<!-- Static Text -->
 					<div class="formcontrol static" ng-if="control.type=='static'">
@@ -262,10 +283,10 @@ get_header('form-viewer-print'); ?>
 					<div class="formcontrol number" ng-if="child.subsection[0].type=='subsection'">
 					  <?php /*?><h2>{{child.subsection[0].label}}</h2><?php */?>
 					  <div>  
-						<input type="checkbox" ng-model="child.subsection[0].status1" value="child.subsection[0].status1" ng-checked="{{child.subsection[0].status1}}"> Inspected
-						<input type="checkbox" ng-model="child.subsection[0].status2" value="child.subsection[0].status2" ng-checked="{{child.subsection[0].status2}}"> Not Inspected
-						<input type="checkbox" ng-model="child.subsection[0].status3" value="child.subsection[0].status3" ng-checked="{{child.subsection[0].status3}}"> Not Present
-						<input type="checkbox" ng-model="child.subsection[0].status4" value="child.subsection[0].status4" ng-checked="{{child.subsection[0].status4}}"> Deficient
+						<input type="checkbox" ng-model="child.subsection[0].status1" value="child.subsection[0].status1" ng-checked="{{child.subsection[0].status1}}" class="top-ins"> Inspected
+						<input type="checkbox" ng-model="child.subsection[0].status2" value="child.subsection[0].status2" ng-checked="{{child.subsection[0].status2}}" class="top-ins"> Not Inspected
+						<input type="checkbox" ng-model="child.subsection[0].status3" value="child.subsection[0].status3" ng-checked="{{child.subsection[0].status3}}" class="top-ins"> Not Present
+						<input type="checkbox" ng-model="child.subsection[0].status4" value="child.subsection[0].status4" ng-checked="{{child.subsection[0].status4}}" class="top-ins"> Deficient
 					  </div>
 					</div>
 					<div class="row-" ng-repeat="controls in child.children">
@@ -312,6 +333,17 @@ get_header('form-viewer-print'); ?>
 										</div>
 									  </div>
 								</div>
+								<div class="formcontrol" ng-if="control.type=='report_form'">
+									<div class="row">
+										<div class="col">
+											<p align="center" style="text-align: center;">
+												<div style="font-size:18px;color:#000;display:block;margin-bottom:20px;">Report Identification: </div>
+												<div style="font-size:16px;color:#000;display:block;">Inspection Time In: <?php echo $get_inspection[0]->time_in; ?> Time Out: <?php echo $get_inspection[0]->time_out; ?> Property was: <?php echo $get_inspection[0]->inspection_status; ?><br/>Building Orientation (For The Purpose Of This Report, the Front Faces): {{formBlueprint.building_orientation}}<br/>Weather conditions During Inspection: {{formBlueprint.parties_present_sunny ? 'Sunny' : ''}}{{formBlueprint.parties_present_raining ? ', Raining' : ''}}{{formBlueprint.parties_present_cloudy ? ', Cloudy' : ''}}{{formBlueprint.parties_present_ice ? ', Snow/Ice' : ''}} Temp: {{formBlueprint.temperature}}<br/>Parties present at inspection: 
+												{{formBlueprint.parties_present_client ? 'Client' : ''}}{{formBlueprint.parties_present_realtor ? ', Buyer’s Realtor' : ''}}{{formBlueprint.parties_present_builder ? ', Builder' : ''}}{{formBlueprint.parties_present_seller ? ', Seller' : ''}}{{formBlueprint.parties_present_none ? ', None' : ''}}</div>
+											</p>
+										</div>		
+									</div>
+								</div>
 								<!-- text -->
 								<div class="formcontrol text" ng-if="control.type=='label'">
 								  <div class="labelfield">
@@ -320,7 +352,7 @@ get_header('form-viewer-print'); ?>
 								</div>
 								<!-- text -->
 								<div class="formcontrol text" ng-if="control.type=='text'">
-								  <textarea class="textinput" placeholder="{{control.placeholder}}"></textarea>
+								  <div ng-bind-html="control.data"></div>
 								</div>
 								<!-- Section -->
 								<div class="formcontrol number" ng-if="control.type=='section'">
@@ -338,12 +370,12 @@ get_header('form-viewer-print'); ?>
 								  </div>
 								</div>
 								<!-- Paragraph -->
-								<div class="formcontrol paragraph" ng-if="control.type=='textarea'">
+								<?php /* ?><div class="formcontrol paragraph" ng-if="control.type=='textarea'">
 								  <p>{{control.label}}</p>
 								  <div class="inputpretend paragraph">
 									{{control.placeholder}}
 								  </div>
-								</div>
+								</div><?php */ ?>
 								<!--Check box-->
 								<div class="formcontrol checkbox" ng-if="control.type=='checkbox'">
 								  <input type="checkbox" ng-model="control.value" ng-checked="{{control.value}}"> {{control.label}}
@@ -351,14 +383,22 @@ get_header('form-viewer-print'); ?>
 								<!-- Image -->
 								<div class="formcontrol image imgdrop" ng-if="control.type=='image'" ng-drop="imageDrop($event,$parent.$parent.$index,$parent.$index,$index)">
 								  <input type="hidden" class="updatedUrl" value="{{control.url}}"/>
-								  <img class="imggap fa" ng-src="{{control.url}}" alt="Image Placeholder">  
-								  <div class="commentprompt"><input type="checkbox" ng-model="control.withComment" ng-checked="{{control.withComment}}"> Add Comment</div>
+								  <img class="imggap fa" ng-src="{{control.url}}" <?php /*?>ng-init="getImgMeta(control)" <?php */?> id="img_{{control.hash}}" alt="Image Placeholder">  
+								  <div class="commentprompt display-checkbox"><input type="checkbox" ng-model="control.withComment" ng-checked="{{control.withComment}}"> Display Image & Add Comment (If Any)</div>
+								  <div ng-bind-html="control.data"></div>
+								</div>
+								<!-- wysiwyg -->
+								<div class="formcontrol editor" ng-if="control.type=='wysiwyg'" ng-style="{'border':control.isInstruction?'1px solid black':'none'}">
 								  <div ng-bind-html="control.data"></div>
 								</div>
 								<!-- wysiwyg -->
 								<div class="formcontrol editor" ng-if="control.type=='comment'">
-								  <h4><input type="checkbox" id="{{control.htmlName}}" ng-click="commentListIsVisible=!commentListIsVisible" ng-model="control.comment1" value="control.comment1" ng-checked="control.comment1"> <label for="{{control.htmlName}}">{{control.label}}</label></h4>
-								  <div ng-bind-html="control.data"></div>
+								  <h4><input type="checkbox" id="{{control.htmlName}}" ng-click="commentListIsVisible=!commentListIsVisible" ng-model="control.comment1" value="control.comment1" ng-checked="control.comment1" checked="control.comment1"> <label for="{{control.htmlName}}">{{control.label}}</label></h4>
+								  <div ng-bind-html="control.data" class="showing-{{commentListIsVisible}} second-showing"></div>
+								</div>
+								<!-- advertisment -->
+								<div class="formcontrol editor" ng-if="control.type=='advertisement'">  
+								  <div ng-bind-html="control.data"></div> 
 								</div>
 								<!-- Static Text -->
 								<div class="formcontrol static" ng-if="control.type=='static'">
@@ -388,27 +428,38 @@ get_header('form-viewer-print'); ?>
           </div> 
         </div>
       </div>
-    </form>
-	<div class="print_pdf_footer">
-		Elite Inspection Group, LLC<br>
-		Administrative office and mailing address<br>
-		PO Box 2205 Frisco, TX 75034<br>
-		469-818-5500<br>
-		<a href="mailto:admin@eiginspection.com">admin@eiginspection.com</a> <a href="www.eigdallas.com">www.eigdallas.com</a>
-	</div>
+    </form>	
 </div>
+	<?php if($report_id){ ?>
+    <div class="actions">
+	  <?php /* ?><a href="javascript:void(0)" onclick="saveAsPdf()" id="printTemplateBtn" class="btn-taptap">
+        <i class="fa fa-file"></i> Save as PDF
+      </a><?php */?>
+	  <a href="javascript:void(0)" onclick="saveAsPdf()" id="printTemplateBtn" class="btn-taptap"><i class="fa fa-print" aria-hidden="true"></i> Print</a>
+    </div>
+	<?php } else { ?>
+		<style>
+		.fileinput{display:none;}
+		.wysiwygpretend .button{display:none;}
+		</style>
+	<?php } ?>
   </div>
-<?php get_footer(); ?>
+  <div id="editor"></div>
+<?php get_footer('viewer'); ?>
+
 <?php 
 	if(empty($saved)){
 		$table_template_detail = $wpdb->prefix . 'template_detail';
 		$get_template_detail = $wpdb->get_results( "SELECT * FROM $table_template_detail WHERE template_id=$template_id", OBJECT );
 		$form_info = (!empty($get_template_detail[0]->field_text_html) ? $get_template_detail[0]->field_text_html : '{"name":"Untitled Form 1","logo":null,"tree":[]}');
+		$form_info = shortcode_wdi($form_info);
 	} else {
 		$inspectionreportdetail = $wpdb->prefix . 'inspectionreportdetail';
 		$get_inspectionreportdetail = $wpdb->get_results( "SELECT * FROM $inspectionreportdetail WHERE id=$saved AND inspectionId=$report_id", OBJECT );
 		$form_info = (!empty($get_inspectionreportdetail[0]->fieldTextHtml) ? $get_inspectionreportdetail[0]->fieldTextHtml : '{"name":"Untitled Form 1","logo":null,"tree":[]}');
+		$form_info = shortcode_wdi($form_info);
 	}
+	$form_data = shortcode_wdi($form_data);
 	$get_template_name = (!empty($form_data[0]->name) ? $form_data[0]->name : '');
 ?>
 <script type="text/javascript">
@@ -425,17 +476,26 @@ get_header('form-viewer-print'); ?>
 	var site_url = '<?php echo home_url(); ?>';
 </script>  
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/imagefunctions.js"></script>
-<?php /* ?><script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/bower_components/tinymce/tinymce.js"></script><?php */?>
+<script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/bower_components/tinymce/tinymce.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/angular.min.js"></script>
 <script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/bower_components/angular-ui-tinymce/src/tinymce.js"></script>
-<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/jq.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/submitapp.js"></script>
+<!--<script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>-->
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/printThis.js"></script>
 	<script type="text/javascript">
-	$(document).ready(function () {
-		$("#printDrBtn").on("click", function (e) {
-			e.preventDefault();
-			$("#drlistDivTbl").printThis({
+/*var doc = new jsPDF();
+var specialElementHandlers = {
+    '#editor': function (element, renderer) {
+        return true;
+    }
+};*/
+
+	function saveAsPdf(){
+			$('.report-table').css('display','block');
+			//e.preventDefault();
+			var thisItem = $("#printTemplateBtn");
+			thisItem.find('.fa').removeClass('fa-print').addClass('fa-refresh fa-spin');
+			$("#templateViewer").printThis({
 				importStyle: false,         // import style tags
 				printContainer: true,
 				loadCSS: "<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/print.css",
@@ -443,14 +503,42 @@ get_header('form-viewer-print'); ?>
 				copyTagClasses: false,
 				printDelay: 500,
 				debug:false
-
 			});
-		});
+			/*var margin = {
+			  top: 5,
+			  left: 0,
+			  right: 5,
+			  bottom: 5
+			};
+
+			var tinymceToJSPDFHTML = $("#templateViewer").html();
+			doc.fromHTML(tinymceToJSPDFHTML, 5, 5, {
+				'width': 170,
+				'elementHandlers': specialElementHandlers
+			},function(bla){doc.save('<?php echo $get_inspection[0]->report_identification; ?>.pdf');},margin);
+			//doc.save('<?php echo $get_template_name; ?>.pdf');*/
+			setTimeout(function(){
+				thisItem.find('.fa').removeClass('fa-refresh fa-spin').addClass('fa-print');
+			},1000);
+		}
 		
-		<?php if(isset($_GET['print'])){ ?>
-			//$( "a#printDrBtn" ).click();
-		<?php } ?>
+		/*function getImgMeta(imgId,varA, varB) {
+			if (typeof varB !== 'undefined') {
+			   //alert(varA + ' width ' + varB + ' height');
+			   $('#img_'+imgId).css({ height: varB+'px' });
+			   console.log(varB);
+			} else {
+			   var img = new Image();
+			   img.src = varA;
+			   img.onload = function() {
+				   getMeta(imgId,this.width, this.height);
+			   }
+			}
+		}*/
 		
+	$(document).ready(function () {
+		setTimeout(function(){
+			//saveAsPdf();
+		},25000);	
 	});
 	</script>
-  

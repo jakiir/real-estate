@@ -69,6 +69,7 @@ get_header(); ?>
                     <div class="share-checkbox">
                       <input type="checkbox" name="template_share" id="template_share" <?php echo !empty($get_templages[0]->shared_flag) && $get_templages[0]->shared_flag == 'true' ? 'checked' : ''; ?> ><label for="template_share">Share</label>
                     </div>
+					<div class="clearfix" style="clear:both;">&nbsp;</div>
                     <label for="template_state">State</label>
 					<select id="template_state" name="template_state" class="form-control required" >
 					  <option value="texas">Texas</option>
@@ -79,11 +80,35 @@ get_header(); ?>
 					</select>
                     <label for="template_state_id">State ID</label>
                     <input type="text" class="form-control required" name="template_state_id" id="template_state_id" value="<?php echo !empty($get_templages[0]->state_form) ? $get_templages[0]->state_form : ''; ?>" placeholder="AK">
+					<label for="template_city">City</label>
+                    <input type="text" class="form-control required" name="template_city" id="template_city" value="<?php echo !empty($get_templages[0]->template_city) ? $get_templages[0]->template_city : ''; ?>" placeholder="AK">
                     <label for="template_date">Date</label>
                     <input type="text" class="form-control datepicker required" name="template_date" id="template_date" value="<?php echo !empty($get_templages[0]->template_date) ? $get_templages[0]->template_date : ''; ?>" placeholder="Date">
                     <label for="template_company">Company</label>
                     <input type="text" class="form-control required" name="template_company" id="template_company" value="<?php echo !empty($get_templages[0]->companyId) ? $get_templages[0]->companyId : ''; ?>" placeholder="Company">
+					<label for="company_email">Company email</label>
+                    <input type="text" class="form-control required" name="company_email" id="company_email" value="<?php echo !empty($get_templages[0]->company_email) ? $get_templages[0]->company_email : ''; ?>" placeholder="Email">
+					<label for="company_address">Company address</label>
+					<textarea class="form-control" rows="2" name="company_address" id="company_address"><?php echo !empty($get_templages[0]->company_address) ? $get_templages[0]->company_address : ''; ?></textarea>
+					<label for="company_phone">Company phone</label>
+                    <input type="text" class="form-control required" name="company_phone" id="company_phone" value="<?php echo !empty($get_templages[0]->company_phone) ? $get_templages[0]->company_phone : ''; ?>" placeholder="Phone">
                   </div>
+				<div class="col-sm-12">
+					<div class="share-checkbox">
+					  <input type="checkbox" name="share_btn" id="share_btn" <?php echo !empty($get_templages[0]->share_btn) && $get_templages[0]->share_btn == 'true' ? 'checked' : ''; ?> ><label for="share_btn">Enable share this</label>
+					</div>
+					<div class="share-checkbox">
+					  <input type="checkbox" name="print_btn" id="print_btn" <?php echo !empty($get_templages[0]->print_btn) && $get_templages[0]->print_btn == 'true' ? 'checked' : ''; ?> ><label for="print_btn">Enable Print</label>
+					</div>
+					<div class="share-checkbox">
+					  <input type="checkbox" name="wood_inspection" id="wood_inspection" <?php echo !empty($get_templages[0]->wood_inspection) && $get_templages[0]->wood_inspection == 'true' ? 'checked' : ''; ?> ><label for="wood_inspection">Wood Inspection</label>
+					</div>
+					<div class="share-checkbox">
+					  <input type="checkbox" name="no_cover" id="no_cover" <?php echo !empty($get_templages[0]->no_cover) && $get_templages[0]->no_cover == 'true' ? 'checked' : ''; ?> ><label for="no_cover">No Cover Page Required</label>
+					</div>
+					
+				</div>
+				<div class="clearfix" style="clear:both;">&nbsp;</div>
                   <!-- End of col -->
                   <div class="col-sm-12">
                     <label for="footer_template">Footer</label>
@@ -132,11 +157,19 @@ get_header(); ?>
 				var template_id = jQuery('#template_id').val();
 				var template_name = jQuery('#template_name').val();
 				var template_share= jQuery('#template_share').is(':checked');
+				var share_btn= jQuery('#share_btn').is(':checked');
+				var print_btn= jQuery('#print_btn').is(':checked');
+				var wood_inspection= jQuery('#wood_inspection').is(':checked');
+				var no_cover= jQuery('#no_cover').is(':checked');
 				var template_state = $('#template_state').find('option:selected').val();				
-				var template_state_id = jQuery('#template_state_id').val();				
+				var template_state_id = jQuery('#template_state_id').val();
+				var template_city = jQuery('#template_city').val();					
 				var template_date = jQuery('#template_date').val();				
 				var template_company = jQuery('#template_company').val();
-				var footer_template = jQuery('#footer_template').val();				
+				var footer_template = jQuery('#footer_template').val();	
+				var company_email = jQuery('#company_email').val();
+				var company_address = jQuery('#company_address').val();
+				var company_phone = jQuery('#company_phone').val();
 				var file_data = $('#template_logo').prop('files')[0];				
 				var form_data = new FormData();
 				
@@ -144,10 +177,18 @@ get_header(); ?>
 				form_data.append('template_id', template_id);				
 				form_data.append('template_name', template_name);
 				form_data.append('template_share', template_share);
+				form_data.append('share_btn', share_btn);
+				form_data.append('print_btn', print_btn);
+				form_data.append('wood_inspection', wood_inspection);
+				form_data.append('no_cover', no_cover);
 				form_data.append('template_state', template_state);
 				form_data.append('template_state_id', template_state_id);
+				form_data.append('template_city', template_city);
 				form_data.append('template_date', template_date);
 				form_data.append('template_company', template_company);
+				form_data.append('company_email', company_email);
+				form_data.append('company_address', company_address);
+				form_data.append('company_phone', company_phone);
 				form_data.append('footer_template', footer_template);
 				form_data.append('template_logo', file_data);
 				

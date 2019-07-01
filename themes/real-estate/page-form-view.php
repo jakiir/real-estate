@@ -14,7 +14,7 @@
  * @version 1.0
  */
 
-get_header('form-viewer'); ?>
+?>
 <?php 
 	if (is_user_logged_in()) {
 		$user = wp_get_current_user();
@@ -36,19 +36,25 @@ get_header('form-viewer'); ?>
 	global $wpdb;
 	$user_id = get_current_user_id();
 	$table_inspection = $wpdb->prefix . 'inspection';
-	$get_inspection = $wpdb->get_results( "SELECT * FROM $table_inspection WHERE id=$report_id", OBJECT );
+	$get_inspection = $wpdb->get_row( "SELECT * FROM $table_inspection WHERE id=$report_id ORDER BY id DESC LIMIT 1" );
 	
 	$table_template = $wpdb->prefix . 'template';	
-	$form_data = $wpdb->get_results( "SELECT * FROM $table_template WHERE id=$template_id", OBJECT );
+	$form_data = $wpdb->get_row( "SELECT * FROM $table_template WHERE id=$template_id ORDER BY id DESC LIMIT 1" );
 	$display_name = '';
 	$licence_number = '';
 	$phone_number = '';
-	if(!empty($get_inspection[0]->user_id)){
-		$user_info = get_userdata($get_inspection[0]->user_id);
+	if(!empty($get_inspection->user_id)){
+		$user_info = get_userdata($get_inspection->user_id);
 		$display_name = $user_info->display_name;
 		$licence_number = get_user_meta($user_info->ID,  'licence_number', true );
 		$phone_number = get_user_meta($user_info->ID,  'phone_number', true );
 	}
+?>
+<?php if($form_data->wood_inspection == 'true'){
+	get_header('form-viewer-inspection');
+	require_once(ABSPATH . 'wp-content/themes/real-estate/template-print-view-pdf.php');
+} else { 
+get_header('form-viewer');
 ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/fa/css/font-awesome.min.css">
 <div class="container" ng-controller="submissonForm">
@@ -59,75 +65,69 @@ get_header('form-viewer'); ?>
 <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/css/responsive.css">
 	<table class="report-table">
 		<tr>
-			<th align="right" colspan="2" style="padding-bottom:10px;">
-				<img src="<?php echo !empty($form_data[0]->logo_url) ? $form_data[0]->logo_url : '//placehold.it/200'; ?>" class="avatar img-responsive" alt="avatar" style="width:150px;">
+			<th align="right" colspan="6" style="padding-bottom:10px;border:none;">
+				<img src="<?php echo !empty($get_inspection->cover_photo) ? $get_inspection->cover_photo : '/wp-content/themes/real-estate/images/cover_photo.jpg'; ?>" class="avatar img-responsive" alt="avatar" style="width:100%;">
+				<br/>
+				<div style="text-transform:capitalize;text-align:center;font-size:25px;">
+				<?php echo $get_inspection->report_identification; ?></div>
+				<?php //echo $form_data->name.' Report'; ?>
 			</th>
-			<td align="left" colspan="4" style="text-transform:uppercase;"><?php echo $form_data[0]->name; ?> Report</td>
+		</tr>
+		</table>
+		<div class="report-table" style="border:none;">
+			<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+		</div>
+		<table class="report-table" style="border:none;">
+		<tr>
+			<th align="right" colspan="6" style="padding-bottom:10px;border:none;">
+				<div style="text-align:center;font-size:18px;font-weight:normal;">
+					<?php 
+						$originalDate = $get_inspection->inpection_date;
+						$newDate = date("F d, Y", strtotime($originalDate));
+						echo '<div style="font-size:18px;font-weight:bold;">'.$newDate.'</div>';
+						echo '<div style="width:250px;margin:0 auto;">'.$form_data->footer_html.'</div>';
+					?>
+				</div>
+			</th>
+		</tr>
+		<tr>
+			<th align="center" colspan="6" style="padding-bottom:10px;border:none;">
+				<div>
+					<img src="<?php echo !empty($form_data->logo_url) ? $form_data->logo_url : '/wp-content/themes/real-estate/images/cover_photo.jpg'; ?>" class="avatar img-responsive" alt="avatar">
+				</div>
+			</th>
 		</tr>
 	</table>
-	<table class="report-table report-info">
+	<div class="page-break">&nbsp;</div>
+	<?php /*<div class="report-table"><br/><br/><br/><br/><br/></div>
+	<table class="report-table report-info" style="border:none;">
 		<tr>
-			<th align="right" style="padding-top:10px;">Company </th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->company; ?></td>
-			<th align="right">Date</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->inpection_date; ?></td>
-		</tr>
-		<tr>
-			<th align="right">Property Address</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->report_identification; ?></td>
-			<th align="right">Template</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $form_data[0]->name; ?></td>
-		</tr>
-		<tr>
-			<th align="right">Prepared For</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->prepared_for; ?></td>
-			<th align="right">Prepared By</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $display_name; ?></td>
-		</tr>
-		<tr>
-			<th align="right">Lic #</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $licence_number; ?></td>
-			<th align="right">Phone Number</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $phone_number; ?></td>
-		</tr>
-		<tr>
-			<th align="right">Time In</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->time_in; ?></td>
-			<th align="right">Time Out</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->time_out; ?></td>
-		</tr>
-		<tr>
-			<th align="right" style="padding-bottom:10px;">Ocuppied or Vacant</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->inspection_status; ?></td>
-			<th align="right">Building Orientation</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->building_orientation; ?></td>
-		</tr>
-		<tr>
-			<th align="right">Weather Conditions</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->weather_conditions.' ['.$get_inspection[0]->temperature.']'; ?></td>
-			<th align="right">Parties Present</th>
-			<td align="left">:</td>
-			<td align="left"><?php echo $get_inspection[0]->parties_present; ?></td>
+			<td style="border:none;">
+				<div style="font-size:18px;color:#000;display:block;margin-bottom:20px;">Report Identification: </div>
+				<div style="font-size:16px;color:#000;display:block;">Inspection Time In: <?php echo $get_inspection->time_in; ?> Time Out: <?php echo $get_inspection->time_out; ?> Property was: <?php echo $get_inspection->inspection_status; ?> Building Orientation (For The Purpose Of This Report, the Front Faces): <?php echo $get_inspection->building_orientation; ?> Weather conditions During Inspection: <?php echo $get_inspection->weather_conditions; ?> Temp: <?php echo $get_inspection->temperature; ?> Parties present at inspection: <?php echo $get_inspection->parties_present; ?></div>			
+			</td>			
 		</tr>
 	</table>
-	
+	<div class="report-table"><br/><br/><br/></div>*/ ?>
     <form class="theform formcontrol">
       <div ng-repeat="section in form" class="mainSection">
-	  <div ng-show="section.children[1] ? true : false" ng-bind-html="section.children[0][0][0].data" class="commentBoxItem"></div>
-	  <div ng-repeat="child in section.children" ng-if="section.children[1] ? false : true" class="commentBoxItem">
+	  <?php /*?><div ng-show="!section.children[0].subsection" ng-bind-html="section.children[0][0][0].data" class="commentBoxItem"></div><?php */?>
+	  <?php if($form_data->wood_inspection == 'true'){ ?>
+	  <div class="wood_inspection">
+		  <div ng-repeat="child in section.children" ng-if="!section.children[0].subsection" class="commentBoxItem section-{{section.children[0][0][0].hash}}">
+				<div class="">
+					<div class="row" ng-repeat="child in section.children">
+					  <div class="col" ng-repeat="controls in child">
+						<div ng-repeat="control in controls">
+						  <div ng-include="'<?php echo esc_url( home_url('/submit-controls-wood/?report='.$report_id.'&saved='.$saved.'&item='.$template_id.'&att='.$att.'&hash='.$hash_id) ); ?>'"></div>
+						</div>
+					  </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	  <?php } else { ?>
+	  <div ng-repeat="child in section.children" ng-if="!section.children[0].subsection" class="commentBoxItem">
 			<div class="">
 				<div class="row" ng-repeat="child in section.children">
 				  <div class="col" ng-repeat="controls in child">
@@ -163,7 +163,7 @@ get_header('form-viewer'); ?>
 					  </div>
 					</div>
 					<div class="row" ng-repeat="controls in child.children">
-						<div class="col" ng-repeat="subcontrol in controls">
+						<div class="col-" ng-repeat="subcontrol in controls">
 							<div ng-repeat="control in subcontrol">
 								<div ng-include="'<?php echo esc_url( home_url('/submition-controls/?report='.$report_id.'&saved='.$saved.'&item='.$template_id.'&att='.$att.'&hash='.$hash_id) ); ?>'"></div>
 							</div>
@@ -173,16 +173,18 @@ get_header('form-viewer'); ?>
             </div>
           </div> 
         </div>
+	  <?php } ?>
       </div>
     </form>
 	
-	<div class="print_pdf_footer">
-		Elite Inspection Group, LLC<br>
-		Administrative office and mailing address<br>
-		PO Box 2205 Frisco, TX 75034<br>
-		469-818-5500<br>
-		<a href="mailto:admin@eiginspection.com">admin@eiginspection.com</a> <a href="www.eigdallas.com">www.eigdallas.com</a>
-	</div>
+	<?php /* ?><div class="print_pdf_footer">
+		<div style="text-decoration:underline;">INSPECTOR</div>
+		<div>
+			<?php echo $display_name; ?> – <?php echo $licence_number; ?>
+			<br/>
+			<?php echo $form_data->footer_html; ?>
+		</div>
+	</div><?php */ ?>
 	
 </div>
 	<?php if($report_id){ ?>
@@ -191,12 +193,16 @@ get_header('form-viewer'); ?>
 	  <a href="javascript:void(0)" style="margin-bottom:10px;" class="btn-taptap saveChanges" ng-click="submitData(1,'','')">
         <i class="fa fa-floppy-o" aria-hidden="true"></i> Save Changes
       </a>
-	  <?php /* ?><a href="javascript:void(0)" id="printTemplateBtn" class="btn-taptap">
-        <i class="fa fa-file"></i> Save as PDF
-      </a><?php */?>
+	  <?php if(!empty($form_data->share_btn) && $form_data->share_btn == 'true'){ ?>
 	  <a href="javascript:void(0)" class="btn-taptap checkBoxSlected" data-toggle="modal" data-target="#shareFormView" disabled="disabled"><i class="fa fa-share"></i> Share this
       </a>
-	  <?php /* ?><a href="javascript:void(0)" id="printTemplateBtn" class="btn-taptap"><i class="fa fa-print" aria-hidden="true"></i> Print</a><?php */?>
+	  <?php } ?>
+	  <?php /* ?><a target="_blank" href="<?php echo home_url('/form-viewer-print/?item='.$template_id.'&report='.$report_id.'&saved='.$saved.''); ?>" class="btn-taptap">
+        <i class="fa fa-file"></i> Save as PDF
+      </a><?php */?>
+	  <?php if(!empty($form_data->print_btn) && $form_data->print_btn == 'true'){ ?>
+	  <a target="_blank" href="<?php echo home_url('/template-print-page/?template='.$template_id.'&reportId='.$report_id.'&savedId='.$saved.'&print=1'); ?>" id="printTemplateBtn-" class="btn-taptap"><i class="fa fa-print" aria-hidden="true"></i> Print / Save to PDF</a>
+	  <?php } ?>
     </div>
 	<?php } else { ?>
 		<style>
@@ -214,14 +220,15 @@ get_header('form-viewer'); ?>
     <div class="modal-content">
       <div class="modal-header taptap-modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Please enter agent’s email adress</h4>
+        <h4 class="modal-title">Enter an email address to share the inspection.</h4>
       </div>
       <div class="modal-body taptap-modal-body">
 		<form action="#" id="shareForm">
+			<p>Share the inspection deficiencies with Real Estate Agents and others here.  Enter an email address to share the inspection.</p>
 			<p><input class="form-control required" type="text" name="agentEmailAddress" id="agentEmailAddress" value=""></p>
 			<p class="msg_show_share"></p>
 			<br/>
-			<p><button type="submit" class="btn-taptap checkBoxSlected"><i class="fa fa-share"></i> Share</button></p>
+			<p><button type="submit" class="btn-taptap checkBoxSlected"><i class="fa fa-share"></i> SHARE REPORT</button></p>
 		</form>
       </div>
     </div>
@@ -234,17 +241,21 @@ get_header('form-viewer'); ?>
 		$table_template_detail = $wpdb->prefix . 'template_detail';
 		$get_template_detail = $wpdb->get_results( "SELECT * FROM $table_template_detail WHERE template_id=$template_id", OBJECT );
 		$form_info = (!empty($get_template_detail[0]->field_text_html) ? $get_template_detail[0]->field_text_html : '{"name":"Untitled Form 1","logo":null,"tree":[]}');
+		$form_info = shortcode_wdi($form_info);
 	} else {
 		$inspectionreportdetail = $wpdb->prefix . 'inspectionreportdetail';
 		$get_inspectionreportdetail = $wpdb->get_results( "SELECT * FROM $inspectionreportdetail WHERE id=$saved AND inspectionId=$report_id", OBJECT );
 		$form_info = (!empty($get_inspectionreportdetail[0]->fieldTextHtml) ? $get_inspectionreportdetail[0]->fieldTextHtml : '{"name":"Untitled Form 1","logo":null,"tree":[]}');
+		$form_info = shortcode_wdi($form_info);
 	}
-	$get_template_name = (!empty($form_data[0]->name) ? $form_data[0]->name : '');
+	$get_form_data = $wpdb->get_results( "SELECT * FROM $table_template WHERE id=$template_id", OBJECT );
+	$get_form_data = shortcode_wdi($get_form_data);
+	$get_template_name = (!empty($get_form_data->name) ? $get_form_data->name : '');
 ?>
 <script type="text/javascript">
 	var formBlueprint = null;
     var formInfo = null;
-    formInfo = <?php echo json_encode($form_data)?>;
+    formInfo = <?php echo json_encode($get_form_data)?>;
     formBlueprint = <?php echo $form_info; ?>;	
 	//var this_form_name = formBlueprint.name;
 	document.title = '<?php echo $get_template_name; ?>';
@@ -263,27 +274,10 @@ get_header('form-viewer'); ?>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/printThis.js"></script>
 	<script type="text/javascript">
 	$(document).ready(function () {
-		$("#printTemplateBtn").on("click", function (e) {
-			e.preventDefault();
-			var thisItem = $("#printTemplateBtn");
-			thisItem.find('.fa').removeClass('fa-print').addClass('fa-refresh fa-spin');
-			$("#templateViewer").printThis({
-				importStyle: false,         // import style tags
-				printContainer: true,
-				loadCSS: "<?php echo esc_url( get_template_directory_uri() ); ?>/assets/css/print.css",
-				importCSS: false,
-				copyTagClasses: false,
-				printDelay: 500,
-				debug:false
-			});
-			setTimeout(function(){
-				thisItem.find('.fa').removeClass('fa-refresh fa-spin').addClass('fa-print');
-			},1000);
-		});
 		
-		<?php if(isset($_GET['print'])){ ?>
-			//$( "a#printTemplateBtn" ).click();
-		<?php } ?>
+		$('.dropdown-toggle').on("click", function (e) {
+			$('.dropdown').toggleClass('open');
+		});
 		
 	$(document).on("click", ":submit", function(e) {
 			$('.msg_show_share').html('<i class="fa fa-refresh fa-spin" aria-hidden="true"></i>');
@@ -295,9 +289,9 @@ get_header('form-viewer'); ?>
 					return false;
 				}
 				var form_data = new FormData();
-				var getSelectedTitle = "<?php echo $get_inspection[0]->report_identification; ?>";
-				var getSelectedCompany = "<?php echo $get_inspection[0]->company; ?>";
-				var getSelectedPrep = "<?php echo $get_inspection[0]->prepared_for; ?>";
+				var getSelectedTitle = "<?php echo $get_inspection->report_identification; ?>";
+				var getSelectedCompany = "<?php echo $get_inspection->company; ?>";
+				var getSelectedPrep = "<?php echo $get_inspection->prepared_for; ?>";
 				
 				form_data.append('action', 'send_agent_email');
 				form_data.append('getSelected', template_id);				
@@ -343,3 +337,4 @@ get_header('form-viewer'); ?>
 	});
 	
 	</script>
+<?php } ?>

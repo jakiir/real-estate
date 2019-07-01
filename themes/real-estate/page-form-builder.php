@@ -44,6 +44,8 @@ get_header('form-builder'); ?>
 	  <div class="msg_show"></div>
       <i class="fa fa-floppy-o" id="save_to_database" title="save"></i>
       <a href="<?php echo home_url('/form-viewer/?item='.$template_id); ?>" target="_blank" title="Preview"><i class="fa fa-eye" title="Preview"></i></a>
+	  <i class="fa fa-code" id="show_shortcod_list" title="shortcod"></i>
+	  
       <!--<i class="fa fa-upload" title="Export"></i>
       <i class="fa fa-ban" title="Discard"></i>-->
     </div>
@@ -219,6 +221,18 @@ get_header('form-builder'); ?>
 
 <script type="text/javascript">
   document.title = '<?php echo $get_template_name; ?>';
+  document.getElementById('show_shortcod_list').addEventListener('click', function() {
+	  <?php 
+		$healthy = array("[inspector_name]","[inspection_company]","[email_address]","[phone_no]", "[licence_number]", "[inspection_date]","[inspected_address]","[inspected_address_city]","[inspected_address_zip]","[inspector_type]","[inspection_email]","[inspection_company_address]","[inspection_company_phone]","[inspection_company_city]","[inspection_company_state]","[case_number]","[buyer_type]","[inspection_buyer_name]","[owner_type]","[report_forwarded]","[list_structures]","[inspection_posting]","[company_footer]");
+		$all_shortcode = '<ul style="margin:0;list-style:inside;padding:0;min-width:225px;">';		
+		foreach($healthy as $each_shortcode){
+			$all_shortcode .= '<li>'.$each_shortcode.'</li>';
+		}
+		$all_shortcode .= '</ul>';
+	  ?>
+	  $('.msg_show').toggle().html('<?php echo $all_shortcode; ?>');
+	  $('.msg_show').delay(50000).fadeOut('slow');
+  });
   document.getElementById('save_to_database').addEventListener('click', function() {
 	$('.msg_show').show().html('<span class="font_icon"><i class="fa fa-refresh fa-spin" aria-hidden="true"></i></span>');
     var form_data = new FormData();
