@@ -16,15 +16,15 @@ $inspection_buyer_types = (!empty($get_inspection->inspection_buyer_type) ? expl
         <h2 class="tap__form-title text-center">TEXAS OFFICIAL WOOD DESTROYING INSECT REPORT</h2>
         <div class="row tap__address area">
           <div class="col-sm-4">
-            <p>1319 Lansford Ave <span>Inspected Address</span></p>
+            <p><?php echo !empty($get_inspection->report_identification) ? $get_inspection->report_identification : 'N/A'; ?> <span>Inspected Address</span></p>
           </div>
           <!-- End of col -->
           <div class="col-sm-4 text-center">
-            <p>Dallas <span>City</span></p>
+            <p><?php echo !empty($get_inspection->inspection_city) ? $get_inspection->inspection_city : 'N/A'; ?> <span>City</span></p>
           </div>
           <!-- End of col -->
           <div class="col-sm-4 text-right">
-            <p>75244 <span>Zip Code</span></p>
+            <p><?php echo !empty($get_inspection->zip_code) ? $get_inspection->zip_code : 'N/A'; ?> <span>Zip Code</span></p>
           </div>
           <!-- End of col -->
         </div>
@@ -425,6 +425,14 @@ $inspection_buyer_types = (!empty($get_inspection->inspection_buyer_type) ? expl
               <!-- End of inner row -->
             </div>
             <!-- End of col -->
+			
+			<div class="pagefooter" style="color:#7E7E7E;font-size:14px;text-align: center;clear:both;">
+				<br/>
+				Licensed and Regulated by the Texas Department of Agriculture<br/>
+				P.O. Box 12847, Austin, Texas 78711-2847<br/>
+				Phone 866-918-4481, Fax 888-232-2567
+			</div>
+			<br/>
             <div class="col-sm-12">
               <div class="tap__input_set">
                 <span class="input__no">7A. Conditions conducive to wood destroying insect infestation:</span>
@@ -447,29 +455,29 @@ $inspection_buyer_types = (!empty($get_inspection->inspection_buyer_type) ? expl
                 <div class="col-sm-3">
                   <div class="tap__input_set">
                     <div class="tap__input_field checkbox">
-                      <input type="checkbox" class="input_control" id="wood" name="Inspector">
+                      <input type="checkbox" class="input_control" id="wood" name="Inspector" value="Wood to Ground Contact (G)" onClick="thisConnectB(this)">
                       <label for="wood">Wood to Ground Contact (G)</label>
                     </div>
                   </div>
                   <!-- End of input set -->
                   <div class="tap__input_set">
                     <div class="tap__input_field checkbox">
-                      <input type="checkbox" class="input_control" id="Debris" name="Inspector">
+                      <input type="checkbox" class="input_control" id="Debris" name="Inspector" value="Debris under or around structure (K)" onClick="thisConnectB(this)">
                       <label for="Debris">Debris under or around structure (K)</label>
                     </div>
                   </div>
                   <!-- End of input set -->
                   <div class="tap__input_set">
                     <div class="tap__input_field checkbox">
-                      <input type="checkbox" class="input_control" id="Planter" name="Inspector">
+                      <input type="checkbox" class="input_control" id="Planter" name="Inspector" value="Planter box abutting structure (O)" onClick="thisConnectB(this)">
                       <label for="Planter">Planter box abutting structure (O)</label>
                     </div>
                   </div>
                   <!-- End of input set -->
                   <div class="tap__input_set">
                     <div class="tap__input_field checkbox">
-                      <input type="checkbox" class="input_control" id="Insufficient_ventilation" name="Inspector">
-                      <label for="Insufficient_ventilation (T)">Insufficient ventilation (T)</label>
+                      <input type="checkbox" class="input_control" id="Insufficient_ventilation" name="Inspector" value="Insufficient ventilation (T)" onClick="thisConnectB(this)">
+                      <label for="Insufficient_ventilation">Insufficient ventilation (T)</label>
                     </div>
                   </div>
                   <!-- End of input set -->
@@ -478,28 +486,28 @@ $inspection_buyer_types = (!empty($get_inspection->inspection_buyer_type) ? expl
                 <div class="col-sm-3">
                   <div class="tap__input_set">
                     <div class="tap__input_field checkbox">
-                      <input type="checkbox" class="input_control" id="boards" name="Inspector">
+                      <input type="checkbox" class="input_control" id="boards" name="Inspector" value="Form boards left in place (l)" onClick="thisConnectB(this)">
                       <label for="boards">Form boards left in place (l)</label>
                     </div>
                   </div>
                   <!-- End of input set -->
                   <div class="tap__input_set">
                     <div class="tap__input_field checkbox">
-                      <input type="checkbox" class="input_control" id="Footing" name="Inspector">
+                      <input type="checkbox" class="input_control" id="Footing" name="Inspector" value="Footing too low or soil line too high (L)" onClick="thisConnectB(this)">
                       <label for="Footing">Footing too low or soil line too high (L)</label>
                     </div>
                   </div>
                   <!-- End of input set -->
                   <div class="tap__input_set">
                     <div class="tap__input_field checkbox">
-                      <input type="checkbox" class="input_control" id="Wood_Pile" name="Inspector">
+                      <input type="checkbox" class="input_control" id="Wood_Pile" name="Inspector" value="Wood Pile in Contact with Structure (Q)" onClick="thisConnectB(this)">
                       <label for="Wood_Pile">Wood Pile in Contact with Structure (Q)</label>
                     </div>
                   </div>
                   <!-- End of input set -->
                   <div class="tap__input_set">
                     <div class="tap__input_field checkbox">
-                      <input type="checkbox" class="input_control" id="Moisture" name="Inspector">
+                      <input type="checkbox" class="input_control" id="Moisture" name="Inspector" value="Excessive Moisture (J)" onClick="thisConnectB(this)">
                       <label for="Moisture">Excessive Moisture (J)</label>
                     </div>
                   </div>
@@ -509,21 +517,21 @@ $inspection_buyer_types = (!empty($get_inspection->inspection_buyer_type) ? expl
                 <div class="col-sm-3">
                   <div class="tap__input_set">
                     <div class="tap__input_field checkbox">
-                      <input type="checkbox" class="input_control" id="Wood_Rot" name="Inspector">
+                      <input type="checkbox" class="input_control" id="Wood_Rot" name="Inspector" value="Wood Rot (M)" onClick="thisConnectB(this)">
                       <label for="Wood_Rot">Wood Rot (M)</label>
                     </div>
                   </div>
                   <!-- End of input set -->
                   <div class="tap__input_set">
                     <div class="tap__input_field checkbox">
-                      <input type="checkbox" class="input_control" id="Fence" name="Inspector">
+                      <input type="checkbox" class="input_control" id="Fence" name="Inspector" value="Wooden Fence in Contact with the Structure (R)" onClick="thisConnectB(this)">
                       <label for="Fence">Wooden Fence in Contact with the Structure (R)</label>
                     </div>
                   </div>
                   <!-- End of input set -->
                   <div class="tap__input_set">
                     <div class="tap__input_field checkbox">
-                      <input type="checkbox" class="input_control" id="Foliage" name="Inspector">
+                      <input type="checkbox" class="input_control" id="Foliage" name="Inspector" value="Heavy Foliage (N)" onClick="thisConnectB(this)">
                       <label for="Foliage">Heavy Foliage (N)</label>
                     </div>
                   </div>
@@ -533,7 +541,7 @@ $inspection_buyer_types = (!empty($get_inspection->inspection_buyer_type) ? expl
                 <div class="col-sm-3">
                   <div class="tap__input_set">
                     <div class="tap__input_field checkbox">
-                      <input type="checkbox" class="input_control" id="Other_conductive" name="Inspector">
+                      <input type="checkbox" class="input_control" id="Other_conductive" name="Inspector" value="Other (C)" onClick="thisConnectB(this)">
                       <label for="Other_conductive">Other (C)</label>
                     </div>
                   </div>
@@ -829,7 +837,7 @@ $inspection_buyer_types = (!empty($get_inspection->inspection_buyer_type) ? expl
             <!-- End of col -->
             <div class="col-sm-12">
               <div class="tap__input_set inline__input_field">
-                <span class="input__no">Specify reason: Wood to ground, debris, ventilation, soil too high, excessive moisture</span>
+                <span class="input__no">Specify reason: <span id="specifyReason">Wood to ground, debris, ventilation, soil too high, excessive moisture</span></span>
                 <div class="tap__input_field">
                   <input type="text" class="input_control">
                   <label for="">(Refer to Scope of Inspection Part J)</label>
@@ -941,11 +949,17 @@ $inspection_buyer_types = (!empty($get_inspection->inspection_buyer_type) ? expl
                 </div>
               </div>
               <!-- End of input field -->
+			  <div class="pagefooter" style="color:#7E7E7E;font-size:14px;text-align: center;clear:both;">
+				<br/>
+				Licensed and Regulated by the Texas Department of Agriculture<br/>
+				P.O. Box 12847, Austin, Texas 78711-2847<br/>
+				Phone 866-918-4481, Fax 888-232-2567
+			  </div>
               <div class="diagram_img">
                 <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/woodInspection/img/Diagram.png" alt="..." class="img-responsive">
               </div>
             </div>
-            <!-- End of col -->
+            <!-- End of col -->			
             <div class="col-sm-12">
               <div class="tap__input_set">
                 <span class="input__no">Additional Comments:</span>
@@ -1053,6 +1067,13 @@ $inspection_buyer_types = (!empty($get_inspection->inspection_buyer_type) ? expl
             <a href="tel:4698185500">469-818-5500</a>
             <a href="mailto:admin@eiginspection.com">admin@eiginspection.com</a> <a href="www.eigdallas.com">www.eigdallas.com</a>
           </div>
+		  
+		  <div class="pagefooter" style="color:#7E7E7E;font-size:14px;text-align: center;clear:both;">
+				<br/>
+				Licensed and Regulated by the Texas Department of Agriculture<br/>
+				P.O. Box 12847, Austin, Texas 78711-2847<br/>
+				Phone 866-918-4481, Fax 888-232-2567
+		  </div>
         </div>
         <!-- End of tap__form content -->
       </div>
@@ -1064,6 +1085,24 @@ $inspection_buyer_types = (!empty($get_inspection->inspection_buyer_type) ? expl
     <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/woodInspection/js/main.js"></script>
 	<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jQuery.print.js"></script>
 	<script type="text/javascript">
+		var allConnectedB = [];
+		function thisConnectB(thisItem){
+			if(thisItem.checked){
+				allConnectedB.push(thisItem.value);
+			} else {
+				allConnectedB.remove(thisItem.value);
+			}
+			var commaSepConnected = allConnectedB.join(', ');
+			$('#specifyReason').html(commaSepConnected);
+		}
+		Array.prototype.remove = function(x) { 
+			var i;
+			for(i in this){
+				if(this[i].toString() == x.toString()){
+					this.splice(i,1)
+				}
+			}
+		}
 		var cssUrl = "<?php echo esc_url( get_template_directory_uri() ); ?>/woodInspection/css/main-template.css";
 		function printTemplateBtn(){
 			//e.preventDefault();

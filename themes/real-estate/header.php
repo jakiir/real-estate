@@ -19,7 +19,7 @@
 	<meta http-equiv='cache-control' content='no-cache'>
 	<meta http-equiv='expires' content='0'>
 	<meta http-equiv='pragma' content='no-cache'>
-
+	<title><?php the_title(); ?></title>
 	<?php //wp_head(); ?>
 	<?php $template_directory_uri = get_template_directory_uri(); ?>
 	<link rel="stylesheet" href="<?php echo esc_url( $template_directory_uri . '/css/bootstrap.min.css"' ); ?>" />
