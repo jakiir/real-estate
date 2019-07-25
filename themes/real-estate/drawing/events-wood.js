@@ -200,7 +200,8 @@ function eventListeners(){
       layers.splice(layers.indexOf(theEl),1);
       reDraw();
     }
-    document.querySelector('.downloadelForNonWood')
+	  
+	  document.querySelector('.downloadelForWood')
       .addEventListener('click',function(){
 		  $(this).find('.fa').removeClass('fa-floppy-o');
 		  $(this).find('.fa').addClass('fa-refresh fa-spin');
@@ -208,52 +209,14 @@ function eventListeners(){
         tempa.href= drawingFab.toDataURL({
           format:'png'
         });
-		var template_id = tempa.getAttribute("data-template");
-		var hash_id = tempa.getAttribute("data-hash");
-		var report_id = tempa.getAttribute("data-report_id");
-		var saved = tempa.getAttribute("data-saved");
-		var form_data = new FormData();
-		form_data.append('action', 'savedrawingimages');
-		form_data.append('template_id', template_id);
-		form_data.append('hash_id', hash_id);
-		form_data.append('report_id', report_id);
-		form_data.append('saved', saved);
-		form_data.append('file', tempa.href);
-		$.ajax({
-		  dataType : "json",
-		  url: ajax_url,
-		  type: 'post',
-		  contentType: false,
-		  processData: false,
-		  data: form_data,
-		  success: function (data) {
-			var parsedJson = data;
-			if(parsedJson.success == true){
-				//$('.msg_show').html('<font style="color:green">'+parsedJson.mess+'</span>');
-				if(editor == 'no'){
-					window.location.href = parsedJson.redirect_url;
-				}
-				if(editor == 'yes'){
-					//var $input_field = window.opener.$('.mce-media_input_image');
-					//$input_field.val(parsedJson.attachemntUrl);
-					opener.insertAnnotateImage(parsedJson.attachemntUrl);
-					// Close the popup
-					window.close();
-				}
-			} else {
-				alert(parsedJson.mess);
-			//$('.msg_show').html('<font style="color:red">'+parsedJson.mess+'</span>');
-			}
-		  },
-		  error: function (errorThrown) {
-			//$('.msg_show').html('<font style="color:red">'+errorThrown+'</span>');
-		  }
-		});
+		window.opener.document.getElementById("woodImgItem").src = tempa.href;
+		window.close();
 
 		//console.log(tempa.href);
         //tempa.download=appName+".png";
         //tempa.click();
       });
+	  
     //Attaching event listeners
 	var hdrs= document.querySelector('.holders');
     hdrs.addEventListener('mousedown',mouseDownFunction);

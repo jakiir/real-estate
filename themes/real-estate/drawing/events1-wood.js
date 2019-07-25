@@ -1,7 +1,6 @@
 function eventListeners(){
   // Listener functions
   function mouseDownFunction(e){
-    //console.log(e);
     if(tools[currentTool].noAction) return true;
     isDrawing=true;
     effectCtx.fillStyle=fillColor;
@@ -20,7 +19,6 @@ function eventListeners(){
     initY=inits.y;
   }
   function mouseUpFunction(e){
-    //console.log(e);
     if(tools[currentTool].noAction) return true;
     clearEffect();
     //Initially make it non snappy
@@ -45,13 +43,11 @@ function eventListeners(){
     isDrawing=false;
     initX = 0;
     initY = 0;
-    //Change  back to pointer if the tool has boomerang mode
     if (tools[currentTool].boomerang) {
-      changeTool('pointer');
+      changeTool("pointer");
     }
   }
   function mouseMoveFunction(e){
-    //console.log(e);
     var x = null;
     var y = null;
     x = e.offsetX || e.clientX;
@@ -61,7 +57,7 @@ function eventListeners(){
     if(!tools[currentTool].ghost && !tools[currentTool].freeHand && !isDrawing) return false;
     if(tools[currentTool].freeHand && !isDrawing) return false;
     if(tools[currentTool].ghost && tools[currentTool].freeHand){
-      console.log("One tool cannot be both Free Hand and Ghost");
+      //console.log("One tool cannot be both Free Hand and Ghost");
       return false;
     }
     //if the tool isn't free hand, make sure the previous frame is clear
@@ -92,17 +88,18 @@ function eventListeners(){
         initY=y;
       }
     }
-      //Interaction Functions
+    //Interaction Functions
     drawingFab.on('object:modified',function(){
       var activeObj = drawingFab.getActiveObject();
       if(!activeObj) return false;
-      console.log(activeObj);
+      //console.log(activeObj);
       var theEl = layers.filter(function(el){
         return el.uuid==activeObj.uuid;
       })[0];
       if(!theEl){
         return false;
       }
+      
       var sGrid = getNearestGrid(activeObj.left,activeObj.top);
       if(theEl.tool!=="text"){
         var eGrid = getNearestGrid(sGrid.x+(activeObj.width*activeObj.scaleX),sGrid.y+(activeObj.height*activeObj.scaleY));
@@ -110,6 +107,7 @@ function eventListeners(){
       else{
         var eGrid = sGrid;
       }
+      //debugger;
       //console.log(theEl==layers[0]);
       if(theEl.startX<theEl.endX){
         theEl.startX=sGrid.x;
@@ -147,10 +145,9 @@ function eventListeners(){
       if(!theEl){
         return false;
       }
-      console.log(theEl);
       if(theEl.tool=='text'){
         document.querySelector('.prefeditor').style.display='block';
-        document.querySelector('.tfvalue').value=theEl.text || "";
+		document.querySelector('.tfvalue').value=theEl.text || "";
       }
       else{
         document.querySelector('.prefeditor').style.display='none';
@@ -181,7 +178,6 @@ function eventListeners(){
         }
       })
     function checkDelete(e){
-      //console.log(e);
       if(e.key){
         if(e.key.toLowerCase()!='delete' && e.keyCode != 46) return false;
       }
@@ -190,7 +186,6 @@ function eventListeners(){
         document.querySelector('.prefeditor').style.display='none';
         return false;
       }
-      console.log(activeObj);
       var theEl = layers.filter(function(el,i){
         return el.uuid==activeObj.uuid;
       })[0];
@@ -200,7 +195,7 @@ function eventListeners(){
       layers.splice(layers.indexOf(theEl),1);
       reDraw();
     }
-    document.querySelector('.downloadelForNonWood')
+    document.querySelector('.downloadel')
       .addEventListener('click',function(){
 		  $(this).find('.fa').removeClass('fa-floppy-o');
 		  $(this).find('.fa').addClass('fa-refresh fa-spin');
@@ -208,52 +203,10 @@ function eventListeners(){
         tempa.href= drawingFab.toDataURL({
           format:'png'
         });
-		var template_id = tempa.getAttribute("data-template");
-		var hash_id = tempa.getAttribute("data-hash");
-		var report_id = tempa.getAttribute("data-report_id");
-		var saved = tempa.getAttribute("data-saved");
-		var form_data = new FormData();
-		form_data.append('action', 'savedrawingimages');
-		form_data.append('template_id', template_id);
-		form_data.append('hash_id', hash_id);
-		form_data.append('report_id', report_id);
-		form_data.append('saved', saved);
-		form_data.append('file', tempa.href);
-		$.ajax({
-		  dataType : "json",
-		  url: ajax_url,
-		  type: 'post',
-		  contentType: false,
-		  processData: false,
-		  data: form_data,
-		  success: function (data) {
-			var parsedJson = data;
-			if(parsedJson.success == true){
-				//$('.msg_show').html('<font style="color:green">'+parsedJson.mess+'</span>');
-				if(editor == 'no'){
-					window.location.href = parsedJson.redirect_url;
-				}
-				if(editor == 'yes'){
-					//var $input_field = window.opener.$('.mce-media_input_image');
-					//$input_field.val(parsedJson.attachemntUrl);
-					opener.insertAnnotateImage(parsedJson.attachemntUrl);
-					// Close the popup
-					window.close();
-				}
-			} else {
-				alert(parsedJson.mess);
-			//$('.msg_show').html('<font style="color:red">'+parsedJson.mess+'</span>');
-			}
-		  },
-		  error: function (errorThrown) {
-			//$('.msg_show').html('<font style="color:red">'+errorThrown+'</span>');
-		  }
-		});
-
-		//console.log(tempa.href);
-        //tempa.download=appName+".png";
-        //tempa.click();
-      });
+		window.opener.document.getElementById("woodImgItem").src = tempa.href;
+		window.close();
+      })
+	  
     //Attaching event listeners
 	var hdrs= document.querySelector('.holders');
     hdrs.addEventListener('mousedown',mouseDownFunction);
@@ -290,7 +243,7 @@ function eventListeners(){
     document.querySelector('.deletel').addEventListener('click',checkDelete);
   }
   function loadDoc(){
-    console.log("Document load");
+    //console.log("Document load");
     var imageEl = document.querySelector('#theimage');
     var iWidth = imageEl.width;
     var iHeight = imageEl.height;
@@ -298,9 +251,10 @@ function eventListeners(){
       iHeight = (iHeight/iWidth)*1000;
       iWidth = 1000;
     }
-    console.log(iWidth,iHeight);
-    setup(iWidth,iHeight,imageEl);
+    //console.log(iWidth,iHeight);
+    //setup(iWidth,iHeight,imageEl);
   }
+  
   function uploadMedia(){
 	  var file_frame; // variable for the wp.media file_frame
 		event.preventDefault();
@@ -328,8 +282,7 @@ function eventListeners(){
 				var get_url = window.location.href;
 				var get_url_first = get_url.split('#');
 				window.location.href = get_url_first[0]+'#target='+ress;
-				window.location.reload(true);
-				//location.reload(true);
+				location.reload();
 			}
 		});
 		file_frame.open();

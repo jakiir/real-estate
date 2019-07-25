@@ -982,7 +982,7 @@ function saveDynamicFormReport(){
 		 $inspectionReportDetail = $wpdb->prefix . 'inspectionreportdetail';
 		 $formJsonData = !empty($_POST['formJsonData']) ? $_POST['formJsonData'] : '';
 		 //if(empty($saved) || $saved===0){
-			 $getinsDetails = $wpdb->get_results( "SELECT id FROM $inspectionReportDetail WHERE inspectionId=$inspection_id", OBJECT );
+			 $getinsDetails = $wpdb->get_results( "SELECT id,fieldTextHtml FROM $inspectionReportDetail WHERE inspectionId=$inspection_id", OBJECT );
 			 if(empty($getinsDetails)){
 				$wpdb->insert($inspectionReportDetail, array('inspectionId' => $inspection_id));
 				$lastid = $wpdb->insert_id;
@@ -994,7 +994,7 @@ function saveDynamicFormReport(){
 		 //}
 		$wpdb->query($wpdb->prepare("UPDATE $inspectionReportDetail 
 		 SET fieldTextHtml='".$formJsonData."'
-		 WHERE id=$lastid"));
+		 WHERE id=$lastid AND fieldTextHtml != '".$formJsonData."'"));
 		 
 		 $results = array(
 			'success' => true,

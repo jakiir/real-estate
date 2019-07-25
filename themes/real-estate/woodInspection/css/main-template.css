@@ -69,6 +69,12 @@ body {
 .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9 {
     float: left;
 }
+.col-sm-1 {
+    width: 8.33333333%;
+}
+.col-sm-2 {
+    width: 16.66666667%;
+}
 .col-sm-3 {
     width: 25%;
 }
@@ -83,6 +89,9 @@ body {
 }
 .col-sm-7 {
     width: 58.33333333%;
+}
+.col-sm-8 {
+    width: 66.66666667%;
 }
 .col-sm-9 {
     width: 75%;
@@ -107,4 +116,10 @@ b, strong {
     font-weight: normal!important;
 }
 .tap__scope_instruction ol li{line-height:12px;}
-.pagefooter{display:block;}
+.pagefooter,#previewContent{display:block;}
+.input_control{font-size:10px;font-weight:bold;}
+.input__no,.tap__input_field label,.tap__address p{font-size:10px;}
+.tinymceWoodMainDiv{display:none;}
+#woodImgItem{margin: 0 auto;}
+.bold-text{font-weight:bold !important;}
+.email-link{color:#2B658A !important;}
