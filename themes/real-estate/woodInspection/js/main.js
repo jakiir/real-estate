@@ -2,11 +2,22 @@ var allConnectedB = [];
 function thisConnectB(thisItem){
 	if(thisItem.checked){
 		allConnectedB.push(thisItem.value);
+		if(thisItem.value == 'Other (C)')
+		$('.include-specify').show();
 	} else {
 		allConnectedB.remove(thisItem.value);
+		if(thisItem.value == 'Other (C)')
+		$('.include-specify').hide();
 	}
 	var commaSepConnected = allConnectedB.join(', ');
 	$('#specifyReason').html(commaSepConnected);
+}
+function thisConnect6B(thisItem){
+	if(thisItem.checked){
+		$('.inaccessible-specify').show();
+	} else {
+		$('.inaccessible-specify').hide();
+	}
 }
 Array.prototype.remove = function(x) { 
 	var i;
@@ -21,7 +32,7 @@ function printTemplateBtn(){
 	//e.preventDefault();
 	//$('.ng-not-empty').parent('.commentprompt').parent().removeClass('not_required_true');
 	//$('.ng-empty').parent('.commentprompt').parent().addClass('not_required_true');
-	var thisItem = $("#printTemplateBtn");
+	var thisItem = $(".printTemplateBtn");
 	thisItem.find('.fa').removeClass('fa-print').addClass('fa-refresh fa-spin');
 	$("#templateViewer").print({
 			//Use Global styles
@@ -35,12 +46,15 @@ function printTemplateBtn(){
 			//Don't print this
 			noPrintSelector : ".avoid-this",
 			//Add this at top
-			prepend : "",
+			prepend : null,
 			//Add this on bottom
-			append : "",
+			append : null,
+			manuallyCopyFormValues: true,
 			title: "Wood Inspection Template",
+			timeout: 750,
 			//Log to console when printing is done via a deffered callback
-			deferred: $.Deferred().done(function() { console.log('Printing done', arguments); })
+			deferred: $.Deferred().done(function() { //console.log('Printing done', arguments); 
+			})
 		});
 	setTimeout(function(){
 		thisItem.find('.fa').removeClass('fa-refresh fa-spin').addClass('fa-print');
@@ -83,6 +97,7 @@ $(document).ready(function () {
 			var ress = attachment.url;
 			if(ress){
 				$('#woodImgItem').attr('src',ress);
+				$('#woodImgItemInput').val(ress);
 			}
 		});
 
@@ -109,7 +124,7 @@ $(document).ready(function () {
 		toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table | fontsizeselect,addMedia annotateImage surveyDrawing',
 		setup: function (editor) {
 		editor.on("change", function(e){
-            $('#previewContent').html(tinymce.activeEditor.getContent());
+            $('#previewContent,#footer_html_area').html(tinymce.activeEditor.getContent());
         }),
 		editor.addButton('addMedia', {
 		  text: 'Add Image',
@@ -170,14 +185,17 @@ function previewContent(editorObject){
      var content = editorObject.getContent();
      document.getElementById("previewContent").innerHTML = content;
 }
+
 var woodInspectionSave = function woodInspectionSave(thisItem=''){
+	$('.saveChanges').find('.fa').removeClass('fa-floppy-o');
+	$('.saveChanges').find('.fa').addClass('fa-refresh fa-spin');
 	var arraylen=$(':checkbox:checked').length;
 	var datasets = {};
-	$(':checkbox:checked, :text').each(function(i){
+	$(':checkbox:checked, :text, #footer_html_area').each(function(i){
 		var fieldName = this.name;
         datasets[fieldName] = [];
 	});
-	$(':checkbox:checked, :text').each(function(i){
+	$(':checkbox:checked, :text, #footer_html_area').each(function(i){
 		var fieldName = this.name;
 		var fieldVal = this.value;
         datasets[fieldName].push(fieldVal);
@@ -200,19 +218,21 @@ var woodInspectionSave = function woodInspectionSave(thisItem=''){
         var parsedJson = data;
 		saveToDb = parsedJson.success;        
         if(parsedJson.success == true){
-			
+			$('.msg_show').show().html('<font style="color:green">'+parsedJson.mess+'</span>');
         } else {
-        //$('.msg_show').show().html('<font style="color:red">'+parsedJson.mess+'</span>');
+			$('.msg_show').show().html('<font style="color:red">'+parsedJson.mess+'</span>');
         }
+		$('.saveChanges').find('.fa').removeClass('fa-refresh fa-spin');
+		$('.saveChanges').find('.fa').addClass('fa-floppy-o');
       },
       error: function (errorThrown) {
 		//$('.msg_show').show().html('<font style="color:red">'+errorThrown+'</span>');
       }
     });
 	//console.log(datasets);
-	setTimeout(woodInspectionSave, 15000);
+	setTimeout(woodInspectionSave, 10000);
 }
-woodInspectionSave();
+//woodInspectionSave();
 
 window.setTimeout(function(){
 	$('#incipitContent').css({'display':'none','opacity':'0'});

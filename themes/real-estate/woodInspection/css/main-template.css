@@ -1,7 +1,7 @@
 body {
 	padding: 0;
 	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-	font-size: 7px;
+	font-size: 10px;
 }
 @page {
 	size: auto;   /* auto is the initial value */
@@ -99,9 +99,6 @@ body {
 .col-sm-12 {
     width: 100%;
 }
-.tap__input_set {
-    margin:0;
-}
 .h2{
     margin-top: 10px!important;
     margin-bottom:3px!important;
@@ -111,9 +108,15 @@ body {
 }
 .tap__scope_instruction ol li span {
     color: red !important;
+	font-weight:bold;
 }
 b, strong {
-    font-weight: normal!important;
+    font-weight: bold!important;
+}
+.tap__scope_instruction ol li span b {
+    color: red !important;
+	font-weight:bold !important;
+	font-size: 10px;
 }
 .tap__scope_instruction ol li{line-height:12px;}
 .pagefooter,#previewContent{display:block;}
@@ -121,5 +124,23 @@ b, strong {
 .input__no,.tap__input_field label,.tap__address p{font-size:10px;}
 .tinymceWoodMainDiv{display:none;}
 #woodImgItem{margin: 0 auto;}
+.diagram_img {
+	margin:0;
+	position:relative;
+}
 .bold-text{font-weight:bold !important;}
 .email-link{color:#2B658A !important;}
+.h4, .h5, .h6, h4, h5, h6 {
+	margin-top:4px !important;
+	margin-bottom: 4px !important;
+	font-weight:bold !important;
+}
+.tap__input_set {
+    margin: 0 !important;
+}
+.input__no.d__block.m-0,
+.m-0 {
+	margin: 0;
+	padding: 2px 0;
+}
+.address_block p{font-size:12px;}

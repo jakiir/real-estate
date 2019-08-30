@@ -14,12 +14,15 @@ body{
 .input__no.d__block.m-0,
 .m-0 {
 	margin: 0;
+	padding: 1px 0;
 }
 
 .tap__form-title {
-  font-size: 20px;
-  line-height: 28px;
+  font-size: 14px;
+  line-height: 12px;
   font-weight: bold;
+  margin-top: 6px;
+  margin-bottom: 6px;
 }
 .tap__address {
   padding: 0 150px;
@@ -36,12 +39,12 @@ body{
   font-size: 12px;
 }
 .tap__scope_instruction {
-  padding: 10px 0;
+  padding: 3px 0;
 }
 .tap__scope_instruction h2 {
   margin: 0 0 5px 0;
   font-size: 14px;
-  line-height: 18px;
+  line-height: 12px;
   text-decoration: underline;
   font-weight: bold;
 }
@@ -67,14 +70,14 @@ body{
 }
 .input_control {
   width: 100%;
-  padding: 0 15px;
+  padding: 0 10px;
   border: none;
   border-bottom: 1px solid #000;
   box-shadow: none;
   outline: none;
 }
 .tap__input_field label {
-  padding: 0 15px;
+  padding: 0;
   font-weight: normal;
   font-size: 12px;
   line-height: 16px;
@@ -158,14 +161,14 @@ body{
 	width: auto;
 }
 .diagram_img {
-	margin: 15px 0;
+	margin:0;
 	position:relative;
 }
 .address_block h4, .address_block p {
 	margin: 0;
 }
 .address_block {
-	margin: 40px 0 0;
+	margin: 10px 0 0;
 }
 .tap__raw_form_body {
 	padding-bottom: 50px;
@@ -221,6 +224,11 @@ a.btn-taptap, .btn-taptap a, button.btn-taptap, .btn-taptap button, input.btn-ta
     display: inline-block !important;
     border: none !important;
 }
+a.btn-taptap:hover, .btn-taptap a:hover, button.btn-taptap:hover, .btn-taptap button:hover, input.btn-taptap:hover, .btn-taptap input:hover, a.btn-taptap:focus, .btn-taptap a:focus, button.btn-taptap:focus, .btn-taptap button:focus, input.btn-taptap:focus, .btn-taptap input:focus {
+    color: #ffffff !important;
+    background: #7a1618 !important;
+    text-decoration: none !important;
+}
 .pagefooter{display:none;}
 .fileinput {
     position: absolute;
@@ -248,4 +256,22 @@ a.btn-taptap, .btn-taptap a, button.btn-taptap, .btn-taptap button, input.btn-ta
 #woodImgItem{margin: 0 auto;}
 .bold-text{font-weight:bold;}
 .email-link{color:#2B658A;}
+.actions {
+    position: fixed;
+    background: #fff;
+    bottom: 0px;
+    padding: 10px 50px;
+    left: 0px;
+    box-sizing: border-box;
+    width: 100%;
+    border-top: 0.5px solid #eee;
+    text-align: center;
+}
+.input_control_12{width: 94%;}
+.input_no_right{display:inline-block;float:right;}
+.grid_checkbox_layout_7b .col-sm-3{padding-right: 0px;}
+.grid_checkbox_layout_7b .tap__input_field.checkbox{padding:0;}
+.grid_checkbox_layout_7b .tap__input_field.checkbox.inline-checkbox label {margin-left: 0px;}
+.input_control_specify{width:70% !important;}
+.understand_checkbox{border-bottom:1px solid #000;}
 /*  */

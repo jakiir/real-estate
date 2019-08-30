@@ -992,7 +992,7 @@ function saveDynamicFormReport(){
 		 //} else {
 			 //$lastid = $saved;
 		 //}
-		$wpdb->query($wpdb->prepare("UPDATE $inspectionReportDetail 
+		$updateStatus = $wpdb->query($wpdb->prepare("UPDATE $inspectionReportDetail 
 		 SET fieldTextHtml='".$formJsonData."'
 		 WHERE id=$lastid AND fieldTextHtml != '".$formJsonData."'"));
 		 
@@ -1000,7 +1000,8 @@ function saveDynamicFormReport(){
 			'success' => true,
 			'mess' => '<i class="fa fa-check-circle"></i>',
 			'template_id' => '',
-			'report_detail_id' => $lastid
+			'report_detail_id' => $lastid,
+			'updateStatus'=>$updateStatus
 		 );
 	 } else {
 		 $results = array(

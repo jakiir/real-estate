@@ -29,8 +29,14 @@ $treatment_previous2 = (!empty($form_info_arr['treatment_previous2']) ? $form_in
 $treatment_previous3 = (!empty($form_info_arr['treatment_previous3']) ? $form_info_arr['treatment_previous3'] : []);
 $treatment_previous4 = (!empty($form_info_arr['treatment_previous4']) ? $form_info_arr['treatment_previous4'] : []);
 $treatment_previous5 = (!empty($form_info_arr['treatment_previous5']) ? $form_info_arr['treatment_previous5'] : []);
-
-
+$preventive_treatment = (!empty($form_info_arr['preventive_treatment']) ? $form_info_arr['preventive_treatment'] : []);
+$corrective_treatment = (!empty($form_info_arr['corrective_treatment']) ? $form_info_arr['corrective_treatment'] : []);
+$mechanically_corrected = (!empty($form_info_arr['mechanically_corrected']) ? $form_info_arr['mechanically_corrected'] : []);
+$subterranean_termites = (!empty($form_info_arr['subterranean_termites']) ? $form_info_arr['subterranean_termites'] : []);
+$treating_drywood = (!empty($form_info_arr['treating_drywood']) ? $form_info_arr['treating_drywood'] : []);
+$company_contract_warranty = (!empty($form_info_arr['company_contract_warranty']) ? $form_info_arr['company_contract_warranty'] : []);
+$additional_comments = (!empty($form_info_arr['additional_comments']) ? $form_info_arr['additional_comments'] : []);
+$notice_of_inspection = (!empty($form_info_arr['notice_of_inspection']) ? $form_info_arr['notice_of_inspection'] : []);
 
 $licence_number=get_user_meta($user->ID,  'licence_number', true );
 $phone_number=get_user_meta($user->ID,  'phone_number', true );
@@ -90,7 +96,7 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
 
         <div class="tap__form-content">
           <div class="row">
-            <div class="col-sm-9">
+            <div class="col-sm-8">
               <div class="tap__input_set">
                 <span class="input__no">1A.</span>
                 <div class="tap__input_field">
@@ -101,11 +107,11 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
               <!-- End of input set -->
             </div>
             <!-- End of col -->
-            <div class="col-sm-3">
+            <div class="col-sm-4">
               <div class="tap__input_set">
                 <span class="input__no">1B.</span>
                 <div class="tap__input_field">
-                  <input type="text" class="input_control bold-text" value="<?php echo !empty($licence_number) ? 'TPCL #'.$licence_number : 'N/A'; ?>" readonly>
+                  <input type="text" class="input_control bold-text" value="<?php echo !empty($licence_number) ? 'TPCL # '.$licence_number : 'N/A'; ?>" readonly>
                   <label for="">SPCB Business License Number</label>
                 </div>
               </div>
@@ -116,7 +122,7 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
           <!-- End of row -->
 
           <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-3">
               <div class="tap__input_set">
                 <span class="input__no">1C.</span>
                 <div class="tap__input_field">
@@ -127,9 +133,9 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
               <!-- End of input set -->
             </div>
             <!-- End of col -->
-            <div class="col-sm-8">
+            <div class="col-sm-9">
               <div class="row">
-                <div class="col-sm-2">
+                <div class="col-sm-3">
                   <div class="tap__input_set">
                     <div class="tap__input_field">
                       <input type="text" class="input_control bold-text" value="<?php echo !empty($form_data->template_city) ? $form_data->template_city : 'N/A'; ?>" readonly>
@@ -152,14 +158,14 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
                 <div class="col-sm-3">
                   <div class="tap__input_set">
                     <div class="tap__input_field">
-                      <input type="text" class="input_control bold-text" value="<?php echo !empty($form_data->zip_code) ? $form_data->zip_code : 'N/A'; ?>" readonly>
+                      <input type="text" class="input_control bold-text" value="<?php echo !empty($form_data->state_form) ? $form_data->state_form : 'N/A'; ?>" readonly>
                       <label for="">Zip</label>
                     </div>
                   </div>
                   <!-- End of input set -->
                 </div>
                 <!-- End of col -->
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                   <div class="tap__input_set">
                     <div class="tap__input_field">
                       <input type="text" class="input_control bold-text" value="<?php echo !empty($phone_number) ? $phone_number : 'N/A'; ?>" readonly>
@@ -236,7 +242,7 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
           <!-- End of row -->
 
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-5">
               <div class="tap__input_set">
                 <span class="input__no">4A.</span>
                 <div class="tap__input_field">
@@ -247,7 +253,7 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
               <!-- End of input set -->
             </div>
             <!-- End of col -->
-            <div class="col-sm-6">
+            <div class="col-sm-7">
               <div class="tap__input_set">
                 <div class="tap__input_field checkbox inline-checkbox">
                   <input type="checkbox" class="input_control" id="Seller" name="inspection_buyer_types" <?php echo (in_array('Seller', $inspection_buyer_types) ? 'checked=checked' : null); ?> value="Seller">
@@ -369,7 +375,7 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
                   <!-- End of input set -->
                   <div class="tap__input_set">
                     <div class="tap__input_field checkbox">
-                      <input type="checkbox" value="Other" <?php echo (in_array('Other', $inaccessible_obstructed) ? 'checked=checked' : null); ?> class="input_control" id="Other_obstructed" name="inaccessible_obstructed">
+                      <input type="checkbox" value="Other" <?php echo (in_array('Other', $inaccessible_obstructed) ? 'checked=checked' : null); ?> class="input_control" id="Other_obstructed" name="inaccessible_obstructed" onclick="thisConnect6B(this)">
                       <label for="Other_obstructed">Other</label>
                     </div>
                   </div>
@@ -399,10 +405,16 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
                   </div>
                   <!-- End of input set -->
                   <div class="tap__input_set">
-                    <div class="tap__input_field checkbox">
+                    <?php /* ?><div class="tap__input_field checkbox">
                       <input type="checkbox" value="Specify" <?php echo (in_array('Specify', $inaccessible_obstructed) ? 'checked=checked' : null); ?> class="input_control" id="Specify:" name="inaccessible_obstructed">
                       <label for="Specify:">Specify</label>
-                    </div>
+                    </div><?php */ ?>
+					<div class="tap__input_set inline__input_field inaccessible-specify" style="<?php echo (in_array('Other', $inaccessible_obstructed) ? 'display:block' : 'display:none'); ?>">
+						<span class="input__no">Specify:</span>
+						<div class="tap__input_field" style="padding: 0 0 0 50px;">
+						  <input type="text" class="input_control bold-text" name="inaccessible_obstructed_text" value="<?php echo !empty($form_info_arr['inaccessible_obstructed_text'][0]) ? $form_info_arr['inaccessible_obstructed_text'][0] : 'N/A'; ?>">
+						</div>
+					 </div>
                   </div>
                   <!-- End of input set -->
                 </div>
@@ -460,11 +472,10 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
             </div>
             <!-- End of col -->
 			
-			<div class="pagefooter" style="color:#7E7E7E;font-size:14px;text-align: center;clear:both;">
-				<br/><br/>
-				Licensed and Regulated by the Texas Department of Agriculture<br/>
+			<div class="pagefooter" style="color:#7E7E7E;font-size:12px;text-align: center;clear:both;">
+				<br/><br/><br/>Licensed and Regulated by the Texas Department of Agriculture<br/>
 				P.O. Box 12847, Austin, Texas 78711-2847<br/>
-				Phone 866-918-4481, Fax 888-232-2567<br/><br/>
+				Phone 866-918-4481, Fax 888-232-2567<br/>
 			</div>
 			<br/>
             <div class="col-sm-12">
@@ -477,112 +488,112 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
                 <div class="tap__input_field checkbox inline-checkbox">
                   <input type="checkbox" value="No" <?php echo (in_array('No', $wood_destroying) ? 'checked=checked' : null); ?> class="input_control" id="wood_destroying_no" name="wood_destroying">
                   <label for="wood_destroying_no">No</label>
-                  <span class="note">(Refer to Part J, Scope of Inspection) If “Yes” specify in 7B.</span>
                 </div>
+				<div class="note">(Refer to Part J, Scope of Inspection) If “Yes” specify in 7B.</div>
               </div>
               <!-- End of input set -->
             </div>
             <!-- End of col -->
             <div class="col-sm-12">
               <span class="input__no d__block">7B. Conducive Conditions include but are not limited to:</span>
-              <div class="row grid_checkbox_layout">
-                <div class="col-sm-3">
+              <div class="row grid_checkbox_layout grid_checkbox_layout_7b">
+                <div class="col-sm-4">
                   <div class="tap__input_set">
                     <div class="tap__input_field checkbox">
-                      <input type="checkbox" class="input_control" id="wood" name="wood_include" <?php echo (in_array('No', $wood_include) ? 'checked=checked' : null); ?> value="Wood to Ground Contact (G)" onClick="thisConnectB(this)">
+                      <input type="checkbox" class="input_control" id="wood" name="wood_include" <?php echo (in_array('Wood to Ground Contact (G)', $wood_include) ? 'checked=checked' : null); ?> value="Wood to Ground Contact (G)" onClick="thisConnectB(this)">
                       <label for="wood">Wood to Ground Contact (G)</label>
                     </div>
                   </div>
                   <!-- End of input set -->
                   <div class="tap__input_set">
                     <div class="tap__input_field checkbox">
-                      <input type="checkbox" class="input_control" id="Debris" name="wood_include" <?php echo (in_array('No', $wood_include) ? 'checked=checked' : null); ?> value="Debris under or around structure (K)" onClick="thisConnectB(this)">
+                      <input type="checkbox" class="input_control" id="Debris" name="wood_include" <?php echo (in_array('Debris under or around structure (K)', $wood_include) ? 'checked=checked' : null); ?> value="Debris under or around structure (K)" onClick="thisConnectB(this)">
                       <label for="Debris">Debris under or around structure (K)</label>
                     </div>
                   </div>
                   <!-- End of input set -->
                   <div class="tap__input_set">
                     <div class="tap__input_field checkbox">
-                      <input type="checkbox" class="input_control" id="Planter" name="wood_include" <?php echo (in_array('No', $wood_include) ? 'checked=checked' : null); ?> value="Planter box abutting structure (O)" onClick="thisConnectB(this)">
+                      <input type="checkbox" class="input_control" id="Planter" name="wood_include" <?php echo (in_array('Planter box abutting structure (O)', $wood_include) ? 'checked=checked' : null); ?> value="Planter box abutting structure (O)" onClick="thisConnectB(this)">
                       <label for="Planter">Planter box abutting structure (O)</label>
                     </div>
                   </div>
                   <!-- End of input set -->
                   <div class="tap__input_set">
                     <div class="tap__input_field checkbox">
-                      <input type="checkbox" class="input_control" id="Insufficient_ventilation" name="wood_include" <?php echo (in_array('No', $wood_include) ? 'checked=checked' : null); ?> value="Insufficient ventilation (T)" onClick="thisConnectB(this)">
+                      <input type="checkbox" class="input_control" id="Insufficient_ventilation" name="wood_include" <?php echo (in_array('Insufficient ventilation (T)', $wood_include) ? 'checked=checked' : null); ?> value="Insufficient ventilation (T)" onClick="thisConnectB(this)">
                       <label for="Insufficient_ventilation">Insufficient ventilation (T)</label>
                     </div>
                   </div>
                   <!-- End of input set -->
                 </div>
                 <!-- End of col -->
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                   <div class="tap__input_set">
                     <div class="tap__input_field checkbox">
-                      <input type="checkbox" class="input_control" id="boards" name="wood_include" <?php echo (in_array('No', $wood_include) ? 'checked=checked' : null); ?> value="Form boards left in place (l)" onClick="thisConnectB(this)">
+                      <input type="checkbox" class="input_control" id="boards" name="wood_include" <?php echo (in_array('Form boards left in place (l)', $wood_include) ? 'checked=checked' : null); ?> value="Form boards left in place (l)" onClick="thisConnectB(this)">
                       <label for="boards">Form boards left in place (l)</label>
                     </div>
                   </div>
                   <!-- End of input set -->
                   <div class="tap__input_set">
                     <div class="tap__input_field checkbox">
-                      <input type="checkbox" class="input_control" id="Footing" name="wood_include" <?php echo (in_array('No', $wood_include) ? 'checked=checked' : null); ?> value="Footing too low or soil line too high (L)" onClick="thisConnectB(this)">
+                      <input type="checkbox" class="input_control" id="Footing" name="wood_include" <?php echo (in_array('Footing too low or soil line too high (L)', $wood_include) ? 'checked=checked' : null); ?> value="Footing too low or soil line too high (L)" onClick="thisConnectB(this)">
                       <label for="Footing">Footing too low or soil line too high (L)</label>
                     </div>
                   </div>
                   <!-- End of input set -->
                   <div class="tap__input_set">
                     <div class="tap__input_field checkbox">
-                      <input type="checkbox" class="input_control" id="Wood_Pile" name="wood_include" <?php echo (in_array('No', $wood_include) ? 'checked=checked' : null); ?> value="Wood Pile in Contact with Structure (Q)" onClick="thisConnectB(this)">
+                      <input type="checkbox" class="input_control" id="Wood_Pile" name="wood_include" <?php echo (in_array('Wood Pile in Contact with Structure (Q)', $wood_include) ? 'checked=checked' : null); ?> value="Wood Pile in Contact with Structure (Q)" onClick="thisConnectB(this)">
                       <label for="Wood_Pile">Wood Pile in Contact with Structure (Q)</label>
                     </div>
                   </div>
                   <!-- End of input set -->
-                  <div class="tap__input_set">
+				  <div class="tap__input_set">
+                    <div class="tap__input_field checkbox inline-checkbox">
+                      <input type="checkbox" class="input_control" id="Other_conductive" name="wood_include" <?php echo (in_array('Other (C)', $wood_include) ? 'checked=checked' : null); ?> value="Other (C)" onClick="thisConnectB(this)">
+                      <label for="Other_conductive">Other (C)</label>
+					  <div class="tap__input_set pl-25 include-specify" style="<?php echo (in_array('Other (C)', $wood_include) ? 'display:block' : 'display:none'); ?>">
+						<div class="tap__input_set inline__input_field">
+							<span class="input__no" style="margin: -2px 0 0 10px;">Specify:</span>
+							<div class="tap__input_field" style="padding: 0 0 0 105px;margin-top: -8px;">
+							  <input type="text" class="input_control bold-text input_control_specify" name="wood_include_text" value="<?php echo !empty($form_info_arr['wood_include_text'][0]) ? $form_info_arr['wood_include_text'][0] : 'N/A'; ?>">
+							</div>
+						</div>
+					  </div>
+                    </div>
+                  </div>
+                  <!-- End of input set -->
+                </div>
+                <!-- End of col -->
+                <div class="col-sm-4">
+				  <div class="tap__input_set">
                     <div class="tap__input_field checkbox">
-                      <input type="checkbox" class="input_control" id="Moisture" name="wood_include" <?php echo (in_array('No', $wood_include) ? 'checked=checked' : null); ?> value="Excessive Moisture (J)" onClick="thisConnectB(this)">
+                      <input type="checkbox" class="input_control" id="Moisture" name="wood_include" <?php echo (in_array('Excessive Moisture (J)', $wood_include) ? 'checked=checked' : null); ?> value="Excessive Moisture (J)" onClick="thisConnectB(this)">
                       <label for="Moisture">Excessive Moisture (J)</label>
                     </div>
                   </div>
                   <!-- End of input set -->
-                </div>
-                <!-- End of col -->
-                <div class="col-sm-3">
                   <div class="tap__input_set">
                     <div class="tap__input_field checkbox">
-                      <input type="checkbox" class="input_control" id="Wood_Rot" name="wood_include" <?php echo (in_array('No', $wood_include) ? 'checked=checked' : null); ?> value="Wood Rot (M)" onClick="thisConnectB(this)">
+                      <input type="checkbox" class="input_control" id="Wood_Rot" name="wood_include" <?php echo (in_array('Wood Rot (M)', $wood_include) ? 'checked=checked' : null); ?> value="Wood Rot (M)" onClick="thisConnectB(this)">
                       <label for="Wood_Rot">Wood Rot (M)</label>
                     </div>
                   </div>
                   <!-- End of input set -->
-                  <div class="tap__input_set">
+				  <div class="tap__input_set">
                     <div class="tap__input_field checkbox">
-                      <input type="checkbox" class="input_control" id="Fence" name="wood_include" <?php echo (in_array('No', $wood_include) ? 'checked=checked' : null); ?> value="Wooden Fence in Contact with the Structure (R)" onClick="thisConnectB(this)">
-                      <label for="Fence">Wooden Fence in Contact with the Structure (R)</label>
-                    </div>
-                  </div>
-                  <!-- End of input set -->
-                  <div class="tap__input_set">
-                    <div class="tap__input_field checkbox">
-                      <input type="checkbox" class="input_control" id="Foliage" name="wood_include" <?php echo (in_array('No', $wood_include) ? 'checked=checked' : null); ?> value="Heavy Foliage (N)" onClick="thisConnectB(this)">
+                      <input type="checkbox" class="input_control" id="Foliage" name="wood_include" <?php echo (in_array('Heavy Foliage (N)', $wood_include) ? 'checked=checked' : null); ?> value="Heavy Foliage (N)" onClick="thisConnectB(this)">
                       <label for="Foliage">Heavy Foliage (N)</label>
                     </div>
                   </div>
                   <!-- End of input set -->
-                </div>
-                <!-- End of col -->
-                <div class="col-sm-3">
                   <div class="tap__input_set">
                     <div class="tap__input_field checkbox">
-                      <input type="checkbox" value="Agent" class="input_control" id="Other_conductive" name="wood_include" <?php echo (in_array('No', $wood_include) ? 'checked=checked' : null); ?> value="Other (C)" onClick="thisConnectB(this)">
-                      <label for="Other_conductive">Other (C)</label>
+                      <input type="checkbox" class="input_control" id="Fence" name="wood_include" <?php echo (in_array('Wooden Fence in Contact with the Structure (R)', $wood_include) ? 'checked=checked' : null); ?> value="Wooden Fence in Contact with the Structure (R)" onClick="thisConnectB(this)">
+                      <label for="Fence">Wooden Fence in Contact with the Structure (R)</label>
                     </div>
-                  </div>
-                  <!-- End of input set -->
-                  <div class="tap__input_set pl-25">
-                    <span class="input__no">Specify:</span>
-                    <input type="text" class="input_control bold-text" name="wood_include_text" value="<?php echo !empty($form_info_arr['wood_include_text']) ? $form_info_arr['wood_include_text'][0] : 'N/A'; ?>">
                   </div>
                   <!-- End of input set -->
                 </div>
@@ -600,8 +611,9 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
                   <span class="input__no d__block m-0">8B. Drywood Termites</span>
                   <span class="input__no d__block m-0">8C. Formosan Termites</span>
                   <span class="input__no d__block m-0">8D. Carpenter Ants</span>
-                  <span class="input__no d__block m-0">8E. Other Wood Destroying Insects Specify:</span>
-                  <input type="text" class="input_control bold-text" name="other_wood_destroying_text" value="<?php echo !empty($form_info_arr['other_wood_destroying_text']) ? $form_info_arr['other_wood_destroying_text'][0] : 'N/A'; ?>">
+                  <span class="input__no d__block m-0">8E. Other Wood Destroying Insects Specify:<div class="tap__input_field" style="display:inline-block;width:30%;padding:0 0 0 8px;"><input type="text" class="input_control bold-text" name="other_wood_destroying_text" value="<?php echo !empty($form_info_arr['other_wood_destroying_text'][0]) ? $form_info_arr['other_wood_destroying_text'][0] : 'N/A'; ?>">
+				  </div>
+				  </span>
                 </div>
                 <div class="col-sm-7 grid_checkbox_layout">
                   <div class="row">
@@ -762,21 +774,21 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
               <div class="tap__input_set inline__input_field">
                 <span class="input__no">8F. Explanation of signs of previous treatment (including pesticides, baits, existing treatment stickers or other methods) identified:</span>
                 <div class="tap__input_field">
-                  <input type="text" class="input_control bold-text" name="previous_treatment_text" value="<?php echo !empty($form_info_arr['previous_treatment_text']) ? $form_info_arr['previous_treatment_text'][0] : 'N/A'; ?>">
+                  <input type="text" class="input_control bold-text" name="previous_treatment_text" value="<?php echo !empty($form_info_arr['previous_treatment_text'][0]) ? $form_info_arr['previous_treatment_text'][0] : 'N/A'; ?>">
                 </div>
               </div>
               <!-- End of input set -->
               <div class="tap__input_set inline__input_field">
                 <span class="input__no">8G. Visible evidence of:</span>
                 <div class="tap__input_field">
-                  <input type="text" class="input_control bold-text" name="visible_evidence_text" value="<?php echo !empty($form_info_arr['visible_evidence_text']) ? $form_info_arr['visible_evidence_text'][0] : 'N/A'; ?>">
+                  <input type="text" class="input_control bold-text" name="visible_evidence_text" value="<?php echo !empty($form_info_arr['visible_evidence_text'][0]) ? $form_info_arr['visible_evidence_text'][0] : 'N/A'; ?>">
                 </div>
               </div>
               <!-- End of input set -->
               <div class="tap__input_set inline__input_field">
                 <span class="input__no">has been observed in the following areas:</span>
                 <div class="tap__input_field">
-                  <input type="text" class="input_control bold-text" name="observed_areas_text" value="<?php echo !empty($form_info_arr['observed_areas_text']) ? $form_info_arr['observed_areas_text'][0] : 'N/A'; ?>">
+                  <input type="text" class="input_control bold-text" name="observed_areas_text" value="<?php echo !empty($form_info_arr['observed_areas_text'][0]) ? $form_info_arr['observed_areas_text'][0] : 'N/A'; ?>">
                   <label for="">If there is visible evidence of active or previous infestation, it must be noted. The type of insect(s) must be listed in the first blank and all identified infested areas of the property inspected must be noted in the second blank. (Refer to Part D, E & F, Scope of Inspection)</label>
                 </div>
               </div>
@@ -790,7 +802,7 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
                   <div class="tap__input_set inline__input_field">
                     <span class="input__no">9. Will be or has been mechanically corrected by inspecting company:</span>
                     <div class="tap__input_field">
-                      <input type="text" class="input_control bold-text" name="mechanically_corrected_text" value="<?php echo !empty($form_info_arr['mechanically_corrected_text']) ? $form_info_arr['mechanically_corrected_text'][0] : 'N/A'; ?>">
+                      <input type="text" class="input_control bold-text" name="mechanically_corrected_text" value="<?php echo !empty($form_info_arr['mechanically_corrected_text'][0]) ? $form_info_arr['mechanically_corrected_text'][0] : 'N/A'; ?>">
                     </div>
                   </div>
                   <!-- End of input set -->
@@ -799,13 +811,13 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
                   <div class="row">
                     <div class="col-sm-6">
                       <div class="tap__input_field checkbox inline-checkbox">
-                        <input type="checkbox" value="Yes" class="input_control" id="mechanically_corrected_yes" name="Inspector">
+                        <input type="checkbox" value="Yes" class="input_control" id="mechanically_corrected_yes" name="mechanically_corrected" <?php echo (in_array('Yes', $mechanically_corrected) ? 'checked=checked' : null); ?>>
                         <label for="mechanically_corrected_yes">Yes</label>
                       </div>
                     </div>
                     <div class="col-sm-6">
                       <div class="tap__input_field checkbox inline-checkbox">
-                        <input type="checkbox" value="No" class="input_control" id="mechanically_corrected_no" name="Inspector">
+                        <input type="checkbox" value="No" class="input_control" id="mechanically_corrected_no" name="mechanically_corrected" <?php echo (in_array('No', $mechanically_corrected) ? 'checked=checked' : null); ?>>
                         <label for="mechanically_corrected_no">No</label>
                       </div>
                     </div>
@@ -819,7 +831,7 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
               <div class="row">
                 <div class="col-sm-9">
                   <div class="tap__input_set inline__input_field">
-                    <span class="input__no">9A. Corrective treatment recommended for active infestation or evidence of previous infestation with no prior treatment as identified in Section 8. (Refer to Part G, H, and I, Scope of Inspection)</span>
+                    <span class="input__no">9A. Corrective treatment recommended for active infestation or evidence of previous infestation with no prior treatment as <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; identified in Section 8. (Refer to Part G, H, and I, Scope of Inspection)</span>
                   </div>
                   <!-- End of input set -->
                 </div>
@@ -827,13 +839,13 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
                   <div class="row">
                     <div class="col-sm-6">
                       <div class="tap__input_field checkbox inline-checkbox">
-                        <input type="checkbox" value="Yes" class="input_control" id="Corrective_treatment_yes" name="Inspector">
+                        <input type="checkbox" value="Yes" class="input_control" id="Corrective_treatment_yes" name="corrective_treatment" <?php echo (in_array('Yes', $corrective_treatment) ? 'checked=checked' : null); ?>>
                         <label for="Corrective_treatment_yes">Yes</label>
                       </div>
                     </div>
                     <div class="col-sm-6">
                       <div class="tap__input_field checkbox inline-checkbox">
-                        <input type="checkbox" value="No" class="input_control" id="Corrective_treatment_no" name="Inspector">
+                        <input type="checkbox" value="No" class="input_control" id="Corrective_treatment_no" name="corrective_treatment" <?php echo (in_array('No', $corrective_treatment) ? 'checked=checked' : null); ?>>
                         <label for="Corrective_treatment_no">No</label>
                       </div>
                     </div>
@@ -854,13 +866,13 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
                   <div class="row">
                     <div class="col-sm-6">
                       <div class="tap__input_field checkbox inline-checkbox">
-                        <input type="checkbox" value="Yes" class="input_control" id="preventive_treatment_yes" name="Inspector">
+                        <input type="checkbox" value="Yes" class="input_control" id="preventive_treatment_yes" name="preventive_treatment" <?php echo (in_array('Yes', $preventive_treatment) ? 'checked=checked' : null); ?>>
                         <label for="preventive_treatment_yes">Yes</label>
                       </div>
                     </div>
                     <div class="col-sm-6">
                       <div class="tap__input_field checkbox inline-checkbox">
-                        <input type="checkbox" value="No" class="input_control" id="preventive_treatment_no" name="Inspector">
+                        <input type="checkbox" value="No" class="input_control" id="preventive_treatment_no" name="preventive_treatment" <?php echo (in_array('No', $preventive_treatment) ? 'checked=checked' : null); ?>>
                         <label for="preventive_treatment_no">No</label>
                       </div>
                     </div>
@@ -871,8 +883,8 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
             <!-- End of col -->
             <div class="col-sm-12">
               <div class="tap__input_set inline__input_field">
-                <span class="input__no">Specify reason: <span id="specifyReason">Wood to ground, debris, ventilation, soil too high, excessive moisture</span></span>
-                <div class="tap__input_field">
+                <span class="input__no-">Specify reason: <span id="specifyReason">Wood to ground, debris, ventilation, soil too high, excessive moisture</span></span>
+                <div class="tap__input_field-">
                   <!--<input type="text" class="input_control bold-text">-->
                   <label for="">(Refer to Scope of Inspection Part J)</label>
                 </div>
@@ -881,26 +893,26 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
               <div class="tap__input_set inline__input_field">
                 <span class="input__no">10A. This Company has treated or is treating the structure for the following wood destroying insects:</span>
                 <div class="tap__input_field">
-                  <input type="text" class="input_control bold-text" value="N/A">
+                  <input type="text" class="input_control bold-text" name="treated_treating_text" value="<?php echo !empty($form_info_arr['treated_treating_text'][0]) ? $form_info_arr['treated_treating_text'][0] : 'N/A'; ?>">
                 </div>
               </div>
               <!-- End of tap input field -->
               <div class="tap__input_set">
                 <span class="input__no">If treating for subterranean termites, the treatment was:</span>
                 <div class="tap__input_field checkbox inline-checkbox">
-                  <input type="checkbox" value="Partial" class="input_control" id="Partial" name="Inspector">
+                  <input type="checkbox" value="Partial" class="input_control" id="Partial" name="subterranean_termites" <?php echo (in_array('Partial', $subterranean_termites) ? 'checked=checked' : null); ?>>
                   <label for="Partial">Partial</label>
                 </div>
                 <div class="tap__input_field checkbox inline-checkbox">
-                  <input type="checkbox" value="Spot" class="input_control" id="Spot" name="Inspector">
+                  <input type="checkbox" value="Spot" class="input_control" id="Spot" name="subterranean_termites" <?php echo (in_array('Spot', $subterranean_termites) ? 'checked=checked' : null); ?>>
                   <label for="Spot">Spot</label>
                 </div>
                 <div class="tap__input_field checkbox inline-checkbox">
-                  <input type="checkbox" value="Bait" class="input_control" id="Bait" name="Inspector">
+                  <input type="checkbox" value="Bait" class="input_control" id="Bait" name="subterranean_termites" <?php echo (in_array('Bait', $subterranean_termites) ? 'checked=checked' : null); ?>>
                   <label for="Bait">Bait</label>
                 </div>
                 <div class="tap__input_field checkbox inline-checkbox">
-                  <input type="checkbox" value="Other" class="input_control" id="Other" name="Inspector">
+                  <input type="checkbox" value="Other" class="input_control" id="Other" name="subterranean_termites" <?php echo (in_array('Other', $subterranean_termites) ? 'checked=checked' : null); ?>>
                   <label for="Other">Other</label>
                 </div>
               </div>
@@ -908,11 +920,11 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
               <div class="tap__input_set">
                 <span class="input__no">If treating for drywood termites or related insects, the treatment was:</span>
                 <div class="tap__input_field checkbox inline-checkbox">
-                  <input type="checkbox" value="Full" class="input_control" id="Full" name="Inspector">
+                  <input type="checkbox" value="Full" class="input_control" id="Full" name="treating_drywood" <?php echo (in_array('Full', $treating_drywood) ? 'checked=checked' : null); ?>>
                   <label for="Full">Full</label>
                 </div>
                 <div class="tap__input_field checkbox inline-checkbox">
-                  <input type="checkbox" value="Limited" class="input_control" id="Limited" name="Inspector">
+                  <input type="checkbox" value="Limited" class="input_control" id="Limited" name="treating_drywood" <?php echo (in_array('Full', $treating_drywood) ? 'checked=checked' : null); ?>>
                   <label for="Limited">Limited</label>
                 </div>
               </div>
@@ -924,7 +936,7 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
                 <div class="tap__input_set">
                 <span class="input__no">10B.</span>
                 <div class="tap__input_field">
-                  <input type="text" class="input_control bold-text" value="N/A">
+                  <input type="text" class="input_control bold-text" name="date_of_treatment" value="<?php echo !empty($form_info_arr['date_of_treatment'][0]) ? $form_info_arr['date_of_treatment'][0] : 'N/A'; ?>">
                   <label for="">Date of Treatment by Inspecting Company</label>
                 </div>
               </div>
@@ -934,7 +946,7 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
               <div class="col-sm-3">
                 <div class="tap__input_set">
                   <div class="tap__input_field">
-                    <input type="text" class="input_control bold-text" value="N/A">
+                    <input type="text" class="input_control bold-text" name="common_name_of_insect" value="<?php echo !empty($form_info_arr['common_name_of_insect'][0]) ? $form_info_arr['common_name_of_insect'][0] : 'N/A'; ?>">
                     <label for="">Common Name of Insect</label>
                   </div>
                 </div>
@@ -944,7 +956,7 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
               <div class="col-sm-3">
                 <div class="tap__input_set">
                   <div class="tap__input_field">
-                    <input type="text" class="input_control bold-text" value="N/A">
+                    <input type="text" class="input_control bold-text" name="name_of_pesticide" value="<?php echo !empty($form_info_arr['name_of_pesticide'][0]) ? $form_info_arr['name_of_pesticide'][0] : 'N/A'; ?>">
                     <label for="">Name of Pesticide, Bait or Other Method</label>
                   </div>
                 </div>
@@ -953,18 +965,20 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
               <!-- End of col -->
               <div class="col-sm-12">
                 <span class="input__no">This company has a contract or warranty in effect for control of the following wood destroying insects:</span>
+				<div class="input__no">
                 <div class="tap__input_field checkbox inline-checkbox">
-                  <input type="checkbox" value="Yes" class="input_control" id="wood_destroying_Yes" name="Inspector">
-                  <label for="wood_destroying_Yes">Yes</label>
+                  <input type="checkbox" value="Yes" class="input_control" id="company_contract_Yes" name="company_contract_warranty" <?php echo (in_array('Yes', $company_contract_warranty) ? 'checked=checked' : null); ?>>
+                  <label for="company_contract_Yes">Yes</label>
                 </div>
                 <div class="tap__input_field checkbox inline-checkbox">
-                  <input type="checkbox" value="No" class="input_control" id="wood_destroying_No" name="Inspector">
-                  <label for="wood_destroying_No">No</label>
+                  <input type="checkbox" value="No" class="input_control" id="company_contract_No" name="company_contract_warranty" <?php echo (in_array('No', $company_contract_warranty) ? 'checked=checked' : null); ?>>
+                  <label for="company_contract_No">No</label>
                 </div>
-                <div class="tap__input_set inline__input_field">
-                  <span class="input__no">List Insects:</span>
-                  <div class="tap__input_field">
-                    <input type="text" class="input_control bold-text" value="N/A">
+				</div>
+				<div class="input__no">
+                  <span class="input__no" style="padding-left: 10px;"> List Insects:</span>
+                  <div class="tap__input_field" style="padding: 0 0 0 85px;">
+                    <input type="text" class="input_control bold-text" name="list_insects" value="<?php echo !empty($form_info_arr['list_insects'][0]) ? $form_info_arr['list_insects'][0] : 'N/A'; ?>">
                   </div>
                 </div>
                 <span class="input__no">If “Yes”, copy (ies) of warranty and treatment diagram must be attached.</span>
@@ -972,23 +986,29 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
               <!-- End of col -->
             </div>
             <!-- End of row -->
-            <div class="col-sm-12">
+			<div class="pagefooter" style="color:#7E7E7E;font-size:12px;text-align: center;clear:both;">
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/><br/>
+				<br/><br/><br/><br/>
+				Licensed and Regulated by the Texas Department of Agriculture<br/>
+				P.O. Box 12847, Austin, Texas 78711-2847<br/>
+				Phone 866-918-4481, Fax 888-232-2567
+				<br/><br/><br/>
+			</div>
+            <div class="col-sm-12" style="margin-top:5px;">
               <h5 class="text-center"><b>Diagram of Structure(s) Inspected</b></h5>
               <span class="input__no">The inspector must draw a diagram including approximate perimeter measurements and indicate active or previous infestation and type of insect by using the following codes: E-Evidence of Infestation, A-Active; P-Previous; D-Drywood Termites; S-Subterranean Termites; F-Formosan Termites; C-Conducive Conditions; B-Wood Boring Beetles</span>
               <div class="tap__input_set inline__input_field">
                 <span class="input__no">H-Carpenter Ants; Other(s) – Specify</span>
                 <div class="tap__input_field">
-                  <input type="text" class="input_control bold-text">
+                  <input type="text" class="input_control bold-text" name="carpenter_specify" value="<?php echo !empty($form_info_arr['carpenter_specify'][0]) ? $form_info_arr['carpenter_specify'][0] : 'N/A'; ?>">
                   <span class="">See section 7B. for conducive conditions letter codes</span>
                 </div>
               </div>
               <!-- End of input field -->
-			  <div class="pagefooter" style="color:#7E7E7E;font-size:14px;text-align: center;clear:both;">
-				<br/>
-				Licensed and Regulated by the Texas Department of Agriculture<br/>
-				P.O. Box 12847, Austin, Texas 78711-2847<br/>
-				Phone 866-918-4481, Fax 888-232-2567
-			  </div>			  
               <div class="diagram_img">
 				<div class="fileinput flex flexcenter hovereffect">	
 				<div class="documentHides" style="position:absolute;top:-77px;border:1px solid #000;background:#fff;padding:3px;width: 164px;" ng-hide="imageFileMess">
@@ -998,25 +1018,29 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
 				</div>
 				<i class="fa fa-folder-open"></i>
 			  </div>
-                <img id="woodImgItem" src="<?php echo esc_url( get_template_directory_uri() ); ?>/woodInspection/img/Diagram.png" alt="..." class="img-responsive">
+				<?php $woodImgItem = esc_url( get_template_directory_uri() ).'/woodInspection/img/Diagram.png'; ?>
+                <img id="woodImgItem" src="<?php echo !empty($form_info_arr['woodImgItemInput'][0]) ? $form_info_arr['woodImgItemInput'][0] : $woodImgItem; ?>" alt="..." class="img-responsive">
+				<input type="text" name="woodImgItemInput" id="woodImgItemInput" value="" style="display:none;">
               </div>
             </div>
             <!-- End of col -->			
             <div class="col-sm-12">
               <div class="tap__input_set">
                 <span class="input__no">Additional Comments:</span>
-                <div class="tap__input_field checkbox inline-checkbox">
-                  <input type="checkbox" value="Post tension slab" class="input_control" id="slab" name="Inspector">
-                  <label for="slab">Post tension slab</label>
-                </div>
-                <div class="tap__input_field checkbox inline-checkbox">
-                  <input type="checkbox" value="Slab on grade" class="input_control" id="grade" name="Inspector">
-                  <label for="grade">Slab on grade</label>
-                </div>
-                <div class="tap__input_field checkbox inline-checkbox">
-                  <input type="checkbox" value="Pier and Beam" class="input_control" id="Beam" name="Inspector">
-                  <label for="Beam">Pier and Beam</label>
-                </div>
+				<div class="input__no understand_checkbox">
+					<div class="tap__input_field checkbox inline-checkbox">
+					  <input type="checkbox" value="Post tension slab" class="input_control" id="slab" name="additional_comments" <?php echo (in_array('Post tension slab', $additional_comments) ? 'checked=checked' : null); ?>>
+					  <label for="slab">Post tension slab</label>
+					</div>
+					<div class="tap__input_field checkbox inline-checkbox">
+					  <input type="checkbox" value="Slab on grade" class="input_control" id="grade" name="additional_comments" <?php echo (in_array('Slab on grade', $additional_comments) ? 'checked=checked' : null); ?>>
+					  <label for="grade">Slab on grade</label>
+					</div>
+					<div class="tap__input_field checkbox inline-checkbox">
+					  <input type="checkbox" value="Pier and Beam" class="input_control" id="Beam" name="additional_comments" <?php echo (in_array('Pier and Beam', $additional_comments) ? 'checked=checked' : null); ?>>
+					  <label for="Beam">Pier and Beam</label>
+					</div>
+				</div>
                 <span class="input__no">Neither I nor the company for which I am acting have had, presently have, or contemplate having any interest in the property. I do further state that neither I nor the company for which I am acting is associated in any way with any party to this transaction.</span>
               </div>
             </div>
@@ -1027,7 +1051,7 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
                 <div class="tap__input_set">
                   <span class="input__no">11A.</span>
                   <div class="tap__input_field">
-                    <input type="text" class="input_control bold-text" value="<?php echo !empty($inspector_name) ? $inspector_name : 'N/A'; echo !empty($form_data->company_phone) ? ' TDA#'.$form_data->company_phone : 'N/A'; ?>" readonly>
+                    <input type="text" class="input_control bold-text input_control_12" value="<?php echo !empty($inspector_name) ? $inspector_name : 'N/A'; echo !empty($form_data->company_phone) ? ' TDA#'.$form_data->company_phone : 'N/A'; ?>" readonly><span class="input_no_right">12A.</span>
                     <label for="">Inspector</label>
                   </div>
                 </div>
@@ -1036,7 +1060,7 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
                 <div class="tap__input_set">
                   <span class="input__no">11B.</span>
                   <div class="tap__input_field">
-                    <input type="text" class="input_control bold-text" value="<?php echo !empty($inspector_name) ? $inspector_name : 'N/A'; echo !empty($licence_number) ? ' TPCL#'.$licence_number : 'N/A'; ?>" readonly>
+                    <input type="text" class="input_control bold-text input_control_12" value="<?php echo !empty($inspector_name) ? $inspector_name : 'N/A'; echo !empty($licence_number) ? ' TPCL#'.$licence_number : 'N/A'; ?>" readonly><span class="input_no_right">12B.</span>
                     <label for="">Certified Applicator and Certified Applicator License Number</label>
                   </div>
                 </div>
@@ -1046,22 +1070,22 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
               <div class="col-sm-6">
                 <span class="input__no d__block">Notice of Inspection was posted at or near</span>
                 <div class="tap__input_set">
-                  <div class="tap__input_field checkbox inline-checkbox">
-                    <input type="checkbox" value="Electric Breaker Box" class="input_control" id="Breaker" name="Inspector">
+                  <div class="tap__input_field checkbox inline-checkbox-">
+                    <input type="checkbox" value="Electric Breaker Box" class="input_control" id="Breaker" name="notice_of_inspection" <?php echo (in_array('Electric Breaker Box', $notice_of_inspection) ? 'checked=checked' : null); ?>>
                     <label for="Breaker">Electric Breaker Box</label>
                   </div>
                 </div>
                 <!-- End of input set -->
                 <div class="tap__input_set">
-                  <div class="tap__input_field checkbox inline-checkbox">
-                    <input type="checkbox" value="Water Heater Closet" class="input_control" id="Heater" name="Inspector">
+                  <div class="tap__input_field checkbox inline-checkbox-">
+                    <input type="checkbox" value="Water Heater Closet" class="input_control" id="Heater" name="notice_of_inspection" <?php echo (in_array('Water Heater Closet', $notice_of_inspection) ? 'checked=checked' : null); ?>>
                     <label for="Heater">Water Heater Closet</label>
                   </div>
                 </div>
                 <!-- End of input set -->
                 <div class="tap__input_set">
-                  <div class="tap__input_field checkbox inline-checkbox">
-                    <input type="checkbox" value="Beneath the Kitchen Sink" class="input_control" id="Sink" name="Inspector">
+                  <div class="tap__input_field checkbox inline-checkbox-">
+                    <input type="checkbox" value="Beneath the Kitchen Sink" class="input_control" id="Sink" name="notice_of_inspection" <?php echo (in_array('Beneath the Kitchen Sink', $notice_of_inspection) ? 'checked=checked' : null); ?>>
                     <label for="Sink">Beneath the Kitchen Sink</label>
                   </div>
                 </div>
@@ -1084,18 +1108,18 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
               <div class="tap__input_set inline__input_field">
                 <span class="input__no">I understand that my inspector may provide additional information as an addendum to this report. If additional information is attached, list number of pages:</span>
                 <div class="tap__input_field">
-                  <input type="text" class="input_control bold-text">
+                  <input type="text" class="input_control bold-text" name="understand_inspector" value="<?php echo !empty($form_info_arr['understand_inspector'][0]) ? $form_info_arr['understand_inspector'][0] : 'N/A'; ?>">
                 </div>
               </div>
               <span class="input__no">I agree to receive email correspondence from Inspectors service group, related to this inspection and/or future pest control services, and/or discounts/offers.</span>
               <div class="row">
                 <div class="col-sm-6">
                   <span class="input__no d__block m-0">Signature of Purchaser of Property or their Designee</span>
-                  <input type="text" class="input_control bold-text">
+                  <input type="text" class="input_control bold-text" name="signature_purchaser" value="<?php echo !empty($form_info_arr['signature_purchaser'][0]) ? $form_info_arr['signature_purchaser'][0] : 'N/A'; ?>">
                 </div>
                 <div class="col-sm-6">
                   <span class="input__no d__block m-0">Date</span>
-                  <input type="text" class="input_control bold-text">
+                  <input type="text" class="input_control bold-text" name="signature_date" value="<?php echo !empty($form_info_arr['signature_date'][0]) ? $form_info_arr['signature_date'][0] : 'N/A'; ?>">
                 </div>
               </div>
             </div>
@@ -1105,17 +1129,16 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
           <div class="address_block text-center">
             <h4><?php echo !empty($form_data->companyId) ? $form_data->companyId : 'N/A'; ?></h4>
             <p>Administrative office and mailing address</p>
-            <?php echo !empty($form_data->footer_html) ? $form_data->footer_html : ''; ?>
+            <p><?php echo !empty($form_data->footer_html) ? $form_data->footer_html : ''; ?></p>
           </div>
-		  
-		  <div class="pagefooter" style="color:#7E7E7E;font-size:14px;text-align: center;clear:both;">
-				<br/>
+		  <br/>
+		  <div class="pagefooter" style="color:#7E7E7E;font-size:12px;text-align: center;clear:both;">
 				Licensed and Regulated by the Texas Department of Agriculture<br/>
 				P.O. Box 12847, Austin, Texas 78711-2847<br/>
 				Phone 866-918-4481, Fax 888-232-2567
 		  </div>
 		  <div class="tinymceWoodMainDiv">			
-			<textarea class="tinymceWoodIns"></textarea>
+			<textarea class="tinymceWoodIns" name="footer_html_area" id="footer_html_area"><?php echo !empty($form_info_arr['footer_html_area'][0]) ? $form_info_arr['footer_html_area'][0] : 'N/A'; ?></textarea>
 		  </div>
 		  <div id="previewContent"></div>
 	  
@@ -1125,6 +1148,22 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
       <!-- End of container -->
     </div>
   </div> 
+  <?php if($report_id){ ?>
+    <div class="actions">
+	  <div class="msg_show form-view-msg" style="display:inline-block;"></div>
+	  <a href="javascript:void(0)" style="margin-bottom:10px;" class="btn-taptap saveChanges" onclick="woodInspectionSave()">
+        <i class="fa fa-floppy-o" aria-hidden="true"></i> Save Changes
+      </a>
+	  <?php if(!empty($form_data->print_btn) && $form_data->print_btn == 'true'){ ?>
+	  <a href="javascript:void(0)" onClick="printTemplateBtn()" class="printTemplateBtn btn-taptap"><i class="fa fa-print" aria-hidden="true"></i> Print / Save to PDF</a>
+	  <?php } ?>
+    </div>
+	<?php } else { ?>
+		<style>
+		.fileinput{display:none;}
+		.wysiwygpretend .button{display:none;}
+		</style>
+	<?php } ?>
   <?php get_footer('viewer'); ?>
   <script type="text/javascript">
 	var ajax_url = '<?php echo admin_url('admin-ajax.php'); ?>';
