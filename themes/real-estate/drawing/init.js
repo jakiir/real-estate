@@ -24,7 +24,7 @@ var fillColor="#FFFFFF";
 var strokeColor="#FF0000";
 //tools
 var tools = {};
-var currentTool='arrow';
+var currentTool='line';
 //Virtual Layers
 var layers = [];
 //Undo and redo

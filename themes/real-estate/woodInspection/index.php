@@ -1127,7 +1127,7 @@
 		  bottom: 0
 		};
 		$('#printTemplateBtn').click(function () {
-			doc.fromHTML($('#templateViewerdd').innerHTML, 15, 15, {
+			doc.fromHTML($('#templateViewerdd').html(), 15, 15, {
 				'width': 170,
 					'elementHandlers': specialElementHandlers
 			},

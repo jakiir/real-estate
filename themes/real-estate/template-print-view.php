@@ -432,12 +432,14 @@ get_header('template-print-page'); ?>
 		$table_template_detail = $wpdb->prefix . 'template_detail';
 		$get_template_detail = $wpdb->get_results( "SELECT * FROM $table_template_detail WHERE template_id=$template_id", OBJECT );
 		$form_info = (!empty($get_template_detail[0]->field_text_html) ? $get_template_detail[0]->field_text_html : '{"name":"Untitled Form 1","logo":null,"tree":[]}');
-		$form_info = shortcode_wdi($form_info);
+		//$form_info = shortcode_wdi($form_info);
+		$form_info = $form_info;
 	} else {
 		$inspectionreportdetail = $wpdb->prefix . 'inspectionreportdetail';
 		$get_inspectionreportdetail = $wpdb->get_results( "SELECT * FROM $inspectionreportdetail WHERE id=$saved AND inspectionId=$report_id", OBJECT );
 		$form_info = (!empty($get_inspectionreportdetail[0]->fieldTextHtml) ? $get_inspectionreportdetail[0]->fieldTextHtml : '{"name":"Untitled Form 1","logo":null,"tree":[]}');
-		$form_info = shortcode_wdi($form_info);
+		//$form_info = shortcode_wdi($form_info);
+		$form_info = $form_info;
 	}
 	$form_data = shortcode_wdi($form_data);
 	$get_template_name = (!empty($form_data[0]->name) ? $form_data[0]->name : '');

@@ -9,7 +9,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="profile" href="http://gmpg.org/xfn/11">
 
-	<?php //wp_head(); ?>
+	<?php wp_head(); ?>
 </head>
 
 <body>
@@ -39,7 +39,7 @@
 				<?php } else { ?>
 					<li><a class="<?php if(is_page('template')) echo 'active'; ?>" href="<?php echo home_url('/template/'); ?>">Back</a></li>
 				<?php } ?>
-				<li><a href="javascript:void(0)" id="printTemplateBtn" onclick="printTemplateBtn()" class="btn-taptap"><i class="fa fa-print" aria-hidden="true"></i> PRINT INSPECTIONS REPORT</a></li>
+				<li><a href="javascript:void(0)" onclick="printTemplateBtn()" class="printTemplateBtn btn-taptap"><i class="fa fa-print" aria-hidden="true"></i> PRINT INSPECTIONS REPORT</a></li>
 				<?php } ?>
 			  
             </ul>

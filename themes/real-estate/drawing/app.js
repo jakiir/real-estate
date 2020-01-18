@@ -17,8 +17,8 @@ angular.module('drawing',[])
   ];
   $scope.drawingCreds = {
     dname:"Drawing_"+Date.now(),
-    dw:1000,
-    dh:1000
+    dw:816,
+    dh:1056
   }
   $scope.toolAlter=function(dtool){
     //console.log("Change tool");

@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Canvas drawing
+ * Template Name: Wood Canvas drawing
  * This is the template that displays all pages by default.
  * Please note that this is the WordPress construct of pages
  * and that other 'pages' on your WordPress site may use a
@@ -73,41 +73,15 @@
 	<div class="toptool uploadMedia" onClick="uploadMedia()" href="#">
       <i class="fa fa-upload" aria-hidden="true"></i> <span>Upload Media</span>
     </div>
-    <div class="toptool downloadel- saveasdrave" ng-click="saveToServer()" href="#" download="drawing.png" target="_blank">
-      <i class="fa fa-floppy-o" aria-hidden="true"></i> <span>Save as draft</span>
-    </div>
-    <div class="toptool downloadel downloadelForNonWood" href="#" download="drawing.png" target="_blank">
+    <div class="toptool downloadel downloadelForWood" href="#" download="drawing.png" target="_blank">
       <i class="fa fa-floppy-o" aria-hidden="true"></i> <span>Save</span>
     </div>
-    <div class="toptool deletel">
+	<div class="toptool deletel">
       <i class="fa fa-ban" aria-hidden="true"></i> <span>Delete</span>
-    </div>
-    <!-- <div class="toptool" ng-click="clear()">
-      <i class="fa fa-eraser" aria-hidden="true"></i> <span>Clear</span>
-    </div> -->
-    <div class="toptoolspacer"></div>
-    <div class="toptool" ng-click="undo()">
-      <i class="fa fa-undo" aria-hidden="true"></i> <span>Undo</span>
-    </div>
-    <div class="toptool" ng-click="cancelUndo()">
-      <i class="fa fa-repeat" aria-hidden="true"></i> <span>Redo</span>
     </div>
   </div>
   <!-- startup backdrop -->
   <!-- startup backdrop -->
-  <!--<div class="backdrop">
-    <div class="startup">
-	   <div class="section text-center">
-        <div class="button createbtn" onclick="loadDocCus()">
-          Create Document
-        </div>
-      </div>-->
-      <!--<div class="section text-center unfinished-title" ng-show="backupList.length">
-        <p>Or Load An Unfinished one :</p>
-      </div>
-      <div class="unfinished"></div>-->
-    <!--</div>
-  </div>-->
 </div>
 <div class="container">
   <div class="holders">
@@ -136,7 +110,7 @@
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/angular.min.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/spectrum/spectrum.js"></script>
 <!-- Draw Stuff -->
-<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/events.js"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/events-wood.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/init.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/utils.js"></script>
 <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/drawing/drawing.js"></script>

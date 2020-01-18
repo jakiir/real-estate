@@ -200,7 +200,8 @@ function eventListeners(){
       layers.splice(layers.indexOf(theEl),1);
       reDraw();
     }
-    document.querySelector('.downloadelForNonWood')
+	  
+	  document.querySelector('.downloadelForWood')
       .addEventListener('click',function(){
 		  $(this).find('.fa').removeClass('fa-floppy-o');
 		  $(this).find('.fa').addClass('fa-refresh fa-spin');
@@ -227,26 +228,18 @@ function eventListeners(){
 		  processData: false,
 		  data: form_data,
 		  success: function (data) {
-			  console.log(data);
 			var parsedJson = data;
 			if(parsedJson.success == true){
-				//$('.msg_show').html('<font style="color:green">'+parsedJson.mess+'</span>');
-				if(editor == 'no'){
-					window.location.href = parsedJson.redirect_url;
-				}
-				if(editor == 'yes'){
-					//var $input_field = window.opener.$('.mce-media_input_image');
-					//$input_field.val(parsedJson.attachemntUrl);
-					opener.insertAnnotateImage(parsedJson.attachemntUrl);
-					// Close the popup
-					window.close();
-				}
+				window.opener.document.getElementById("woodImgItem").src = parsedJson.attachemntUrl;
+				window.opener.document.getElementById("woodImgItemInput").value = parsedJson.attachemntUrl;
+				window.close();
 			} else {
 				alert(parsedJson.mess);
 			//$('.msg_show').html('<font style="color:red">'+parsedJson.mess+'</span>');
 			}
 		  },
 		  error: function (errorThrown) {
+			  alert(parsedJson.mess);
 			//$('.msg_show').html('<font style="color:red">'+errorThrown+'</span>');
 		  }
 		});
@@ -255,6 +248,7 @@ function eventListeners(){
         //tempa.download=appName+".png";
         //tempa.click();
       });
+	  
     //Attaching event listeners
 	var hdrs= document.querySelector('.holders');
     hdrs.addEventListener('mousedown',mouseDownFunction);
