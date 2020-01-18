@@ -97,6 +97,7 @@ get_header(); ?>
 						  <input type="checkbox" id="checkbox-va" name="case_number" value="VA"><label for="checkbox-va">VA</label>
 						  <input type="checkbox" id="checkbox-fha" name="case_number" value="FHA"><label for="checkbox-fha">FHA</label>
 						  <input type="checkbox" id="checkbox-other" name="case_number" value="Other"><label for="checkbox-other">Other</label>
+						  <input type="checkbox" id="checkbox-na" name="case_number" value="N/A"><label for="checkbox-na">N/A</label>
 						</div>
 					  </div>
 					  <?php /*?><div class="col-sm-6">
@@ -118,6 +119,7 @@ get_header(); ?>
 						<div class="share-checkbox">
 						  <input type="checkbox" id="owner-checkbox-seller" name="owner_type" value="Seller"><label for="owner-checkbox-seller">Seller</label>
 						  <input type="checkbox" id="owner-checkbox-owner" name="owner_type" value="Owner"><label for="owner-checkbox-owner">Owner</label>
+						  <input type="checkbox" id="owner-checkbox-na" name="owner_type" value="N/A"><label for="owner-checkbox-na">N/A</label>
 						</div>
 					  </div>
 					  <div class="col-sm-12">
@@ -219,7 +221,7 @@ get_header(); ?>
 				  <div class="col-sm-4">
                     <label for="licence_number">Lic #</label>
 					<?php $licence_number = get_user_meta($user->ID,  'licence_number', true ); ?>
-                    <input type="text" class="form-control" name="licence_number" id="licence_number" readonly="readonly" value="<?php echo $licence_number; ?>">
+                    <input type="text" class="form-control" name="licence_number" id="licence_number" value="<?php echo $licence_number; ?>">
                   </div>
 				  <div class="col-sm-4">
                     <label for="phone_number">Phone Number</label>
@@ -333,7 +335,8 @@ jQuery(function($){
 				var inspection_city = jQuery('#inspection_city').val();				
 				var zip_code = jQuery('#zip_code').val();
 				var prepared_for = jQuery('#prepared_for').val();				
-				var prepared_by = jQuery('#prepared_by').val();				
+				var prepared_by = jQuery('#prepared_by').val();
+				var licence_number = jQuery('#licence_number').val();
 				var time_in = jQuery('#time_in').val();				
 				var time_out = jQuery('#time_out').val();				
 				var inspection_status = $('input[name=inspection_status]:checked').val();
@@ -393,7 +396,8 @@ jQuery(function($){
 				form_data.append('temperature', temperature);
 				form_data.append('parties_present', parties_present);
 				form_data.append('prepared_for', prepared_for);
-				form_data.append('prepared_by', prepared_by);				
+				form_data.append('prepared_by', prepared_by);
+				form_data.append('licence_number', licence_number);	
 				form_data.append('time_in', time_in);				
 				form_data.append('time_out', time_out);				
 				form_data.append('inspection_status', inspection_status);

@@ -227,6 +227,7 @@ function eventListeners(){
 		  processData: false,
 		  data: form_data,
 		  success: function (data) {
+			  console.log(data);
 			var parsedJson = data;
 			if(parsedJson.success == true){
 				//$('.msg_show').html('<font style="color:green">'+parsedJson.mess+'</span>');

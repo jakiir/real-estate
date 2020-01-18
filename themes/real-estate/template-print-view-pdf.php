@@ -51,6 +51,7 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
     <!--css for this template-->
 	<?php $template_directory_uri = get_template_directory_uri(); ?>	
     <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/woodInspection/css/main.css" />
+	<br/>
     <div class="tap__raw_form_body templateViewer">
       <div class="container">
         <h2 class="tap__form-title text-center">TEXAS OFFICIAL WOOD DESTROYING INSECT REPORT</h2>
@@ -100,7 +101,7 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
               <div class="tap__input_set">
                 <span class="input__no">1A.</span>
                 <div class="tap__input_field">
-                  <div class="input_control bold-text"><?php echo !empty($form_data->companyId) ? $form_data->companyId : 'N/A'; echo !empty($form_data->company_email) ? ' <span class="email-link">'.$form_data->company_email.'</span>' : 'N/A'; ?></div>
+                  <div class="input_control bold-text"><?php echo !empty($form_data->companyId) ? $form_data->companyId : 'N/A'; echo !empty($form_data->company_email) ? ' <span class="email-link" style="font-size:16px;font-weight:bold;padding-left: 30px;">'.$form_data->company_email.'</span>' : 'N/A'; ?></div>
                   <label for="">Name of Inspection Company</label>
                 </div>
               </div>
@@ -111,7 +112,8 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
               <div class="tap__input_set">
                 <span class="input__no">1B.</span>
                 <div class="tap__input_field">
-                  <input type="text" class="input_control bold-text" value="<?php echo !empty($licence_number) ? 'TPCL # '.$licence_number : 'N/A'; ?>" readonly>
+				<?php $licence_number = !empty($get_inspection->licence_number) ? $get_inspection->licence_number : 'N/A'; ?>
+                  <input type="text" class="input_control bold-text" name="licence_number_text" value="<?php echo !empty($form_info_arr['licence_number_text'][0]) ? $form_info_arr['licence_number_text'][0] : $licence_number; ?>">
                   <label for="">SPCB Business License Number</label>
                 </div>
               </div>
@@ -220,7 +222,8 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
               <div class="tap__input_set">
                 <span class="input__no">2.</span>
                 <div class="tap__input_field">
-                  <input type="text" class="input_control bold-text" value="<?php echo !empty($get_inspection->case_number) ? $get_inspection->case_number : 'N/A'; ?>" readonly>
+				<?php $case_number = !empty($get_inspection->case_number) ? $get_inspection->case_number : 'N/A'; ?>
+                  <input type="text" class="input_control bold-text" name="case_number_text" value="<?php echo !empty($form_info_arr['case_number_text'][0]) ? $form_info_arr['case_number_text'][0] : $case_number; ?>">
                   <label for="">Case Number (VA/FHA/Other)</label>
                 </div>
               </div>
@@ -268,7 +271,7 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
                   <label for="Buyer">Buyer</label>
                 </div>
                 <div class="tap__input_field checkbox inline-checkbox">
-                  <input type="checkbox" class="input_control" id="Management" name="inspection_buyer_types" <?php echo (in_array('Management Co.', $inspection_buyer_types) ? 'checked=checked' : null); ?> value="Management Co.">
+                  <input type="checkbox" class="input_control" id="Management" name="inspection_buyer_types" <?php echo (in_array('Management Co', $inspection_buyer_types) ? 'checked=checked' : null); ?> value="Management Co.">
                   <label for="Management">Management Co.</label>
                 </div>
                 <div class="tap__input_field checkbox inline-checkbox">
@@ -287,7 +290,8 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
               <div class="tap__input_set">
                 <span class="input__no">4B.</span>
                 <div class="tap__input_field">
-                  <input type="text" class="input_control bold-text" value="<?php echo !empty($get_inspection->owner_type) ? $get_inspection->owner_type : 'N/A'; ?>" readonly>
+				<?php $owner_type = !empty($get_inspection->owner_type) ? $get_inspection->owner_type : 'N/A';?>
+                  <input type="text" class="input_control bold-text" value="<?php echo !empty($form_info_arr['owner_Seller_text'][0]) ? $form_info_arr['owner_Seller_text'][0] : $owner_type; ?>" name="owner_Seller_text">
                   <label for="">Owner/Seller</label>
                 </div>
               </div>
@@ -471,12 +475,12 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
               <!-- End of inner row -->
             </div>
             <!-- End of col -->
-			
-			<div class="pagefooter" style="color:#7E7E7E;font-size:12px;text-align: center;clear:both;">
-				<br/><br/><br/>Licensed and Regulated by the Texas Department of Agriculture<br/>
+			<!--<div class="pagefooter" style="color:#7E7E7E;font-size:12px;text-align: center;clear:both;">
+				<br/>Licensed and Regulated by the Texas Department of Agriculture<br/>
 				P.O. Box 12847, Austin, Texas 78711-2847<br/>
 				Phone 866-918-4481, Fax 888-232-2567<br/>
-			</div>
+			</div>-->
+			<div class="page-break"></div>
 			<br/>
             <div class="col-sm-12">
               <div class="tap__input_set">
@@ -774,21 +778,21 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
               <div class="tap__input_set inline__input_field">
                 <span class="input__no">8F. Explanation of signs of previous treatment (including pesticides, baits, existing treatment stickers or other methods) identified:</span>
                 <div class="tap__input_field">
-                  <input type="text" class="input_control bold-text" name="previous_treatment_text" value="<?php echo !empty($form_info_arr['previous_treatment_text'][0]) ? $form_info_arr['previous_treatment_text'][0] : 'N/A'; ?>">
+					<span class="input_control bold-text"><?php echo !empty($form_info_arr['previous_treatment_text'][0]) ? $form_info_arr['previous_treatment_text'][0] : 'N/A'; ?></span>
                 </div>
               </div>
               <!-- End of input set -->
               <div class="tap__input_set inline__input_field">
                 <span class="input__no">8G. Visible evidence of:</span>
                 <div class="tap__input_field">
-                  <input type="text" class="input_control bold-text" name="visible_evidence_text" value="<?php echo !empty($form_info_arr['visible_evidence_text'][0]) ? $form_info_arr['visible_evidence_text'][0] : 'N/A'; ?>">
+				<span class="input_control bold-text"><?php echo !empty($form_info_arr['visible_evidence_text'][0]) ? $form_info_arr['visible_evidence_text'][0] : 'N/A'; ?></span>
                 </div>
               </div>
               <!-- End of input set -->
               <div class="tap__input_set inline__input_field">
                 <span class="input__no">has been observed in the following areas:</span>
                 <div class="tap__input_field">
-                  <input type="text" class="input_control bold-text" name="observed_areas_text" value="<?php echo !empty($form_info_arr['observed_areas_text'][0]) ? $form_info_arr['observed_areas_text'][0] : 'N/A'; ?>">
+				<span class="input_control bold-text"><?php echo !empty($form_info_arr['observed_areas_text'][0]) ? $form_info_arr['observed_areas_text'][0] : 'N/A'; ?></span>
                   <label for="">If there is visible evidence of active or previous infestation, it must be noted. The type of insect(s) must be listed in the first blank and all identified infested areas of the property inspected must be noted in the second blank. (Refer to Part D, E & F, Scope of Inspection)</label>
                 </div>
               </div>
@@ -883,7 +887,7 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
             <!-- End of col -->
             <div class="col-sm-12">
               <div class="tap__input_set inline__input_field">
-                <span class="input__no-">Specify reason: <span id="specifyReason">Wood to ground, debris, ventilation, soil too high, excessive moisture</span></span>
+                <span class="input__no-">Specify reason: <span id="specifyReason"></span></span>
                 <div class="tap__input_field-">
                   <!--<input type="text" class="input_control bold-text">-->
                   <label for="">(Refer to Scope of Inspection Part J)</label>
@@ -981,24 +985,18 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
                     <input type="text" class="input_control bold-text" name="list_insects" value="<?php echo !empty($form_info_arr['list_insects'][0]) ? $form_info_arr['list_insects'][0] : 'N/A'; ?>">
                   </div>
                 </div>
-                <span class="input__no">If “Yes”, copy (ies) of warranty and treatment diagram must be attached.</span>
+                <span class="input__no" style="font-weight:bold;">If “Yes”, copy (ies) of warranty and treatment diagram must be attached.</span>
               </div>
               <!-- End of col -->
             </div>
             <!-- End of row -->
-			<div class="pagefooter" style="color:#7E7E7E;font-size:12px;text-align: center;clear:both;">
-				<br/>
-				<br/>
-				<br/>
-				<br/>
-				<br/><br/>
-				<br/><br/><br/><br/>
-				Licensed and Regulated by the Texas Department of Agriculture<br/>
+			<!--<div class="pagefooter" style="color:#7E7E7E;font-size:12px;text-align: center;clear:both;">
+				<br/>Licensed and Regulated by the Texas Department of Agriculture<br/>
 				P.O. Box 12847, Austin, Texas 78711-2847<br/>
 				Phone 866-918-4481, Fax 888-232-2567
-				<br/><br/><br/>
-			</div>
-            <div class="col-sm-12" style="margin-top:5px;">
+			</div>-->
+			<div class="page-break"></div>
+            <div class="col-sm-12" style="margin-top:10px;">
               <h5 class="text-center"><b>Diagram of Structure(s) Inspected</b></h5>
               <span class="input__no">The inspector must draw a diagram including approximate perimeter measurements and indicate active or previous infestation and type of insect by using the following codes: E-Evidence of Infestation, A-Active; P-Previous; D-Drywood Termites; S-Subterranean Termites; F-Formosan Termites; C-Conducive Conditions; B-Wood Boring Beetles</span>
               <div class="tap__input_set inline__input_field">
@@ -1019,7 +1017,7 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
 				<i class="fa fa-folder-open"></i>
 			  </div>
 				<?php $woodImgItem = esc_url( get_template_directory_uri() ).'/woodInspection/img/Diagram.png'; ?>
-                <img id="woodImgItem" src="<?php echo !empty($form_info_arr['woodImgItemInput'][0]) ? $form_info_arr['woodImgItemInput'][0] : $woodImgItem; ?>" alt="..." class="img-responsive">
+                <img id="woodImgItem" src="<?php echo !empty($form_info_arr['woodImgItemInput'][0]) ? $form_info_arr['woodImgItemInput'][0] : $woodImgItem; ?>" alt="..." class="img-responsive" style="width:700px">
 				<input type="text" name="woodImgItemInput" id="woodImgItemInput" value="" style="display:none;">
               </div>
             </div>
@@ -1051,7 +1049,9 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
                 <div class="tap__input_set">
                   <span class="input__no">11A.</span>
                   <div class="tap__input_field">
-                    <input type="text" class="input_control bold-text input_control_12" value="<?php echo !empty($inspector_name) ? $inspector_name : 'N/A'; echo !empty($form_data->company_phone) ? ' TDA#'.$form_data->company_phone : 'N/A'; ?>" readonly><span class="input_no_right">12A.</span>
+				  <?php $company_phone = !empty($form_data->company_phone) ? ' TDA#'.$form_data->company_phone : 'N/A';
+				  ?>
+                    <input type="text" class="input_control bold-text input_control_12" value="<?php echo !empty($form_info_arr['inspector_text'][0]) ? $form_info_arr['inspector_text'][0] : $inspector_name.$company_phone; ?>"  name="inspector_text"><span class="input_no_right">12A.</span>
                     <label for="">Inspector</label>
                   </div>
                 </div>
@@ -1060,7 +1060,7 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
                 <div class="tap__input_set">
                   <span class="input__no">11B.</span>
                   <div class="tap__input_field">
-                    <input type="text" class="input_control bold-text input_control_12" value="<?php echo !empty($inspector_name) ? $inspector_name : 'N/A'; echo !empty($licence_number) ? ' TPCL#'.$licence_number : 'N/A'; ?>" readonly><span class="input_no_right">12B.</span>
+                    <input type="text" class="input_control bold-text input_control_12" value="<?php echo !empty($form_info_arr['certified_applicator_text'][0]) ? $form_info_arr['certified_applicator_text'][0] : $inspector_name.' TPCL#'.$licence_number; ?>" name="certified_applicator_text"><span class="input_no_right">12B.</span>
                     <label for="">Certified Applicator and Certified Applicator License Number</label>
                   </div>
                 </div>
@@ -1127,20 +1127,19 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
           </div>
           <!-- End of row -->
           <div class="address_block text-center">
-            <h4><?php echo !empty($form_data->companyId) ? $form_data->companyId : 'N/A'; ?></h4>
+            <h5><?php echo !empty($form_data->companyId) ? $form_data->companyId : 'N/A'; ?></h5>
             <p>Administrative office and mailing address</p>
-            <p><?php echo !empty($form_data->footer_html) ? $form_data->footer_html : ''; ?></p>
+            <p class="footer_html"><?php echo !empty($form_data->footer_html) ? parseHyperlinks($form_data->footer_html) : ''; ?></p>
           </div>
-		  <br/>
-		  <div class="pagefooter" style="color:#7E7E7E;font-size:12px;text-align: center;clear:both;">
+		  <div class="pagefooter" style="color:#000;font-weight:bold;font-size:12px;text-align: center;clear:both;">
 				Licensed and Regulated by the Texas Department of Agriculture<br/>
 				P.O. Box 12847, Austin, Texas 78711-2847<br/>
 				Phone 866-918-4481, Fax 888-232-2567
 		  </div>
 		  <div class="tinymceWoodMainDiv">			
-			<textarea class="tinymceWoodIns" name="footer_html_area" id="footer_html_area"><?php echo !empty($form_info_arr['footer_html_area'][0]) ? $form_info_arr['footer_html_area'][0] : 'N/A'; ?></textarea>
+			<textarea class="tinymceWoodIns" name="footer_html_area" id="footer_html_area"><?php echo !empty($form_info_arr['footer_html_area'][0]) ? $form_info_arr['footer_html_area'][0] : ''; ?></textarea>
 		  </div>
-		  <div id="previewContent"></div>
+		  <div id="previewContent"><?php echo !empty($form_info_arr['footer_html_area'][0]) ? '<div class="page-break"></div>'.$form_info_arr['footer_html_area'][0] : ''; ?></div>
 	  
         </div>
         <!-- End of tap__form content -->

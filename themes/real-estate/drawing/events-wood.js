@@ -209,8 +209,40 @@ function eventListeners(){
         tempa.href= drawingFab.toDataURL({
           format:'png'
         });
-		window.opener.document.getElementById("woodImgItem").src = tempa.href;
-		window.close();
+		var template_id = tempa.getAttribute("data-template");
+		var hash_id = tempa.getAttribute("data-hash");
+		var report_id = tempa.getAttribute("data-report_id");
+		var saved = tempa.getAttribute("data-saved");
+		var form_data = new FormData();
+		form_data.append('action', 'savedrawingimages');
+		form_data.append('template_id', template_id);
+		form_data.append('hash_id', hash_id);
+		form_data.append('report_id', report_id);
+		form_data.append('saved', saved);
+		form_data.append('file', tempa.href);
+		$.ajax({
+		  dataType : "json",
+		  url: ajax_url,
+		  type: 'post',
+		  contentType: false,
+		  processData: false,
+		  data: form_data,
+		  success: function (data) {
+			var parsedJson = data;
+			if(parsedJson.success == true){
+				window.opener.document.getElementById("woodImgItem").src = parsedJson.attachemntUrl;
+				window.opener.document.getElementById("woodImgItemInput").value = parsedJson.attachemntUrl;
+				window.close();
+			} else {
+				alert(parsedJson.mess);
+			//$('.msg_show').html('<font style="color:red">'+parsedJson.mess+'</span>');
+			}
+		  },
+		  error: function (errorThrown) {
+			  alert(parsedJson.mess);
+			//$('.msg_show').html('<font style="color:red">'+errorThrown+'</span>');
+		  }
+		});
 
 		//console.log(tempa.href);
         //tempa.download=appName+".png";

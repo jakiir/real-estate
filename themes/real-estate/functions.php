@@ -567,6 +567,7 @@ function perform_inspections(){
 		 $template_id = !empty($_POST['template_id']) ? $_POST['template_id'] : '';
 		 $prepared_for = !empty($_POST['prepared_for']) ? $_POST['prepared_for'] : '';
 		 $prepared_by = !empty($_POST['prepared_by']) ? $_POST['prepared_by'] : '';
+		 $licence_number = !empty($_POST['licence_number']) ? $_POST['licence_number'] : 'N/A';
 		 $time_in = !empty($_POST['time_in']) ? $_POST['time_in'] : '';
 		 $time_out = !empty($_POST['time_out']) ? $_POST['time_out'] : '';
 		 $inspection_status = !empty($_POST['inspection_status']) ? $_POST['inspection_status'] : '';
@@ -602,6 +603,7 @@ function perform_inspections(){
 					 'parties_present' => $parties_present,
 					 'prepared_for' => $prepared_for,
 					 'prepared_by' => $prepared_by,
+					 'licence_number' => $licence_number,
 					 'time_in' => $time_in,
 					 'time_out' => $time_out,
 					 'inspection_status' => $inspection_status,
@@ -692,6 +694,7 @@ function perform_inspections(){
 					 'template_id' => $template_id,
 					 'prepared_for' => $prepared_for,
 					 'prepared_by' => $prepared_by,
+					 'licence_number' => $licence_number,
 					 'time_in' => $time_in,
 					 'time_out' => $time_out,
 					 'inspection_status' => $inspection_status,
@@ -1290,8 +1293,14 @@ if(empty($data)){
 	die();
 }
 
+global $wpdb;
+$report_id = $_POST['report_id'];
+$table_inspection = $wpdb->prefix . 'inspection';	
+$get_inspection = $wpdb->get_row( "SELECT * FROM $table_inspection WHERE id=$report_id ORDER BY id DESC LIMIT 1");
+$report_identification = (!empty($get_inspection->report_identification) ? sanitize_title($get_inspection->report_identification.'-'.date('Y-m-d  h-i-s a', time())) : time());
+
 $uploads = wp_upload_dir();
-$file_name = time().'.png';
+$file_name = $report_identification.'.png';
 $uploadfile = $uploads['path'] .'/'.$file_name;
 list($type, $data) = explode(';', $data);
 list(, $data)      = explode(',', $data);
@@ -1317,7 +1326,6 @@ $attachemntUrl = wp_get_attachment_image_src( $imagenew->ID, 'full' );
 if($attach_id){
 	$template_id = $_POST['template_id'];
 	$hash_id = $_POST['hash_id'];
-	$report_id = $_POST['report_id'];
 	$saved = $_POST['saved'];
 	$results_data = array(
 		'success' => true,
@@ -1713,4 +1721,26 @@ function shortcode_wdi($content){
 	$yummy   = array($inspector_name,$inspection_company,$email_address,$phone_number, $licence_number, $inpection_date,$inspected_address,$inspection_city,$inspected_address_zip,$inspector_type,$inspection_email,$company_address,$company_phone,$template_city,$state,$case_number,$buyer_type,$inspection_buyer_name,$owner_type,$report_forwarded,$list_structures,$inspection_posting,$company_footer);
 	$newphrase = str_replace($healthy, $yummy, $content);	
 	return $newphrase;
+}
+
+function parseHyperlinks($string) {
+    $regex = '/(\S+@\S+\.\S+)/';
+    $replace = '<span class="email-link">$1</span>';
+	$pregReplace = preg_replace($regex, $replace, $string);
+	$reg_exUrl = "/(\S+w.\S+\.\S+)/";
+	if(preg_match($reg_exUrl, $pregReplace)) {
+       $pregReplace = preg_replace($reg_exUrl, ' <span class="email-link">$0</span>', $pregReplace);
+	}
+    return $pregReplace;
+}
+function parseEmails($string) {
+    // Add  tags around all email addresses in $string
+    $regex = '/(\S+@\S+\.\S+)/';
+    $replace = '<a href="mailto:$1">$1</a>';
+	$pregReplace = preg_replace($regex, $replace, $string);
+	$reg_exUrl = "/(\S+w.\S+\.\S+)/";
+	if(preg_match($reg_exUrl, $pregReplace)) {
+       $pregReplace = preg_replace($reg_exUrl, '<a target="_blank" href="//$0">$0</a>', $pregReplace);
+	}
+    return $pregReplace;
 }

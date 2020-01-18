@@ -164,6 +164,7 @@ body{
 	margin:0;
 	position:relative;
 }
+.diagram_img #woodImgItem{height:400px!important; width:auto!important;}
 .address_block h4, .address_block p {
 	margin: 0;
 }
@@ -223,6 +224,9 @@ a.btn-taptap, .btn-taptap a, button.btn-taptap, .btn-taptap button, input.btn-ta
     border-radius: 4px !important;
     display: inline-block !important;
     border: none !important;
+}
+.footer_html {
+    white-space: pre;
 }
 a.btn-taptap:hover, .btn-taptap a:hover, button.btn-taptap:hover, .btn-taptap button:hover, input.btn-taptap:hover, .btn-taptap input:hover, a.btn-taptap:focus, .btn-taptap a:focus, button.btn-taptap:focus, .btn-taptap button:focus, input.btn-taptap:focus, .btn-taptap input:focus {
     color: #ffffff !important;

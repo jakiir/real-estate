@@ -72,7 +72,7 @@ get_header(); ?>
 					<div class="clearfix" style="clear:both;">&nbsp;</div>
                     <label for="template_state">State</label>
 					<select id="template_state" name="template_state" class="form-control required" >
-					  <option value="texas">Texas</option>
+					  <option value="Texas">Texas</option>
 					  <option value="Alaska">Alaska</option>
 					  <option value="Pacific Time (US &amp; Canada)">Canada</option>
 					  <option value="Arizona">Arizona</option>									  

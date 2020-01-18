@@ -89,6 +89,7 @@ get_header(); ?>
 						  <input type="checkbox" <?php echo (in_array("VA", $case_number) ? 'checked="checked"' : null); ?> id="checkbox-va" name="case_number" value="VA"><label for="checkbox-va">VA</label>
 						  <input type="checkbox" <?php echo (in_array("FHA", $case_number) ? 'checked="checked"' : null); ?> id="checkbox-fha" name="case_number" value="FHA"><label for="checkbox-fha">FHA</label>
 						  <input type="checkbox" <?php echo (in_array("Other", $case_number) ? 'checked="checked"' : null); ?> id="checkbox-other" name="case_number" value="Other"><label for="checkbox-other">Other</label>
+						  <input type="checkbox" <?php echo (in_array("N/A", $case_number) ? 'checked="checked"' : null); ?> id="checkbox-na" name="case_number" value="N/A"><label for="checkbox-na">N/A</label>
 						</div>
 					  </div>
 					  <div class="col-sm-12">
@@ -215,7 +216,7 @@ get_header(); ?>
 				  <div class="col-sm-4">
                     <label for="licence_number">Lic #</label>
 					<?php $licence_number = get_user_meta($user->ID,  'licence_number', true ); ?>
-                    <input type="text" class="form-control" name="licence_number" id="licence_number" readonly="readonly" value="<?php echo $licence_number; ?>">
+                    <input type="text" class="form-control" name="licence_number" id="licence_number" value="<?php echo $get_inspection->licence_number; ?>">
                   </div>
 				  <div class="col-sm-4">
                     <label for="phone_number">Phone Number</label>
