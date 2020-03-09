@@ -17,6 +17,7 @@
  $hash = !empty($_GET['hash']) ? $_GET['hash'] : '';
  $report_id = !empty($_GET['report']) ? $_GET['report'] : 0;
  $saved = !empty($_GET['saved']) ? $_GET['saved'] : 0;
+ $time = !empty($_GET['t']) ? $_GET['t'] : 0;
  $editor = !empty($_GET['editor']) ? $_GET['editor'] : 'no';
 	if (!is_user_logged_in()) {
 		echo '<script>window.location.replace("'.home_url().'");</script>';
@@ -38,6 +39,7 @@
 		var hash = '<?php echo $hash; ?>';
 		var report_id = '<?php echo $report_id; ?>';
 		var saved = '<?php echo $saved; ?>';
+		var time = '<?php echo $time; ?>';
 		var editor = '<?php echo $editor; ?>';
 		var user_id = '<?php echo $user_id; ?>';
 	</script>
@@ -77,10 +79,14 @@
 
     </div>
 	<div style="color:green;margin-top:17px;" class="ajax_mess"></div>
+    <div class="toptool downloadel- saveasdrave" ng-click="saveToServer()" href="#" download="drawing.png" target="_blank">
+      <i class="fa fa-floppy-o" aria-hidden="true"></i> <span>Save as draft</span>
+    </div>
+	<div style="color:green;margin-top:17px;" class="ajax_mess"></div>
     <div class="toptool downloadel" href="#" download="drawing.png" target="_blank">
       <i class="fa fa-floppy-o" aria-hidden="true"></i> <span>Save</span>
     </div>
-    <div class="toptool deletel">
+    <div class="toptool deletel deletelForWood">
       <i class="fa fa-ban" aria-hidden="true"></i> <span>Delete</span>
     </div>
   </div>
@@ -110,14 +116,14 @@
           Create Document
         </div>
       </div>
-      <!--<div class="section text-center unfinished-title" ng-show="backupList.length">
+      <div class="section text-center unfinished-title" ng-show="backupList.length">
         <p>Or Load An Unfinished one :</p>
       </div>
       <div class="unfinished">
         <p ng-repeat="backup in backupList" class="backupname" ng-click="loadBackup(backup)">
           {{backup}}
         </p>
-      </div>-->
+      </div>
     </div>
   </div>
 </div>

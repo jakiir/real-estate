@@ -278,4 +278,15 @@ a.btn-taptap:hover, .btn-taptap a:hover, button.btn-taptap:hover, .btn-taptap bu
 .grid_checkbox_layout_7b .tap__input_field.checkbox.inline-checkbox label {margin-left: 0px;}
 .input_control_specify{width:70% !important;}
 .understand_checkbox{border-bottom:1px solid #000;}
+#other_wood_destroying_text,#previous_treatment_text{
+	display: block; 
+	overflow: hidden; 
+	resize: none; 
+	max-width:100%;
+}
+.auto_height_box{
+	overflow: hidden; 
+	resize: none; 
+	max-width:100%;
+}
 /*  */

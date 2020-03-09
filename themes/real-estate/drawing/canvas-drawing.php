@@ -157,7 +157,7 @@
 <script type="text/javascript">
 //loadDocCus();
 	$(window).load(function(){
-		loadDocCus();
+		loadDocCus('nowood');
 	});
   if(!window.location.hash){
     alert("This application cannot be opened without a target file");

@@ -10,7 +10,10 @@ function thisConnectB(thisItem){
 		$('.include-specify').hide();
 	}
 	var commaSepConnected = allConnectedB.join(', ');
-	$('#specifyReason').html(commaSepConnected);
+	var wood_destroying_yes = $('#wood_destroying_yes').val();
+	if ($('input#wood_destroying_yes').is(':checked')) {
+		$('#specifyReason').html(commaSepConnected);
+	}	
 }
 function thisConnect6B(thisItem){
 	if(thisItem.checked){
@@ -108,11 +111,13 @@ $(document).ready(function () {
 	
 	$(document).on('click', '.annotate_upload_button_tem',function(e){
 		e.preventDefault();
-		window.open(site_url+'/wood-canvas-drawing/?report=14&item=2&hash=1518713455636&saved=1&editor=yes#target='+site_url+'/wp-content/uploads/2018/05/download.png', '_blank', 'location=yes,height=1000,width=1000,scrollbars=yes,status=yes');
+		var dataurl = $(this).attr("dataurl");
+		window.open(dataurl, '_blank', 'location=yes,height=1000,width=1000,scrollbars=yes,status=yes');
 	});
-	$(document).on('click', '.survey_upload_button_tem',function(e){
+	$(document).on('click', '.survey_upload_button_tem',function(e){		
 		e.preventDefault();
-		window.open(site_url+'/wood-design-draw/?report=14&item=2&hash=1518713455636&saved=1&editor=yes', '_blank', 'location=yes,height=1000,width=1000,scrollbars=yes,status=yes');
+		var dataurl = $(this).attr("dataurl");
+		window.open(dataurl, '_blank', 'location=yes,height=1000,width=1000,scrollbars=yes,status=yes');
 	});
 	
 	tinymce.init({
@@ -191,16 +196,22 @@ var woodInspectionSave = function woodInspectionSave(thisItem=''){
 	$('.saveChanges').find('.fa').addClass('fa-refresh fa-spin');
 	var arraylen=$(':checkbox:checked').length;
 	var datasets = {};
-	$(':checkbox:checked, :text, #footer_html_area').each(function(i){
+	$(':checkbox:checked, :text, #footer_html_area, textarea').each(function(i){
 		var fieldName = this.name;
         datasets[fieldName] = [];
 	});
-	$(':checkbox:checked, :text, #footer_html_area').each(function(i){
+	$(':checkbox:checked, :text, #footer_html_area, textarea').each(function(i){
 		var fieldName = this.name;
 		var fieldVal = this.value;
         datasets[fieldName].push(fieldVal);
 	});
-	var formJsonData = JSON.stringify(datasets);	
+	//console.log(datasets);
+	//return false;
+	//var other_wood_destroying_text = $('textarea#other_wood_destroying_text').val();
+	//datasets['other_wood_destroying_text'] = other_wood_destroying_text;
+	//var previous_treatment_text = $('textarea#previous_treatment_text').val();
+	//datasets['previous_treatment_text'] = previous_treatment_text;
+	var formJsonData = JSON.stringify(datasets);
 	var form_data = new FormData();
     form_data.append('action', 'saveDynamicFormReport');
     form_data.append('template_id', template_id);

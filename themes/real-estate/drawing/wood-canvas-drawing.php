@@ -18,6 +18,7 @@
  $hash = !empty($_GET['hash']) ? $_GET['hash'] : '';
  $report_id = !empty($_GET['report']) ? $_GET['report'] : 0;
  $saved = !empty($_GET['saved']) ? $_GET['saved'] : 0;
+ $time = !empty($_GET['t']) ? $_GET['t'] : 0;
  $editor = !empty($_GET['editor']) ? $_GET['editor'] : 'no';
 
 	if (!is_user_logged_in()) {
@@ -33,6 +34,7 @@
 	var hash = '<?php echo $hash; ?>';
 	var report_id = '<?php echo $report_id; ?>';
 	var saved = '<?php echo $saved; ?>';
+	var time = '<?php echo $time; ?>';
 	var editor = '<?php echo $editor; ?>';
 	var user_id = '<?php echo $user_id; ?>';
 </script>
@@ -73,15 +75,31 @@
 	<div class="toptool uploadMedia" onClick="uploadMedia()" href="#">
       <i class="fa fa-upload" aria-hidden="true"></i> <span>Upload Media</span>
     </div>
+	<div class="toptool downloadel- saveasdrave" ng-click="saveToServer()" href="#" download="drawing.png" target="_blank">
+      <i class="fa fa-floppy-o" aria-hidden="true"></i> <span>Save as draft</span>
+    </div>
     <div class="toptool downloadel downloadelForWood" href="#" download="drawing.png" target="_blank">
       <i class="fa fa-floppy-o" aria-hidden="true"></i> <span>Save</span>
     </div>
-	<div class="toptool deletel">
+	<div class="toptool deletel deletelForWood">
       <i class="fa fa-ban" aria-hidden="true"></i> <span>Delete</span>
     </div>
   </div>
   <!-- startup backdrop -->
   <!-- startup backdrop -->
+  <div class="backdrop">
+    <div class="startup">
+	   <div class="section text-center">
+        <div class="button createbtn" onclick="loadDocCus('wood')">
+          Create Document
+        </div>
+      </div>
+      <div class="section text-center unfinished-title" ng-show="backupList.length">
+        <p>Or Load An Unfinished one :</p>
+      </div>
+      <div class="unfinished"></div>
+    </div>
+  </div>
 </div>
 <div class="container">
   <div class="holders">
@@ -131,7 +149,7 @@
 <script type="text/javascript">
 //loadDocCus();
 	$(window).load(function(){
-		loadDocCus();
+		//loadDocCus();
 	});
   if(!window.location.hash){
     alert("This application cannot be opened without a target file");

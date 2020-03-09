@@ -463,10 +463,16 @@ function get_save_as_draft(){
 		 $hash = $_POST['hash'];
 		 $user_id = $_POST['user_id'];
 		 $drawing_type = $_POST['drawing_type'];
-		 
+		 $time = $_POST['time'];
+		 $get_selected = (!empty($_POST['get_selected']) ? $_POST['get_selected'] : '');
 		 global $wpdb;
 		 $saveAsDraft = $wpdb->prefix . 'ins_save_as_draft';
-		 $get_saveDraft = $wpdb->get_results( "SELECT * FROM $saveAsDraft WHERE user_id=$user_id AND template_id=$template_id AND hash=$hash AND drawing_type='$drawing_type'", OBJECT );
+		 if($get_selected == 'yes'){
+			 $get_saveDraft = $wpdb->get_results("SELECT * FROM $saveAsDraft WHERE user_id=$user_id AND template_id=$template_id AND hash=$hash AND drawing_type='$drawing_type' AND time=$time", OBJECT );
+		 } else {
+			 $get_saveDraft = $wpdb->get_results( "SELECT * FROM $saveAsDraft WHERE user_id=$user_id AND template_id=$template_id AND hash=$hash AND drawing_type='$drawing_type'", OBJECT );
+	     }
+		 
 		 if(!empty($get_saveDraft)){
 			$results = array(
 				'success' => true,
@@ -475,7 +481,8 @@ function get_save_as_draft(){
 				'hash' => $hash,
 				'user_id' => $user_id,
 				'drawingName'=> $get_saveDraft[0]->drawingName,
-				'drawingData'=> $get_saveDraft[0]->drawingData
+				'drawingData'=> $get_saveDraft[0]->drawingData,
+				'get_saveDraft'=> $get_saveDraft
 			 );
 		 } else {
 			 $results = array(
@@ -504,9 +511,11 @@ function save_as_draft(){
 		 $drawingData = $_POST['drawingData'];
 		 $user_id = $_POST['user_id'];
 		 $drawing_type = $_POST['drawing_type'];
+		 $time = $_POST['time'];
 		 global $wpdb;
 		 $saveAsDraft = $wpdb->prefix . 'ins_save_as_draft';
-		 $get_saveDraft = $wpdb->get_results( "SELECT * FROM $saveAsDraft WHERE user_id=$user_id AND template_id=$template_id AND hash=$hash AND drawing_type='$drawing_type'", OBJECT );
+		 $get_saveDraft = $wpdb->get_results("SELECT * FROM $saveAsDraft WHERE user_id=$user_id AND template_id=$template_id AND hash=$hash AND drawing_type='$drawing_type' AND time=$time", OBJECT );
+		 //print_r($get_saveDraft);
 		 if(!empty($get_saveDraft)){
 		 $wpdb->update(
 				$saveAsDraft, 
@@ -514,23 +523,26 @@ function save_as_draft(){
 					'drawingName' => $drawingName,
 					'drawingData' => $drawingData
 				), 
-				array( 'user_id' => $user_id,'template_id' => $template_id,'hash' => $hash,'drawing_type' => $drawing_type )
+				array( 'user_id' => $user_id,'template_id' => $template_id,'hash' => $hash,'drawing_type' => $drawing_type,'time' => $time )
 			);
+			$status = 'update';
 		 } else {
-			  $wpdb->insert($saveAsDraft, 
-				 array(
+			 $insert = array(
 					 'template_id' => $template_id,
 					 'hash' => $hash,
 					 'drawingName' => $drawingName,
 					 'drawingData' => $drawingData,
 					 'user_id' => $user_id,
-					 'drawing_type' => $drawing_type
-				 )
-			 );
+					 'drawing_type' => $drawing_type,
+					 'time' => $time
+				 );
+			  $wpdb->insert($saveAsDraft,$insert);
+			 $status = 'insert';
 		 }			 
 		 $results = array(
 			'success' => true,
 			'mess' => '',
+			'status' => $insert,
 			'template_id' => $template_id,
 			'hash' => $hash,
 			'user_id' => $user_id
@@ -1342,6 +1354,43 @@ if($attach_id){
 	 );
 }
 echo json_encode($results_data);        
+die();
+}
+
+add_action( 'wp_ajax_nopriv_deletdrawingimages', 'deletdrawingimages', 85);
+add_action( 'wp_ajax_deletdrawingimages', 'deletdrawingimages', 85 );
+function deletdrawingimages(){
+$template_id = $_POST['template_id'];
+	$results = array();
+	if($template_id){
+	 $user = wp_get_current_user();
+	 $user_id = $user->ID;
+	 $drawing_type = $_POST['drawingtype'];
+	 $time = $_POST['time'];
+	 $get_selected = (!empty($_POST['get_selected']) ? $_POST['get_selected'] : '');
+	 global $wpdb;
+	 $saveAsDraft = $wpdb->prefix . 'ins_save_as_draft';
+	 $get_saveDraft = $wpdb->get_results("SELECT * FROM $saveAsDraft WHERE user_id=$user_id AND template_id=$template_id AND drawing_type='$drawing_type' AND time=$time", OBJECT );
+	 if(!empty($get_saveDraft)){		
+		 $del_id = $get_saveDraft[0]->id;
+		$wpdb->query( "DELETE  FROM {$saveAsDraft} WHERE id = '{$del_id}' AND time = '{$time}'" );
+		$results = array(
+			'success' => true,
+			'mess' => '<i class="fa fa-check-circle"></i>',
+		 );
+	 } else {
+		 $results = array(
+			'success' => false,
+			'mess' => 'You have no access right! Please contact system administration for more information.'
+		 );
+	 }
+} else {
+	$results = array(
+		'success' => false,
+		'mess' => 'You have no access right! Please contact system administration for more information.'
+	 );
+ }
+echo json_encode($results);        
 die();
 }
 

@@ -53,6 +53,17 @@ angular.module('drawing',[])
     strokeColor = color;
     $scope.currentStrokeColor=strokeColor;
   }
+  
+  function formatDate(date) {
+	  var hours = date.getHours();
+	  var minutes = date.getMinutes();
+	  var ampm = hours >= 12 ? 'pm' : 'am';
+	  hours = hours % 12;
+	  hours = hours ? hours : 12; // the hour '0' should be '12'
+	  minutes = minutes < 10 ? '0'+minutes : minutes;
+	  var strTime = hours + ':' + minutes + ' ' + ampm;
+	  return date.getMonth()+1 + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
+  }
   function listBackups(){
     for(item in localStorage){
       if(item.match(/^dbc_/)){
@@ -71,6 +82,7 @@ angular.module('drawing',[])
 	form_data.append('hash', hash);
 	form_data.append('user_id', user_id);
 	form_data.append('drawing_type', drawing_type);
+	form_data.append('time', time);
 	$.ajax({
 		  dataType : "json",
 		  url: ajax_url,
@@ -82,11 +94,24 @@ angular.module('drawing',[])
 			var parsedJson = data;			
 			if(parsedJson.success == true){
 				var itemDraw = 'dbc_'+parsedJson.drawingName;
-				if(itemDraw.match(/^dbc_/)){					
-					$scope.backupList.push(itemDraw);
+				var get_saveDraft = parsedJson.get_saveDraft;
+				if(itemDraw.match(/^dbc_/)){
 					$('.unfinished-title').removeClass('ng-hide').addClass('ng-show');
-					//var htmlEle = '<p class="backupname" onClick=loadBackupCus("'+itemDraw+'")>'+itemDraw+'</p>';
-					//$('.unfinished').prepend(htmlEle);
+					//console.log(get_saveDraft);
+					var htmlEle = '<div class="row"><select class="select-css" id="itemDrawsaveDraft" onchange="loadBackupCus()"><option value="">Select one</option>';					
+					for(var i = 0; i < get_saveDraft.length; i++) {
+						var itemDrawsaveDraft = 'dbc_'+get_saveDraft[i]['drawingName'];
+						var itemTime = get_saveDraft[i]['time'];
+						var javascript_date = new Date(itemTime);
+						$scope.backupList.push(itemDrawsaveDraft);
+						var nd = new Date(itemTime*1000);
+						var saveTime = formatDate(nd);
+						//console.log(saveTime);
+						//htmlEle += '<p class="backupname" onClick=loadBackupCus("'+itemDrawsaveDraft+'")>'+saveTime+'</p>';
+						htmlEle += '<option value="'+itemTime+'">'+saveTime+'</option>';
+					}
+					htmlEle += '</select></div>';
+					$('.unfinished').html('').prepend(htmlEle);
 				}
 				//console.log($scope.backupList);
 			} else {
@@ -116,6 +141,7 @@ angular.module('drawing',[])
   }
   $scope.createNew = function(){
 	setAccessSession = setTimeout(saveToServer, 5000);
+	drawingtype = 'survey';
     var dWidth = parseInt($scope.drawingCreds.dw);
     var dHeight = parseInt($scope.drawingCreds.dh);
     if(dWidth && dHeight && $scope.drawingCreds.dname){
@@ -130,9 +156,12 @@ angular.module('drawing',[])
   listBackups();
 });
 
-function loadBackupCus(bname){
-	setAccessSession = setTimeout(saveToServer, 5000);
-	autoRestore(bname);
+function loadBackupCus(){
+	var bname = $('#itemDrawsaveDraft option:selected').val();
+	if(bname !=''){
+		setAccessSession = setTimeout(saveToServer, 5000);
+		autoRestore(bname);
+	}
 }
 
 function loadDocCus(){
@@ -187,6 +216,7 @@ function saveToServer(){
 	var jsonString = JSON.stringify(storeData);
 	form_data.append('drawingData', jsonString);
 	form_data.append('drawing_type', drawing_type);
+	form_data.append('time', time);
 	$.ajax({
 		  dataType : "json",
 		  url: ajax_url,
@@ -214,4 +244,8 @@ function saveToServer(){
     },function(error){
       alert("Data Save Error");
     })*/
+  }
+  function deletelForWood(){
+	  $('.deletel').find('.fa').removeClass('fa-floppy-o');
+	  $('.deletel').find('.fa').addClass('fa-refresh fa-spin');
   }

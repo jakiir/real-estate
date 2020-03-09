@@ -223,7 +223,8 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
                 <span class="input__no">2.</span>
                 <div class="tap__input_field">
 				<?php $case_number = !empty($get_inspection->case_number) ? $get_inspection->case_number : 'N/A'; ?>
-                  <input type="text" class="input_control bold-text" name="case_number_text" value="<?php echo !empty($form_info_arr['case_number_text'][0]) ? $form_info_arr['case_number_text'][0] : $case_number; ?>">
+                  <?php /* ?><input type="text" class="input_control bold-text" name="case_number_text" value="<?php echo !empty($form_info_arr['case_number_text'][0]) ? $form_info_arr['case_number_text'][0] : $case_number; ?>"><?php */?>
+				  <textarea class="input_control bold-text auto_height_box" rows="1" name="case_number_text" id="case_number_text" style="overflow: hidden;"><?php echo !empty($form_info_arr['case_number_text'][0]) ? $form_info_arr['case_number_text'][0] : $case_number; ?></textarea>
                   <label for="">Case Number (VA/FHA/Other)</label>
                 </div>
               </div>
@@ -291,7 +292,8 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
                 <span class="input__no">4B.</span>
                 <div class="tap__input_field">
 				<?php $owner_type = !empty($get_inspection->owner_type) ? $get_inspection->owner_type : 'N/A';?>
-                  <input type="text" class="input_control bold-text" value="<?php echo !empty($form_info_arr['owner_Seller_text'][0]) ? $form_info_arr['owner_Seller_text'][0] : $owner_type; ?>" name="owner_Seller_text">
+                  <?php /* ?><input type="text" class="input_control bold-text" value="<?php echo !empty($form_info_arr['owner_Seller_text'][0]) ? $form_info_arr['owner_Seller_text'][0] : $owner_type; ?>" name="owner_Seller_text"><?php */ ?>
+				  <textarea class="input_control bold-text auto_height_box" rows="1" name="owner_Seller_text" id="owner_Seller_text" style="overflow: hidden;"><?php echo !empty($form_info_arr['owner_Seller_text'][0]) ? $form_info_arr['owner_Seller_text'][0] : $owner_type; ?></textarea>
                   <label for="">Owner/Seller</label>
                 </div>
               </div>
@@ -615,9 +617,6 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
                   <span class="input__no d__block m-0">8B. Drywood Termites</span>
                   <span class="input__no d__block m-0">8C. Formosan Termites</span>
                   <span class="input__no d__block m-0">8D. Carpenter Ants</span>
-                  <span class="input__no d__block m-0">8E. Other Wood Destroying Insects Specify:<div class="tap__input_field" style="display:inline-block;width:30%;padding:0 0 0 8px;"><input type="text" class="input_control bold-text" name="other_wood_destroying_text" value="<?php echo !empty($form_info_arr['other_wood_destroying_text'][0]) ? $form_info_arr['other_wood_destroying_text'][0] : 'N/A'; ?>">
-				  </div>
-				  </span>
                 </div>
                 <div class="col-sm-7 grid_checkbox_layout">
                   <div class="row">
@@ -770,6 +769,13 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
                     </div>
                   </div>
                 </div>
+				   <div class="col-sm-12">
+					<span class="input__no d__block m-0">8E. Other Wood Destroying Insects Specify:
+						<div class="tap__input_field" id="other_wood_destroying_div" style="display:inline-block;padding:0 0 0 8px;">
+							<textarea class="input_control bold-text" rows="1" name="other_wood_destroying_text" id="other_wood_destroying_text" style="overflow: hidden;"><?php echo !empty($form_info_arr['other_wood_destroying_text'][0]) ? $form_info_arr['other_wood_destroying_text'][0] : 'N/A'; ?></textarea>
+						</div>
+					</span>
+				  </div>
               </div>
               <!-- End of row -->
             </div>
@@ -777,22 +783,24 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
             <div class="col-sm-12">
               <div class="tap__input_set inline__input_field">
                 <span class="input__no">8F. Explanation of signs of previous treatment (including pesticides, baits, existing treatment stickers or other methods) identified:</span>
-                <div class="tap__input_field">
-					<span class="input_control bold-text"><?php echo !empty($form_info_arr['previous_treatment_text'][0]) ? $form_info_arr['previous_treatment_text'][0] : 'N/A'; ?></span>
+                <div class="tap__input_field" id="previous_treatment_div">
+					<textarea class="input_control bold-text" rows="1" name="previous_treatment_text" id="previous_treatment_text" style="overflow: hidden;min-width: 311px;"><?php echo !empty($form_info_arr['previous_treatment_text'][0]) ? $form_info_arr['previous_treatment_text'][0] : 'N/A'; ?></textarea>
                 </div>
               </div>
               <!-- End of input set -->
               <div class="tap__input_set inline__input_field">
                 <span class="input__no">8G. Visible evidence of:</span>
                 <div class="tap__input_field">
-				<span class="input_control bold-text"><?php echo !empty($form_info_arr['visible_evidence_text'][0]) ? $form_info_arr['visible_evidence_text'][0] : 'N/A'; ?></span>
+				<?php/* <input type="text" class="input_control bold-text" name="visible_evidence_text" value="<?php echo !empty($form_info_arr['visible_evidence_text'][0]) ? $form_info_arr['visible_evidence_text'][0] : 'N/A'; ?>" style="min-width:87%;"> */ ?>
+				<textarea class="input_control bold-text auto_height_box" rows="1" name="visible_evidence_text" id="visible_evidence_text" style="overflow: hidden;"><?php echo !empty($form_info_arr['visible_evidence_text'][0]) ? $form_info_arr['visible_evidence_text'][0] : 'N/A'; ?></textarea>
                 </div>
               </div>
               <!-- End of input set -->
               <div class="tap__input_set inline__input_field">
                 <span class="input__no">has been observed in the following areas:</span>
                 <div class="tap__input_field">
-				<span class="input_control bold-text"><?php echo !empty($form_info_arr['observed_areas_text'][0]) ? $form_info_arr['observed_areas_text'][0] : 'N/A'; ?></span>
+				<?php /*<input type="text" class="input_control bold-text" name="observed_areas_text" value="<?php echo !empty($form_info_arr['observed_areas_text'][0]) ? $form_info_arr['observed_areas_text'][0] : 'N/A'; ?>" style="min-width:77%;"> */?>
+				<textarea class="input_control bold-text auto_height_box" rows="1" name="observed_areas_text" id="observed_areas_text" style="overflow: hidden;"><?php echo !empty($form_info_arr['observed_areas_text'][0]) ? $form_info_arr['observed_areas_text'][0] : 'N/A'; ?></textarea>
                   <label for="">If there is visible evidence of active or previous infestation, it must be noted. The type of insect(s) must be listed in the first blank and all identified infested areas of the property inspected must be noted in the second blank. (Refer to Part D, E & F, Scope of Inspection)</label>
                 </div>
               </div>
@@ -806,7 +814,8 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
                   <div class="tap__input_set inline__input_field">
                     <span class="input__no">9. Will be or has been mechanically corrected by inspecting company:</span>
                     <div class="tap__input_field">
-                      <input type="text" class="input_control bold-text" name="mechanically_corrected_text" value="<?php echo !empty($form_info_arr['mechanically_corrected_text'][0]) ? $form_info_arr['mechanically_corrected_text'][0] : 'N/A'; ?>">
+                      <?php /* <input type="text" class="input_control bold-text" name="mechanically_corrected_text" value="<?php echo !empty($form_info_arr['mechanically_corrected_text'][0]) ? $form_info_arr['mechanically_corrected_text'][0] : 'N/A'; ?>"> */?>
+					  <textarea class="input_control bold-text auto_height_box" rows="1" name="mechanically_corrected_text" id="mechanically_corrected_text" style="overflow: hidden;"><?php echo !empty($form_info_arr['mechanically_corrected_text'][0]) ? $form_info_arr['mechanically_corrected_text'][0] : 'N/A'; ?></textarea>
                     </div>
                   </div>
                   <!-- End of input set -->
@@ -897,7 +906,8 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
               <div class="tap__input_set inline__input_field">
                 <span class="input__no">10A. This Company has treated or is treating the structure for the following wood destroying insects:</span>
                 <div class="tap__input_field">
-                  <input type="text" class="input_control bold-text" name="treated_treating_text" value="<?php echo !empty($form_info_arr['treated_treating_text'][0]) ? $form_info_arr['treated_treating_text'][0] : 'N/A'; ?>">
+                  <?php /* <input type="text" class="input_control bold-text" name="treated_treating_text" value="<?php echo !empty($form_info_arr['treated_treating_text'][0]) ? $form_info_arr['treated_treating_text'][0] : 'N/A'; ?>"> */?>
+				  <textarea class="input_control bold-text auto_height_box" rows="1" name="treated_treating_text" id="treated_treating_text" style="overflow: hidden;"><?php echo !empty($form_info_arr['treated_treating_text'][0]) ? $form_info_arr['treated_treating_text'][0] : 'N/A'; ?></textarea>
                 </div>
               </div>
               <!-- End of tap input field -->
@@ -935,12 +945,14 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
               <!-- End of tap input field -->
             </div>
             <!-- End of col -->
+			<div class="col-sm-12">
             <div class="row">
               <div class="col-sm-6">
                 <div class="tap__input_set">
-                <span class="input__no">10B.</span>
+                <span class="input__no"> 10B.</span>
                 <div class="tap__input_field">
-                  <input type="text" class="input_control bold-text" name="date_of_treatment" value="<?php echo !empty($form_info_arr['date_of_treatment'][0]) ? $form_info_arr['date_of_treatment'][0] : 'N/A'; ?>">
+                  <?php /* <input type="text" class="input_control bold-text" name="date_of_treatment" value="<?php echo !empty($form_info_arr['date_of_treatment'][0]) ? $form_info_arr['date_of_treatment'][0] : 'N/A'; ?>"> */?>
+				  <textarea class="input_control bold-text auto_height_box" rows="1" name="date_of_treatment" id="date_of_treatment" style="overflow: hidden;"><?php echo !empty($form_info_arr['date_of_treatment'][0]) ? $form_info_arr['date_of_treatment'][0] : 'N/A'; ?></textarea>
                   <label for="">Date of Treatment by Inspecting Company</label>
                 </div>
               </div>
@@ -950,7 +962,8 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
               <div class="col-sm-3">
                 <div class="tap__input_set">
                   <div class="tap__input_field">
-                    <input type="text" class="input_control bold-text" name="common_name_of_insect" value="<?php echo !empty($form_info_arr['common_name_of_insect'][0]) ? $form_info_arr['common_name_of_insect'][0] : 'N/A'; ?>">
+                    <?php /* <input type="text" class="input_control bold-text" name="common_name_of_insect" value="<?php echo !empty($form_info_arr['common_name_of_insect'][0]) ? $form_info_arr['common_name_of_insect'][0] : 'N/A'; ?>"> */?>
+					<textarea class="input_control bold-text auto_height_box" rows="1" name="common_name_of_insect" id="common_name_of_insect" style="overflow: hidden;"><?php echo !empty($form_info_arr['common_name_of_insect'][0]) ? $form_info_arr['common_name_of_insect'][0] : 'N/A'; ?></textarea>
                     <label for="">Common Name of Insect</label>
                   </div>
                 </div>
@@ -960,7 +973,8 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
               <div class="col-sm-3">
                 <div class="tap__input_set">
                   <div class="tap__input_field">
-                    <input type="text" class="input_control bold-text" name="name_of_pesticide" value="<?php echo !empty($form_info_arr['name_of_pesticide'][0]) ? $form_info_arr['name_of_pesticide'][0] : 'N/A'; ?>">
+                    <?php /*<input type="text" class="input_control bold-text" name="name_of_pesticide" value="<?php echo !empty($form_info_arr['name_of_pesticide'][0]) ? $form_info_arr['name_of_pesticide'][0] : 'N/A'; ?>"> */?>
+					<textarea class="input_control bold-text auto_height_box" rows="1" name="name_of_pesticide" id="name_of_pesticide" style="overflow: hidden;"><?php echo !empty($form_info_arr['name_of_pesticide'][0]) ? $form_info_arr['name_of_pesticide'][0] : 'N/A'; ?></textarea>
                     <label for="">Name of Pesticide, Bait or Other Method</label>
                   </div>
                 </div>
@@ -982,13 +996,15 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
 				<div class="input__no">
                   <span class="input__no" style="padding-left: 10px;"> List Insects:</span>
                   <div class="tap__input_field" style="padding: 0 0 0 85px;">
-                    <input type="text" class="input_control bold-text" name="list_insects" value="<?php echo !empty($form_info_arr['list_insects'][0]) ? $form_info_arr['list_insects'][0] : 'N/A'; ?>">
+                    <?php /*<input type="text" class="input_control bold-text" name="list_insects" value="<?php echo !empty($form_info_arr['list_insects'][0]) ? $form_info_arr['list_insects'][0] : 'N/A'; ?>">*/?>
+					<textarea class="input_control bold-text auto_height_box" rows="1" name="list_insects" id="list_insects" style="overflow: hidden;"><?php echo !empty($form_info_arr['list_insects'][0]) ? $form_info_arr['list_insects'][0] : 'N/A'; ?></textarea>
                   </div>
                 </div>
                 <span class="input__no" style="font-weight:bold;">If “Yes”, copy (ies) of warranty and treatment diagram must be attached.</span>
               </div>
               <!-- End of col -->
             </div>
+			</div>
             <!-- End of row -->
 			<!--<div class="pagefooter" style="color:#7E7E7E;font-size:12px;text-align: center;clear:both;">
 				<br/>Licensed and Regulated by the Texas Department of Agriculture<br/>
@@ -1002,22 +1018,27 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
               <div class="tap__input_set inline__input_field">
                 <span class="input__no">H-Carpenter Ants; Other(s) – Specify</span>
                 <div class="tap__input_field">
-                  <input type="text" class="input_control bold-text" name="carpenter_specify" value="<?php echo !empty($form_info_arr['carpenter_specify'][0]) ? $form_info_arr['carpenter_specify'][0] : 'N/A'; ?>">
+                  <?php /*<input type="text" class="input_control bold-text" name="carpenter_specify" value="<?php echo !empty($form_info_arr['carpenter_specify'][0]) ? $form_info_arr['carpenter_specify'][0] : 'N/A'; ?>">*/?>
+				  <textarea class="input_control bold-text auto_height_box" rows="1" name="carpenter_specify" id="carpenter_specify" style="overflow: hidden;"><?php echo !empty($form_info_arr['carpenter_specify'][0]) ? $form_info_arr['carpenter_specify'][0] : 'N/A'; ?></textarea>
                   <span class="">See section 7B. for conducive conditions letter codes</span>
                 </div>
               </div>
               <!-- End of input field -->
               <div class="diagram_img">
+			  <?php 
+				$woodImgItem = esc_url( get_template_directory_uri() ).'/woodInspection/img/previewImage.png'; 
+				$getwoodImgItem = !empty($form_info_arr['woodImgItemInput'][0]) ? $form_info_arr['woodImgItemInput'][0] : $woodImgItem;
+				$t=time(); 
+				?>
 				<div class="fileinput flex flexcenter hovereffect">	
 				<div class="documentHides" style="position:absolute;top:-77px;border:1px solid #000;background:#fff;padding:3px;width: 164px;" ng-hide="imageFileMess">
 					<a class="goToDrawing frontend-button mediaUploderClb" href="#"><i class="fa fa-picture-o" aria-hidden="true"></i> Open media <i class="fa fa-expand" aria-hidden="true"></i></a>
-					<a class="goToDrawing annotate_upload_button_tem" dataurl="<?php echo home_url('/canvas-drawing/?report='.$report_id.'&item='.$template_id.'&hash='.$saved); ?>" targetUrl="#target={{control.url}}" href="#"><i class="fa fa-picture-o" aria-hidden="true"></i> Annotate Image <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
-					<a class="goToDrawing survey_upload_button_tem" dataurl="<?php echo home_url('/design-draw/?report='.$report_id.'&item='.$template_id.'&hash='.$saved); ?>" targetUrl="" href="#"><i class="fa fa-picture-o" aria-hidden="true"></i> Survey Drawing <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
+					<a class="goToDrawing annotate_upload_button_tem" dataurl="<?php echo home_url('/wood-canvas-drawing/?report='.$report_id.'&item='.$template_id.'&hash='.$saved.'&t='.$t.'&editor=yes#target='.$getwoodImgItem); ?>" targetUrl="#target={{control.url}}" href="#"><i class="fa fa-picture-o" aria-hidden="true"></i> Annotate Image <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
+					<a class="goToDrawing survey_upload_button_tem" dataurl="<?php echo home_url('/wood-design-draw/?report='.$report_id.'&item='.$template_id.'&hash='.$saved.'&t='.$t.'&editor=yes'); ?>" targetUrl="" href="#"><i class="fa fa-picture-o" aria-hidden="true"></i> Survey Drawing <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
 				</div>
 				<i class="fa fa-folder-open"></i>
-			  </div>
-				<?php $woodImgItem = esc_url( get_template_directory_uri() ).'/woodInspection/img/Diagram.png'; ?>
-                <img id="woodImgItem" src="<?php echo !empty($form_info_arr['woodImgItemInput'][0]) ? $form_info_arr['woodImgItemInput'][0] : $woodImgItem; ?>" alt="..." class="img-responsive" style="width:700px">
+			  </div>				
+                <img id="woodImgItem" src="<?php echo $getwoodImgItem; ?>" alt="..." class="img-responsive" style="width:700px">
 				<input type="text" name="woodImgItemInput" id="woodImgItemInput" value="" style="display:none;">
               </div>
             </div>
@@ -1051,7 +1072,9 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
                   <div class="tap__input_field">
 				  <?php $company_phone = !empty($form_data->company_phone) ? ' TDA#'.$form_data->company_phone : 'N/A';
 				  ?>
-                    <input type="text" class="input_control bold-text input_control_12" value="<?php echo !empty($form_info_arr['inspector_text'][0]) ? $form_info_arr['inspector_text'][0] : $inspector_name.$company_phone; ?>"  name="inspector_text"><span class="input_no_right">12A.</span>
+                    <?php /*<input type="text" class="input_control bold-text input_control_12" value="<?php echo !empty($form_info_arr['inspector_text'][0]) ? $form_info_arr['inspector_text'][0] : $inspector_name.$company_phone; ?>"  name="inspector_text">*/?>
+					<textarea class="input_control bold-text input_control_12 auto_height_box" rows="1" name="inspector_text" id="inspector_text" style="overflow: hidden;"><?php echo !empty($form_info_arr['inspector_text'][0]) ? $form_info_arr['inspector_text'][0] : 'N/A'; ?></textarea>
+					<span class="input_no_right">12A.</span>
                     <label for="">Inspector</label>
                   </div>
                 </div>
@@ -1060,7 +1083,9 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
                 <div class="tap__input_set">
                   <span class="input__no">11B.</span>
                   <div class="tap__input_field">
-                    <input type="text" class="input_control bold-text input_control_12" value="<?php echo !empty($form_info_arr['certified_applicator_text'][0]) ? $form_info_arr['certified_applicator_text'][0] : $inspector_name.' TPCL#'.$licence_number; ?>" name="certified_applicator_text"><span class="input_no_right">12B.</span>
+                    <?php /*<input type="text" class="input_control bold-text input_control_12" value="<?php echo !empty($form_info_arr['certified_applicator_text'][0]) ? $form_info_arr['certified_applicator_text'][0] : $inspector_name.' TPCL#'.$licence_number; ?>" name="certified_applicator_text">*/?>
+					<textarea class="input_control bold-text input_control_12 auto_height_box" rows="1" name="certified_applicator_text" id="certified_applicator_text" style="overflow: hidden;"><?php echo !empty($form_info_arr['certified_applicator_text'][0]) ? $form_info_arr['certified_applicator_text'][0] : 'N/A'; ?></textarea>
+					<span class="input_no_right">12B.</span>
                     <label for="">Certified Applicator and Certified Applicator License Number</label>
                   </div>
                 </div>
@@ -1108,18 +1133,21 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
               <div class="tap__input_set inline__input_field">
                 <span class="input__no">I understand that my inspector may provide additional information as an addendum to this report. If additional information is attached, list number of pages:</span>
                 <div class="tap__input_field">
-                  <input type="text" class="input_control bold-text" name="understand_inspector" value="<?php echo !empty($form_info_arr['understand_inspector'][0]) ? $form_info_arr['understand_inspector'][0] : 'N/A'; ?>">
+                  <?php /*<input type="text" class="input_control bold-text" name="understand_inspector" value="<?php echo !empty($form_info_arr['understand_inspector'][0]) ? $form_info_arr['understand_inspector'][0] : 'N/A'; ?>">*/?>
+				  <textarea class="input_control bold-text auto_height_box" rows="1" name="understand_inspector" id="understand_inspector" style="overflow: hidden;"><?php echo !empty($form_info_arr['understand_inspector'][0]) ? $form_info_arr['understand_inspector'][0] : 'N/A'; ?></textarea>
                 </div>
               </div>
               <span class="input__no">I agree to receive email correspondence from Inspectors service group, related to this inspection and/or future pest control services, and/or discounts/offers.</span>
               <div class="row">
                 <div class="col-sm-6">
                   <span class="input__no d__block m-0">Signature of Purchaser of Property or their Designee</span>
-                  <input type="text" class="input_control bold-text" name="signature_purchaser" value="<?php echo !empty($form_info_arr['signature_purchaser'][0]) ? $form_info_arr['signature_purchaser'][0] : 'N/A'; ?>">
+                  <?php /*<input type="text" class="input_control bold-text" name="signature_purchaser" value="<?php echo !empty($form_info_arr['signature_purchaser'][0]) ? $form_info_arr['signature_purchaser'][0] : 'N/A'; ?>">*/?>
+				  <textarea class="input_control bold-text auto_height_box" rows="1" name="signature_purchaser" id="signature_purchaser" style="overflow: hidden;"><?php echo !empty($form_info_arr['signature_purchaser'][0]) ? $form_info_arr['signature_purchaser'][0] : 'N/A'; ?></textarea>
                 </div>
                 <div class="col-sm-6">
                   <span class="input__no d__block m-0">Date</span>
-                  <input type="text" class="input_control bold-text" name="signature_date" value="<?php echo !empty($form_info_arr['signature_date'][0]) ? $form_info_arr['signature_date'][0] : 'N/A'; ?>">
+                  <?php /*<input type="text" class="input_control bold-text" name="signature_date" value="<?php echo !empty($form_info_arr['signature_date'][0]) ? $form_info_arr['signature_date'][0] : 'N/A'; ?>">*/?>
+				  <textarea class="input_control bold-text auto_height_box" rows="1" name="signature_date" id="signature_date" style="overflow: hidden;"><?php echo !empty($form_info_arr['signature_date'][0]) ? $form_info_arr['signature_date'][0] : 'N/A'; ?></textarea>
                 </div>
               </div>
             </div>
@@ -1170,6 +1198,56 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
 	var inspection_id = <?php echo $report_id; ?>;
 	var saved = <?php echo $saved; ?>;
 	var site_url = '<?php echo home_url(); ?>';
+	
+	
+	//textareawoodd = document.querySelector(".auto_height_box"); 
+	//textareawoodd.addEventListener('input', casenumberResizeHeightWidth, false); 
+	$( ".auto_height_box" ).keypress(function() {
+		//console.log('5555');
+		//if(this.value.length > 127){
+			this.style.height = 'auto'; 
+			this.style.height = this.scrollHeight + 'px';
+			this.style.width = '100%';
+			//$("#other_wood_destroying_div").css('width','100%');
+		//}		
+		if(this.value.length > 27 && this.value.length < 127){
+			//var divWidth = 197+this.value.length + 'px';
+			//this.style.width = '100%';
+			//$("#other_wood_destroying_div").css('width','75%');
+		}			
+	});
+	 
+	textareawood = document.querySelector("#other_wood_destroying_text"); 
+	textareawood.addEventListener('input', autoResizeHeightWidth, false); 
+	function autoResizeHeightWidth() {
+		if(this.value.length > 127){
+			this.style.height = 'auto'; 
+			this.style.height = this.scrollHeight + 'px';
+			this.style.width = '100%';
+			$("#other_wood_destroying_div").css('width','100%');
+		}		
+		if(this.value.length > 27 && this.value.length < 127){
+			//var divWidth = 197+this.value.length + 'px';
+			this.style.width = '100%';
+			$("#other_wood_destroying_div").css('width','75%');
+		}			
+	}
+	textareaprevious = document.querySelector("#previous_treatment_text");
+	textareaprevious.addEventListener('input', autoResizeWidth, false); 
+	function autoResizeWidth() {
+		if(this.value.length > 150){
+			this.style.height = 'auto'; 
+			this.style.height = this.scrollHeight + 'px';
+			this.style.width = '100%';
+			$("#previous_treatment_div").css('width','100%');
+		}
+		if(this.value.length > 27 && this.value.length < 150){
+			//var divWidth = 197+this.value.length + 'px';
+			this.style.width = '100%';
+			$("#previous_treatment_div").css('width','100%');
+		} 
+	}
+	
 </script> 
   <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/woodInspection/js/jquery.js"></script>
   <script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/bower_components/tinymce/tinymce.js"></script>
