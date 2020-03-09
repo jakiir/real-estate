@@ -236,7 +236,47 @@ function eventListeners(){
 			//$('.msg_show').html('<font style="color:red">'+errorThrown+'</span>');
 		  }
 		});
-      })
+      });
+	  document.querySelector('.deletelForWood')
+      .addEventListener('click',function(){
+		if(drawingtype !== "") {
+			$(this).find('.fa').removeClass('fa-ban');
+			$(this).find('.fa').addClass('fa-refresh fa-spin');
+			console.log(drawingtype);
+			console.log(time);
+			console.log(user_id);
+			console.log(template_id);
+			var form_data = new FormData();
+			form_data.append('action', 'deletdrawingimages');
+			form_data.append('template_id', template_id);
+			form_data.append('report_id', report_id);
+			form_data.append('saved', saved);
+			form_data.append('time', time);
+			form_data.append('drawingtype', drawingtype);
+			$.ajax({
+			  dataType : "json",
+			  url: ajax_url,
+			  type: 'post',
+			  contentType: false,
+			  processData: false,
+			  data: form_data,          
+			  success: function (data) {
+				var parsedJson = data;
+				if(parsedJson.success == true){
+					window.close();
+				} else {
+					alert(parsedJson.mess);
+				}
+			  },
+			  error: function (errorThrown) {
+				  alert(parsedJson.mess);
+				//$('.msg_show').html('<font style="color:red">'+errorThrown+'</span>');
+			  }
+			});			
+		} else { 
+			window.close(); 
+		}
+	  });
 	  
     //Attaching event listeners
 	var hdrs= document.querySelector('.holders');

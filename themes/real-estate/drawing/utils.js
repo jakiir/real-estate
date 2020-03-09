@@ -77,10 +77,11 @@ function autoSave(){
   localStorage.setItem('dbc_'+appName,JSON.stringify(storeData));
 }
 function autoRestore(bckname){
-  appName=bckname.slice(4);
-  if(!localStorage.getItem('dbc_'+appName)){
-    return false;
-  }
+	time = bckname;
+  //appName=bckname.slice(4);
+  //if(!localStorage.getItem('dbc_'+appName)){
+    //return false;
+  //}
   //var sData = JSON.parse(localStorage.getItem('dbc_'+appName));
   //console.log(sData);
   //setup(sData.width,sData.height);
@@ -95,12 +96,15 @@ function autoRestore(bckname){
 	} else {
 		var drawing_type = 'annotate';
 	}
+	drawingtype = drawing_type;
 	var form_data = new FormData();
 	form_data.append('action', 'get_save_as_draft');
 	form_data.append('template_id', template_id);
 	form_data.append('hash', hash);
 	form_data.append('user_id', user_id);
 	form_data.append('drawing_type', drawing_type);
+	form_data.append('time', bckname);
+	form_data.append('get_selected', 'yes');
 	$.ajax({
 	  dataType : "json",
 	  url: ajax_url,
@@ -109,9 +113,11 @@ function autoRestore(bckname){
 	  processData: false,
 	  data: form_data,          
 	  success: function (data) {
-		var parsedJson = data;        
+		var parsedJson = data;
+		console.log(parsedJson);
 		if(parsedJson.success == true){
 			var itemDraw = parsedJson.drawingData;
+			
 			var res = itemDraw.replace(/\\/g,"");
 			// preserve newlines, etc - use valid JSON
 			//var b = JSON.parse(JSON.stringify(itemDraw));

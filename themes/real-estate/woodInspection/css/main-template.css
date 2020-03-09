@@ -129,6 +129,7 @@ b, strong {
 .input__no,.tap__input_field label,.tap__address p{font-size:10px;}
 .tinymceWoodMainDiv{display:none;}
 #woodImgItem{margin: 0 auto;}
+#other_wood_destroying_div,#other_wood_destroying_text,#previous_treatment_text,#previous_treatment_div,.auto_height_box{width:100%!important;}
 .diagram_img {
 	margin:0;
 	position:relative;

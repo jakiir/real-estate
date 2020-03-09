@@ -31,8 +31,10 @@ var layers = [];
 var versions = [];
 var redoList =[];
 //Iitial Setup
-function setup(width,height,background){
-  //document.querySelector('.backdrop').style.display="none";
+function setup(width,height,background,woodStatus){
+	if(woodStatus == 'wood'){
+		document.querySelector('.backdrop').style.display="none";
+	}
   //set globals
   globalWidth=width;
   globalHeight=height;
