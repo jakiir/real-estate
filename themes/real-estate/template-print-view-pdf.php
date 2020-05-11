@@ -618,7 +618,7 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
                   <span class="input__no d__block m-0">8C. Formosan Termites</span>
                   <span class="input__no d__block m-0">8D. Carpenter Ants</span>
                 </div>
-                <div class="col-sm-7 grid_checkbox_layout">
+                <div class="col-sm-7 grid_checkbox_layout texas_official">
                   <div class="row">
                     <div class="col-sm-4">
                       <p class="text-center m-0">Active Infestation</p>
@@ -896,7 +896,7 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
             <!-- End of col -->
             <div class="col-sm-12">
               <div class="tap__input_set inline__input_field">
-                <span class="input__no-">Specify reason: <span id="specifyReason"></span></span>
+                <span class="input__no-">Specify reason: <span id="specifyReason"><?php echo implode(", ",$wood_include); ?></span></span>				
                 <div class="tap__input_field-">
                   <!--<input type="text" class="input_control bold-text">-->
                   <label for="">(Refer to Scope of Inspection Part J)</label>
@@ -1064,7 +1064,7 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
               </div>
             </div>
             <!-- End of col -->
-            <div class="row">
+            <!--<div class="row">-->
               <div class="col-sm-6">
                 <span class="input__no d__block">Signatures:</span>
                 <div class="tap__input_set">
@@ -1073,7 +1073,7 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
 				  <?php $company_phone = !empty($form_data->company_phone) ? ' TDA#'.$form_data->company_phone : 'N/A';
 				  ?>
                     <?php /*<input type="text" class="input_control bold-text input_control_12" value="<?php echo !empty($form_info_arr['inspector_text'][0]) ? $form_info_arr['inspector_text'][0] : $inspector_name.$company_phone; ?>"  name="inspector_text">*/?>
-					<textarea class="input_control bold-text input_control_12 auto_height_box" rows="1" name="inspector_text" id="inspector_text" style="overflow: hidden;"><?php echo !empty($form_info_arr['inspector_text'][0]) ? $form_info_arr['inspector_text'][0] : 'N/A'; ?></textarea>
+					<textarea class="input_control bold-text input_control_12 auto_height_box" rows="1" name="inspector_text" id="inspector_text" style="overflow: hidden;"><?php echo !empty($form_info_arr['inspector_text'][0]) ? $form_info_arr['inspector_text'][0] : $inspector_name; ?></textarea>
 					<span class="input_no_right">12A.</span>
                     <label for="">Inspector</label>
                   </div>
@@ -1084,7 +1084,7 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
                   <span class="input__no">11B.</span>
                   <div class="tap__input_field">
                     <?php /*<input type="text" class="input_control bold-text input_control_12" value="<?php echo !empty($form_info_arr['certified_applicator_text'][0]) ? $form_info_arr['certified_applicator_text'][0] : $inspector_name.' TPCL#'.$licence_number; ?>" name="certified_applicator_text">*/?>
-					<textarea class="input_control bold-text input_control_12 auto_height_box" rows="1" name="certified_applicator_text" id="certified_applicator_text" style="overflow: hidden;"><?php echo !empty($form_info_arr['certified_applicator_text'][0]) ? $form_info_arr['certified_applicator_text'][0] : 'N/A'; ?></textarea>
+					<textarea class="input_control bold-text input_control_12 auto_height_box" rows="1" name="certified_applicator_text" id="certified_applicator_text" style="overflow: hidden;"><?php echo !empty($form_info_arr['certified_applicator_text'][0]) ? $form_info_arr['certified_applicator_text'][0] : $inspector_name; ?></textarea>
 					<span class="input_no_right">12B.</span>
                     <label for="">Certified Applicator and Certified Applicator License Number</label>
                   </div>
@@ -1125,7 +1125,7 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
                 <!-- End of input set -->
               </div>
               <!-- End of col -->
-            </div>
+            <!--</div>-->
             <!-- End of inner row -->
             <div class="col-sm-12">
               <h5 class="text-center"><b>Statement of Purchaser</b></h5>
@@ -1134,20 +1134,20 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
                 <span class="input__no">I understand that my inspector may provide additional information as an addendum to this report. If additional information is attached, list number of pages:</span>
                 <div class="tap__input_field">
                   <?php /*<input type="text" class="input_control bold-text" name="understand_inspector" value="<?php echo !empty($form_info_arr['understand_inspector'][0]) ? $form_info_arr['understand_inspector'][0] : 'N/A'; ?>">*/?>
-				  <textarea class="input_control bold-text auto_height_box" rows="1" name="understand_inspector" id="understand_inspector" style="overflow: hidden;"><?php echo !empty($form_info_arr['understand_inspector'][0]) ? $form_info_arr['understand_inspector'][0] : 'N/A'; ?></textarea>
+				  <textarea class="input_control bold-text auto_height_box-" rows="1" name="understand_inspector" id="understand_inspector" style="overflow: hidden;width:16%;resize: none;"><?php echo !empty($form_info_arr['understand_inspector'][0]) ? $form_info_arr['understand_inspector'][0] : ''; ?></textarea>
                 </div>
               </div>
-              <span class="input__no">I agree to receive email correspondence from Inspectors service group, related to this inspection and/or future pest control services, and/or discounts/offers.</span>
+              <?php /*<span class="input__no">I agree to receive email correspondence from Inspectors service group, related to this inspection and/or future pest control services, and/or discounts/offers.</span>*/?>
               <div class="row">
                 <div class="col-sm-6">
                   <span class="input__no d__block m-0">Signature of Purchaser of Property or their Designee</span>
                   <?php /*<input type="text" class="input_control bold-text" name="signature_purchaser" value="<?php echo !empty($form_info_arr['signature_purchaser'][0]) ? $form_info_arr['signature_purchaser'][0] : 'N/A'; ?>">*/?>
-				  <textarea class="input_control bold-text auto_height_box" rows="1" name="signature_purchaser" id="signature_purchaser" style="overflow: hidden;"><?php echo !empty($form_info_arr['signature_purchaser'][0]) ? $form_info_arr['signature_purchaser'][0] : 'N/A'; ?></textarea>
+				  <textarea class="input_control bold-text auto_height_box" rows="1" name="signature_purchaser" id="signature_purchaser" style="overflow: hidden;"><?php echo !empty($form_info_arr['signature_purchaser'][0]) ? $form_info_arr['signature_purchaser'][0] : ''; ?></textarea>
                 </div>
                 <div class="col-sm-6">
                   <span class="input__no d__block m-0">Date</span>
                   <?php /*<input type="text" class="input_control bold-text" name="signature_date" value="<?php echo !empty($form_info_arr['signature_date'][0]) ? $form_info_arr['signature_date'][0] : 'N/A'; ?>">*/?>
-				  <textarea class="input_control bold-text auto_height_box" rows="1" name="signature_date" id="signature_date" style="overflow: hidden;"><?php echo !empty($form_info_arr['signature_date'][0]) ? $form_info_arr['signature_date'][0] : 'N/A'; ?></textarea>
+				  <textarea class="input_control bold-text auto_height_box" rows="1" name="signature_date" id="signature_date" style="overflow: hidden;"><?php echo !empty($form_info_arr['signature_date'][0]) ? $form_info_arr['signature_date'][0] : ''; ?></textarea>
                 </div>
               </div>
             </div>
@@ -1203,57 +1203,138 @@ $inspector_name=get_user_meta($user->ID,  'first_name', true )." ".get_user_meta
 	//textareawoodd = document.querySelector(".auto_height_box"); 
 	//textareawoodd.addEventListener('input', casenumberResizeHeightWidth, false); 
 	$( ".auto_height_box" ).keypress(function() {
-		//console.log('5555');
+		var thisValueLength = this.value.length;
 		//if(this.value.length > 127){
 			this.style.height = 'auto'; 
 			this.style.height = this.scrollHeight + 'px';
-			this.style.width = '100%';
+			if(thisValueLength < 144){
+				this.style.width = this.value.length + "ch";
+			} else {
+				this.style.width = "100%";
+			}
 			//$("#other_wood_destroying_div").css('width','100%');
 		//}		
-		if(this.value.length > 27 && this.value.length < 127){
+		//if(this.value.length > 27 && this.value.length < 127){
 			//var divWidth = 197+this.value.length + 'px';
-			//this.style.width = '100%';
+			//this.style.width = 'auto';
 			//$("#other_wood_destroying_div").css('width','75%');
-		}			
+		//}			
 	});
+	onloadautoheightbox();
+	function onloadautoheightbox() {
+		jQuery('.auto_height_box').each(function() {
+			var thisItm = $(this);
+			var thisValue = thisItm.val();
+			var thisValueLength = thisValue.length;
+			if(thisValue.length > 27){
+				var text = thisItm.text();
+				var div = $('<div class="tempOtherDiv"></div>');
+				div.css('width','100%');
+				div.text(text);
+				thisItm.after(div);
+				var thisScrollHeight = $('.tempOtherDiv').height();
+				$('.tempOtherDiv').remove();
+				thisItm.css('height', thisScrollHeight+ 'px');
+				//thisItm.css('width',thisValue.length + "ch");
+				if(thisValueLength < 144){
+					thisItm.css('width',thisValue.length + "ch");
+				} else {
+					thisItm.css('width', "100%");
+				}
+			}
+		});	
+	}
 	 
 	textareawood = document.querySelector("#other_wood_destroying_text"); 
 	textareawood.addEventListener('input', autoResizeHeightWidth, false); 
 	function autoResizeHeightWidth() {
-		if(this.value.length > 127){
-			this.style.height = 'auto'; 
+		var thisValueLength = this.value.length;
+		if(this.value.length > 127){ 
 			this.style.height = this.scrollHeight + 'px';
-			this.style.width = '100%';
+			if(thisValueLength < 144){
+				this.style.width = this.value.length + "ch";
+			} else {
+				this.style.width = "100%";
+			}
 			$("#other_wood_destroying_div").css('width','100%');
 		}		
 		if(this.value.length > 27 && this.value.length < 127){
 			//var divWidth = 197+this.value.length + 'px';
-			this.style.width = '100%';
+			this.style.height = '20px';
+			if(thisValueLength < 144){
+				this.style.width = this.value.length + "ch";
+			} else {
+				this.style.width = "100%";
+			}
 			$("#other_wood_destroying_div").css('width','75%');
 		}			
 	}
+	
+	onloadautoResizeHeightWidth('other_wood_destroying_text','other_wood_destroying_div');
+	onloadautoResizeHeightWidth('previous_treatment_text','previous_treatment_div');
+	function onloadautoResizeHeightWidth(textId,divId) {		
+		var thisItm = $("#"+textId);
+		var thisValue = thisItm.val();
+		var thisValueLength = thisValue.length;
+		if(thisValue.length > 127){
+			var text = thisItm.text();
+			var div = $('<div id="'+textId+'tempOtherDiv"></div>');
+			div.css('width','100%');
+			div.text(text);
+			$('#'+divId).append(div);
+			var thisScrollHeight = $('#'+textId+'tempOtherDiv').height();
+			div.remove();
+			thisItm.css('height', thisScrollHeight+ 'px');			
+			if(thisValueLength < 144){
+				thisItm.css('width',thisValue.length + "ch");
+			} else {
+				thisItm.css('width', "100%");
+			}
+			$('#'+divId).css('width','100%');
+		}		
+		if(thisValue.length > 27 && thisValue.length < 127){
+			thisItm.css('height', '20px');
+			if(thisValueLength < 144){
+				thisItm.css('width',thisValue.length + "ch");
+			} else {
+				thisItm.css('width', "100%");
+			}
+			$('#'+divId).css('width','75%');
+		}			
+	}
+	
 	textareaprevious = document.querySelector("#previous_treatment_text");
 	textareaprevious.addEventListener('input', autoResizeWidth, false); 
 	function autoResizeWidth() {
-		if(this.value.length > 150){
-			this.style.height = 'auto'; 
+		this.style.height = 'auto'; 
+		var thisValueLength = this.value.length;
+		if(this.value.length > 150){			
 			this.style.height = this.scrollHeight + 'px';
-			this.style.width = '100%';
+			if(thisValueLength < 144){
+				this.style.width = this.value.length + "ch";
+			} else {
+				this.style.width = "100%";
+			}
 			$("#previous_treatment_div").css('width','100%');
 		}
 		if(this.value.length > 27 && this.value.length < 150){
 			//var divWidth = 197+this.value.length + 'px';
-			this.style.width = '100%';
+			if(thisValueLength < 144){
+				this.style.width = this.value.length + "ch";
+			} else {
+				this.style.width = "100%";
+			}
 			$("#previous_treatment_div").css('width','100%');
 		} 
 	}
-	
+	var allConnectedB = [];
+	allConnectedB = <?php echo json_encode($wood_include); ?>;				
 </script> 
   <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/woodInspection/js/jquery.js"></script>
   <script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/js/bower_components/tinymce/tinymce.js"></script>
     <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/woodInspection/js/bootstrap.min.js"></script>
 	<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jQuery.print.js"></script>
-	<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/woodInspection/js/main.js"></script>
+	<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/woodInspection/js/main.js?v=<?php echo time(); ?>"></script>
 	<style>
 		label{font-weight:normal;margin:0;padding-left:0px;}
 	</style>

@@ -100,7 +100,8 @@ angular.module('drawing',[])
 					//console.log(get_saveDraft);
 					var htmlEle = '<div class="row"><select class="select-css" id="itemDrawsaveDraft" onchange="loadBackupCus()"><option value="">Select one</option>';					
 					for(var i = 0; i < get_saveDraft.length; i++) {
-						var itemDrawsaveDraft = 'dbc_'+get_saveDraft[i]['drawingName'];
+						var drawingName = get_saveDraft[i]['drawingName'];
+						var itemDrawsaveDraft = 'dbc_'+drawingName;
 						var itemTime = get_saveDraft[i]['time'];
 						var javascript_date = new Date(itemTime);
 						$scope.backupList.push(itemDrawsaveDraft);
@@ -108,7 +109,7 @@ angular.module('drawing',[])
 						var saveTime = formatDate(nd);
 						//console.log(saveTime);
 						//htmlEle += '<p class="backupname" onClick=loadBackupCus("'+itemDrawsaveDraft+'")>'+saveTime+'</p>';
-						htmlEle += '<option value="'+itemTime+'">'+saveTime+'</option>';
+						htmlEle += '<option value="'+itemTime+'">'+drawingName+' ['+saveTime+']</option>';
 					}
 					htmlEle += '</select></div>';
 					$('.unfinished').html('').prepend(htmlEle);

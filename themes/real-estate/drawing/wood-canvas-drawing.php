@@ -81,8 +81,11 @@
     <div class="toptool downloadel downloadelForWood" href="#" download="drawing.png" target="_blank">
       <i class="fa fa-floppy-o" aria-hidden="true"></i> <span>Save</span>
     </div>
-	<div class="toptool deletel deletelForWood">
+	<div class="toptool deletelForWood">
       <i class="fa fa-ban" aria-hidden="true"></i> <span>Delete</span>
+    </div>
+	<div class="toptool removeForWood">
+      <i class="fa fa-ban" aria-hidden="true"></i> <span>Remove</span>
     </div>
   </div>
   <!-- startup backdrop -->

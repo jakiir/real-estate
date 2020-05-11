@@ -311,7 +311,8 @@ function eventListeners(){
       return mouseUpFunction(te);
     });
     document.body.addEventListener('keyup',checkDelete);
-    document.querySelector('.deletel').addEventListener('click',checkDelete);
+    //document.querySelector('.deletel').addEventListener('click',checkDelete);
+	document.querySelector('.removeForWood').addEventListener('click',checkDelete);
   }
   function loadDoc(){
     //console.log("Document load");

@@ -1,4 +1,4 @@
-var allConnectedB = [];
+//var allConnectedB = [];
 function thisConnectB(thisItem){
 	if(thisItem.checked){
 		allConnectedB.push(thisItem.value);
@@ -30,7 +30,7 @@ Array.prototype.remove = function(x) {
 		}
 	}
 }
-var cssUrl = "/wp-content/themes/real-estate/woodInspection/css/main-template.css";
+var cssUrl = "/wp-content/themes/real-estate/woodInspection/css/main-template.css?v=11";
 function printTemplateBtn(){
 	//e.preventDefault();
 	//$('.ng-not-empty').parent('.commentprompt').parent().removeClass('not_required_true');
@@ -117,7 +117,7 @@ $(document).ready(function () {
 	$(document).on('click', '.survey_upload_button_tem',function(e){		
 		e.preventDefault();
 		var dataurl = $(this).attr("dataurl");
-		window.open(dataurl, '_blank', 'location=yes,height=1000,width=1000,scrollbars=yes,status=yes');
+		window.open(dataurl, '_blank', 'location=yes,height=600,width=500,scrollbars=yes,status=yes');
 	});
 	
 	tinymce.init({
@@ -241,7 +241,7 @@ var woodInspectionSave = function woodInspectionSave(thisItem=''){
       }
     });
 	//console.log(datasets);
-	setTimeout(woodInspectionSave, 10000);
+	//setTimeout(woodInspectionSave, 10000);
 }
 //woodInspectionSave();
 

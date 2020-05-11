@@ -102,6 +102,7 @@ body {
 .col-sm-12 {
     width: 100%;
 }
+.texas_official{width:55.66666667%;}
 .h2{
     margin-top: 10px!important;
     margin-bottom:3px!important;
@@ -130,6 +131,7 @@ b, strong {
 .tinymceWoodMainDiv{display:none;}
 #woodImgItem{margin: 0 auto;}
 #other_wood_destroying_div,#other_wood_destroying_text,#previous_treatment_text,#previous_treatment_div,.auto_height_box{width:100%!important;}
+#understand_inspector{width:12%!important;}
 .diagram_img {
 	margin:0;
 	position:relative;

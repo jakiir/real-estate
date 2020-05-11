@@ -89,6 +89,9 @@
     <div class="toptool deletel deletelForWood">
       <i class="fa fa-ban" aria-hidden="true"></i> <span>Delete</span>
     </div>
+	<div class="toptool removeForWood">
+      <i class="fa fa-ban" aria-hidden="true"></i> <span>Remove</span>
+    </div>
   </div>
   <!-- startup backdrop -->
   <div class="backdrop">
